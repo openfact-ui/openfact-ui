@@ -1,111 +1,134 @@
-import './rxjs-extensions';
-
-import { ApplicationRef, NgModule, InjectionToken, OpaqueToken } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
-import { createInputTransfer, createNewHosts, removeNgStyles } from '@angularclass/hmr';
-
-import { AboutModalModule } from './about-modal/about-modal.module';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { DropdownModule } from 'ngx-dropdown';
-import { LocalStorageModule } from 'angular-2-local-storage';
-import { MomentModule } from 'angular2-moment';
-import { NotificationModule, NotificationService } from 'patternfly-ng';
-import { RestangularModule } from 'ngx-restangular';
-import { WidgetsModule } from 'ngx-widgets';
-
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import {
-  Broadcaster,
-  Logger
-} from 'ngx-base';
-
+  NgModule,
+  ApplicationRef
+} from '@angular/core';
 import {
-  AuthenticationService,
-  HttpService,
-  UserService
-} from 'ngx-login-client';
-
+  removeNgStyles,
+  createNewHosts,
+  createInputTransfer
+} from '@angularclass/hmr';
 import {
-  // Base functionality for the runtime console
-  OnLogin,
-} from './openfact-runtime-console';
+  RouterModule,
+  PreloadAllModules
+} from '@angular/router';
 
-// Header & Footer
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+/*
+ * Platform and Environment providers/directives/pipes
+ */
+import { ENV_PROVIDERS } from './environment';
+import { ROUTES } from './app.routes';
+// App is our top level component
+import { AppComponent } from './app.component';
+import { APP_RESOLVER_PROVIDERS } from './app.resolver';
+import { AppState, InternalStateType } from './app.service';
+import { HomeComponent } from './home';
+import { AboutComponent } from './about';
+import { NoContentComponent } from './no-content';
+import { XLargeDirective } from './home/x-large';
 
-// Component Services
-import { ConfigStore } from './base/config.store';
-import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
-import { ErrorService } from './error/error.service';
-import { ProfileService } from './profile/profile.service';
+import '../styles/styles.scss';
+import '../styles/headings.css';
 
-// Shared Services
-import { AboutService } from './shared/about.service';
-import { LoginService } from './shared/login.service';
-import { NotificationsService } from './shared/notifications.service';
-import { ApiLocatorService } from './shared/api-locator.service';
-import { authApiUrlProvider } from './shared/auth-api.provider';
-import { ssoApiUrlProvider } from './shared/sso-api.provider';
-import { realmProvider } from './shared/realm-token.provider';
-import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
+// Application wide providers
+const APP_PROVIDERS = [
+  ...APP_RESOLVER_PROVIDERS,
+  AppState
+];
 
+type StoreType = {
+  state: InternalStateType,
+  restoreInputValues: () => void,
+  disposeOldHosts: () => void
+};
+
+/**
+ * `AppModule` is the main entry point into Angular2's bootstraping process
+ */
 @NgModule({
+  bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
+    AboutComponent,
+    HomeComponent,
+    NoContentComponent,
+    XLargeDirective
   ],
+  /**
+   * Import Angular's modules.
+   */
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule,
-
-    // Third party modules
-    DropdownModule,
-    LocalStorageModule.withConfig({
-      prefix: 'openfact-sync',
-      storageType: 'localStorage'
-    }),
-    MomentModule,
-    RestangularModule,
-    NotificationModule,
-
-    // About Modal
-    AboutModalModule,
-
-    // Delete Account Modal
-    DeleteAccountDialogModule,
-
-    // AppRoutingModule must appear last
-    AppRoutingModule
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
+  /**
+   * Expose our Services and Providers into Angular's dependency injection.
+   */
   providers: [
-    // Broadcaster must come first
-    Broadcaster,
-    AuthenticationService,
-    OnLogin,
-
-    // Component Services
-    ConfigStore,
-    ErrorService,
-    ProfileService,
-
-    // Shared Services
-    fabric8UIConfigProvider,
-    ApiLocatorService,
-    authApiUrlProvider,
-    ssoApiUrlProvider,
-    realmProvider,
-    AboutService,
-    LoginService,
-    NotificationsService,
-  ],
-  bootstrap: [AppComponent]
+    ENV_PROVIDERS,
+    APP_PROVIDERS
+  ]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(
+    public appRef: ApplicationRef,
+    public appState: AppState
+  ) {}
+
+  public hmrOnInit(store: StoreType) {
+    if (!store || !store.state) {
+      return;
+    }
+    console.log('HMR store', JSON.stringify(store, null, 2));
+    /**
+     * Set state
+     */
+    this.appState._state = store.state;
+    /**
+     * Set input values
+     */
+    if ('restoreInputValues' in store) {
+      let restoreInputValues = store.restoreInputValues;
+      setTimeout(restoreInputValues);
+    }
+
+    this.appRef.tick();
+    delete store.state;
+    delete store.restoreInputValues;
+  }
+
+  public hmrOnDestroy(store: StoreType) {
+    const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
+    /**
+     * Save state
+     */
+    const state = this.appState._state;
+    store.state = state;
+    /**
+     * Recreate root elements
+     */
+    store.disposeOldHosts = createNewHosts(cmpLocation);
+    /**
+     * Save input values
+     */
+    store.restoreInputValues  = createInputTransfer();
+    /**
+     * Remove styles
+     */
+    removeNgStyles();
+  }
+
+  public hmrAfterDestroy(store: StoreType) {
+    /**
+     * Display new elements
+     */
+    store.disposeOldHosts();
+    delete store.disposeOldHosts;
+  }
+
+}
