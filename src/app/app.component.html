@@ -1,0 +1,17 @@
+<header>
+  <ofs-header></ofs-header>
+</header>
+
+<pfng-toast-notification-list
+            [notifications]="notifications"
+            (onActionSelect)="handleAction($event)"
+            (onCloseSelect)="handleClose($event)"
+            (onViewingChange)="handleViewingChange($event)"
+            [showClose]="showClose">
+</pfng-toast-notification-list>
+<main class="">
+  <div class="">
+    <router-outlet name="action"></router-outlet>
+    <router-outlet></router-outlet>
+  </div>
+</main>
