@@ -26,6 +26,30 @@ import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
+// Header & Footer
+//import { HeaderComponent } from './header/header.component';
+//import { FooterComponent } from './footer/footer.component';
+
+// Component Services
+//import { ConfigStore } from './base/config.store';
+//import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
+//import { ErrorService } from './error/error.service';
+//import { ProfileService } from './profile/profile.service';
+
+// Shared Services
+import { AboutService } from './shared/about.service';
+import { NotificationsService } from './shared/notifications.service';
+import { LoginService } from './shared/login.service';
+// import { ApiLocatorService } from './shared/api-locator.service';
+// import { authApiUrlProvider } from './shared/auth-api.provider';
+// import { ssoApiUrlProvider } from './shared/sso-api.provider';
+// import { realmProvider } from './shared/realm-token.provider';
+// import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
+
+// Third Party libs
+import { NotificationModule } from 'patternfly-ng';
+import { LocalStorageModule } from 'angular-2-local-storage';
+
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -57,6 +81,13 @@ type StoreType = {
     FormsModule,
     HttpModule,
 
+    // Third Party libs
+    NotificationModule,
+    LocalStorageModule.withConfig({
+      prefix: 'fabric8',
+      storageType: 'localStorage'
+    }),
+
     // AppRoutingModule must appear last
     AppRoutingModule,
   ],
@@ -65,7 +96,27 @@ type StoreType = {
    */
   providers: [
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+
+    // Broadcaster must come first
+    // Broadcaster,
+    // AuthenticationService,
+    // OnLogin,
+
+    // Component Services
+    //ConfigStore,
+    //ErrorService,
+    //ProfileService,
+
+    // Shared Services
+    AboutService,
+    NotificationsService,
+    LoginService,
+    //fabric8UIConfigProvider,
+    //ApiLocatorService,
+    //authApiUrlProvider,
+    //ssoApiUrlProvider,
+    //realmProvider,
   ]
 })
 export class AppModule {
