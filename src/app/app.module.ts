@@ -1,3 +1,7 @@
+import { ErrorService } from './error/errror.service';
+import { ApiLocatorService } from './shared/api-locator.service';
+import { syncApiUrlProvider } from './shared/sync-api.provider';
+import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
 import { LoginService } from './shared/login.service';
 import './rxjs-extensions';
 
@@ -23,6 +27,8 @@ import { NotificationModule } from 'patternfly-ng';
 import { NotificationsService } from './shared/notifications.service';
 import { RestangularModule } from 'ngx-restangular';
 import { WidgetsModule } from 'ngx-widgets';
+
+import { AuthenticationService, HttpService, UserService } from 'ngx-login-client';
 
 @NgModule({
   declarations: [
@@ -62,7 +68,17 @@ import { WidgetsModule } from 'ngx-widgets';
     NotificationsService,
 
     AboutService,
-    LoginService
+    LoginService,
+
+    ApiLocatorService,
+    ErrorService,
+    UserService,
+
+    AuthenticationService,
+    HttpService,
+
+    fabric8UIConfigProvider,
+    syncApiUrlProvider,
   ],
   bootstrap: [AppComponent]
 })
