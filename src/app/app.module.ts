@@ -1,7 +1,8 @@
+import { LoginService } from './shared/login.service';
 import './rxjs-extensions';
 
 import { ApplicationRef, NgModule } from '@angular/core';
-import { Broadcaster, Logger, Notifications } from 'ngx-base';
+import { Broadcaster, Logger } from 'ngx-base';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { createInputTransfer, createNewHosts, removeNgStyles } from '@angularclass/hmr';
@@ -59,12 +60,9 @@ import { WidgetsModule } from 'ngx-widgets';
     Broadcaster,
     Logger,
     NotificationsService,
-    {
-      provide: Notifications,
-      useExisting: NotificationsService
-    },
 
-    AboutService
+    AboutService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

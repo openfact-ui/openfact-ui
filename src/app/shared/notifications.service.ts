@@ -1,25 +1,25 @@
-import { Notification, NotificationAction, Notifications } from 'ngx-base';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Injectable } from '@angular/core';
-import { NotificationService } from 'ngx-widgets';
+import { Notification, NotificationService, NotificationEvent } from 'patternfly-ng';
 
 @Injectable()
-export class NotificationsService implements Notifications {
+export class NotificationsService {
 
   static readonly MAX_TOAST_NOTIFICATIONS = 8;
 
   actionSubject = new Subject<any>();
   private _actionObserver = this.actionSubject
     .asObservable()
-    .map(val => val as NotificationAction);
+    .map(val => val as NotificationEvent);
 
   private _stream: Subject<Notification> = new Subject();
 
   constructor(private notificationService: NotificationService) {
   }
 
-  message(notification: Notification): Observable<NotificationAction> {
+  message(notification: Notification): Observable<NotificationEvent> {
     // Trim the list
     if (this.notificationService.getNotifications.length > NotificationsService.MAX_TOAST_NOTIFICATIONS) {
       for (let i: number = this.notificationService.getNotifications().length - 1; i >= 0; i--) {
@@ -30,7 +30,7 @@ export class NotificationsService implements Notifications {
     }
 
     this.notificationService.message(
-      notification.type.cssClass,
+      notification.type,
       notification.header,
       notification.message,
       false,

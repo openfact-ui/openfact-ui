@@ -3,7 +3,7 @@
 </header>
 
 <pfng-toast-notification-list
-            [notifications]="notifications"
+            [notifications]="notifications.current"
             (onActionSelect)="handleAction($event)"
             (onCloseSelect)="handleClose($event)"
             (onViewingChange)="handleViewingChange($event)"
