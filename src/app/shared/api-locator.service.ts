@@ -6,7 +6,7 @@ export class ApiLocatorService {
 
   readonly DEFAULT_API_ENV_VAR_NAMES = new Map<string, string>(
     [
-      ['wit', 'FABRIC8_WIT_API_URL'],
+      ['sync', 'FABRIC8_SYNC_API_URL'],
       ['recommender', 'FABRIC8_RECOMMENDER_API_URL'],
       ['sso', 'FABRIC8_SSO_API_URL'],
       ['realm', 'FABRIC8_REALM'],
@@ -17,14 +17,14 @@ export class ApiLocatorService {
   );
 
   readonly DEFAULT_API_PREFIXES = new Map<string, string>([
-    ['wit', 'api'],
+    ['sync', 'api'],
     ['recommender', 'recommender'],
     ['sso', 'sso'],
     ['forge', 'forge.api']
   ]);
 
   readonly DEFAULT_API_PATHS = new Map<string, string>([
-    ['wit', 'api/']
+    ['sync', 'api/']
   ]);
 
   private envVars = new Map<string, string>();
@@ -43,8 +43,8 @@ export class ApiLocatorService {
     return this.envVars.get('branding') || 'fabric8';
   }
 
-  get witApiUrl(): string {
-    return this.config.witApiUrl || this.buildApiUrl('wit');
+  get syncApiUrl(): string {
+    return this.config.syncApiUrl || this.buildApiUrl('sync');
   }
 
   get forgeApiUrl(): string {

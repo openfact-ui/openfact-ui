@@ -1,35 +1,14 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
-
-import { AboutService } from './../shared/about.service';
+import { OnInit, Component } from '@angular/core';
 
 @Component({
   selector: 'ofs-about-modal',
   templateUrl: './about-modal.component.html',
   styleUrls: ['./about-modal.component.scss']
 })
-export class AboutModalComponent implements AfterViewInit {
+export class AboutModalComponent implements OnInit {
 
-  @ViewChild('staticModal') staticModal: any;
+  constructor() { }
 
-  constructor(
-    public about: AboutService,
-    public renderer: Renderer2
-  ) { }
-
-  ngAfterViewInit() { }
-
-  open() {
-    this.staticModal.show();
-  }
+  ngOnInit() { }
 
 }

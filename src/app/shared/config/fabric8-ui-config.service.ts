@@ -5,11 +5,11 @@ import { ConfigStore } from './../../base/config.store';
 import { ValWrapper } from './../../base/val-wrapper';
 
 export function fabric8UIConfigFactory(): Fabric8UIConfig {
-  const answer = window['Fabric8UIEnv'] || {};
+  let answer = window['Fabric8UIEnv'] || {};
   // lets filter out any values of "undefined" in case an env var is missing in the template expression
-  for (const key in answer) {
-    const value = answer[key];
-    if (value === 'undefined') {
+  for (let key in answer) {
+    let value = answer[key];
+    if (value === "undefined") {
       answer[key] = "";
     }
   }

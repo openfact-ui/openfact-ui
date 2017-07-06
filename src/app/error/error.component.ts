@@ -1,8 +1,7 @@
 import 'rxjs/add/operator/map';
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { ErrorService } from './errror.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -10,20 +9,13 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss']
 })
-export class ErrorComponent implements OnDestroy {
+export class ErrorComponent implements OnInit {
 
-  message: string = '';
-  subscription: Subscription;
-
-  constructor(private errorService: ErrorService) {
-    this.subscription = this.errorService.update$.subscribe(
-      message => {
-        this.message = message;
-      });
+  constructor() {
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnInit() {
+
   }
 
 }

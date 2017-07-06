@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { OpaqueToken } from '@angular/core';
 
 /**
  * An OpaqueToken which is used to inject the WIT_API_URL in to this or any other module.
@@ -8,4 +8,4 @@ import { InjectionToken } from '@angular/core';
  *   Inject(WIT_API_URL) apiUrl: string
  *
  */
-export let SYNC_API_URL = new InjectionToken('openfact.sync.api.url');
+export let SYNC_API_URL = new OpaqueToken('openfact.sync.api.url');

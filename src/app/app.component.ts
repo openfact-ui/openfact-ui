@@ -1,9 +1,11 @@
+import { AuthenticationService } from 'ngx-login-client';
+import { OnLogin } from './openfact-runtime-console';
+import { Broadcaster } from 'ngx-base';
 import { LoginService } from './shared/login.service';
 import { NotificationsService } from './shared/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AboutService } from './shared/about.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'ofs-root',
@@ -14,35 +16,22 @@ export class AppComponent implements OnInit {
 
   title = 'ofs';
 
-  showClose = true;
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private about: AboutService,
     public notifications: NotificationsService,
     private loginService: LoginService,
+    // Inject services that need to start listening
+    // private spaces: Spaces,
+    // private analytics: AnalyticService,
+    private onLogin: OnLogin,
+    private authService: AuthenticationService,
+    private broadcaster: Broadcaster
   ) { }
 
   ngOnInit() {
-    console.log('Welcome to Fabric8!');
-    console.log('This is', this.about.buildVersion,
-      '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
-    this.activatedRoute.params.subscribe(() => {
-      // this.loginService.login();
-    });
-  }
 
-  handleAction($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  handleClose($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  handleViewingChange($event: any): void {
-    this.notifications.actionSubject.next($event.action);
   }
 
 }
