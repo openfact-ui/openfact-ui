@@ -1,8 +1,6 @@
 import './rxjs-extensions';
 
-import { Fabric8UIHttpService } from './shared/fabric8-ui-http.service';
-
-import { ApplicationRef, NgModule } from '@angular/core';
+import { ApplicationRef, NgModule, InjectionToken, OpaqueToken } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { createInputTransfer, createNewHosts, removeNgStyles } from '@angularclass/hmr';
@@ -99,14 +97,14 @@ import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.servi
     ProfileService,
 
     // Shared Services
+    fabric8UIConfigProvider,
     ApiLocatorService,
     authApiUrlProvider,
     ssoApiUrlProvider,
     realmProvider,
-    fabric8UIConfigProvider,
     AboutService,
     LoginService,
-    NotificationsService
+    NotificationsService,
   ],
   bootstrap: [AppComponent]
 })
