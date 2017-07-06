@@ -1,6 +1,6 @@
 import { OpenfactSyncWebConsolePage } from './app.po';
 
-describe('openfact-sync-web-console App', () => {
+describe('openfactsync-ui App', () => {
   let page: OpenfactSyncWebConsolePage;
 
   beforeEach(() => {

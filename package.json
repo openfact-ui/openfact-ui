@@ -1,5 +1,5 @@
 {
-  "name": "openfact-sync-web-console",
+  "name": "openfactsync-ui",
   "version": "0.0.0-development",
   "description": "The angular 2 console for openfact-sync online",
   "keywords": [
@@ -13,7 +13,7 @@
       "email": "carlosthe19916@sistcoop.com"
     }
   ],
-  "homepage": "https://github.com/openfact/openfact-sync-web-console",
+  "homepage": "https://github.com/openfact/openfactsync-ui",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -79,10 +79,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/openfact/openfact-sync-web-console.git"
+    "url": "https://github.com/openfact/openfactsync-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/openfact/openfact-sync-web-console/issues"
+    "url": "https://github.com/openfact/openfactsync-ui/issues"
   },
   "engines": {
     "node": ">= 4.2.1",
