@@ -1,3 +1,4 @@
+import { WIT_API_URL } from './../ngx-fabric8-wit/src/app/api/wit-api';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Injectable, Inject } from '@angular/core';
@@ -11,7 +12,6 @@ import { WIT_API_URL } from 'ngx-fabric8-wit';
 import { ContextService } from './context.service';
 import { Navigation } from './../models/navigation';
 import { ErrorService } from '../error/error.service';*/
-
 
 @Injectable()
 export class LoginService {
@@ -29,8 +29,8 @@ export class LoginService {
   constructor(
     private router: Router,
     private localStorage: LocalStorageService,
-    /*@Inject(WIT_API_URL) private apiUrl: string,
-    private broadcaster: Broadcaster,
+    @Inject(WIT_API_URL) private apiUrl: string,
+    /*private broadcaster: Broadcaster,
     private errorService: ErrorService,
     private authService: AuthenticationService,
     private contextService: ContextService,

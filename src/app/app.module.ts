@@ -31,7 +31,7 @@ import { AppState, InternalStateType } from './app.service';
 //import { FooterComponent } from './footer/footer.component';
 
 // Component Services
-//import { ConfigStore } from './base/config.store';
+import { ConfigStore } from './base/config.store';
 //import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
 //import { ErrorService } from './error/error.service';
 //import { ProfileService } from './profile/profile.service';
@@ -40,11 +40,13 @@ import { AppState, InternalStateType } from './app.service';
 import { AboutService } from './shared/about.service';
 import { NotificationsService } from './shared/notifications.service';
 import { LoginService } from './shared/login.service';
-// import { ApiLocatorService } from './shared/api-locator.service';
+
+import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
+import { ApiLocatorService } from './shared/api-locator.service';
+import { witApiUrlProvider } from './shared/wit-api.provider';
 // import { authApiUrlProvider } from './shared/auth-api.provider';
 // import { ssoApiUrlProvider } from './shared/sso-api.provider';
 // import { realmProvider } from './shared/realm-token.provider';
-// import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
 
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
@@ -104,7 +106,7 @@ type StoreType = {
     // OnLogin,
 
     // Component Services
-    //ConfigStore,
+    ConfigStore,
     //ErrorService,
     //ProfileService,
 
@@ -112,8 +114,10 @@ type StoreType = {
     AboutService,
     NotificationsService,
     LoginService,
-    //fabric8UIConfigProvider,
-    //ApiLocatorService,
+
+    fabric8UIConfigProvider,
+    ApiLocatorService,
+    witApiUrlProvider,
     //authApiUrlProvider,
     //ssoApiUrlProvider,
     //realmProvider,
