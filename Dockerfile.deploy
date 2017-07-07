@@ -1,0 +1,11 @@
+FROM registry.centos.org/fabric8/openshift-nginx:latest
+MAINTAINER "Carlos Feria <carlosthe19916@sistcoop.com>"
+
+USER root
+
+RUN rm -rf /usr/share/nginx/html/
+COPY dist /usr/share/nginx/html
+RUN chmod -R 777 /usr/share/nginx/html/
+
+
+USER ${OPENFACT_USER_NAME}

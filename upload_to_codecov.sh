@@ -1,50 +1,18 @@
-#!/usr/bin/groovy
-def ci (){
-    stage('build npm'){
-        sh 'npm install'
-        sh '''
-        export OPENFACT_SYNC_API_URL="http://openfact-openfact-development.apps.console.sistcoop.org/api/"
-        export FABRIC8_RECOMMENDER_API_URL="https://api-bayesian.dev.rdu2c.fabric8.io/api/v1/"
-        export FABRIC8_FORGE_API_URL="https://forge.api.prod-preview.openshift.io"
-        export OPENFACT_SSO_API_URL="http://keycloak-keycloak-sso-development.apps.console.sistcoop.org/"
-        export OPENFACT_REALM="openfact"
+#!/usr/bin/env bash
 
-        npm run build:prod
-        '''
-    }
+# Show command before executing
+set -x
 
-    stage('unit test'){
-        sh './run_unit_tests.sh'
-    }
-    // commenting out functional tests until we look at this error in the pipeline: `geckodriver: setting permissions to 0755 for /home/jenkins/workspace/-projects_fabric8-ui_PR-668-`
-    // stage('functional test'){
-    //     sh './run_functional_tests.sh'
-    // }
+# Exist when command returns not 0
+set -e
 
-    def shortCommitSha = getNewVersion {}
-    def tempVersion= 'SNAPSHOT.' + shortCommitSha + env.BUILD_NUMBER
-    return tempVersion
-}
+# Ensure all Jenkins variables are set (e.g. commit, branch, etc.)
+if [ -e "jenkins-env" ]; then
+  cat jenkins-env \
+  | grep -E "(JENKINS_URL|GIT_BRANCH|GIT_COMMIT|BUILD_NUMBER|ghprbSourceBranch|ghprbActualCommit|BUILD_URL|ghprbPullId)=" \
+  | sed 's/^/export /g' \
+  > ~/.jenkins-env
+  source ~/.jenkins-env
+fi
 
-def buildImage(imageName){
-    stage('build snapshot image'){
-        sh "docker build -t ${imageName} -f Dockerfile.deploy ."
-    }
-
-    stage('push snapshot image'){
-        sh "docker push ${imageName}"
-    }
-}
-
-def updateDownstreamProjects(v){
-  pushPomPropertyChangePR {
-    propertyName = 'fabric8-ui.version'
-    projects = [
-            'fabric8io/fabric8-platform'
-    ]
-    containerName = 'ui'
-    version = v
-  }
-}
-
-return this
+bash <(curl -s https://codecov.io/bash) -t 0f169022-70e8-4840-a569-16f3bb7033f6 -f coverage/coverage.json
