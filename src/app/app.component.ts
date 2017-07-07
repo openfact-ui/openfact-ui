@@ -5,14 +5,11 @@ import { LoginService } from './shared/login.service';
 import { NotificationsService } from './shared/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AboutService } from './shared/about.service';
+
 /**
  * Angular 2 decorators and services
  */
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppState } from './app.service';
 
 /**
@@ -20,7 +17,7 @@ import { AppState } from './app.service';
  * Top Level Component
  */
 @Component({
-  selector: 'app',
+  selector: 'ofs-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
