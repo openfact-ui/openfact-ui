@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    children: []
+    loadChildren: './landing-page/landing-page.module#LandingPageModule',
+    pathMatch: 'full'
   }
 ];
 
