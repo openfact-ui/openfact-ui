@@ -1,3 +1,4 @@
+import { ErrorService } from './../error/error.service';
 import { WIT_API_URL } from './../ngx-fabric8-wit/src/app/api/wit-api';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
@@ -31,8 +32,8 @@ export class LoginService {
     private localStorage: LocalStorageService,
     @Inject(WIT_API_URL) private apiUrl: string,
     private broadcaster: Broadcaster,
-    /*private errorService: ErrorService,
-    private authService: AuthenticationService,
+    private errorService: ErrorService,
+    /*private authService: AuthenticationService,
     private contextService: ContextService,
     private notifications: Notifications,
     private userService: UserService*/

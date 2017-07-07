@@ -37,8 +37,8 @@ import {
 
 // Component Services
 import { ConfigStore } from './base/config.store';
+import { ErrorService } from './error/error.service';
 //import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
-//import { ErrorService } from './error/error.service';
 //import { ProfileService } from './profile/profile.service';
 
 // Shared Services
@@ -113,7 +113,7 @@ type StoreType = {
 
     // Component Services
     ConfigStore,
-    //ErrorService,
+    ErrorService,
     //ProfileService,
 
     // Shared Services
