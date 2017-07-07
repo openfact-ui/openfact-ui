@@ -5,8 +5,8 @@ import { Injectable, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-/*import { Broadcaster, Notifications, Notification, NotificationType } from 'ngx-base';
-import { AuthenticationService, UserService } from 'ngx-login-client';
+import { Broadcaster } from 'ngx-base';
+/*import { AuthenticationService, UserService } from 'ngx-login-client';
 import { WIT_API_URL } from 'ngx-fabric8-wit';
 
 import { ContextService } from './context.service';
@@ -30,8 +30,8 @@ export class LoginService {
     private router: Router,
     private localStorage: LocalStorageService,
     @Inject(WIT_API_URL) private apiUrl: string,
-    /*private broadcaster: Broadcaster,
-    private errorService: ErrorService,
+    private broadcaster: Broadcaster,
+    /*private errorService: ErrorService,
     private authService: AuthenticationService,
     private contextService: ContextService,
     private notifications: Notifications,
