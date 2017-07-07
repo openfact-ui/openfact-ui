@@ -4,6 +4,7 @@
 
 const webpack = require('webpack');
 const helpers = require('./helpers');
+const branding = require('./branding');
 
 /**
  * Webpack Plugins
@@ -33,7 +34,8 @@ const METADATA = {
   title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
-  HMR: HMR
+  HMR: HMR,
+  OPENFACT_BRANDING: process.env.OPENFACT_BRANDING || 'openfact'
 };
 
 /**
@@ -338,7 +340,8 @@ module.exports = function (options) {
       */
       new HtmlWebpackPlugin({
         template: 'src/index.html',
-        title: METADATA.title,
+        //title: METADATA.title,
+        title: branding.assets[METADATA.OPENFACT_BRANDING].title.prefix,
         chunksSortMode: 'dependency',
         metadata: METADATA,
         inject: 'body'

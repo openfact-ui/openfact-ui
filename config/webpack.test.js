@@ -21,7 +21,7 @@ const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
 const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
 const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'http://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
 const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE || '-development';
-const FABRIC8_BRANDING = 'fabric8';
+const OPENFACT_BRANDING = 'openfact';
 
 /**
  * Webpack configuration

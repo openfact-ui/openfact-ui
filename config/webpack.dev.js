@@ -36,7 +36,7 @@ const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
 const BUILD_VERSION = process.env.BUILD_VERSION;
-const FABRIC8_BRANDING = process.env.FABRIC8_BRANDING || 'fabric8';
+const OPENFACT_BRANDING = process.env.OPENFACT_BRANDING || 'openfact';
 
 const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
@@ -54,7 +54,7 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   BUILD_NUMBER: BUILD_NUMBER,
   BUILD_TIMESTAMP: BUILD_TIMESTAMP,
   BUILD_VERSION: BUILD_VERSION,
-  FABRIC8_BRANDING: FABRIC8_BRANDING
+  OPENFACT_BRANDING: OPENFACT_BRANDING
 });
 
 // const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
@@ -189,7 +189,7 @@ module.exports = function (options) {
           'BUILD_NUMBER': JSON.stringify(BUILD_NUMBER),
           'BUILD_TIMESTAMP': JSON.stringify(BUILD_TIMESTAMP),
           'BUILD_VERSION': JSON.stringify(BUILD_VERSION),
-          'FABRIC8_BRANDING': JSON.stringify(FABRIC8_BRANDING),
+          'OPENFACT_BRANDING': JSON.stringify(OPENFACT_BRANDING),
         }
       }),
 

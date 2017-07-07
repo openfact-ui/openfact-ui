@@ -3,6 +3,9 @@
  */
 
 const helpers = require('./helpers');
+const branding = require('./branding');
+const stringify = require('json-stringify');
+
 /**
  * Used to merge webpack configs
 */
@@ -24,6 +27,7 @@ const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplaceme
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -40,7 +44,7 @@ const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
 const BUILD_VERSION = process.env.BUILD_VERSION;
-const FABRIC8_BRANDING = process.env.FABRIC8_BRANDING || 'fabric8';
+const OPENFACT_BRANDING = process.env.OPENFACT_BRANDING || 'openfact';
 
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
@@ -62,7 +66,7 @@ const METADATA = webpackMerge(commonConfig({
   BUILD_NUMBER: BUILD_NUMBER,
   BUILD_TIMESTAMP: BUILD_TIMESTAMP,
   BUILD_VERSION: BUILD_VERSION,
-  FABRIC8_BRANDING: FABRIC8_BRANDING
+  OPENFACT_BRANDING: OPENFACT_BRANDING
 });
 
 module.exports = function (env) {
@@ -203,8 +207,16 @@ module.exports = function (env) {
           'BUILD_NUMBER': stringify(METADATA.BUILD_NUMBER),
           'BUILD_TIMESTAMP': stringify(METADATA.BUILD_TIMESTAMP),
           'BUILD_VERSION': stringify(METADATA.BUILD_VERSION),
-          'FABRIC8_BRANDING': stringify(METADATA.FABRIC8_BRANDING),
+          'OPENFACT_BRANDING': stringify(METADATA.OPENFACT_BRANDING),
         }
+      }),
+
+      /*
+       * Generate FavIcons from the master svg in all formats
+       */
+      new FaviconsWebpackPlugin({
+        logo: branding.assets[METADATA.OPENFACT_BRANDING].favicon.path,
+        prefix: '_assets/icons-[hash]/'
       }),
 
       /**

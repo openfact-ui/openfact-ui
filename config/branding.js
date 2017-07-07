@@ -1,18 +1,18 @@
 exports.assets = {
-  fabric8: {
+  openfact: {
     favicon: {
       path: './src/assets/icon/fabric8_icon.svg'
     },
     title: {
-      prefix: 'OpenfactSync'
+      prefix: 'Openfact'
     }
   },
-  openshiftio: {
+  openfactio: {
     favicon: {
       path: './src/assets/icon/openshift_icon.svg'
     },
     title: {
-      prefix: 'OpenfactSync.io'
+      prefix: 'Openfact.io'
     }
   }
 }
