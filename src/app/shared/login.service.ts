@@ -7,12 +7,12 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Broadcaster } from 'ngx-base';
-/*import { AuthenticationService, UserService } from 'ngx-login-client';
-import { WIT_API_URL } from 'ngx-fabric8-wit';
+import { AuthenticationService, UserService } from 'ngx-login-client';
 
-import { ContextService } from './context.service';
-import { Navigation } from './../models/navigation';
-import { ErrorService } from '../error/error.service';*/
+/*import { ContextService } from './context.service';
+import { Navigation } from './../models/navigation';*/
+
+import { NotificationService, NotificationType } from 'patternfly-ng';
 
 @Injectable()
 export class LoginService {
@@ -33,26 +33,26 @@ export class LoginService {
     @Inject(WIT_API_URL) private apiUrl: string,
     private broadcaster: Broadcaster,
     private errorService: ErrorService,
-    /*private authService: AuthenticationService,
-    private contextService: ContextService,
-    private notifications: Notifications,
-    private userService: UserService*/
+    private authService: AuthenticationService,
+    /*private contextService: ContextService,*/
+    private notifications: NotificationService,
+    /*private userService: UserService*/
   ) {
     // Removed ?link=true in favor of getting started page
-    /*this.authUrl = apiUrl + 'login/authorize';
+    this.authUrl = apiUrl + 'login/authorize';
     this.broadcaster.on('authenticationError').subscribe(() => {
       this.authService.logout();
     });
     this.broadcaster.on('noFederatedToken').subscribe(() => {
       // Don't log out first time users from getting started as tokens may not exist
-      if (this.router.url !== "/" && this.router.url.indexOf("_gettingstarted") === -1
-          && this.router.url.indexOf("_update") === -1) {
+      if (this.router.url !== '/' && this.router.url.indexOf('_gettingstarted') === -1
+        && this.router.url.indexOf('_update') === -1) {
         this.authService.logout();
       }
-    });*/
+    });
   }
 
-  /*redirectToAuth() {
+  redirectToAuth() {
     var authUrl = this.authUrl;
     if (authUrl.indexOf('?') < 0) {
       // lets ensure there's a redirect parameter to avoid WIT barfing
@@ -88,7 +88,7 @@ export class LoginService {
       result[item[0]] = decodeURIComponent(item[1]);
     });
     if (result['error']) {
-      this.notifications.message({ message: result['error'], type: NotificationType.DANGER } as Notification);
+      this.notifications.message(NotificationType.DANGER, '', result['error'], false, null, null);
       // this.errorService.updateMessage('Error logging in');
       // this.router.navigate(['_error']);
     } else if (result['token_json']) {
@@ -96,11 +96,11 @@ export class LoginService {
       this.authService.logIn(result['token_json']);
       this.authService
         .getOpenShiftToken()
-        .catch(err => {
+        .catch((err) => {
           console.log('Unable to get OpenShift token', err);
           return Observable.of(null);
         })
-        .subscribe(token => this.openShiftToken = token);
+        .subscribe((token) => this.openShiftToken = token);
       // Navigate back to the current URL to clear up the query string
       this.router.navigateByUrl(this.router.url);
     } else if (this.authService.isLoggedIn()) {
@@ -108,11 +108,11 @@ export class LoginService {
       this.authService.onLogIn();
       this.authService
         .getOpenShiftToken()
-        .catch(err => {
+        .catch((err) => {
           console.log('Unable to get OpenShift token', err);
           return Observable.of(null);
         })
-        .subscribe(token => this.openShiftToken = token);
+        .subscribe((token) => this.openShiftToken = token);
     }
   }
 
@@ -126,6 +126,6 @@ export class LoginService {
     let res = this.localStorage.get<string>(LoginService.REDIRECT_URL_KEY);
     this.localStorage.remove(LoginService.REDIRECT_URL_KEY);
     return res;
-  }*/
+  }
 
 }

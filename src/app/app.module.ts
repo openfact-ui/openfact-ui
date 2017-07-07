@@ -31,6 +31,12 @@ import {
   Logger
 } from 'ngx-base';
 
+import {
+  AuthenticationService,
+  HttpService,
+  UserService
+} from 'ngx-login-client';
+
 // Header & Footer
 //import { HeaderComponent } from './header/header.component';
 //import { FooterComponent } from './footer/footer.component';
@@ -49,9 +55,10 @@ import { LoginService } from './shared/login.service';
 import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
 import { ApiLocatorService } from './shared/api-locator.service';
 import { witApiUrlProvider } from './shared/wit-api.provider';
-// import { authApiUrlProvider } from './shared/auth-api.provider';
-// import { ssoApiUrlProvider } from './shared/sso-api.provider';
-// import { realmProvider } from './shared/realm-token.provider';
+
+import { authApiUrlProvider } from './shared/auth-api.provider';
+import { ssoApiUrlProvider } from './shared/sso-api.provider';
+import { realmProvider } from './shared/realm-token.provider';
 
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
@@ -108,7 +115,7 @@ type StoreType = {
     ENV_PROVIDERS,
     APP_PROVIDERS,
 
-    // AuthenticationService,
+    AuthenticationService,
     // OnLogin,
 
     // Component Services
@@ -124,9 +131,10 @@ type StoreType = {
     fabric8UIConfigProvider,
     ApiLocatorService,
     witApiUrlProvider,
-    //authApiUrlProvider,
-    //ssoApiUrlProvider,
-    //realmProvider,
+
+    authApiUrlProvider,
+    ssoApiUrlProvider,
+    realmProvider,
   ]
 })
 export class AppModule {
