@@ -37,9 +37,14 @@ import {
   UserService
 } from 'ngx-login-client';
 
+import {
+  // Base functionality for the runtime console
+  OnLogin,
+} from './openfact-runtime-console';
+
 // Header & Footer
 //import { HeaderComponent } from './header/header.component';
-//import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './footer/footer.component';
 
 // Component Services
 import { ConfigStore } from './base/config.store';
@@ -59,6 +64,8 @@ import { witApiUrlProvider } from './shared/wit-api.provider';
 import { authApiUrlProvider } from './shared/auth-api.provider';
 import { ssoApiUrlProvider } from './shared/sso-api.provider';
 import { realmProvider } from './shared/realm-token.provider';
+
+import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.service';
 
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
@@ -84,8 +91,9 @@ type StoreType = {
  */
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [
-    AppComponent
+  declarations: [// declare which components, directives and pipes belong to the module
+    AppComponent,
+    FooterComponent
   ],
   /**
    * Import Angular's modules.
@@ -116,7 +124,10 @@ type StoreType = {
     APP_PROVIDERS,
 
     AuthenticationService,
-    // OnLogin,
+    {
+      provide: OnLogin,
+      useClass: Fabric8UIOnLogin
+    },
 
     // Component Services
     ConfigStore,
