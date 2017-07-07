@@ -133,7 +133,6 @@ type StoreType = {
     // Component Services
     ConfigStore,
     ErrorService,
-    //ProfileService,
 
     // Shared Services
     AboutService,
