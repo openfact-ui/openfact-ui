@@ -16,6 +16,12 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
+const FABRIC8_FORGE_API_URL = process.env.FABRIC8_FORGE_API_URL;
+const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
+const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
+const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'http://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
+const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE || '-development';
+const FABRIC8_BRANDING = 'fabric8';
 
 /**
  * Webpack configuration
@@ -206,6 +212,10 @@ module.exports = function (options) {
         'HMR': false,
         'process.env': {
           'ENV': JSON.stringify(ENV),
+          'FABRIC8_FORGE_API_URL': stringify(FABRIC8_FORGE_API_URL),
+          'OPENFACT_SYNC_API_URL': stringify(OPENFACT_SYNC_API_URL),
+          'OPENFACT_REALM': stringify(OPENFACT_REALM),
+          'FABRIC8_RECOMMENDER_API_URL' : stringify(FABRIC8_RECOMMENDER_API_URL),
           'NODE_ENV': JSON.stringify(ENV),
           'HMR': false,
         }

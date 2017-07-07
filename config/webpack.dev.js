@@ -14,6 +14,7 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -25,9 +26,9 @@ const HMR = helpers.hasProcessFlag('hot');
 
 // if env is 'inmemory', the inmemory debug resource is used
 const FABRIC8_FORGE_API_URL = process.env.FABRIC8_FORGE_API_URL || 'https://forge.api.prod-preview.openshift.io';
-const FABRIC8_WIT_API_URL = process.env.FABRIC8_WIT_API_URL || 'https://api.prod-preview.openshift.io/api/';
-const FABRIC8_REALM = process.env.FABRIC8_REALM || 'fabric8';
-const FABRIC8_SSO_API_URL = process.env.FABRIC8_SSO_API_URL || 'https://sso.prod-preview.openshift.io/';
+const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL || 'http://openfact-openfact-development.apps.console.sistcoop.org/api/';
+const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
+const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloak-keycloak-sso-development.apps.console.sistcoop.org/';
 const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'https://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
 const FABRIC8_FORGE_URL = process.env.FABRIC8_FORGE_URL;
 const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE;
@@ -43,9 +44,9 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   ENV: ENV,
   HMR: HMR,
   FABRIC8_FORGE_API_URL: FABRIC8_FORGE_API_URL,
-  FABRIC8_WIT_API_URL: FABRIC8_WIT_API_URL,
-  FABRIC8_REALM: FABRIC8_REALM,
-  FABRIC8_SSO_API_URL: FABRIC8_SSO_API_URL,
+  OPENFACT_SYNC_API_URL: OPENFACT_SYNC_API_URL,
+  OPENFACT_REALM: OPENFACT_REALM,
+  OPENFACT_SSO_API_URL: OPENFACT_SSO_API_URL,
   FABRIC8_RECOMMENDER_API_URL: FABRIC8_RECOMMENDER_API_URL,
   FABRIC8_FORGE_URL: FABRIC8_FORGE_URL,
   FABRIC8_PIPELINES_NAMESPACE: FABRIC8_PIPELINES_NAMESPACE,
@@ -146,6 +147,17 @@ module.exports = function (options) {
     },
 
     plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: 'src/config',
+          to: '_config',
+          transform: function env(content, path) {
+            return content.toString('utf-8').replace(/{{ .Env.([a-zA-Z0-9_-]*) }}/g, function(match, p1, offset, string){
+              return process.env[p1];
+            });
+          }
+        }
+      ]),
 
       /**
        * Plugin: DefinePlugin
@@ -165,11 +177,11 @@ module.exports = function (options) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
-          'API_URL': JSON.stringify(METADATA.FABRIC8_WIT_API_URL),
+          'API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
           'FABRIC8_FORGE_API_URL': JSON.stringify(METADATA.FABRIC8_FORGE_API_URL),
-          'FABRIC8_WIT_API_URL': JSON.stringify(METADATA.FABRIC8_WIT_API_URL),
-          'FABRIC8_REALM': JSON.stringify(METADATA.FABRIC8_REALM),
-          'FABRIC8_SSO_API_URL': JSON.stringify(METADATA.FABRIC8_SSO_API_URL),
+          'OPENFACT_SYNC_API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
+          'OPENFACT_REALM': JSON.stringify(METADATA.OPENFACT_REALM),
+          'OPENFACT_SSO_API_URL': JSON.stringify(METADATA.OPENFACT_SSO_API_URL),
           'FABRIC8_RECOMMENDER_API_URL': JSON.stringify(METADATA.FABRIC8_RECOMMENDER_API_URL),
           'FABRIC8_FORGE_URL': JSON.stringify(METADATA.FABRIC8_FORGE_URL),
           'FABRIC8_PIPELINES_NAMESPACE': JSON.stringify(FABRIC8_PIPELINES_NAMESPACE),

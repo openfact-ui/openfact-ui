@@ -1,5 +1,5 @@
 import { ErrorService } from './../error/error.service';
-import { WIT_API_URL } from './../ngx-fabric8-wit/src/app/api/wit-api';
+import { SYNC_API_URL } from '../ngx-openfact-sync/src/app/api/sync-api';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Injectable, Inject } from '@angular/core';
@@ -30,7 +30,7 @@ export class LoginService {
   constructor(
     private router: Router,
     private localStorage: LocalStorageService,
-    @Inject(WIT_API_URL) private apiUrl: string,
+    @Inject(SYNC_API_URL) private apiUrl: string,
     private broadcaster: Broadcaster,
     private errorService: ErrorService,
     private authService: AuthenticationService,
@@ -53,10 +53,10 @@ export class LoginService {
   }
 
   redirectToAuth() {
-    var authUrl = this.authUrl;
+    let authUrl = this.authUrl;
     if (authUrl.indexOf('?') < 0) {
-      // lets ensure there's a redirect parameter to avoid WIT barfing
-      authUrl += "?redirect=" + window.location.href;
+      // lets ensure there's a redirect parameter to avoid SYNC barfing
+      authUrl += '?redirect=' + window.location.href;
     }
     window.location.href = authUrl;
   }

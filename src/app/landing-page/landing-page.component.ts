@@ -2,7 +2,6 @@ import { LoginService } from '../shared/login.service';
 import { Broadcaster } from 'ngx-base';
 import { Component, OnInit } from '@angular/core';
 
-import { Spaces, Context, Contexts } from 'ngx-fabric8-wit';
 import { AuthenticationService } from 'ngx-login-client';
 
 @Component({

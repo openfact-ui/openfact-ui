@@ -13,5 +13,5 @@ import { NgModule } from '@angular/core';
 
   ]
 })
-export class Fabric8WitModule {
+export class OpenfactSyncModule {
 }

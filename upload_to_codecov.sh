@@ -3,11 +3,11 @@ def ci (){
     stage('build npm'){
         sh 'npm install'
         sh '''
-        export FABRIC8_WIT_API_URL="https://api.prod-preview.openshift.io/api/"
+        export OPENFACT_SYNC_API_URL="http://openfact-openfact-development.apps.console.sistcoop.org/api/"
         export FABRIC8_RECOMMENDER_API_URL="https://api-bayesian.dev.rdu2c.fabric8.io/api/v1/"
         export FABRIC8_FORGE_API_URL="https://forge.api.prod-preview.openshift.io"
-        export FABRIC8_SSO_API_URL="https://sso.prod-preview.openshift.io/"
-        export FABRIC8_REALM="fabric8"
+        export OPENFACT_SSO_API_URL="http://keycloak-keycloak-sso-development.apps.console.sistcoop.org/"
+        export OPENFACT_REALM="openfact"
 
         npm run build:prod
         '''

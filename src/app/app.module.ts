@@ -59,7 +59,7 @@ import { LoginService } from './shared/login.service';
 
 import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
 import { ApiLocatorService } from './shared/api-locator.service';
-import { witApiUrlProvider } from './shared/wit-api.provider';
+import { syncApiUrlProvider } from './shared/sync-api.provider';
 
 import { authApiUrlProvider } from './shared/auth-api.provider';
 import { ssoApiUrlProvider } from './shared/sso-api.provider';
@@ -141,7 +141,7 @@ type StoreType = {
 
     fabric8UIConfigProvider,
     ApiLocatorService,
-    witApiUrlProvider,
+    syncApiUrlProvider,
 
     authApiUrlProvider,
     ssoApiUrlProvider,

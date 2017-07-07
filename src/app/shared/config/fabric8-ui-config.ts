@@ -8,6 +8,6 @@ export class Fabric8UIConfig {
   recommenderApiUrl: string;
   ssoApiUrl: string;
   statusApiUrl: string;
-  witApiUrl: string;
+  syncApiUrl: string;
 
 }

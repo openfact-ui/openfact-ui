@@ -7,10 +7,10 @@ export class ApiLocatorService {
 
   public readonly DEFAULT_API_ENV_VAR_NAMES = new Map<string, string>(
     [
-      ['wit', 'FABRIC8_WIT_API_URL'],
+      ['sync', 'OPENFACT_SYNC_API_URL'],
       ['recommender', 'FABRIC8_RECOMMENDER_API_URL'],
-      ['sso', 'FABRIC8_SSO_API_URL'],
-      ['realm', 'FABRIC8_REALM'],
+      ['sso', 'OPENFACT_SSO_API_URL'],
+      ['realm', 'OPENFACT_REALM'],
       ['branding', 'BRANDING'],
       ['forge', 'FABRIC8_FORGE_API_URL']
 
@@ -18,14 +18,14 @@ export class ApiLocatorService {
   );
 
   public readonly DEFAULT_API_PREFIXES = new Map<string, string>([
-    ['wit', 'api'],
+    ['sync', 'api'],
     ['recommender', 'recommender'],
     ['sso', 'sso'],
     ['forge', 'forge.api']
   ]);
 
   public readonly DEFAULT_API_PATHS = new Map<string, string>([
-    ['wit', 'api/']
+    ['sync', 'api/']
   ]);
 
   private envVars = new Map<string, string>();
@@ -37,19 +37,19 @@ export class ApiLocatorService {
   }
 
   get realm(): string {
-    return this.envVars.get('realm') || 'fabric8';
+    return this.envVars.get('realm') || 'openfact';
   }
 
   get branding(): string {
     return this.envVars.get('branding') || 'fabric8';
   }
 
-  get witApiUrl(): string {
-    return this.config.witApiUrl || this.buildApiUrl('wit');
+  get syncApiUrl(): string {
+    return this.config.syncApiUrl || this.buildApiUrl('sync');
   }
 
   get forgeApiUrl(): string {
-    return this.config.forgeApiUrl || this.buildApiUrl('forge')
+    return this.config.forgeApiUrl || this.buildApiUrl('forge');
   }
 
   get ssoApiUrl(): string {
@@ -87,6 +87,5 @@ export class ApiLocatorService {
     url = window.location.protocol + '//' + url;
     return url;
   }
-
 
 }
