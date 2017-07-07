@@ -29,6 +29,19 @@ const OptimizeJsPlugin = require('optimize-js-plugin');
  * Webpack Constants
  */
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+const FABRIC8_FORGE_API_URL = process.env.FABRIC8_FORGE_API_URL;
+const FABRIC8_WIT_API_URL = process.env.FABRIC8_WIT_API_URL;
+const FABRIC8_REALM = process.env.FABRIC8_REALM;
+const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'http://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
+const FABRIC8_SSO_API_URL = process.env.FABRIC8_SSO_API_URL;
+const FABRIC8_FORGE_URL = process.env.FORGE_URL;
+const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE;
+const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
+const BUILD_NUMBER = process.env.BUILD_NUMBER;
+const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
+const BUILD_VERSION = process.env.BUILD_VERSION;
+const FABRIC8_BRANDING = process.env.FABRIC8_BRANDING || 'fabric8';
+
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
 const METADATA = webpackMerge(commonConfig({
@@ -37,7 +50,19 @@ const METADATA = webpackMerge(commonConfig({
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  FABRIC8_FORGE_API_URL: FABRIC8_FORGE_API_URL,
+  FABRIC8_WIT_API_URL: FABRIC8_WIT_API_URL,
+  FABRIC8_REALM: FABRIC8_REALM,
+  FABRIC8_SSO_API_URL: FABRIC8_SSO_API_URL,
+  FABRIC8_RECOMMENDER_API_URL: FABRIC8_RECOMMENDER_API_URL,
+  FABRIC8_FORGE_URL: FABRIC8_FORGE_URL,
+  FABRIC8_PIPELINES_NAMESPACE: FABRIC8_PIPELINES_NAMESPACE,
+  PUBLIC_PATH: PUBLIC_PATH,
+  BUILD_NUMBER: BUILD_NUMBER,
+  BUILD_TIMESTAMP: BUILD_TIMESTAMP,
+  BUILD_VERSION: BUILD_VERSION,
+  FABRIC8_BRANDING: FABRIC8_BRANDING
 });
 
 module.exports = function (env) {
@@ -167,6 +192,18 @@ module.exports = function (env) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
+          'FABRIC8_FORGE_API_URL': stringify(METADATA.FABRIC8_FORGE_API_URL),
+          'FABRIC8_WIT_API_URL': stringify(METADATA.FABRIC8_WIT_API_URL),
+          'FABRIC8_REALM': stringify(METADATA.FABRIC8_REALM),
+          'FABRIC8_SSO_API_URL': stringify(METADATA.FABRIC8_SSO_API_URL),
+          'FABRIC8_RECOMMENDER_API_URL': stringify(METADATA.FABRIC8_RECOMMENDER_API_URL),
+          'FABRIC8_FORGE_URL': stringify(METADATA.FABRIC8_FORGE_URL),
+          'FABRIC8_PIPELINES_NAMESPACE': stringify(METADATA.FABRIC8_PIPELINES_NAMESPACE),
+          'PUBLIC_PATH': stringify(METADATA.PUBLIC_PATH),
+          'BUILD_NUMBER': stringify(METADATA.BUILD_NUMBER),
+          'BUILD_TIMESTAMP': stringify(METADATA.BUILD_TIMESTAMP),
+          'BUILD_VERSION': stringify(METADATA.BUILD_VERSION),
+          'FABRIC8_BRANDING': stringify(METADATA.FABRIC8_BRANDING),
         }
       }),
 

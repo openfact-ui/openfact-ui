@@ -19,7 +19,7 @@ interface MenuHiddenCallback {
 }
 
 @Component({
-  selector: 'alm-app-header',
+  selector: 'ofs-app-header',
   templateUrl: './header.component.html',
   styleUrls: []
 })

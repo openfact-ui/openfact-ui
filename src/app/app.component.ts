@@ -19,9 +19,11 @@ import { AppState } from './app.service';
 @Component({
   selector: 'ofs-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+
+  showClose = false;
 
   constructor(
     public appState: AppState,
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit {
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
 
-    console.log('Welcome to Fabric8!');
+    console.log('Welcome to OpenfactSync!');
     console.log('This is', this.about.buildVersion,
       '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
     this.activatedRoute.params.subscribe(() => {
@@ -50,6 +52,14 @@ export class AppComponent implements OnInit {
   }
 
   handleAction($event: any): void {
+    this.notifications.actionSubject.next($event.action);
+  }
+
+  handleClose($event: any): void {
+    this.notifications.actionSubject.next($event.action);
+  }
+
+  handleViewingChange($event: any): void {
     this.notifications.actionSubject.next($event.action);
   }
 
