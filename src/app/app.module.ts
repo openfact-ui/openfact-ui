@@ -43,7 +43,7 @@ import {
 } from './openfact-runtime-console';
 
 // Header & Footer
-//import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
 // Component Services
@@ -93,6 +93,7 @@ type StoreType = {
   bootstrap: [AppComponent],
   declarations: [// declare which components, directives and pipes belong to the module
     AppComponent,
+    HeaderComponent,
     FooterComponent
   ],
   /**
