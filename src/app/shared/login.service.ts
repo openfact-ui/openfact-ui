@@ -1,13 +1,13 @@
 import { ErrorService } from './../error/error.service';
-import { SYNC_API_URL } from '../ngx-openfact-sync/src/app/api/sync-api';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Injectable, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { Broadcaster } from 'ngx-base';
-import { AuthenticationService, UserService } from 'ngx-login-client';
+import { Broadcaster } from 'ngo-base';
+import { AuthenticationService, UserService } from 'ngo-login-client';
 
 /*import { ContextService } from './context.service';
 import { Navigation } from './../models/navigation';*/
@@ -95,7 +95,7 @@ export class LoginService {
       // Handle the case that this is a login
       this.authService.logIn(result['token_json']);
       this.authService
-        .getOpenShiftToken()
+        .getGoogleToken()
         .catch((err) => {
           console.log('Unable to get OpenShift token', err);
           return Observable.of(null);
@@ -107,7 +107,7 @@ export class LoginService {
       // Handle the case the user is already logged in
       this.authService.onLogIn();
       this.authService
-        .getOpenShiftToken()
+        .getGoogleToken()
         .catch((err) => {
           console.log('Unable to get OpenShift token', err);
           return Observable.of(null);

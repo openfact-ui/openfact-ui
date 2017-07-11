@@ -29,13 +29,13 @@ import { AppState, InternalStateType } from './app.service';
 import {
   Broadcaster,
   Logger
-} from 'ngx-base';
+} from 'ngo-base';
 
 import {
   AuthenticationService,
   HttpService,
   UserService
-} from 'ngx-login-client';
+} from 'ngo-login-client';
 
 import {
   // Base functionality for the runtime console

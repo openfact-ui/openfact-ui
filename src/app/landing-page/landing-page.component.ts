@@ -1,8 +1,8 @@
 import { LoginService } from '../shared/login.service';
-import { Broadcaster } from 'ngx-base';
+import { Broadcaster } from 'ngo-base';
 import { Component, OnInit } from '@angular/core';
 
-import { AuthenticationService } from 'ngx-login-client';
+import { AuthenticationService } from 'ngo-login-client';
 
 @Component({
   host: {

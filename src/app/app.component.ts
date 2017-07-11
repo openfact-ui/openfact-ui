@@ -1,6 +1,6 @@
 import { OnLogin } from './openfact-runtime-console/src/app/shared/onlogin.service';
-import { Broadcaster } from 'ngx-base';
-import { AuthenticationService } from 'ngx-login-client';
+import { Broadcaster } from 'ngo-base';
+import { AuthenticationService } from 'ngo-login-client';
 import { LoginService } from './shared/login.service';
 import { NotificationsService } from './shared/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';

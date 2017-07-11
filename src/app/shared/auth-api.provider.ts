@@ -1,5 +1,5 @@
 import { ApiLocatorService } from './api-locator.service';
-import { AUTH_API_URL } from 'ngx-login-client';
+import { AUTH_API_URL } from 'ngo-login-client';
 
 let authApiUrlFactory = (api: ApiLocatorService) => {
   return api.syncApiUrl;

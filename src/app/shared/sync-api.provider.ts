@@ -1,4 +1,4 @@
-import { SYNC_API_URL } from '../ngx-openfact-sync';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
 import { ApiLocatorService } from './api-locator.service';
 
 let syncApiUrlFactory = (api: ApiLocatorService) => {
