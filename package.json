@@ -88,7 +88,7 @@
     "ie-shim": "^0.1.0",
     "ngo-base": "0.0.5",
     "ngo-login-client": "0.0.3",
-    "ngo-openfact-sync": "0.0.4",
+    "ngo-openfact-sync": "0.0.5",
     "ngx-bootstrap": "^1.7.1",
     "patternfly": "^3.25.1",
     "patternfly-ng": "0.0.8",
