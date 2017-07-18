@@ -16,6 +16,15 @@ export const routes: Routes = [
       title: 'Home'
     }
   },
+
+  // Getting started
+  {
+    path: '_gettingstarted',
+    loadChildren: './getting-started/getting-started.module#GettingStartedModule',
+    data: {
+      title: 'Getting Started'
+    }
+  },
 ];
 
 @NgModule({

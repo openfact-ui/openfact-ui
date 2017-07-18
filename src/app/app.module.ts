@@ -33,7 +33,6 @@ import {
 
 import {
   AuthenticationService,
-  HttpService,
   UserService
 } from 'ngo-login-client';
 
@@ -49,8 +48,8 @@ import { FooterComponent } from './footer/footer.component';
 // Component Services
 import { ConfigStore } from './base/config.store';
 import { ErrorService } from './error/error.service';
-//import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
-//import { ProfileService } from './profile/profile.service';
+// import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
+// import { ProfileService } from './profile/profile.service';
 
 // Shared Services
 import { AboutService } from './shared/about.service';
@@ -70,6 +69,7 @@ import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.se
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { Ng2KeycloakModule, Keycloak, KeycloakAuthorization } from '@ebondu/angular2-keycloak';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -101,10 +101,11 @@ type StoreType = {
    */
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
+    FormsModule,
 
     // Third Party libs
+    Ng2KeycloakModule.forRoot(),
     NotificationModule,
     LocalStorageModule.withConfig({
       prefix: 'fabric8',
@@ -120,11 +121,15 @@ type StoreType = {
   providers: [
     // Broadcaster must come first
     Broadcaster,
+    Logger,
 
     ENV_PROVIDERS,
     APP_PROVIDERS,
 
+    Keycloak,
+    KeycloakAuthorization,
     AuthenticationService,
+    UserService,
     {
       provide: OnLogin,
       useClass: Fabric8UIOnLogin

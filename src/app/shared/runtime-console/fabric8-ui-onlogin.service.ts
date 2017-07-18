@@ -11,7 +11,8 @@ export class Fabric8UIOnLogin implements OnLogin {
 
     // TODO - remove this in favor of handling all tokens through ngx-login-client
     get token(): string {
-        return this.loginService.openShiftToken;
+        // return this.loginService.openShiftToken;
+        return null;
     }
 
     public onLogin(token: string) {

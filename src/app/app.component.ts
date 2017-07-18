@@ -1,15 +1,14 @@
-import { OnLogin } from './openfact-runtime-console/src/app/shared/onlogin.service';
-import { Broadcaster } from 'ngo-base';
-import { AuthenticationService } from 'ngo-login-client';
-import { LoginService } from './shared/login.service';
+import { SSO_API_URL, REALM } from 'ngo-login-client';
+import { Keycloak, KeycloakAuthorization, KeycloakHttp } from '@ebondu/angular2-keycloak';
 import { NotificationsService } from './shared/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Http } from '@angular/http';
 import { AboutService } from './shared/about.service';
 
 /**
  * Angular 2 decorators and services
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AppState } from './app.service';
 
 /**
@@ -23,43 +22,51 @@ import { AppState } from './app.service';
 })
 export class AppComponent implements OnInit {
 
-  showClose = false;
+  public showClose = false;
 
   constructor(
     public appState: AppState,
     private about: AboutService,
     private activatedRoute: ActivatedRoute,
     public notifications: NotificationsService,
-    private loginService: LoginService,
-    // Inject services that need to start listening
-    /*private spaces: Spaces,
-    private analytics: AnalyticService,*/
-    private onLogin: OnLogin,
-    private authService: AuthenticationService,
-    private broadcaster: Broadcaster,
-    private router: Router
-  ) { }
+    @Inject(SSO_API_URL) private ssoUrl: string,
+    @Inject(REALM) private realm: string,
+    private keycloak: Keycloak,
+    private keycloakAuthz: KeycloakAuthorization,
+    private http: Http) {
+  }
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
 
-    console.log('Welcome to OpenfactSync!');
+    console.log('Welcome to Openfact Sync!');
     console.log('This is', this.about.buildVersion,
-      '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
-    this.activatedRoute.params.subscribe(() => {
-      this.loginService.login();
+      '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
+
+    this.keycloakAuthz.init();
+
+    // Configure the Keycloak
+    Keycloak.config = {
+      url: this.ssoUrl,
+      realm: this.realm,
+      clientId: 'openfact-public-client'
+    };
+
+    // Initialise the Keycloak
+    this.keycloak.init({
+      checkLoginIframe: false
     });
   }
 
-  handleAction($event: any): void {
+  public handleAction($event: any): void {
     this.notifications.actionSubject.next($event.action);
   }
 
-  handleClose($event: any): void {
+  public handleClose($event: any): void {
     this.notifications.actionSubject.next($event.action);
   }
 
-  handleViewingChange($event: any): void {
+  public handleViewingChange($event: any): void {
     this.notifications.actionSubject.next($event.action);
   }
 
