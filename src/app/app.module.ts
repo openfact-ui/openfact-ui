@@ -66,6 +66,8 @@ import { realmProvider } from './shared/realm-token.provider';
 
 import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.service';
 
+import { AuthGuard } from './shared/auth-guard.service';
+
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
@@ -151,6 +153,8 @@ type StoreType = {
     authApiUrlProvider,
     ssoApiUrlProvider,
     realmProvider,
+
+    AuthGuard,
   ]
 })
 export class AppModule {
