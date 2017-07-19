@@ -25,13 +25,9 @@ const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
 
 // if env is 'inmemory', the inmemory debug resource is used
-const FABRIC8_FORGE_API_URL = process.env.FABRIC8_FORGE_API_URL || 'https://forge.api.prod-preview.openshift.io';
 const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL || 'http://openfact-openfact-development.apps.console.sistcoop.org/api/';
 const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
 const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloak-keycloak-sso-development.apps.console.sistcoop.org/';
-const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'https://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
-const FABRIC8_FORGE_URL = process.env.FABRIC8_FORGE_URL;
-const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE;
 const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
@@ -42,14 +38,10 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: HMR,
-  FABRIC8_FORGE_API_URL: FABRIC8_FORGE_API_URL,
+  HMR: HMR,  
   OPENFACT_SYNC_API_URL: OPENFACT_SYNC_API_URL,
   OPENFACT_REALM: OPENFACT_REALM,
   OPENFACT_SSO_API_URL: OPENFACT_SSO_API_URL,
-  FABRIC8_RECOMMENDER_API_URL: FABRIC8_RECOMMENDER_API_URL,
-  FABRIC8_FORGE_URL: FABRIC8_FORGE_URL,
-  FABRIC8_PIPELINES_NAMESPACE: FABRIC8_PIPELINES_NAMESPACE,
   PUBLIC_PATH: PUBLIC_PATH,
   BUILD_NUMBER: BUILD_NUMBER,
   BUILD_TIMESTAMP: BUILD_TIMESTAMP,
@@ -177,14 +169,10 @@ module.exports = function (options) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
-          'API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
-          'FABRIC8_FORGE_API_URL': JSON.stringify(METADATA.FABRIC8_FORGE_API_URL),
+          'API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),          
           'OPENFACT_SYNC_API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
           'OPENFACT_REALM': JSON.stringify(METADATA.OPENFACT_REALM),
-          'OPENFACT_SSO_API_URL': JSON.stringify(METADATA.OPENFACT_SSO_API_URL),
-          'FABRIC8_RECOMMENDER_API_URL': JSON.stringify(METADATA.FABRIC8_RECOMMENDER_API_URL),
-          'FABRIC8_FORGE_URL': JSON.stringify(METADATA.FABRIC8_FORGE_URL),
-          'FABRIC8_PIPELINES_NAMESPACE': JSON.stringify(FABRIC8_PIPELINES_NAMESPACE),
+          'OPENFACT_SSO_API_URL': JSON.stringify(METADATA.OPENFACT_SSO_API_URL),          
           'PUBLIC_PATH': JSON.stringify(METADATA.PUBLIC_PATH),
           'BUILD_NUMBER': JSON.stringify(BUILD_NUMBER),
           'BUILD_TIMESTAMP': JSON.stringify(BUILD_TIMESTAMP),

@@ -340,7 +340,7 @@ module.exports = function (options) {
       */
       new HtmlWebpackPlugin({
         template: 'src/index.html',
-        //title: METADATA.title,
+        // title: METADATA.title,
         title: branding.assets[METADATA.OPENFACT_BRANDING].title.prefix,
         chunksSortMode: 'dependency',
         metadata: METADATA,

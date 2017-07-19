@@ -93,18 +93,18 @@ type StoreType = {
  */
 @NgModule({
   bootstrap: [AppComponent],
-  declarations: [// declare which components, directives and pipes belong to the module
+  declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   /**
    * Import Angular's modules.
    */
   imports: [
     BrowserModule,
-    HttpModule,
     FormsModule,
+    HttpModule,
 
     // Third Party libs
     Ng2KeycloakModule.forRoot(),

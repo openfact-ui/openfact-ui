@@ -33,13 +33,9 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
  * Webpack Constants
  */
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-const FABRIC8_FORGE_API_URL = process.env.FABRIC8_FORGE_API_URL;
 const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
 const OPENFACT_REALM = process.env.OPENFACT_REALM;
-const FABRIC8_RECOMMENDER_API_URL = process.env.FABRIC8_RECOMMENDER_API_URL || 'http://api-bayesian.dev.rdu2c.fabric8.io/api/v1/';
 const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL;
-const FABRIC8_FORGE_URL = process.env.FORGE_URL;
-const FABRIC8_PIPELINES_NAMESPACE = process.env.FABRIC8_PIPELINES_NAMESPACE;
 const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
@@ -54,14 +50,10 @@ const METADATA = webpackMerge(commonConfig({
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false,
-  FABRIC8_FORGE_API_URL: FABRIC8_FORGE_API_URL,
+  HMR: false,  
   OPENFACT_SYNC_API_URL: OPENFACT_SYNC_API_URL,
   OPENFACT_REALM: OPENFACT_REALM,
   OPENFACT_SSO_API_URL: OPENFACT_SSO_API_URL,
-  FABRIC8_RECOMMENDER_API_URL: FABRIC8_RECOMMENDER_API_URL,
-  FABRIC8_FORGE_URL: FABRIC8_FORGE_URL,
-  FABRIC8_PIPELINES_NAMESPACE: FABRIC8_PIPELINES_NAMESPACE,
   PUBLIC_PATH: PUBLIC_PATH,
   BUILD_NUMBER: BUILD_NUMBER,
   BUILD_TIMESTAMP: BUILD_TIMESTAMP,
@@ -195,14 +187,10 @@ module.exports = function (env) {
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
-          'FABRIC8_FORGE_API_URL': stringify(METADATA.FABRIC8_FORGE_API_URL),
+          'HMR': METADATA.HMR,          
           'OPENFACT_SYNC_API_URL': stringify(METADATA.OPENFACT_SYNC_API_URL),
           'OPENFACT_REALM': stringify(METADATA.OPENFACT_REALM),
-          'OPENFACT_SSO_API_URL': stringify(METADATA.OPENFACT_SSO_API_URL),
-          'FABRIC8_RECOMMENDER_API_URL': stringify(METADATA.FABRIC8_RECOMMENDER_API_URL),
-          'FABRIC8_FORGE_URL': stringify(METADATA.FABRIC8_FORGE_URL),
-          'FABRIC8_PIPELINES_NAMESPACE': stringify(METADATA.FABRIC8_PIPELINES_NAMESPACE),
+          'OPENFACT_SSO_API_URL': stringify(METADATA.OPENFACT_SSO_API_URL),          
           'PUBLIC_PATH': stringify(METADATA.PUBLIC_PATH),
           'BUILD_NUMBER': stringify(METADATA.BUILD_NUMBER),
           'BUILD_TIMESTAMP': stringify(METADATA.BUILD_TIMESTAMP),
