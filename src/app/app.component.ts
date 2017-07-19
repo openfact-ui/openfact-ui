@@ -9,7 +9,7 @@ import { AboutService } from './shared/about.service';
 /**
  * Angular 2 decorators and services
  */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { AppState } from './app.service';
 
 /**
@@ -17,6 +17,7 @@ import { AppState } from './app.service';
  * Top Level Component
  */
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
