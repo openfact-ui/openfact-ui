@@ -16,17 +16,17 @@ interface MenuHiddenCallback {
 @Component({
   selector: 'ofs-app-header',
   templateUrl: './header.component.html',
-  styleUrls: []
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor() {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
   }
 
 }

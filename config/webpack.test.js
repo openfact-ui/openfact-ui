@@ -3,6 +3,7 @@
  */
 
 const helpers = require('./helpers');
+const path = require('path');
 
 /**
  * Webpack Plugins
@@ -19,6 +20,28 @@ const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
 const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
 const OPENFACT_BRANDING = 'openfact';
+
+const sassModules = [
+  {
+    name: 'bootstrap'
+  }, {
+    name: 'font-awesome',
+    module: 'font-awesome',
+    path: 'font-awesome',
+    sass: 'scss'
+  }, {
+    name: 'patternfly',
+    module: 'patternfly-sass-with-css'
+  }
+];
+
+sassModules.forEach(function (val) {
+  val.module = val.module || val.name + '-sass';
+  val.path = val.path || path.join(val.module, 'assets');
+  val.modulePath = val.modulePath || path.join('node_modules', val.path);
+  val.sass = val.sass || path.join('stylesheets');
+  val.sassPath = path.join(helpers.root(), val.modulePath, val.sass);
+});
 
 /**
  * Webpack configuration
@@ -150,7 +173,18 @@ module.exports = function (options) {
          */
         {
             test: /\.scss$/,
-            loader: ['raw-loader', 'sass-loader'],
+            loader: [
+              { 
+                loader: 'raw-loader'
+              }, {
+                loader: 'sass-loader',
+                  query: {
+                  includePaths: sassModules.map(function (val) {
+                    return val.sassPath;
+                  })
+                }
+              }
+            ],
             exclude: [helpers.root('src/index.html')]
         },
 

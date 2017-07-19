@@ -5,6 +5,7 @@
 const webpack = require('webpack');
 const helpers = require('./helpers');
 const branding = require('./branding');
+const path = require('path');
 
 /**
  * Webpack Plugins
@@ -24,6 +25,28 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 //const PreloadWebpackPlugin = require('preload-webpack-plugin');
+
+const sassModules = [
+  {
+    name: 'bootstrap'
+  }, {
+    name: 'font-awesome',
+    module: 'font-awesome',
+    path: 'font-awesome',
+    sass: 'scss'
+  }, {
+    name: 'patternfly',
+    module: 'patternfly-sass-with-css'
+  }
+];
+
+sassModules.forEach(function (val) {
+  val.module = val.module || val.name + '-sass';
+  val.path = val.path || path.join(val.module, 'assets');
+  val.modulePath = val.modulePath || path.join('node_modules', val.path);
+  val.sass = val.sass || path.join('stylesheets');
+  val.sassPath = path.join(helpers.root(), val.modulePath, val.sass);
+});
 
 /**
  * Webpack Constants
@@ -176,7 +199,21 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          use: [
+            {
+              loader: 'to-string-loader'
+            }, {
+              loader: 'css-loader'
+            }, {
+              loader: 'sass-loader',
+              options: {
+                includePaths: sassModules.map(function (val) {
+                  return val.sassPath;
+                }),
+                sourceMap: true
+              }
+            }
+          ],
           exclude: [helpers.root('src', 'styles')]
         },
 

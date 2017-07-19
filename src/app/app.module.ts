@@ -74,7 +74,6 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { Ng2KeycloakModule, Keycloak, KeycloakAuthorization } from '@ebondu/angular2-keycloak';
 
 import '../styles/styles.scss';
-import '../styles/headings.css';
 
 // Application wide providers
 const APP_PROVIDERS = [
