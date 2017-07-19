@@ -34,7 +34,6 @@ export class LoginService {
   ) {
     // Removed ?link=true in favor of getting started page
     this.authUrl = apiUrl + 'login/authorize';
-
     this.broadcaster.on('authenticationError').subscribe(() => {
       this.authService.logout();
     });
@@ -45,6 +44,10 @@ export class LoginService {
         this.authService.logout();
       }
     });
+  }
+
+  public redirectToAuth() {
+    Keycloak.login({});
   }
 
   public redirectAfterLogin() {
@@ -62,14 +65,14 @@ export class LoginService {
   }
 
   public logout() {
+    this.authService.logout();
+
+    // Logout should be localted on apiUrl/logout?redirect=
     const redirect = this.apiUrl + 'logout?redirect=' + encodeURIComponent(window.location.origin);
-    this.authService.logout({ redirectUri: redirect });
   }
 
   public login() {
-    if (!this.authService.isLoggedIn()) {
-      this.authService.logIn();
-    } else {
+    if (this.authService.isLoggedIn()) {
       this.authService.onLogIn();
     }
   }

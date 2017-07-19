@@ -1,3 +1,4 @@
+import { LoginService } from './shared/login.service';
 import { SSO_API_URL, REALM } from 'ngo-login-client';
 import { Keycloak, KeycloakAuthorization, KeycloakHttp } from '@ebondu/angular2-keycloak';
 import { NotificationsService } from './shared/notifications.service';
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
     private about: AboutService,
     private activatedRoute: ActivatedRoute,
     public notifications: NotificationsService,
+    private loginService: LoginService,
     @Inject(SSO_API_URL) private ssoUrl: string,
     @Inject(REALM) private realm: string,
     private keycloak: Keycloak,
@@ -43,18 +45,19 @@ export class AppComponent implements OnInit {
     console.log('This is', this.about.buildVersion,
       '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
 
-    this.keycloakAuthz.init();
-
     // Configure the Keycloak
     Keycloak.config = {
       url: this.ssoUrl,
       realm: this.realm,
       clientId: 'openfact-public-client'
     };
-
-    // Initialise the Keycloak
     this.keycloak.init({
-      checkLoginIframe: false
+      checkLoginIframe: false,
+      onLoad: 'check-sso'
+    });
+
+    this.activatedRoute.params.subscribe((a) => {
+      this.loginService.login();
     });
   }
 

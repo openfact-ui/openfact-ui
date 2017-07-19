@@ -29,7 +29,7 @@ export class LandingPageComponent implements OnInit {
   public login() {
     this.loginService.redirectUrl = '/_gettingstarted';
     this.broadcaster.broadcast('login');
-    this.loginService.login();
+    this.loginService.redirectToAuth();
   }
 
 }
