@@ -1,6 +1,6 @@
 import { Fabric8UIConfig } from './fabric8-ui-config';
 
-function fabric8UIConfigFactory(): Fabric8UIConfig {
+export function fabric8UIConfigFactory(): Fabric8UIConfig {
   let answer = window['Fabric8UIEnv'] || {};
   // lets filter out any values of "undefined" in case an env var is missing in the template expression
   for (let key in answer) {
