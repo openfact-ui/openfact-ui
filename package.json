@@ -92,7 +92,7 @@
     "ngo-openfact-sync": "0.0.5",
     "ngx-bootstrap": "^1.7.1",
     "patternfly": "^3.23.1",
-    "patternfly-ng": "0.0.8",
+    "patternfly-ng": "0.0.15",
     "patternfly-sass": "^3.23.0",
     "patternfly-sass-with-css": "^3.21.2",
     "reflect-metadata": "^0.1.10",

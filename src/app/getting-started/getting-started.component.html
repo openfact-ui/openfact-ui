@@ -1,1 +1,3 @@
-<h1>Getting Started</h1>
+<div *ngIf="showGettingStarted">
+    <pfng-empty-state [config]="emptyStateConfig" (onActionSelect)="handleAction($event)"></pfng-empty-state>
+</div>

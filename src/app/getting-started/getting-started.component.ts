@@ -10,6 +10,7 @@ import { GettingStartedService } from './services/getting-started.service';
 import { ProviderService } from './services/provider.service';
 
 import { NotificationService, Notification, NotificationType, Action } from 'patternfly-ng';
+import { EmptyStateConfig, ActionConfig } from 'patternfly-ng';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -20,16 +21,19 @@ import { NotificationService, Notification, NotificationType, Action } from 'pat
 })
 export class GettingStartedComponent implements OnDestroy, OnInit {
 
-  public authGitHub: boolean = false;
-  public authOpenShift: boolean = false;
-  public gitHubLinked: boolean = false;
+  public authGoogle: boolean = false;
+  public authMicrosoft: boolean = false;
+  public googleLinked: boolean = false;
   public loggedInUser: User;
-  public openShiftLinked: boolean = false;
+  public microsoftLinked: boolean = false;
   public registrationCompleted: boolean = true;
   public showGettingStarted: boolean = false;
   public subscriptions: Subscription[] = [];
   public username: string;
   public usernameInvalid: boolean = false;
+
+  public emptyStateConfig: EmptyStateConfig;
+  public actionConfig: ActionConfig;
 
   constructor(
     private auth: AuthenticationService,
@@ -39,11 +43,11 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     private notifications: NotificationService,
     private router: Router,
     private userService: UserService) {
-    // Still need to retrieve OpenShift token for checkbox,
-    // in case the GitHub token cannot be obtained below.
-    /*this.subscriptions.push(auth.openShiftToken.subscribe(token => {
+    // Still need to retrieve Google token for checkbox,
+    // in case the Microsoft token cannot be obtained below.
+    this.subscriptions.push(auth.openShiftToken.subscribe((token) => {
       this.openShiftLinked = (token !== undefined && token.length !== 0);
-    }));*/
+    }));
   }
 
   public ngOnDestroy(): void {
@@ -53,8 +57,37 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   }
 
   public ngOnInit(): void {
+    // Empy State Config
+    this.actionConfig = {
+      primaryActions: [{
+        id: 'action1',
+        title: 'Skip',
+        tooltip: 'Link my accounts later'
+      }],
+      moreActions: [{
+        id: 'action2',
+        title: 'Google Gmail',
+        tooltip: 'Link my Google Gmail Account'
+      }, {
+        id: 'action3',
+        title: 'Microsoft Outlook',
+        tooltip: 'Link my Microsoft Gmail Account'
+      }]
+    } as ActionConfig;
+
+    this.emptyStateConfig = {
+      actions: this.actionConfig,
+      iconStyleClass: 'pficon-storage-domain',
+      info: 'Welcome to Openfact Sync! To get started you will need to connect your' +
+      ' Google Gmail and/or Microsoft Outlook accounts.',
+      helpLink: {
+        text: 'Link an Account.'
+      },
+      title: 'Getting started in Openfact Sync'
+    } as EmptyStateConfig;
+
     // Route to home if registration is complete.
-    /*this.userService.loggedInUser
+    this.userService.loggedInUser
       .map((user) => {
         this.loggedInUser = user;
         this.username = this.loggedInUser.attributes.username;
@@ -66,17 +99,17 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
         }
       })
       .switchMap(() => this.auth.gitHubToken)
-      .map(token => {
+      .map((token) => {
         this.gitHubLinked = (token !== undefined && token.length !== 0);
       })
       .switchMap(() => this.auth.openShiftToken)
-      .map(token => {
+      .map((token) => {
         this.openShiftLinked = (token !== undefined && token.length !== 0);
       })
       .do(() => {
         this.routeToHomeIfCompleted();
       })
-      .publish().connect();*/
+      .publish().connect();
 
     // Page is hidden by default to prevent flashing, but must show if tokens cannot be obtained.
     setTimeout(() => {
@@ -86,14 +119,18 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     }, 1000);
   }
 
+  public handleAction($event: Action): void {
+    console.log($event);
+  }
+
   /**
    * Helper to test if connect accounts button should be disabled
    *
    * @returns {boolean}
    */
   get isConnectAccountsDisabled(): boolean {
-    return !(this.authGitHub && !this.gitHubLinked || this.authOpenShift && !this.openShiftLinked)
-      || (this.gitHubLinked && this.openShiftLinked);
+    return !(this.authGoogle && !this.googleLinked || this.authMicrosoft && !this.microsoftLinked)
+      || (this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -102,7 +139,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * @returns {boolean} If the user has completed the getting started page
    */
   get isSuccess(): boolean {
-    return (this.registrationCompleted && this.gitHubLinked && this.openShiftLinked);
+    return (this.registrationCompleted && this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -120,11 +157,11 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * Link GitHub and/or OpenShift accounts
    */
   public connectAccounts(): void {
-    if (this.authGitHub && !this.gitHubLinked && this.authOpenShift && !this.openShiftLinked) {
+    if (this.authGoogle && !this.googleLinked && this.authMicrosoft && !this.microsoftLinked) {
       this.providerService.linkAll(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authGitHub && !this.gitHubLinked) {
+    } else if (this.authGoogle && !this.googleLinked) {
       this.providerService.linkGitHub(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authOpenShift && !this.openShiftLinked) {
+    } else if (this.authMicrosoft && !this.microsoftLinked) {
       this.providerService.linkOpenShift(window.location.origin + '/_gettingstarted?wait=true');
     }
   }
@@ -204,7 +241,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   private isUserGettingStarted(): boolean {
     let wait = this.getRequestParam('wait');
     return !(wait === null && this.registrationCompleted === true
-      && this.gitHubLinked === true && this.openShiftLinked === true);
+      && this.googleLinked === true && this.microsoftLinked === true);
   }
 
   /**

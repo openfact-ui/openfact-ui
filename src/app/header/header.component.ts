@@ -20,13 +20,18 @@ interface MenuHiddenCallback {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor() {
-  }
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute) { }
 
   public ngOnInit(): void {
   }
 
   public ngOnDestroy() {
+  }
+
+  get isGettingStartedPage(): boolean {
+    return (this.router.url.indexOf('_gettingstarted') !== -1);
   }
 
 }
