@@ -1,6 +1,6 @@
 import { LoginService } from './shared/login.service';
 import { SSO_API_URL, REALM } from 'ngo-login-client';
-import { Keycloak, KeycloakAuthorization, KeycloakHttp } from '@ebondu/angular2-keycloak';
+import { Keycloak } from '@ebondu/angular2-keycloak';
 import { NotificationsService } from './shared/notifications.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Http } from '@angular/http';
@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
     @Inject(SSO_API_URL) private ssoUrl: string,
     @Inject(REALM) private realm: string,
     private keycloak: Keycloak,
-    private keycloakAuthz: KeycloakAuthorization,
     private http: Http) {
   }
 

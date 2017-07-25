@@ -71,7 +71,7 @@ import { AuthGuard } from './shared/auth-guard.service';
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { Ng2KeycloakModule, Keycloak, KeycloakAuthorization } from '@ebondu/angular2-keycloak';
+import { Ng2KeycloakModule, Keycloak } from '@ebondu/angular2-keycloak';
 
 import '../styles/styles.scss';
 
@@ -128,7 +128,6 @@ type StoreType = {
     APP_PROVIDERS,
 
     Keycloak,
-    KeycloakAuthorization,
     AuthenticationService,
     UserService,
     {
