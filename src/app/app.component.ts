@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
 
     // Configure the Keycloak
     Keycloak.config = {
-      url: this.ssoUrl,
+      url: this.ssoUrl + 'auth',
       realm: this.realm,
       clientId: 'openfact-public-client'
     };

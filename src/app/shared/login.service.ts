@@ -47,7 +47,7 @@ export class LoginService {
   }
 
   public redirectToAuth() {
-    Keycloak.login({});
+    this.authService.logIn({});
   }
 
   public redirectAfterLogin() {
