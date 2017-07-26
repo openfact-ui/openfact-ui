@@ -1,6 +1,8 @@
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import { LoginService } from '../shared/login.service';
 import { Broadcaster } from 'ngo-base';
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 
 import { AuthenticationService } from 'ngo-login-client';
 
@@ -9,10 +11,12 @@ import { AuthenticationService } from 'ngo-login-client';
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, OnDestroy {
 
   @HostBinding('class')
   public classes = 'app-component flex-container in-column-direction flex-grow-1';
+
+  private subscription: Subscription;
 
   constructor(
     private broadcaster: Broadcaster,
@@ -23,6 +27,22 @@ export class LandingPageComponent implements OnInit {
   public ngOnInit() {
     if (this.authService.isLoggedIn()) {
       this.loginService.redirectAfterLogin();
+    } else {
+      this.subscription = Observable.merge(
+        this.broadcaster.on('loggedin').map((val) => 'loggedIn'),
+        this.broadcaster.on('logout').map((val) => 'loggedOut'),
+        this.broadcaster.on('authenticationError').map((val) => 'authenticationError')
+      ).subscribe(() => {
+        if (this.authService.isLoggedIn()) {
+          this.loginService.redirectAfterLogin();
+        }
+      });
+    }
+  }
+
+  public ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 

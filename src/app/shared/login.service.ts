@@ -46,8 +46,8 @@ export class LoginService {
     });
   }
 
-  public redirectToAuth() {
-    this.authService.logIn({});
+  public redirectToAuth(options?: any) {
+    this.authService.logIn(options);
   }
 
   public redirectAfterLogin() {

@@ -17,6 +17,7 @@ export class GettingStartedService implements OnDestroy {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private loggedInUser: User;
+  private userUrl: string;
   private usersUrl: string;
 
   constructor(
@@ -28,6 +29,7 @@ export class GettingStartedService implements OnDestroy {
     if (this.auth.getToken() != null) {
       this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
     }
+    this.userUrl = apiUrl + 'user';
     this.usersUrl = apiUrl + 'users';
   }
 
@@ -64,7 +66,7 @@ export class GettingStartedService implements OnDestroy {
     return this.http
       .get(url, { headers: this.headers })
       .map((response) => {
-        return response.json().data as ExtUser;
+        return response.json() as ExtUser;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -85,9 +87,26 @@ export class GettingStartedService implements OnDestroy {
       }
     });
     return this.http
-      .patch(this.usersUrl, payload, { headers: this.headers })
+      .put(this.usersUrl, payload, { headers: this.headers })
       .map((response) => {
         return response.json().data as ExtUser;
+      })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  /**
+   * Update user profile
+   *
+   * @param profile The extended profile used to apply context information
+   * @returns {Observable<User>}
+   */
+  public updateCurrentUser(profile: ExtProfile): Observable<ExtUser> {
+    return this.http
+      .put(this.userUrl, profile, { headers: this.headers })
+      .map((response) => {
+        return response.json() as ExtUser;
       })
       .catch((error) => {
         return this.handleError(error);

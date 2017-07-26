@@ -1,9 +1,14 @@
+import { ExtProfile } from './services/ext-profile';
+import { LoginService } from './../shared/login.service';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Keycloak } from '@ebondu/angular2-keycloak';
 import { ExtUser } from './services/ext-user';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Logger } from 'ngo-base';
+import { Logger, Broadcaster } from 'ngo-base';
 import { AuthenticationService, UserService, User } from 'ngo-login-client';
 
 import { GettingStartedService } from './services/getting-started.service';
@@ -19,73 +24,41 @@ import { EmptyStateConfig, ActionConfig } from 'patternfly-ng';
   styleUrls: ['./getting-started.component.scss'],
   providers: [GettingStartedService, ProviderService]
 })
-export class GettingStartedComponent implements OnDestroy, OnInit {
+export class GettingStartedComponent implements OnInit, OnDestroy {
 
-  public authGoogle: boolean = false;
-  public authMicrosoft: boolean = false;
-  public googleLinked: boolean = false;
   public loggedInUser: User;
-  public microsoftLinked: boolean = false;
   public registrationCompleted: boolean = true;
   public showGettingStarted: boolean = false;
   public subscriptions: Subscription[] = [];
   public username: string;
-  public usernameInvalid: boolean = false;
 
-  public emptyStateConfig: EmptyStateConfig;
-  public actionConfig: ActionConfig;
+  public actionConfig = {
+    primaryActions: [],
+    moreActions: []
+  } as ActionConfig;
+
+  public emptyStateConfig = {
+    actions: this.actionConfig,
+    iconStyleClass: 'pficon-storage-domain',
+    info: '' +
+    'Welcome to Openfact Sync! To get started you will need to connect your' +
+    ' Google Gmail and/or Microsoft Outlook accounts.',
+    helpLink: {
+      text: 'Do you agree to collaborate with your own information?'
+    },
+    title: 'Getting started in Openfact Sync'
+  } as EmptyStateConfig;
 
   constructor(
-    private auth: AuthenticationService,
-    private gettingStartedService: GettingStartedService,
-    private logger: Logger,
-    private providerService: ProviderService,
-    private notifications: NotificationService,
     private router: Router,
-    private userService: UserService) {
-    // Still need to retrieve Google token for checkbox,
-    // in case the Microsoft token cannot be obtained below.
-    this.subscriptions.push(auth.openShiftToken.subscribe((token) => {
-      this.openShiftLinked = (token !== undefined && token.length !== 0);
-    }));
+    private userService: UserService,
+    private authService: AuthenticationService,
+    private gettingStartedService: GettingStartedService,
+    private loginService: LoginService,
+    private notifications: NotificationService) {
   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
-
-  public ngOnInit(): void {
-    // Empy State Config
-    this.actionConfig = {
-      primaryActions: [{
-        id: 'action1',
-        title: 'Skip',
-        tooltip: 'Link my accounts later'
-      }],
-      moreActions: [{
-        id: 'action2',
-        title: 'Google Gmail',
-        tooltip: 'Link my Google Gmail Account'
-      }, {
-        id: 'action3',
-        title: 'Microsoft Outlook',
-        tooltip: 'Link my Microsoft Gmail Account'
-      }]
-    } as ActionConfig;
-
-    this.emptyStateConfig = {
-      actions: this.actionConfig,
-      iconStyleClass: 'pficon-storage-domain',
-      info: 'Welcome to Openfact Sync! To get started you will need to connect your' +
-      ' Google Gmail and/or Microsoft Outlook accounts.',
-      helpLink: {
-        text: 'Link an Account.'
-      },
-      title: 'Getting started in Openfact Sync'
-    } as EmptyStateConfig;
-
+  public ngOnInit() {
     // Route to home if registration is complete.
     this.userService.loggedInUser
       .map((user) => {
@@ -93,18 +66,26 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
         this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
 
-        // Todo: Remove after summit?
+        this.actionConfig.primaryActions = [];
+        this.actionConfig.moreActions = [];
+
+        // Empy State Config
         if (!this.registrationCompleted) {
-          this.saveUsername();
+          if (!this.authService.isOfflineToken()) {
+            this.actionConfig.primaryActions = [{
+              id: 'acceptConditions',
+              title: 'Yes',
+              tooltip: 'You Accept to share your information with us.'
+            }, {
+              id: 'rejectConditions',
+              title: 'No',
+              tooltip: 'You Reject to share your information with us.',
+              styleClass: 'btn-default'
+            }];
+          } else {
+            this.saveOfflineTokenAndRegistrationComplete();
+          }
         }
-      })
-      .switchMap(() => this.auth.gitHubToken)
-      .map((token) => {
-        this.gitHubLinked = (token !== undefined && token.length !== 0);
-      })
-      .switchMap(() => this.auth.openShiftToken)
-      .map((token) => {
-        this.openShiftLinked = (token !== undefined && token.length !== 0);
       })
       .do(() => {
         this.routeToHomeIfCompleted();
@@ -119,50 +100,21 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     }, 1000);
   }
 
+  public ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
   public handleAction($event: Action): void {
-    console.log($event);
-  }
-
-  /**
-   * Helper to test if connect accounts button should be disabled
-   *
-   * @returns {boolean}
-   */
-  get isConnectAccountsDisabled(): boolean {
-    return !(this.authGoogle && !this.googleLinked || this.authMicrosoft && !this.microsoftLinked)
-      || (this.googleLinked && this.microsoftLinked);
-  }
-
-  /**
-   * Helper to test if the successful state panel should be shown
-   *
-   * @returns {boolean} If the user has completed the getting started page
-   */
-  get isSuccess(): boolean {
-    return (this.registrationCompleted && this.googleLinked && this.microsoftLinked);
-  }
-
-  /**
-   * Helper to test if username button should be disabled
-   *
-   * @returns {boolean}
-   */
-  get isUsernameDisabled(): boolean {
-    return this.registrationCompleted;
-  }
-
-  // Actions
-
-  /**
-   * Link GitHub and/or OpenShift accounts
-   */
-  public connectAccounts(): void {
-    if (this.authGoogle && !this.googleLinked && this.authMicrosoft && !this.microsoftLinked) {
-      this.providerService.linkAll(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authGoogle && !this.googleLinked) {
-      this.providerService.linkGitHub(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authMicrosoft && !this.microsoftLinked) {
-      this.providerService.linkOpenShift(window.location.origin + '/_gettingstarted?wait=true');
+    if ($event.id === 'acceptConditions') {
+      this.loginService.redirectToAuth({
+        scope: 'offline_access'
+      });
+    } else if ($event.id === 'rejectConditions') {
+      this.saveRegistrationComplete();
+    } else {
+      console.log('Invalid Action');
     }
   }
 
@@ -173,41 +125,51 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     this.router.navigate(['/', '_home']);
   }
 
-  /**
-   * Save username
-   */
-  public saveUsername(): void {
-    this.usernameInvalid = !this.isUsernameValid();
-    if (this.usernameInvalid) {
-      return;
-    }
-    let profile = this.gettingStartedService.createTransientProfile();
-    profile.username = this.username;
-    profile.registrationCompleted = true;
+  public saveRegistrationComplete() {
+    this.updateUser({
+      registrationCompleted: true
+    } as ExtProfile);
+  }
 
-    this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
-      this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
-      this.loggedInUser = user;
-      // Since we don't allow the user to change their username then we shouldn't tell them they did
-      // if (this.username === user.attributes.username) {
-      //   this.notifications.message({
-      //     message: `Username updated!`,
-      //     type: NotificationType.SUCCESS
-      //   } as Notification);
-      // }
-    }, (error) => {
-      this.username = this.loggedInUser.attributes.username;
-      if (error.status === 403) {
-        this.handleError('Username cannot be updated more than once', NotificationType.WARNING);
-      } else if (error.status === 409) {
-        this.handleError('Username already exists', NotificationType.DANGER);
-      } else {
-        this.handleError('Failed to update username', NotificationType.DANGER);
+  public saveOfflineTokenAndRegistrationComplete() {
+    this.updateUser({
+      registrationCompleted: true,
+      contextInformation: {
+        offlineToken: this.authService.getRefreshToken()
       }
-    }));
+    } as ExtProfile);
   }
 
   // Private
+
+  private updateUser(profile: ExtProfile) {
+    this.subscriptions.push(this.gettingStartedService.updateCurrentUser(profile).subscribe(
+      (user) => {
+        this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
+        this.loggedInUser = user;
+
+        // Since we allow the user to change their info 
+        // then we should tell them they did
+        this.notifications.message(
+          NotificationType.SUCCESS,
+          'Success',
+          'User updated!',
+          false,
+          null,
+          null);
+
+        this.routeToHomeIfCompleted();
+      },
+      (error) => {
+        if (error.status === 403) {
+          this.handleError('User cannot be updated more than once', NotificationType.WARNING);
+        } else if (error.status === 409) {
+          this.handleError('User have already been configure', NotificationType.DANGER);
+        } else {
+          this.handleError('Failed to update username', NotificationType.DANGER);
+        }
+      }));
+  }
 
   /**
    * Helper to retrieve request parameters
@@ -216,8 +178,8 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * @returns {any} The request parameter value or null
    */
   private getRequestParam(name: string): string {
-    let param = (new RegExp('[?&]' + encodeURIComponent(name)
-      + '=([^&]*)')).exec(window.location.search);
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)'))
+      .exec(window.location.search);
     if (param != null) {
       return decodeURIComponent(param[1]);
     }
@@ -240,22 +202,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    */
   private isUserGettingStarted(): boolean {
     let wait = this.getRequestParam('wait');
-    return !(wait === null && this.registrationCompleted === true
-      && this.googleLinked === true && this.microsoftLinked === true);
-  }
-
-  /**
-   * Helper to test if username is valid
-   *
-   * @returns {boolean}
-   */
-  private isUsernameValid(): boolean {
-    // Dot and @ characters are valid
-    return (this.username !== undefined
-      && this.username.trim().length !== 0
-      && this.username.trim().length < 63
-      && this.username.trim().indexOf('-') !== 0
-      && this.username.trim().indexOf('_') !== 0);
+    return !(wait === null && this.registrationCompleted === true);
   }
 
   /**
@@ -269,6 +216,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   }
 
   private handleError(error: string, type: string) {
-    this.notifications.message(type, 'Error', error, false, null, []);
+    this.notifications.message(type, 'Error', error, false, null, null);
   }
+
 }

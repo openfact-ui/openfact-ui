@@ -68,6 +68,9 @@ import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.se
 
 import { AuthGuard } from './shared/auth-guard.service';
 
+// Others
+import { GettingStartedService } from './getting-started/services/getting-started.service';
+
 // Third Party libs
 import { NotificationModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
@@ -147,6 +150,9 @@ type StoreType = {
     fabric8UIConfigProvider,
     ApiLocatorService,
     syncApiUrlProvider,
+
+    // Others
+    GettingStartedService,
 
     authApiUrlProvider,
     ssoApiUrlProvider,
