@@ -1,3 +1,4 @@
+import { SyncStatusComponent } from './sync-status-list/sync-status.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -51,6 +52,9 @@ import { ErrorService } from './error/error.service';
 // import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
 // import { ProfileService } from './profile/profile.service';
 
+// About Modal
+import { AboutModalModule } from './about-modal/about-modal.module';
+
 // Shared Services
 import { AboutService } from './shared/about.service';
 import { NotificationsService } from './shared/notifications.service';
@@ -75,6 +79,8 @@ import { GettingStartedService } from './getting-started/services/getting-starte
 import { NotificationModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { Ng2KeycloakModule, Keycloak } from '@ebondu/angular2-keycloak';
+import { ModalModule } from 'ngx-modal';
+import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import '../styles/styles.scss';
 
@@ -99,6 +105,7 @@ type StoreType = {
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    SyncStatusComponent,
   ],
   /**
    * Import Angular's modules.
@@ -108,6 +115,8 @@ type StoreType = {
     FormsModule,
     HttpModule,
 
+    AboutModalModule,
+
     // Third Party libs
     Ng2KeycloakModule.forRoot(),
     NotificationModule,
@@ -115,6 +124,8 @@ type StoreType = {
       prefix: 'fabric8',
       storageType: 'localStorage'
     }),
+    ModalModule,
+    BsDropdownModule.forRoot(),
 
     // AppRoutingModule must appear last
     AppRoutingModule,
@@ -153,6 +164,9 @@ type StoreType = {
 
     // Others
     GettingStartedService,
+
+    // Third party
+    BsDropdownConfig,
 
     authApiUrlProvider,
     ssoApiUrlProvider,

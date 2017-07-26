@@ -91,6 +91,7 @@
     "ngo-login-client": "0.0.34",
     "ngo-openfact-sync": "0.0.5",
     "ngx-bootstrap": "^1.7.1",
+    "ngx-modal": "0.0.29",
     "patternfly": "^3.23.1",
     "patternfly-ng": "0.0.15",
     "patternfly-sass": "^3.23.0",

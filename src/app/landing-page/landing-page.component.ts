@@ -7,7 +7,7 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'ngo-login-client';
 
 @Component({
-  selector: 'alm-landing-page',
+  selector: 'ofs-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })

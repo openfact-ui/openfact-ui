@@ -25,6 +25,32 @@ export const routes: Routes = [
       title: 'Getting Started'
     }
   },
+
+  // Error Pages
+  {
+    path: '_error',
+    loadChildren: './error/error.module#ErrorModule',
+    data: {
+      title: 'Error'
+    }
+  },
+
+  // Profile
+  {
+    path: ':entity',
+    resolve: {
+      // context: ContextResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
+  {
+    path: '**',
+    redirectTo: '/_error'
+  }
 ];
 
 @NgModule({
