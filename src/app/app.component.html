@@ -2,16 +2,19 @@
   <ofs-app-header></ofs-app-header>
 </header>
 
-<pfng-toast-notification-list
-  [notifications]="notifications.current"
-  (onActionSelect)="handleAction($event)"
+<pfng-toast-notification-list 
+  [notifications]="notifications.current" 
+  (onActionSelect)="handleAction($event)" 
   (onCloseSelect)="handleClose($event)"
-  (onViewingChange)="handleViewingChange($event)"
+  (onViewingChange)="handleViewingChange($event)" 
   [showClose]="showClose">
 </pfng-toast-notification-list>
+
 <main class="">
   <div class="">
     <router-outlet name="action"></router-outlet>
     <router-outlet></router-outlet>
   </div>
 </main>
+
+<ofs-app-footer></ofs-app-footer>

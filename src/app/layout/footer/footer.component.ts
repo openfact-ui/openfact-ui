@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { AboutService } from '../shared/about.service';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AboutService } from '../../shared/about.service';
 
 @Component({
   selector: 'ofs-app-footer',
@@ -7,10 +8,24 @@ import { AboutService } from '../shared/about.service';
   styleUrls: ['./footer.component.scss'],
 })
 
-export class FooterComponent {
+export class FooterComponent implements OnInit {
 
-  constructor(public about: AboutService) {
+  public showFooter = false;
 
+  constructor(
+    public router: Router,
+    public about: AboutService) {
+
+  }
+
+  public ngOnInit() {
+    setTimeout(() => {
+      this.showFooter = true;
+    }, 1000);
+  }
+
+  get isLandingPagePage(): boolean {
+    return this.router.url === '/';
   }
 
 }

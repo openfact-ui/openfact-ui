@@ -43,17 +43,17 @@ import {
 } from './openfact-runtime-console';
 
 // Header & Footer
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 // Component Services
 import { ConfigStore } from './base/config.store';
-import { ErrorService } from './error/error.service';
+import { ErrorService } from './layout/error/error.service';
 // import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
 // import { ProfileService } from './profile/profile.service';
 
 // About Modal
-import { AboutModalModule } from './about-modal/about-modal.module';
+import { AboutModalModule } from './layout/about-modal/about-modal.module';
 
 // Shared Services
 import { AboutService } from './shared/about.service';

@@ -1,5 +1,4 @@
 import { Keycloak } from '@ebondu/angular2-keycloak';
-import { LoginService } from './../shared/login.service';
 import { Broadcaster } from 'ngo-base';
 import { User, UserService } from 'ngo-login-client';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -7,9 +6,10 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
 
+import { LoginService } from '../../shared/login.service';
 import { ContextService } from '../shared/context.service';
 import { MenuedContextType } from './menued-context-type';
-import { Navigation } from '../models/navigation';
+import { Navigation } from '../../models/navigation';
 import { DummyService } from '../shared/dummy.service';
 
 interface MenuHiddenCallback {

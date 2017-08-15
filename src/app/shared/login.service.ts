@@ -1,4 +1,4 @@
-import { ErrorService } from '../error/error.service';
+import { ErrorService } from '../layout/error/error.service';
 import { SYNC_API_URL } from 'ngo-openfact-sync';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'angular-2-local-storage';
