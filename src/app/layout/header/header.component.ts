@@ -29,6 +29,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isIn = false;   // store state
 
+  public showHeader = false;
+
   public loggedInUser: User;
   private _loggedInUserSubscription: Subscription;
 
@@ -61,6 +63,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     console.log('init');
+    setTimeout(() => {
+      this.showHeader = true;
+    }, 1000);
   }
 
   public ngOnDestroy() {

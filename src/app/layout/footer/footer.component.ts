@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
   }
 
   get isLandingPagePage(): boolean {
-    return this.router.url === '/';
+    return this.router.url.indexOf('/_') === -1;
   }
 
 }

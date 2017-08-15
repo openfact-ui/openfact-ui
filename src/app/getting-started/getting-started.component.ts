@@ -71,6 +71,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
 
         // Empy State Config
         if (!this.registrationCompleted) {
+
           if (!this.authService.isOfflineToken()) {
             this.actionConfig.primaryActions = [{
               id: 'acceptConditions',

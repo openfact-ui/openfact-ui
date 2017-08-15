@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="showLandingPage">
 
   <div id="tabs-home" class="row slider" style="background:url(http://legalprom.cl/wp-content/uploads/2014/05/main-bg.jpg) no-repeat center;">
     <!-- tab content -->
@@ -18,15 +18,13 @@
         </div>
         <div class="button-row">
           <h4><b>Already a part of Sync?</b></h4>
-          <button type="button" class="btn btn-outline" id="login">LOG IN</button>
+          <button type="button" class="btn btn-outline" (click)="login()" id="login">LOG IN</button>
         </div>
       </div>
 
     </div>
 
   </div>
-
-
 
   <div class="row press-quotes">
     <div class="col-md-4">

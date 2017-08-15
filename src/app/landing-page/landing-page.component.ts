@@ -16,6 +16,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   @HostBinding('class')
   public classes = 'app-component flex-container in-column-direction flex-grow-1';
 
+  public showLandingPage = false;
   private subscription: Subscription;
 
   constructor(
@@ -38,6 +39,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         }
       });
     }
+
+    setTimeout(() => {
+      this.showLandingPage = true;
+    }, 1000);
   }
 
   public ngOnDestroy() {

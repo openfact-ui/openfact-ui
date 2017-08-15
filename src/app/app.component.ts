@@ -49,7 +49,6 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('Welcome to Openfact Sync!');
     console.log('This is', this.about.buildVersion,
       '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
-
     // Configure the Keycloak
     Keycloak.config = {
       url: this.ssoUrl + 'auth',
@@ -57,12 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
       clientId: 'openfact-public-client'
     };
     this.keycloak.init({
-      checkLoginIframe: true,
+      checkLoginIframe: false,
       onLoad: 'check-sso'
-    });
-
-    this.activatedRoute.params.subscribe(() => {
-      this.loginService.login();
     });
   }
 
