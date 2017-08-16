@@ -81,6 +81,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { Ng2KeycloakModule, Keycloak } from '@ebondu/angular2-keycloak';
 import { ModalModule } from 'ngx-modal';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MomentModule } from 'angular2-moment';
 
 import '../styles/styles.scss';
 
@@ -126,6 +127,7 @@ type StoreType = {
     }),
     ModalModule,
     BsDropdownModule.forRoot(),
+    MomentModule,
 
     // AppRoutingModule must appear last
     AppRoutingModule,
