@@ -51,6 +51,7 @@ import { ConfigStore } from './base/config.store';
 import { ErrorService } from './layout/error/error.service';
 // import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
 // import { ProfileService } from './profile/profile.service';
+import { SpaceWizardModule } from './space/wizard/space-wizard.module';
 
 // About Modal
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
@@ -76,11 +77,12 @@ import { AuthGuard } from './shared/auth-guard.service';
 import { GettingStartedService } from './getting-started/services/getting-started.service';
 
 // Third Party libs
-import { NotificationModule } from 'patternfly-ng';
+import { PatternFlyNgModule } from 'patternfly-ng';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { Ng2KeycloakModule, Keycloak } from '@ebondu/angular2-keycloak';
 import { ModalModule } from 'ngx-modal';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MomentModule } from 'angular2-moment';
 
 import '../styles/styles.scss';
@@ -117,16 +119,18 @@ type StoreType = {
     HttpModule,
 
     AboutModalModule,
+    SpaceWizardModule,
 
     // Third Party libs
     Ng2KeycloakModule.forRoot(),
-    NotificationModule,
+    PatternFlyNgModule,
     LocalStorageModule.withConfig({
       prefix: 'fabric8',
       storageType: 'localStorage'
     }),
     ModalModule,
     BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
     MomentModule,
 
     // AppRoutingModule must appear last
@@ -169,6 +173,7 @@ type StoreType = {
 
     // Third party
     BsDropdownConfig,
+    TooltipConfig,
 
     authApiUrlProvider,
     ssoApiUrlProvider,

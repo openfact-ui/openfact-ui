@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+oc project openfact-dev
+
 export OPENFACT_REALM="openfact"
 
 export OPENFACT_SSO_API_URL="http://`oc get route keycloak --template={{.spec.host}}`/"
