@@ -9,6 +9,10 @@ import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
 import { FormExtensionsModule } from './../../util/form-extensions/form-extensions.module';
 
 import { SpaceWizardComponent } from './space-wizard.component';
+import {
+    SpaceTermsConditionsComponent
+} from './components/space-terms-conditions/space-terms-conditions.component';
+import { SpaceFormComponent } from './components/space-form/space-form.component';
 
 @NgModule({
     imports: [
@@ -22,6 +26,8 @@ import { SpaceWizardComponent } from './space-wizard.component';
     ],
     declarations: [
         SpaceWizardComponent,
+        SpaceTermsConditionsComponent,
+        SpaceFormComponent,
     ],
     exports: [
         SpaceWizardComponent,

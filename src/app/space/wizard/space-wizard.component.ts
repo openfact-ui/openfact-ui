@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { ISpaceForm } from './models/spaceForm';
 
 import {
     Component,
@@ -34,95 +34,82 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
     templateUrl: './space-wizard.component.html',
     styleUrls: ['./space-wizard.component.scss'],
 })
-export class SpaceWizardComponent implements OnInit, OnDestroy {
+export class SpaceWizardComponent implements OnInit {
 
     @ViewChild('wizardTemplate')
     public wizardTemplate: TemplateRef<any>;
 
-    public form: FormGroup;
+    public acceptTermsConditions = false;
+    public spaceForm: ISpaceForm = null;
 
-    // Wizard Step 1
-    public step1Config: WizardStepConfig;
-    public step1aConfig: WizardStepConfig;
-
-    // Wizard Step 2
-    public step2Config: WizardStepConfig;
-    public step2aConfig: WizardStepConfig;
-    public step2bConfig: WizardStepConfig;
+    public claimComplete: boolean = true;
 
     // Wizard
     public wizardConfig: WizardConfig;
 
+    // Wizard Step 1
+    public stepSpaceConfig: WizardStepConfig;
+    public stepSpaceTermsConditionsConfig: WizardStepConfig;
+    public stepSpaceInfoConfig: WizardStepConfig;
+
+    // Wizard Step 2
+    public stepClaimConfig: WizardStepConfig;
+    public stepClaimReviewConfig: WizardStepConfig;
+    public stepClaimResultConfig: WizardStepConfig;
+
     // Modal
     private modalRef: BsModalRef;
 
-    private subscriptions: Subscription[] = [];
-
     constructor(
         private modalService: BsModalService,
-        private formBuilder: FormBuilder) {
-        this.form = this.formBuilder.group({
-            space: [null, Validators.compose([Validators.required, Validators.maxLength(20)])],
-            alias: [null, Validators.compose([Validators.maxLength(250)])],
-        });
-    }
+        private formBuilder: FormBuilder) { }
 
     public ngOnInit() {
-        // Step 1
-        this.step1Config = {
-            id: 'step1',
+        // Wizard
+        this.wizardConfig = {
+            title: 'Claim Space'
+        } as WizardConfig;
+
+        // Step Space
+        this.stepSpaceConfig = {
+            id: 'stepSpace',
             priority: 0,
-            title: 'Space Info'
+            title: 'Space'
         } as WizardStepConfig;
 
-        this.step1aConfig = {
-            id: 'step1a',
+        this.stepSpaceTermsConditionsConfig = {
+            id: 'stepSpaceTermsConditions',
             expandReviewDetails: true,
             nextEnabled: false,
+            allowNavAway: false,
+            allowClickNav: false,
             priority: 0,
-            title: 'Details'
+            title: 'Terms & Conditions'
+        } as WizardStepConfig;
+        this.stepSpaceInfoConfig = {
+            id: 'stepSpaceInfo',
+            expandReviewDetails: true,
+            allowClickNav: false,
+            priority: 1,
+            title: 'Space Data'
         } as WizardStepConfig;
 
-        // Step 2
-        this.step2Config = {
-            id: 'step2',
-            priority: 1,
+        // Step 3
+        this.stepClaimConfig = {
+            id: 'stepClaim',
+            priority: 2,
             title: 'Review'
         } as WizardStepConfig;
-
-        this.step2aConfig = {
-            id: 'step2a',
+        this.stepClaimReviewConfig = {
+            id: 'stepClaimReview',
             priority: 0,
             title: 'Summary'
         } as WizardStepConfig;
-
-        this.step2bConfig = {
-            id: 'step2b',
+        this.stepClaimResultConfig = {
+            id: 'stepClaimResult',
             priority: 1,
-            title: 'Deploy'
+            title: 'Claim'
         } as WizardStepConfig;
-
-        // Wizard
-        this.wizardConfig = {
-            loadingTitle: 'Loading',
-            loadingSecondaryInfo: 'Please wait.',
-            title: 'Claim Space',
-        } as WizardConfig;
-
-        this.setNavAway(false);
-
-        // Watch changes
-        this.subscriptions.push(this.form.statusChanges.subscribe((value) => {
-            this.step1aConfig.nextEnabled = (value === 'VALID');
-            this.setNavAway(this.step1aConfig.nextEnabled);
-            console.log(value);
-        }));
-    }
-
-    public ngOnDestroy() {
-        this.subscriptions.forEach((sub) => {
-            sub.unsubscribe();
-        });
     }
 
     /**
@@ -130,14 +117,6 @@ export class SpaceWizardComponent implements OnInit, OnDestroy {
      * @param options
      */
     public open(options?: any) {
-        this.wizardConfig.done = false;
-
-        this.form.patchValue({
-            space: null,
-            alias: null
-        });
-        this.form.markAsPristine();
-
         const defaultOptions = { class: 'modal-lg' };
         this.modalRef = this.modalService.show(this.wizardTemplate, options || defaultOptions);
     }
@@ -149,42 +128,57 @@ export class SpaceWizardComponent implements OnInit, OnDestroy {
         this.modalRef.hide();
     }
 
-    public nextClicked($event: WizardEvent) {
-        console.log($event);
-        if ($event.step.config.id === 'step2b') {
+    // Methods
+    public nextClicked($event: WizardEvent): void {
+        if ($event.step.config.id === 'stepClaimResult') {
             this.close();
         }
     }
 
     public stepChanged($event: WizardEvent) {
-        if ($event.step.config.id === 'step1a') {
-            this.setNavAway(false);
-        } else if ($event.step.config.id === 'step2a') {
-            this.wizardConfig.nextTitle = 'Deploy';
-        } else if ($event.step.config.id === 'step2b') {
+        if ($event.step.config.id === 'stepSpaceTermsConditions') {
+            this.stepSpaceTermsConditionsRefresh();
+        } else if ($event.step.config.id === 'stepSpaceInfo') {
+            this.stepSpaceInfoRefresh();
+        } else if ($event.step.config.id === 'stepClaimReview') {
+            this.wizardConfig.nextTitle = 'Claim';
+        } else if ($event.step.config.id === 'stepClaimResult') {
             this.wizardConfig.nextTitle = 'Close';
         } else {
             this.wizardConfig.nextTitle = 'Next >';
         }
     }
 
-    public startDeploy() {
+    public startClaim(): void {
+        this.claimComplete = false;
         this.wizardConfig.done = true;
 
         // Simulate a delay
         setTimeout(() => {
-            console.log('complete');
+            this.claimComplete = true;
         }, 2500);
     }
 
-    private setNavAway(allow: boolean) {
-        this.step1aConfig.allowNavAway = allow;
-
-        this.step1Config.allowClickNav = allow;
-        this.step1aConfig.allowClickNav = allow;
-
-        this.step2Config.allowClickNav = allow;
-        this.step2aConfig.allowClickNav = allow;
-        this.step2bConfig.allowClickNav = allow;
+    public changeAcceptTermsConditions($event: boolean) {
+        this.acceptTermsConditions = $event;
+        this.stepSpaceTermsConditionsRefresh();
     }
+
+    public changeSpaceForm($event: ISpaceForm) {
+        this.spaceForm = $event;
+        this.stepSpaceInfoRefresh();
+    }
+
+    private stepSpaceTermsConditionsRefresh() {
+        this.stepSpaceTermsConditionsConfig.nextEnabled
+            = this.stepSpaceTermsConditionsConfig.allowNavAway
+            = this.acceptTermsConditions;
+    }
+
+    private stepSpaceInfoRefresh() {
+        this.stepSpaceInfoConfig.nextEnabled
+            = this.stepSpaceInfoConfig.allowNavAway
+            = !(this.spaceForm == null);
+    }
+
 }
