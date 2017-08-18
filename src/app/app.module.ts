@@ -84,6 +84,7 @@ import { ModalModule } from 'ngx-modal';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MomentModule } from 'angular2-moment';
+import { RestangularModule } from 'ngx-restangular';
 
 import '../styles/styles.scss';
 
@@ -132,6 +133,7 @@ type StoreType = {
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     MomentModule,
+    RestangularModule.forRoot(),
 
     // AppRoutingModule must appear last
     AppRoutingModule,
