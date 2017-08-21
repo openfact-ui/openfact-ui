@@ -1,4 +1,4 @@
-import { OnLogin } from './../../openfact-runtime-console';
+import { OnLogin } from './../../runtime-console/shared/onlogin.service';
 import { LoginService } from './../login.service';
 import { Injectable } from '@angular/core';
 

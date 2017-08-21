@@ -39,8 +39,8 @@ import {
 
 import {
   // Base functionality for the runtime console
-  OnLogin,
-} from './openfact-runtime-console';
+  OnLogin
+} from './runtime-console/shared/onlogin.service';
 
 // Header & Footer
 import { HeaderComponent } from './layout/header/header.component';
