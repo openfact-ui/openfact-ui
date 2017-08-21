@@ -1,0 +1,8 @@
+<div class="container-fluid container-cards-pf">
+  <div class='users list'>
+    <openfact-users-list-toolbar></openfact-users-list-toolbar>
+    <div class="list-group list-view-pf list-view-pf-view">
+      <openfact-users-list [users]="users | async" [loading]="loading | async"></openfact-users-list>
+    </div>
+  </div>
+</div>

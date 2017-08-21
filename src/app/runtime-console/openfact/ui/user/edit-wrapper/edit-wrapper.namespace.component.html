@@ -1,0 +1,4 @@
+<div class='users detail' *ngIf='user'>
+  <openfact-user-edit-toolbar [user]="user | async" [yamlEditor]="yamlEditor"></openfact-user-edit-toolbar>
+  <openfact-user-edit [user]="user | async" [yamlEditor]="yamlEditor"></openfact-user-edit>
+</div>
