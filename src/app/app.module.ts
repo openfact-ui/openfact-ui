@@ -38,6 +38,13 @@ import {
 } from 'ngo-login-client';
 
 import {
+  // Contexts,
+  SpaceService,
+  Spaces,
+  // CollaboratorService
+} from 'ngo-openfact-sync';
+
+import {
   // Base functionality for the runtime console
   OnLogin
 } from './runtime-console/shared/onlogin.service';
@@ -72,6 +79,8 @@ import { realmProvider } from './shared/realm-token.provider';
 import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.service';
 
 import { AuthGuard } from './shared/auth-guard.service';
+
+import { SpacesService } from './shared/spaces.service';
 
 // Others
 import { GettingStartedService } from './getting-started/services/getting-started.service';
@@ -155,6 +164,13 @@ type StoreType = {
     {
       provide: OnLogin,
       useClass: Fabric8UIOnLogin
+    },
+
+    SpacesService,
+    SpaceService,
+    {
+      provide: Spaces,
+      useExisting: SpacesService
     },
 
     // Component Services
