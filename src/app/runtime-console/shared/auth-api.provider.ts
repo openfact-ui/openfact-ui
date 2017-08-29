@@ -1,4 +1,4 @@
-import { AUTH_API_URL } from 'ngx-login-client';
+import { AUTH_API_URL } from 'ngo-login-client';
 
 function authApiUrlFactory() {
     return process.env.API_URL;

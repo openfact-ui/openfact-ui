@@ -2,7 +2,7 @@ import { NgModule, InjectionToken } from '@angular/core';
 import { Restangular } from 'ngx-restangular';
 import { OAuthService } from 'angular2-oauth2/oauth-service';
 import { OnLogin } from '../../shared/onlogin.service';
-import { AuthenticationService } from 'ngx-login-client';
+import { AuthenticationService } from 'ngo-login-client';
 import { LoginService } from '../../shared/login.service';
 import { Route } from '../model/route.model';
 import { OpenfactResource } from '../model/openfactresource.model';

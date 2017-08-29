@@ -1,6 +1,7 @@
 import { Keycloak } from '@ebondu/angular2-keycloak';
 import { Broadcaster } from 'ngo-base';
 import { User, UserService } from 'ngo-login-client';
+import { ContextType, Context, Contexts } from 'ngo-openfact-sync';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
@@ -29,17 +30,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isIn = false;   // store state
 
-  public showHeader = false;
-
+  public recent: Context[];
   public loggedInUser: User;
+  private _context: Context;
+  private _defaultContext: Context;
   private _loggedInUserSubscription: Subscription;
+  private plannerFollowQueryParams: Object = {};
+  private eventListeners: any[] = [];
 
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     private userService: UserService,
     private broadcaster: Broadcaster,
-    public loginService: LoginService) {
+    public loginService: LoginService,
+    private contexts: Contexts) {
 
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
@@ -47,6 +52,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.updateMenus();
       }
     });
+    contexts.current.subscribe((val) => {
+      this._context = val;
+      this.updateMenus();
+    });
+    contexts.default.subscribe((val) => {
+      this._defaultContext = val;
+    })
+    contexts.recent.subscribe((val) => this.recent = val);
 
     // Currently logged in user
     this.userService.loggedInUser.subscribe(
@@ -62,14 +75,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    console.log('init');
-    setTimeout(() => {
-      this.showHeader = true;
-    }, 1000);
+    this.listenToEvents();
   }
 
   public ngOnDestroy() {
-    console.log('destroy');
+    this.eventListeners.forEach((e) => e.unsubscribe());
+  }
+
+  public listenToEvents() {
+    this.eventListeners.push(
+      this.route.queryParams.subscribe((params) => {
+        this.plannerFollowQueryParams = {};
+        if (Object.keys(params).indexOf('iteration') > -1) {
+          this.plannerFollowQueryParams['iteration'] = params['iteration'];
+        }
+      })
+    );
   }
 
   public toggleState() { // click handler
@@ -102,12 +123,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.imgLoaded = false;
   }
 
-  private updateMenus() {
-    console.log('updating menu');
+  get context(): Context {
+    if (this.router.url === '/_home') {
+      return this._defaultContext;
+    } else {
+      return this._context;
+    }
   }
 
   get isGettingStartedPage(): boolean {
     return (this.router.url.indexOf('_gettingstarted') !== -1);
+  }
+
+  private updateMenus() {
+    console.log('updating menu');
+  }
+
+  private checkContextUserEqualsLoggedInUser(): Observable<boolean> {
+    return Observable.combineLatest(
+      Observable.of(this.context).map((val) => val.user.id),
+      this.userService.loggedInUser.map((val) => val.id),
+      (a, b) => (a !== b)
+    );
   }
 
 }

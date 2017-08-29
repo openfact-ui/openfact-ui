@@ -33,14 +33,10 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public appState: AppState,
     private about: AboutService,
-    private activatedRoute: ActivatedRoute,
     public notifications: NotificationsService,
-    private broadcaster: Broadcaster,
-    private loginService: LoginService,
     @Inject(SSO_API_URL) private ssoUrl: string,
     @Inject(REALM) private realm: string,
-    private keycloak: Keycloak,
-    private http: Http) {
+    private keycloak: Keycloak) {
   }
 
   public ngOnInit() {

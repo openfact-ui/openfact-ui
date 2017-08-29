@@ -26,8 +26,8 @@ export class GettingStartedService implements OnDestroy {
     private logger: Logger,
     private userService: UserService,
     @Inject(SYNC_API_URL) apiUrl: string) {
-    if (this.auth.getToken() != null) {
-      this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
+    if (this.auth.getAccessToken() != null) {
+      this.headers.set('Authorization', 'Bearer ' + this.auth.getAccessToken());
     }
     this.userUrl = apiUrl + 'user';
     this.usersUrl = apiUrl + 'users';

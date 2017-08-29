@@ -71,12 +71,6 @@ export class LoginService {
     const redirect = this.apiUrl + 'logout?redirect=' + encodeURIComponent(window.location.origin);
   }
 
-  public login() {
-    if (this.authService.isLoggedIn()) {
-      this.authService.onLogIn();
-    }
-  }
-
   public set redirectUrl(value: string) {
     if (value) {
       this.localStorage.set(LoginService.REDIRECT_URL_KEY, value);

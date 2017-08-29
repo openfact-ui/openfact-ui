@@ -164,53 +164,6 @@ export class SpaceWizardComponent implements OnInit {
    * by invoking the spaceService
    */
     public createSpace() {
-        // this.log(`createSpace ...`);
-        let space = this.configurator.transientSpace;
-        console.log('Creating space', space);
-        space.attributes.name = space.name.replace(/ /g, '_');
-        this.userService.getUser()
-            .switchMap(user => {
-                space.relationships['owned-by'].data.id = user.id;
-                return this.spaceService.create(space);
-            })
-            .do(createdSpace => {
-                this.spacesService.addRecent.next(createdSpace);
-            })
-            .switchMap(createdSpace => {
-                return this.spaceNamespaceService
-                    .updateConfigMap(Observable.of(createdSpace))
-                    .map(() => createdSpace)
-                    // Ignore any errors coming out here, we've logged and notified them earlier
-                    .catch(err => Observable.of(createdSpace));
-            })
-            .subscribe(createdSpace => {
-                this.configurator.currentSpace = createdSpace;
-                const primaryAction: NotificationAction = {
-                    name: `Open Space`,
-                    title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
-                    id: 'openSpace'
-                };
-                this.notifications.message(<Notification>{
-                    message: `Your new space is created!`,
-                    type: NotificationType.SUCCESS,
-                    primaryAction: primaryAction
-                })
-                    .filter(action => action.id === primaryAction.id)
-                    .subscribe(action => {
-                        this.router.navigate([createdSpace.relationalData.creator.attributes.username,
-                        createdSpace.attributes.name]);
-                        this.workflow.cancel();
-                    });
-                this.workflow.gotoNextStep();
-            },
-            err => {
-                console.log('Error creating space', err);
-                this.notifications.message(<Notification>{
-                    message: `Failed to create "${space.name}"`,
-                    type: NotificationType.DANGER
-                });
-                this.workflow.cancel();
-            });
     }
 
     public changeAcceptTermsConditions($event: boolean) {

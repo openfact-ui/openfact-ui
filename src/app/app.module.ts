@@ -38,10 +38,10 @@ import {
 } from 'ngo-login-client';
 
 import {
-  // Contexts,
+  Contexts,
   SpaceService,
   Spaces,
-  // CollaboratorService
+  CollaboratorService
 } from 'ngo-openfact-sync';
 
 import {
@@ -52,6 +52,7 @@ import {
 // Header & Footer
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { MenusService } from './layout/header/menus.service';
 
 // Component Services
 import { ConfigStore } from './base/config.store';
@@ -59,9 +60,12 @@ import { ErrorService } from './layout/error/error.service';
 // import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
 // import { ProfileService } from './profile/profile.service';
 import { SpaceWizardModule } from './space/wizard/space-wizard.module';
+import { ProfileService } from './profile/profile.service';
 
 // About Modal
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
+
+import { EventService } from './shared/event.service';
 
 // Shared Services
 import { AboutService } from './shared/about.service';
@@ -81,6 +85,7 @@ import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.se
 import { AuthGuard } from './shared/auth-guard.service';
 
 import { SpacesService } from './shared/spaces.service';
+import { ContextService } from './shared/context.service';
 
 // Others
 import { GettingStartedService } from './getting-started/services/getting-started.service';
@@ -154,6 +159,7 @@ type StoreType = {
     // Broadcaster must come first
     Broadcaster,
     Logger,
+    EventService,
 
     ENV_PROVIDERS,
     APP_PROVIDERS,
@@ -172,10 +178,16 @@ type StoreType = {
       provide: Spaces,
       useExisting: SpacesService
     },
+    ContextService,
+    {
+      provide: Contexts,
+      useExisting: ContextService
+    },
 
     // Component Services
     ConfigStore,
     ErrorService,
+    ProfileService,
 
     // Shared Services
     AboutService,
@@ -188,6 +200,7 @@ type StoreType = {
 
     // Others
     GettingStartedService,
+    MenusService,
 
     // Third party
     BsDropdownConfig,
