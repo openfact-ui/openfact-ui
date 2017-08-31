@@ -1,7 +1,7 @@
+import { Observable } from 'rxjs/Rx';
 import { ExtProfile } from './services/ext-profile';
 import { LoginService } from './../shared/login.service';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 import { Keycloak } from '@ebondu/angular2-keycloak';
 import { ExtUser } from './services/ext-user';
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Logger, Broadcaster } from 'ngo-base';
-import { AuthenticationService, UserService, User } from 'ngo-login-client';
+import { AuthenticationService, UserService, User, SSO_API_URL, REALM } from 'ngo-login-client';
 
 import { GettingStartedService } from './services/getting-started.service';
 import { ProviderService } from './services/provider.service';
@@ -18,7 +18,6 @@ import { NotificationService, Notification, NotificationType, Action } from 'pat
 import { EmptyStateConfig, ActionConfig } from 'patternfly-ng';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'of-getting-started',
   templateUrl: './getting-started.component.html',
   styleUrls: ['./getting-started.component.scss'],
@@ -26,36 +25,28 @@ import { EmptyStateConfig, ActionConfig } from 'patternfly-ng';
 })
 export class GettingStartedComponent implements OnInit, OnDestroy {
 
+  public googleLinked: boolean = false;
+  public microsoftLinked: boolean = false;
+
   public loggedInUser: User;
   public registrationCompleted: boolean = true;
   public showGettingStarted: boolean = false;
   public subscriptions: Subscription[] = [];
   public username: string;
-
-  public actionConfig = {
-    primaryActions: [],
-    moreActions: []
-  } as ActionConfig;
-
-  public emptyStateConfig = {
-    actions: this.actionConfig,
-    iconStyleClass: 'pficon-storage-domain',
-    info: '' +
-    'Welcome to Openfact Sync! To get started you will need to connect your' +
-    ' Google Gmail and/or Microsoft Outlook accounts.',
-    helpLink: {
-      text: 'Do you agree to collaborate with your own information?'
-    },
-    title: 'Getting started in Openfact Sync'
-  } as EmptyStateConfig;
+  public usernameInvalid: boolean = false;
+  public refreshToken: any;
+  public isRefreshTokenOffline: boolean = false;
 
   constructor(
     private router: Router,
+    private broadcaster: Broadcaster,
     private userService: UserService,
     private authService: AuthenticationService,
     private gettingStartedService: GettingStartedService,
     private loginService: LoginService,
-    private notifications: NotificationService) {
+    private notifications: NotificationService,
+    @Inject(SSO_API_URL) private ssoUrl: string,
+    @Inject(REALM) private realm: string) {
   }
 
   public ngOnInit() {
@@ -65,28 +56,31 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         this.loggedInUser = user;
         this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
-
-        this.actionConfig.primaryActions = [];
-        this.actionConfig.moreActions = [];
-
-        // Empy State Config
-        if (!this.registrationCompleted) {
-
-          if (!this.authService.isRefreshTokenOffline()) {
-            this.actionConfig.primaryActions = [{
-              id: 'acceptConditions',
-              title: 'Yes',
-              tooltip: 'You Accept to share your information with us.'
-            }, {
-              id: 'rejectConditions',
-              title: 'No',
-              tooltip: 'You Reject to share your information with us.',
-              styleClass: 'btn-default'
-            }];
-          } else {
-            this.saveOfflineTokenAndRegistrationComplete();
-          }
+      })
+      .switchMap(() => {
+        if (this.authService.isLoggedIn()) {
+          this.refreshToken = this.authService.getRefreshToken();
+          this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
+          return this.authService.getGoogleToken();
+        } else {
+          return this.broadcaster.on('loggedin').map(() => {
+            this.refreshToken = this.authService.getRefreshToken();
+            this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
+            return this.authService.getGoogleToken();
+          });
         }
+      })
+      .do(() => {
+        if (this.isRefreshTokenOffline) {
+          this.saveUserToken(false);
+        }
+      })
+      .map((token) => {
+        this.googleLinked = (token !== undefined && token.length !== 0);
+      })
+      .switchMap(() => this.authService.getMicrosoftToken())
+      .map((token) => {
+        this.microsoftLinked = (token !== undefined && token.length !== 0);
       })
       .do(() => {
         this.routeToHomeIfCompleted();
@@ -107,16 +101,37 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     });
   }
 
-  public handleAction($event: Action): void {
-    if ($event.id === 'acceptConditions') {
-      this.loginService.redirectToAuth({
-        scope: 'offline_access'
-      });
-    } else if ($event.id === 'rejectConditions') {
-      this.saveRegistrationComplete();
-    } else {
-      console.log('Invalid Action');
-    }
+  /**
+   * Helper to test if connect accounts button should be disabled
+   *
+   * @returns {boolean}
+   */
+  get isConnectAccountsDisabled(): boolean {
+    return (this.googleLinked && this.microsoftLinked);
+  }
+
+  /**
+   * Helper to test if the successful state panel should be shown
+   *
+   * @returns {boolean} If the user has completed the getting started page
+   */
+  get isSuccess(): boolean {
+    return (this.registrationCompleted);
+  }
+
+  /**
+   * Helper to test if username button should be disabled
+   *
+   * @returns {boolean}
+   */
+  get isUsernameDisabled(): boolean {
+    return this.registrationCompleted;
+  }
+
+  public connectAccount(idp: string): void {
+    window.location.replace(this.ssoUrl + 'auth/realms/' + this.realm
+      + '/account/identity?referrer=security-admin-console&referrer_uri='
+      + encodeURIComponent(window.location.origin + '/_gettingstarted'));
   }
 
   /**
@@ -126,51 +141,42 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', '_home']);
   }
 
-  public saveRegistrationComplete() {
-    this.updateUser({
-      registrationCompleted: true
-    } as ExtProfile);
+  public requestOfflineToken(): void {
+    this.loginService.redirectToAuth({
+      scope: 'offline_access',
+      redirectUri: window.location.origin + '/_gettingstarted?wait=true'
+    });
   }
 
-  public saveOfflineTokenAndRegistrationComplete() {
-    this.updateUser({
-      registrationCompleted: true,
-      contextInformation: {
-        offlineToken: this.authService.getRefreshToken()
+  /**
+   * Save user
+   */
+  public saveUserToken(redirect: boolean) {
+    let profile = this.gettingStartedService.createTransientProfile();
+    profile.username = this.username;
+    profile.registrationCompleted = true;
+    profile.refreshToken = this.isRefreshTokenOffline ? this.refreshToken : null;
+
+    this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
+      this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
+      this.loggedInUser = user;
+    }, (error) => {
+      this.username = this.loggedInUser.attributes.username;
+      if (error.status === 403) {
+        this.handleError('User cannot be updated more than once', NotificationType.WARNING);
+      } else if (error.status === 409) {
+        this.handleError('User already exists', NotificationType.DANGER);
+      } else {
+        this.handleError('Failed to update user', NotificationType.DANGER);
       }
-    } as ExtProfile);
+    }));
+
+    if (redirect) {
+      this.routeToHome();
+    }
   }
 
   // Private
-
-  private updateUser(profile: ExtProfile) {
-    this.subscriptions.push(this.gettingStartedService.updateCurrentUser(profile).subscribe(
-      (user) => {
-        this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
-        this.loggedInUser = user;
-
-        // Since we allow the user to change their info 
-        // then we should tell them they did
-        this.notifications.message(
-          NotificationType.SUCCESS,
-          'Success',
-          'User updated!',
-          false,
-          null,
-          null);
-
-        this.routeToHomeIfCompleted();
-      },
-      (error) => {
-        if (error.status === 403) {
-          this.handleError('User cannot be updated more than once', NotificationType.WARNING);
-        } else if (error.status === 409) {
-          this.handleError('User have already been configure', NotificationType.DANGER);
-        } else {
-          this.handleError('Failed to update username', NotificationType.DANGER);
-        }
-      }));
-  }
 
   /**
    * Helper to retrieve request parameters
@@ -207,6 +213,20 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Helper to test if username is valid
+   *
+   * @returns {boolean}
+   */
+  private isUsernameValid(): boolean {
+    // Dot and @ characters are valid
+    return (this.username !== undefined
+      && this.username.trim().length !== 0
+      && this.username.trim().length < 63
+      && this.username.trim().indexOf('-') !== 0
+      && this.username.trim().indexOf('_') !== 0);
+  }
+
+  /**
    * Helpfer to route to home page if getting started is completed
    */
   private routeToHomeIfCompleted(): void {
@@ -217,7 +237,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   private handleError(error: string, type: string) {
-    this.notifications.message(type, 'Error', error, false, null, null);
+    this.notifications.message(type, 'Error', error, false, null, []);
   }
 
 }

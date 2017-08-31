@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       clientId: 'openfact-public-client'
     };
     this.keycloak.init({
-      checkLoginIframe: true,
+      checkLoginIframe: false, // If true offline token fails
       onLoad: 'check-sso'
     });
   }

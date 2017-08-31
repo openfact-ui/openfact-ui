@@ -29,7 +29,6 @@ import { TabDirective } from 'ngx-bootstrap/tabs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
-    encapsulation: ViewEncapsulation.None,
     selector: 'ofs-space-wizard',
     templateUrl: './space-wizard.component.html',
     styleUrls: ['./space-wizard.component.scss'],

@@ -127,7 +127,8 @@ export class ContextService implements Contexts {
       .do((val) => {
         if (val.type) {
           // Add to the recent contexts
-          this._addRecent.next(val);
+          // TODO WARNING: THIS WAS OMMITED IN ORDER TO MAKE HEADER WORKS
+          //this._addRecent.next(val);
         }
       })
       .multicast(() => new ReplaySubject(1));

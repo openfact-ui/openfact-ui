@@ -2,13 +2,112 @@
 <ng-template #showGettingStartedHeader>
   <nav class="navbar navbar-default navbar-pf">
     <div class="navbar-header">
-      <div class="navbar-brand">Openfact Sync - Getting Started</div>
+      <div class="navbar-brand" style="font-weight: bold;">OPENFACT SYNC</div>
     </div>
   </nav>
 </ng-template>
 <ng-template #showHeader>
-  <nav class="navbar navbar-default navbar-inverse navbar-pf" *ngIf="context">>
-    header
+  <nav class="navbar navbar-default navbar-inverse navbar-pf" *ngIf="context">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" (click)="toggleState()">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" [ngClass]="{ 'in' : isIn }">
+        <ul class="nav navbar-nav">
+          <li class="context dropdown recent-items-dropdown" dropdown *ngIf="loggedInUser">
+            <a class="dropdown-toggle" dropdownToggle data-toggle="tooltip" title="{{context.name}}" href="javascript:void(0);">
+              <div>
+                <span class="nav-item-icon"><span class="{{context.type?.icon}}"></span></span>
+                <span>{{context.name}}</span>
+                <span class="nav-item-icon">
+                <span class="caret"></span>
+                </span>
+              </div>
+            </a>
+            <!-- current Space and recent items dropdown -->
+            <ul class="dropdown-menu" *dropdownMenu>
+              <li *ngFor="let m of recent">
+                <a *ngIf="m.path !== null && m.path != context.path" [routerLink]="[m.path]" title="{{m.name}}">
+                  <span class="nav-item-icon"><span class="{{m.type.icon}}"></span></span>
+                  <span>{{m.name}}</span>
+                </a>
+                <a *ngIf="m.path === null">
+                  <span class="nav-item-icon"><span class="{{m.type.icon}}"></span></span>
+                  <span>{{m.name}}</span>
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a (click)="spaceWizard.open()" href="javascript:void(0);">
+                  <span class="nav-item-icon"><i class="pficon pficon-add-circle-o"></i></span> Create space
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="[loggedInUser.attributes.username,'_spaces']">
+                  <span class="nav-item-icon"><i class="fa fa-th"></i></span> View all spaces
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a [routerLink]="['_home']">
+                  <span class="nav-item-icon"><i class="pficon pficon-home"></i></span> Account home
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <!-- user profile dropdown -->
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" dropdown>
+            <a class="dropdown-toggle nav-item-iconic" href="javascript:void(0)" dropdownToggle>
+              <span title="Help" class="fa pficon-help"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" *dropdownMenu>
+              <li><a href="javascript:void(0)" (click)="aboutModal.open()">Help</a></li>
+              <li><a href="javascript:void(0)" (click)="aboutModal.open()">About</a></li>
+            </ul>
+          </li>
+          <li>
+            <a *ngIf="!loggedInUser" (click)="login();" href="javascript:void(0)">
+              <span><i class="pficon pficon-user"></i></span>Log In
+            </a>
+          </li>
+          <li *ngIf="loggedInUser" dropdown class="pull-right dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle" title="{{loggedInUser.attributes.fullName}}" dropdownToggle>
+              <div *ngIf="loggedInUser">
+                <span class="user-icon">
+                <span *ngIf="!imgLoaded" class="pficon pficon-user"></span>
+                <img (load)="onImgLoad()" src="{{ loggedInUser.attributes.imageURL }}" [ngClass]="{'show' : imgLoaded,'img-icon' : imgLoaded, 'hide' : !imgLoaded}">
+                </span>
+                <span>{{loggedInUser.attributes.fullName}}</span>
+                <span class="caret"></span>
+              </div>
+            </a>
+            <ul class="dropdown-menu" *dropdownMenu>
+              <li>
+                <a [routerLink]="[loggedInUser.attributes.username]" *ngIf="loggedInUser">Profile</a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" *ngIf="loggedInUser" (click)="account()">Account</a>
+              </li>             
+              <li class="divider"></li>
+              <li>
+                <a href="javascript:void(0)" *ngIf="loggedInUser" (click)="logout();">Log Out</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- secondary navigation for all sub-links -->
+      </div>
+      <!-- .navbar-collapse -->
+    </div>
     <!-- /.container-fluid -->
   </nav>
 
