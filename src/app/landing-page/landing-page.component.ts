@@ -1,3 +1,4 @@
+import { Keycloak } from '@ebondu/angular2-keycloak';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from '../shared/login.service';
@@ -27,6 +28,10 @@ export class LandingPageComponent implements OnInit {
   public ngOnInit() {
     if (this.authService.isLoggedIn()) {
       this.loginService.redirectAfterLogin();
+    } else {
+      this.subscription = this.broadcaster.on('loggedin').subscribe(() => {
+        this.loginService.redirectAfterLogin();
+      });
     }
   }
 

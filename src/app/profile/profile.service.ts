@@ -10,17 +10,19 @@ import { SYNC_API_URL } from 'ngo-openfact-sync';
 import { Profile, User, UserService } from 'ngo-login-client';
 
 export class ExtUser extends User {
-    attributes: ExtProfile;
+    public attributes: ExtProfile;
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export class ExtProfile extends Profile {
-    store: any;
+    public store: any;
 }
 
 /*
  * A service that manages the users profile
  *
  */
+// tslint:disable-next-line:max-classes-per-file
 @Injectable()
 export class ProfileService {
 
@@ -35,7 +37,27 @@ export class ProfileService {
         @Inject(SYNC_API_URL) apiUrl: string,
         private http: Http
     ) {
-
+        this.profileUrl = apiUrl + 'users';
+        this._profile = userService.loggedInUser
+            .skipWhile((user) => {
+                return !user || !user.attributes;
+            })
+            .map((user) => cloneDeep(user) as ExtUser)
+            .do((user) => {
+                if (user.attributes) {
+                    user.attributes.store = (user as any).attributes.contextInformation || {};
+                } else {
+                    user.attributes = {
+                        fullName: '',
+                        imageURL: '',
+                        username: '',
+                        store: {}
+                    };
+                }
+            })
+            .map((user) => user.attributes)
+            .publishReplay(1);
+        this._profile.connect();
     }
 
     get current(): Observable<ExtProfile> {
@@ -47,7 +69,22 @@ export class ProfileService {
     }
 
     silentSave(profile: Profile) {
-
+        let clone = cloneDeep(profile) as any;
+        delete clone.username;
+        // Handle the odd naming of the field on the API
+        clone.contextInformation = clone.store;
+        delete clone.store;
+        let payload = JSON.stringify({
+            data: {
+                attributes: clone,
+                type: 'identities'
+            }
+        });
+        return this.http
+            .patch(this.profileUrl, payload, { headers: ProfileService.HEADERS })
+            .map((response) => {
+                return response.json().data as User;
+            });
     }
 
     get sufficient(): Observable<boolean> {

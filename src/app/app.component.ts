@@ -26,7 +26,7 @@ import { AppState } from './app.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  public showClose = false;
+  public showClose = true;
 
   private subscriptions: Subscription[] = [];
 
@@ -45,6 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('Welcome to Openfact Sync!');
     console.log('This is', this.about.buildVersion,
       '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
+
     // Configure the Keycloak
     Keycloak.config = {
       url: this.ssoUrl + 'auth',
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
       clientId: 'openfact-public-client'
     };
     this.keycloak.init({
-      checkLoginIframe: false,
+      checkLoginIframe: true,
       onLoad: 'check-sso'
     });
   }

@@ -41,7 +41,8 @@ import {
   Contexts,
   SpaceService,
   Spaces,
-  CollaboratorService
+  CollaboratorService,
+  OpenfactSyncModule
 } from 'ngo-openfact-sync';
 
 import {
@@ -135,6 +136,8 @@ type StoreType = {
 
     AboutModalModule,
     SpaceWizardModule,
+
+    OpenfactSyncModule,
 
     // Third Party libs
     Ng2KeycloakModule.forRoot(),

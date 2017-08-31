@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     contexts.default.subscribe((val) => {
       this._defaultContext = val;
-    })
+    });
     contexts.recent.subscribe((val) => this.recent = val);
 
     // Currently logged in user
