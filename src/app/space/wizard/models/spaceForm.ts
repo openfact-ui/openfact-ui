@@ -1,4 +1,4 @@
 export interface ISpaceForm {
-    space: string;
-    alias: string;
+    assignedId: string;
+    name?: string;
 }

@@ -1,4 +1,14 @@
+import { UserService } from 'ngo-login-client';
+import { ILoggerDelegate } from './common/logger';
 import { ISpaceForm } from './models/spaceForm';
+
+import {
+    Space,
+    SpaceAttributes,
+    SpaceService,
+    SpaceNamePipe,
+    SpaceRelatedLink
+} from 'ngo-openfact-sync';
 
 import {
     Component,
@@ -27,6 +37,8 @@ import {
 
 import { TabDirective } from 'ngx-bootstrap/tabs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
+import { NotificationService, Notification, NotificationType, Action } from 'patternfly-ng';
 
 @Component({
     selector: 'ofs-space-wizard',
@@ -61,7 +73,17 @@ export class SpaceWizardComponent implements OnInit {
 
     constructor(
         private modalService: BsModalService,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder,
+        private userService: UserService,
+        private spaceService: SpaceService,
+        private spaceNamePipe: SpaceNamePipe,
+        private notifications: NotificationService) { }
+
+    /**
+     * used to add a log entry to the logger
+     * The default one shown here does nothing.
+     */
+    public log: ILoggerDelegate = () => { };
 
     public ngOnInit() {
         // Wizard
@@ -116,6 +138,8 @@ export class SpaceWizardComponent implements OnInit {
      * @param options
      */
     public open(options?: any) {
+        this.wizardConfig.done = false;
+
         const defaultOptions = { class: 'modal-lg' };
         this.modalRef = this.modalService.show(this.wizardTemplate, options || defaultOptions);
     }
@@ -156,13 +180,46 @@ export class SpaceWizardComponent implements OnInit {
         setTimeout(() => {
             this.claimComplete = true;
         }, 2500);
-    }
 
-    /*
-   * Creates a persistent collaboration space
-   * by invoking the spaceService
-   */
-    public createSpace() {
+        this.log(`createSpace ...`);
+        let space = this.createTransientSpace();
+        space.attributes.name = this.spaceForm.name;
+        space.attributes.assignedId = this.spaceForm.assignedId;
+
+        console.log('Creating space', space);
+        this.userService.loggedInUser
+            .switchMap((user) => {
+                space.relationships['owned-by'].data.id = user.id;
+                return this.spaceService.create(space);
+            })
+            /*.do(createdSpace => {
+                this.spacesService.addRecent.next(createdSpace);
+            })
+            .switchMap(createdSpace => {
+                return this.spaceNamespaceService
+                    .updateConfigMap(Observable.of(createdSpace))
+                    .map(() => createdSpace)
+                    // Ignore any errors coming out here, we've logged and notified them earlier
+                    .catch(err => Observable.of(createdSpace));
+            })*/
+            .subscribe((createdSpace) => {
+                // this.configurator.currentSpace = createdSpace;
+                const primaryAction: Action = {
+                    id: 'openSpace',
+                    tooltip: `Open Space`,
+                    title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
+                };
+
+                this.notifications.message(NotificationType.SUCCESS, 'Success',
+                    `Your new space is created!`, false, null, [primaryAction]);
+
+                this.claimComplete = true;
+            },
+            (err) => {
+                console.log('Error creating space', err);
+                this.notifications.message(NotificationType.DANGER, 'Error',
+                    `Failed to create "${space.name}"`, false, null, []);
+            });
     }
 
     public changeAcceptTermsConditions($event: boolean) {
@@ -185,6 +242,23 @@ export class SpaceWizardComponent implements OnInit {
         this.stepSpaceInfoConfig.nextEnabled
             = this.stepSpaceInfoConfig.allowNavAway
             = !(this.spaceForm == null);
+    }
+
+    private createTransientSpace(): Space {
+        let space = {} as Space;
+        space.attributes = new SpaceAttributes();
+        space.attributes.name = space.name;
+        space.type = 'spaces';
+        space.relationships = {
+            collaborators: {} as SpaceRelatedLink,
+            ['owned-by']: {
+                data: {
+                    id: '',
+                    type: 'identities'
+                }
+            }
+        };
+        return space;
     }
 
 }

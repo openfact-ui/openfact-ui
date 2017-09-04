@@ -1,20 +1,20 @@
 <form [formGroup]="form" class="form-horizontal">
-  <div class="form-group" formControlError="space">
-    <label class="col-sm-2 control-label required-pf">Space
+  <div class="form-group" formControlError="assignedId">
+    <label class="col-sm-3 control-label required-pf">Assigned Id
       <i class="fa fa-question-circle text-muted" tooltip="Assigned Space Id, usually a number e.x. DNI" placement="right"></i>
     </label>
-    <div class="col-sm-10">
-      <input formControlName="space" type="text" class="form-control" autofocus/>
-      <form-help-block formControlHelp="space"></form-help-block>
+    <div class="col-sm-9">
+      <input formControlName="assignedId" type="text" class="form-control" autofocus/>
+      <form-help-block formControlHelp="assignedId"></form-help-block>
     </div>
   </div>
-  <div class="form-group" formControlError="alias">
-    <label class="col-sm-2 control-label">Alias
-      <i class="fa fa-question-circle text-muted" tooltip="Space Alias" placement="right"></i>
+  <div class="form-group" formControlError="name">
+    <label class="col-sm-3 control-label">Name
+      <i class="fa fa-question-circle text-muted" tooltip="Space Name" placement="right"></i>
     </label>
-    <div class="col-sm-10">
-      <input formControlName="alias" type="text" class="form-control" />
-      <form-help-block formControlHelp="space"></form-help-block>
+    <div class="col-sm-9">
+      <input formControlName="name" type="text" class="form-control" />
+      <form-help-block formControlHelp="name"></form-help-block>
     </div>
   </div>
 </form>
