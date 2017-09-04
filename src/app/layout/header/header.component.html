@@ -64,6 +64,38 @@
 
         <!-- user profile dropdown -->
         <ul class="nav navbar-nav navbar-right">
+          <li class="applauncher-pf dropdown dropdown-kebab-pf" dropdown>
+            <a class="dropdown-toggle nav-item-iconic" href="javascript:void(0)" dropdownToggle style="border-left: 0px; padding-bottom: 14px; padding: 14px 20px 14px 20px;">
+              <span title="Launcher" class="fa fa-th applauncher-pf-icon"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <li class="applauncher-pf-item" role="menuitem">
+                <a class="applauncher-pf-link" href="#">                  
+                  <i class="applauncher-pf-link-icon pficon pficon-storage-domain" aria-hidden="true"></i>                  
+                  <span class="applauncher-pf-link-title">Recteque</span>
+                </a>
+              </li>
+              <li class="applauncher-pf-item" role="menuitem">
+                <a class="applauncher-pf-link" href="#">                  
+                  <i class="applauncher-pf-link-icon pficon pficon-virtual-machine" aria-hidden="true"></i>                  
+                  <span class="applauncher-pf-link-title">Ipsum</span>
+                </a>
+              </li>
+              <li class="applauncher-pf-item" role="menuitem">
+                <a class="applauncher-pf-link" href="#">                  
+                  <i class="applauncher-pf-link-icon pficon pficon-domain" aria-hidden="true"></i>                  
+                  <span class="applauncher-pf-link-title">Lorem</span>
+                </a>
+              </li>
+              <li class="applauncher-pf-item" role="menuitem">
+                <a class="applauncher-pf-link" href="#">                  
+                  <i class="applauncher-pf-link-icon pficon pficon-home" aria-hidden="true"></i>                
+                  <span class="applauncher-pf-link-title">Home</span>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="dropdown" dropdown>
             <a class="dropdown-toggle nav-item-iconic" href="javascript:void(0)" dropdownToggle>
               <span title="Help" class="fa pficon-help"></span>
@@ -96,7 +128,7 @@
               </li>
               <li>
                 <a href="javascript:void(0)" *ngIf="loggedInUser" (click)="account()">Account</a>
-              </li>             
+              </li>
               <li class="divider"></li>
               <li>
                 <a href="javascript:void(0)" *ngIf="loggedInUser" (click)="logout();">Log Out</a>

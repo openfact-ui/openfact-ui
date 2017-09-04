@@ -129,9 +129,9 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   public connectAccount(idp: string): void {
-    window.location.replace(this.ssoUrl + 'auth/realms/' + this.realm
+    window.open(this.ssoUrl + 'auth/realms/' + this.realm
       + '/account/identity?referrer=security-admin-console&referrer_uri='
-      + encodeURIComponent(window.location.origin + '/_gettingstarted'));
+      + encodeURIComponent(window.location.origin + '/_gettingstarted'), '_blank');
   }
 
   /**

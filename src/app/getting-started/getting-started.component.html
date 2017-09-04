@@ -37,7 +37,7 @@
             </div>
 
             <p>
-                Do you want to share your information. <a href="#">Policies and restrictions</a>.
+                Do you want to share your information. <a href="javascript:void(0);">Policies and restrictions</a>.
             </p>
             <div class="blank-slate-pf-main-action">
                 <button class="btn btn-primary btn-lg" (click)="requestOfflineToken()"> Accept </button>
@@ -63,4 +63,8 @@
         </div>
     </ng-template>
 
+</div>
+
+<div *ngIf="!showGettingStarted">
+    loading...
 </div>
