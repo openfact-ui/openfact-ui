@@ -91,7 +91,7 @@
     "ie-shim": "^0.1.0",
     "ngo-base": "0.2.0",
     "ngo-login-client": "0.1.8",
-    "ngo-openfact-sync": "0.0.25",
+    "ngo-openfact-sync": "0.0.26",
     "ngx-bootstrap": "^1.9.1",
     "ngx-modal": "0.0.29",
     "ngx-restangular": "^1.0.11",
