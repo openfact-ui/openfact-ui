@@ -1,3 +1,4 @@
+import { SpacesService } from './../../shared/spaces.service';
 import { UserService } from 'ngo-login-client';
 import { ILoggerDelegate } from './common/logger';
 import { ISpaceForm } from './models/spaceForm';
@@ -76,6 +77,7 @@ export class SpaceWizardComponent implements OnInit {
         private formBuilder: FormBuilder,
         private userService: UserService,
         private spaceService: SpaceService,
+        private spacesService: SpacesService,
         private spaceNamePipe: SpaceNamePipe,
         private notifications: NotificationService) { }
 
@@ -192,16 +194,9 @@ export class SpaceWizardComponent implements OnInit {
                 space.relationships['owned-by'].data.id = user.id;
                 return this.spaceService.create(space);
             })
-            /*.do(createdSpace => {
+            .do((createdSpace) => {
                 this.spacesService.addRecent.next(createdSpace);
             })
-            .switchMap(createdSpace => {
-                return this.spaceNamespaceService
-                    .updateConfigMap(Observable.of(createdSpace))
-                    .map(() => createdSpace)
-                    // Ignore any errors coming out here, we've logged and notified them earlier
-                    .catch(err => Observable.of(createdSpace));
-            })*/
             .subscribe((createdSpace) => {
                 // this.configurator.currentSpace = createdSpace;
                 const primaryAction: Action = {

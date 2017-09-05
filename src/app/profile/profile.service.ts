@@ -1,3 +1,4 @@
+import { NotificationService, NotificationType } from 'patternfly-ng';
 import { Http, Headers } from '@angular/http';
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -33,6 +34,7 @@ export class ProfileService {
     constructor(
         private router: Router,
         private broadcaster: Broadcaster,
+        private notifications: NotificationService,
         userService: UserService,
         @Inject(SYNC_API_URL) apiUrl: string,
         private http: Http
@@ -64,11 +66,19 @@ export class ProfileService {
         return this._profile;
     }
 
-    save(profile: Profile) {
-
+    public save(profile: Profile) {
+        return this.silentSave(profile).do((val) => {
+            this.notifications.message(NotificationType.SUCCESS, 'Success',
+                'User profile updated', false, null, []);
+        }).catch((error) => {
+            this.notifications.message(NotificationType.DANGER, 'Error',
+                'Ooops, something went wrong, your profile was not updated', false, null, []);
+            console.log('Error updating user profile', error);
+            return Observable.empty();
+        });
     }
 
-    silentSave(profile: Profile) {
+    public silentSave(profile: Profile) {
         let clone = cloneDeep(profile) as any;
         delete clone.username;
         // Handle the odd naming of the field on the API
@@ -81,14 +91,29 @@ export class ProfileService {
             }
         });
         return this.http
-            .patch(this.profileUrl, payload, { headers: ProfileService.HEADERS })
+            .patch(this.profileUrl, payload, {
+                headers: ProfileService.HEADERS,
+                withCredentials: true
+            })
             .map((response) => {
                 return response.json().data as User;
             });
     }
 
     get sufficient(): Observable<boolean> {
-        return null;
+        return this.current.map((current) => {
+            if (current &&
+                current.fullName &&
+                current.email &&
+                current.username
+                // TODO Add imageURL
+                //this.current.imageURL
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
 }
