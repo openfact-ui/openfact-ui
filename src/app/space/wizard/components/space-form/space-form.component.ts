@@ -25,7 +25,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.form = this.formBuilder.group({
       assignedId: [null, Validators.compose([Validators.required, Validators.maxLength(20)])],
-      name: [null, Validators.compose([Validators.maxLength(250)])],
+      name: [null, Validators.compose([Validators.required, Validators.maxLength(250)])],
     });
 
     this.subscription = this.form.statusChanges.subscribe(() => {
