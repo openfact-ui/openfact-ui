@@ -1,10 +1,11 @@
+import { SpaceWizardModule } from './../../space/wizard/space-wizard.module';
 import { MomentModule } from 'angular2-moment';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
-import { SpacesWidgetComponent } from './spaces-widget.component';
+import { RecentSpacesWidgetComponent } from './recent-spaces-widget.component';
 
 @NgModule({
     imports: [
@@ -12,9 +13,10 @@ import { SpacesWidgetComponent } from './spaces-widget.component';
         FormsModule,
         RouterModule,
         MomentModule,
-        OpenfactSyncModule
+        OpenfactSyncModule,
+        SpaceWizardModule
     ],
-    declarations: [SpacesWidgetComponent],
-    exports: [SpacesWidgetComponent]
+    declarations: [RecentSpacesWidgetComponent],
+    exports: [RecentSpacesWidgetComponent]
 })
-export class SpacesWidgetModule { }
+export class RecentSpacesWidgetModule { }

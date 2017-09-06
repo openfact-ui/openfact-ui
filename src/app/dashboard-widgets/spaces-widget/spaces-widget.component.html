@@ -14,7 +14,7 @@
                     </span>
                 </p>
                 <div>
-                    <div class="blank-slate-pf" *ngIf="false">
+                    <div class="blank-slate-pf" *ngIf="spaces.length === 0">
                         <div class="blank-slate-pf-icon"><i class="pficon pficon-info"></i></div>
                         <h3>No recent failed or active pipelines</h3>
                         <p>Failed pipelines or active pipelines will display here when you commit and build your codebase.</p>
@@ -22,18 +22,21 @@
                             <button class="btn btn-primary btn-lg">Claim a space</button>
                         </div>
                     </div>
-                    <div *ngIf="true">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <div>
-                                    <a href="/developer/openfact-platform/create/pipelines"> Ahren Contratistas Generales S.A.C.</a><span>|</span>
-                                    <a target="_blank" href="#">10467793549</a>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <a href="/developer/openfact-platform/create/pipelines"> ABC Multiservicios S.A.</a><span>|</span>
-                                    <a target="_blank" href="#">10467793549</a>
+                    <div *ngIf="spaces.length > 0">
+                        <ul class="list-group list-view-pf list-view-pf-view">
+                            <li class="list-group-item" *ngFor="let space of spaces">
+                                <div class="list-view-pf-main-info">
+                                    <div class="list-view-pf-body">
+                                        <div class="list-view-pf-description">
+                                            <div class="list-group-item-text">
+                                                <span class="pficon-server" title="Space"></span>&nbsp;
+                                                <a [routerLink]="['/', space.relationalData.creator.attributes.username, space.attributes.name]">
+                                                    {{space.attributes.name | spaceName}}
+                                                </a><span> | </span>
+                                                <a> {{space.attributes.assignedId}} </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>

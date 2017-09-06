@@ -20,6 +20,10 @@ import {
   SpacesWidgetModule
 } from './../dashboard-widgets/spaces-widget/spaces-widget.module';
 
+import {
+  RecentSpacesWidgetModule
+} from './../dashboard-widgets/recent-spaces-widget/recent-spaces-widget.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +32,8 @@ import {
     OpenfactSyncModule,
     RecentDocumentsWidgetModule,
     RepositoriesWidgetModule,
-    SpacesWidgetModule
+    SpacesWidgetModule,
+    RecentSpacesWidgetModule
   ],
   declarations: [HomeComponent]
 })

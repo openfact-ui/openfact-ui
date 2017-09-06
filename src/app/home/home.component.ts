@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.context && this.context.user) {
       console.log(this.context);
       this.spaceService
-        .getSpacesByUser(this.context.user.id, 5)
+        .getSpacesByUser(this.context.user.id, 2)
         .subscribe((spaces) => {
           this._spaces = spaces;
         });
