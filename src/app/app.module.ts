@@ -87,6 +87,7 @@ import { AuthGuard } from './shared/auth-guard.service';
 
 import { SpacesService } from './shared/spaces.service';
 import { ContextService } from './shared/context.service';
+import { ContextResolver } from './shared/context-resolver.service';
 
 // Others
 import { GettingStartedService } from './getting-started/services/getting-started.service';
@@ -186,6 +187,7 @@ type StoreType = {
       provide: Contexts,
       useExisting: ContextService
     },
+    ContextResolver,
 
     // Component Services
     ConfigStore,
