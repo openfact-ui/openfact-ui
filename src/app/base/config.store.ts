@@ -18,7 +18,7 @@ export class ConfigStore {
     private http: Http
   ) { }
 
-  get<T>(name: string, load?: LoadCallback<T>): Observable<ValWrapper<T>> {
+  public get<T>(name: string, load?: LoadCallback<T>): Observable<ValWrapper<T>> {
     if (this._cache.has(name)) {
       return this._cache
         .get(name);
@@ -40,7 +40,7 @@ export class ConfigStore {
     }
   }
 
-  clear() {
+  public clear() {
     this._cache = new Map();
   }
 }

@@ -5,7 +5,7 @@ import { AuthenticationService } from 'ngo-login-client';
 import { Logger } from 'ngo-base';
 import { SYNC_API_URL } from 'ngo-openfact-sync';
 
-//import * as jwt_decode from 'jwt-decode';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class ProviderService {
@@ -52,7 +52,7 @@ export class ProviderService {
    * @param redirect URL to be redirected to after successful account linking
    */
   public link(provider: string, redirect: string): void {
-    /*let parsedToken = jwt_decode(this.auth.getToken());
+    let parsedToken = jwt_decode(this.auth.getAccessToken());
     let url = `${this.loginUrl}/linksession?`
       + 'clientSession=' + parsedToken.client_session
       + '&sessionState=' + parsedToken.session_state
@@ -60,7 +60,7 @@ export class ProviderService {
     if (provider != null) {
       url += '&provider=' + provider;
     }
-    this.redirectToAuth(url);*/
+    this.redirectToAuth(url);
   }
 
   // Private

@@ -1,9 +1,8 @@
 import { Observable } from 'rxjs/Rx';
-import { ExtProfile } from './services/ext-profile';
 import { LoginService } from './../shared/login.service';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Keycloak } from '@ebondu/angular2-keycloak';
-import { ExtUser } from './services/ext-user';
+import { ExtUser } from './services/getting-started.service';
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';

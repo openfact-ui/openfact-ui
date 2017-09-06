@@ -1,5 +1,3 @@
-import { ExtUser } from './ext-user';
-import { ExtProfile } from './ext-profile';
 import { Injectable, Inject, OnDestroy } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
@@ -10,6 +8,19 @@ import { SYNC_API_URL } from 'ngo-openfact-sync';
 
 import { cloneDeep } from 'lodash';
 
+// tslint:disable-next-line:max-classes-per-file
+export class ExtUser extends User {
+  public attributes: ExtProfile;
+}
+
+// tslint:disable-next-line:max-classes-per-file
+export class ExtProfile extends Profile {
+  public contextInformation: any;
+  public registrationCompleted: boolean;
+  public refreshToken: string;
+}
+
+// tslint:disable-next-line:max-classes-per-file
 @Injectable()
 export class GettingStartedService implements OnDestroy {
 
@@ -17,7 +28,6 @@ export class GettingStartedService implements OnDestroy {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private loggedInUser: User;
-  private userUrl: string;
   private usersUrl: string;
 
   constructor(
@@ -26,10 +36,6 @@ export class GettingStartedService implements OnDestroy {
     private logger: Logger,
     private userService: UserService,
     @Inject(SYNC_API_URL) apiUrl: string) {
-    if (this.auth.getAccessToken() != null) {
-      this.headers.set('Authorization', 'Bearer ' + this.auth.getAccessToken());
-    }
-    this.userUrl = apiUrl + 'user';
     this.usersUrl = apiUrl + 'users';
   }
 
@@ -46,8 +52,8 @@ export class GettingStartedService implements OnDestroy {
       .map((user) => {
         profile = cloneDeep(user) as ExtUser;
         if (profile.attributes !== undefined) {
-          profile.attributes.contextInformation
-            = (user as ExtUser).attributes.contextInformation || {};
+          // tslint:disable-next-line:max-line-length
+          profile.attributes.contextInformation = (user as ExtUser).attributes.contextInformation || {};
         }
       })
       .publish().connect();
@@ -64,9 +70,9 @@ export class GettingStartedService implements OnDestroy {
   public getExtProfile(id: string): Observable<ExtUser> {
     let url = `${this.usersUrl}/${id}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, { headers: this.headers, withCredentials: true })
       .map((response) => {
-        return response.json() as ExtUser;
+        return response.json().data as ExtUser;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -87,7 +93,7 @@ export class GettingStartedService implements OnDestroy {
       }
     });
     return this.http
-      .put(this.usersUrl, payload, { headers: this.headers })
+      .patch(this.usersUrl, payload, { headers: this.headers, withCredentials: true })
       .map((response) => {
         return response.json().data as ExtUser;
       })
@@ -96,24 +102,8 @@ export class GettingStartedService implements OnDestroy {
       });
   }
 
-  /**
-   * Update user profile
-   *
-   * @param profile The extended profile used to apply context information
-   * @returns {Observable<User>}
-   */
-  public updateCurrentUser(profile: ExtProfile): Observable<ExtUser> {
-    return this.http
-      .put(this.userUrl, profile, { headers: this.headers })
-      .map((response) => {
-        return response.json() as ExtUser;
-      })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
   // Private
+
   private handleError(error: any) {
     this.logger.error(error);
     return Observable.throw(error.message || error);

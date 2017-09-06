@@ -81,7 +81,7 @@ export class SpacesService implements Spaces {
                 return Observable.forkJoin((profile.store.recentSpaces as string[])
                     // We invert the order above when we add recent contexts
                     .reverse()
-                    .map(id => {
+                    .map((id) => {
                         return this.spaceService.getSpaceById(id);
                     }));
             } else {

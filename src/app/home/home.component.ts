@@ -46,6 +46,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       this._defaultContext = val;
       this.initSpaces();
     });
+
+    this.brandInformation = new BrandInformation();
+
+    // replace background image with fabric8 background once available
+    this.brandInformation.backgroundClass = 'home-fabric8-background-image';
+    this.brandInformation.description = 'A free, end-to-end, cloud-native development experience.';
+    this.brandInformation.name = 'openfactsync.io';
+    this.brandInformation.moreInfoLink = 'https://openfact.io/';
   }
 
   public ngOnDestroy() {
@@ -59,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.context && this.context.user) {
       console.log(this.context);
       this.spaceService
-        .getSpacesByUser(this.context.user.id, 2)
+        .getSpacesByUser(this.context.user.id, 5)
         .subscribe((spaces) => {
           this._spaces = spaces;
         });

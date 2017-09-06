@@ -5,14 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { GettingStartedComponent } from './getting-started.component';
 import { GettingStartedRoutingModule } from './getting-started-routing.module';
 
-import { EmptyStateModule } from 'patternfly-ng';
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    GettingStartedRoutingModule,
-    EmptyStateModule
+    GettingStartedRoutingModule
   ],
   declarations: [GettingStartedComponent],
 })
