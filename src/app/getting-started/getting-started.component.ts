@@ -28,7 +28,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   public microsoftLinked: boolean = false;
 
   public loggedInUser: User;
-  public registrationCompleted: boolean = true;
+  public registrationCompleted: boolean = false;
   public showGettingStarted: boolean = false;
   public subscriptions: Subscription[] = [];
   public username: string;
