@@ -1,5 +1,5 @@
 import { Keycloak } from '@ebondu/angular2-keycloak';
-import { Broadcaster } from 'ngo-base';
+import { Broadcaster, Logger } from 'ngo-base';
 import { User, UserService } from 'ngo-login-client';
 import { ContextType, Context, Contexts } from 'ngo-openfact-sync';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -30,6 +30,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public isIn = false;   // store state
 
+  public menuCallbacks = new Map<String, MenuHiddenCallback>([
+    [
+      // tslint:disable-next-line:only-arrow-functions
+      '_settings', function (headerComponent) {
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
+    ],
+    [
+      // tslint:disable-next-line:only-arrow-functions
+      '_resources', function (headerComponent) {
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
+    ],
+    [
+      // tslint:disable-next-line:only-arrow-functions
+      'settings', function (headerComponent) {
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
+    ]
+  ]);
+
   public recent: Context[];
   public loggedInUser: User;
   private _context: Context;
@@ -42,10 +63,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public router: Router,
     public route: ActivatedRoute,
     private userService: UserService,
-    private broadcaster: Broadcaster,
+    private logger: Logger,
     public loginService: LoginService,
+    private broadcaster: Broadcaster,
     private contexts: Contexts) {
-
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.broadcaster.broadcast('navigate', { url: val.url } as Navigation);

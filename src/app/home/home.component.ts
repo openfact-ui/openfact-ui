@@ -65,7 +65,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public initSpaces() {
     if (this.context && this.context.user) {
-      console.log(this.context);
       this.spaceService
         .getSpacesByUser(this.context.user.id, 5)
         .subscribe((spaces) => {

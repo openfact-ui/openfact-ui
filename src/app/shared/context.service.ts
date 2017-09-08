@@ -128,7 +128,7 @@ export class ContextService implements Contexts {
         if (val.type) {
           // Add to the recent contexts
           // TODO WARNING: THIS WAS OMMITED IN ORDER TO MAKE HEADER WORKS
-          //this._addRecent.next(val);
+          this._addRecent.next(val);
         }
       })
       .multicast(() => new ReplaySubject(1));
@@ -415,7 +415,7 @@ export class ContextService implements Contexts {
   private saveRecent(recent: Context[]) {
     let patch = {
       store: {
-        recentContexts: recent.map(ctx => ({
+        recentContexts: recent.map((ctx) => ({
           user: ctx.user.id,
           space: (ctx.space ? ctx.space.id : null)
         } as RawContext))
