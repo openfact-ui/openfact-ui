@@ -1,3 +1,5 @@
+import './rxjs-extensions';
+
 import { SyncStatusComponent } from './sync-status-list/sync-status.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';

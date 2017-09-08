@@ -62,7 +62,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
           this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
           return this.authService.getGoogleToken();
         } else {
-          return this.broadcaster.on('loggedin').map(() => {
+          return this.broadcaster.on('loggedin').switchMap(() => {
             this.refreshToken = this.authService.getRefreshToken();
             this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
             return this.authService.getGoogleToken();
