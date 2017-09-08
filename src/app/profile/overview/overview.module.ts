@@ -5,12 +5,16 @@ import { TabsModule } from 'ngx-bootstrap';
 
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
+import { ActivityModule } from './activity/activity.module';
+import { SpacesModule } from './spaces/spaces.module';
 
 @NgModule({
   imports: [
     CommonModule,
     OverviewRoutingModule,
     TabsModule.forRoot(),
+    ActivityModule,
+    SpacesModule
   ],
   declarations: [OverviewComponent],
 })

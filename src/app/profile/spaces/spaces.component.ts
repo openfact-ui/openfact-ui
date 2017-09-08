@@ -52,7 +52,7 @@ export class SpacesComponent implements OnInit {
     this.pageSize = event.pageSize;
     if (this.context && this.context.user) {
       this.spaceService
-        .getSpacesByUser(this.context.user.attributes.username, this.pageSize)
+        .getSpacesByUser(this.context.user.id, this.pageSize)
         .subscribe((spaces) => {
           this._spaces = spaces;
         });

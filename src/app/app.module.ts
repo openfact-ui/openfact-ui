@@ -90,6 +90,7 @@ import { AuthGuard } from './shared/auth-guard.service';
 import { SpacesService } from './shared/spaces.service';
 import { ContextService } from './shared/context.service';
 import { ContextResolver } from './shared/context-resolver.service';
+import { ProfileResolver } from './shared/profile-resolver.service';
 
 // Others
 import { GettingStartedService } from './getting-started/services/getting-started.service';
@@ -190,6 +191,7 @@ type StoreType = {
       useExisting: ContextService
     },
     ContextResolver,
+    ProfileResolver,
 
     // Component Services
     ConfigStore,

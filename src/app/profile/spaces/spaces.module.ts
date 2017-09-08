@@ -1,7 +1,11 @@
+import { OpenfactSyncModule } from 'ngo-openfact-sync';
 import { ModalModule } from 'ngx-modal';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
+
+import { InfiniteScrollModule } from 'ngx-widgets';
+import { SpaceWizardModule } from './../../space/wizard/space-wizard.module';
 
 import { SpacesComponent } from './spaces.component';
 import { SpacesRoutingModule } from './spaces-routing.module';
@@ -10,7 +14,10 @@ import { SpacesRoutingModule } from './spaces-routing.module';
     imports: [
         CommonModule,
         SpacesRoutingModule,
-        ModalModule
+        ModalModule,
+        SpaceWizardModule,
+        InfiniteScrollModule,
+        OpenfactSyncModule,
     ],
     declarations: [SpacesComponent]
 })

@@ -124,7 +124,7 @@
             </a>
             <ul class="dropdown-menu" *dropdownMenu>
               <li>
-                <a [routerLink]="[loggedInUser.attributes.username]" *ngIf="loggedInUser">Profile</a>
+                <a [routerLink]="[loggedInUser.id]" *ngIf="loggedInUser">Profile</a>
               </li>
               <li>
                 <a href="javascript:void(0)" *ngIf="loggedInUser" (click)="account()">Account</a>
@@ -147,4 +147,5 @@
   </fab-about-modal>
 </ng-template>
 
+<!-- Create Space modal -->
 <ofs-space-wizard #spaceWizard></ofs-space-wizard>

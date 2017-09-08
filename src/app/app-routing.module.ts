@@ -1,3 +1,4 @@
+import { ProfileResolver } from './shared/profile-resolver.service';
 import { ContextResolver } from './shared/context-resolver.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -38,9 +39,20 @@ export const routes: Routes = [
 
   // Profile
   {
+    path: '_profile',
+    resolve: {
+      context: ProfileResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
+  {
     path: ':entity',
     resolve: {
-       // context: ContextResolver
+      context: ContextResolver
     },
     loadChildren: './profile/profile.module#ProfileModule',
     data: {

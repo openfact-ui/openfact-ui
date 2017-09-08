@@ -229,13 +229,12 @@ export class ContextService implements Contexts {
               return { user: space.relationalData.creator, space: space } as RawContext;
             })
             .catch((err, caught) => {
-              this.notifications.message(NotificationType.WARNING, 'Warning',
-                `${val.url} not found`, false, null, []);
-              console.log(`Space with name ${val.space} and owner ${val.user}
-              from path ${val.url} was not found because of ${err}`);
-              return Observable.throw(`Space with name ${val.space} and owner ${val.user}
-              from path ${val.url} was not found because of ${err}`);
+              // tslint:disable-next-line:max-line-length
+              this.notifications.message(NotificationType.WARNING, 'Warning', `${val.url} not found`, false, null, []);
+              console.log(`Space with name ${val.space} and owner ${val.user} from path ${val.url} was not found because of ${err}`);
 
+              // tslint:disable-next-line:max-line-length
+              return Observable.throw(`Space with name ${val.space} and owner ${val.user} from path ${val.url} was not found because of ${err}`);
             });
         } else {
           // Otherwise, load the user and use that as the owner
@@ -328,14 +327,14 @@ export class ContextService implements Contexts {
     return null;
   }
 
-  private loadUser(userName: string): Observable<User> {
+  private loadUser(userId: string): Observable<User> {
     return this.userService
-      .getUserByUsername(userName)
+      .getUserByUserId(userId)
       .map((val) => {
         if (val && val.id) {
           return val;
         } else {
-          throw new Error(`No user found for ${userName}`);
+          throw new Error(`No user found for ${userId}`);
         }
       });
   }
