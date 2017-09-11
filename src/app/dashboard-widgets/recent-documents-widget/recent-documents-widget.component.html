@@ -1,12 +1,27 @@
-<div class="card-pf" style="height: 364px;">
-    <div class="card-pf-heading">
-        <h2 class="card-pf-title" style="height: 17px;">Documents</h2>
-    </div>
-    <div class="card-pf-body" style="height: 284px;">
-        <div class="blank-slate-pf">
-            <div class="blank-slate-pf-icon"><i class="pficon pficon-info"></i></div>
-            <h3>No recent failed or active pipelines</h3>
-            <p>Failed pipelines or active pipelines will display here when you commit and build your codebase.</p>
-        </div>
-    </div>
-</div>
+<pfng-toolbar [config]="toolbarConfig" [actionTemplate]="actionTemplate" (onActionSelect)="handleAction($event)" (onFilterChange)="filterChanged($event)"
+    (onFilterFieldSelect)="filterFieldSelected()" (onFilterTypeAhead)="filterQueries($event)" (onSortChange)="sortChanged($event)"
+    (onViewSelect)="viewSelected($event)">
+    <ng-template #actionTemplate>
+        <span class="dropdown primary-action" dropdown>
+            <button class="btn btn-default dropdown-toggle" type="button" dropdownToggle>Menu Action<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" *dropdownMenu>
+            <li role="menuitem">
+                <a class="dropdown-item secondary-action" (click)="optionSelected(1)">Option 1</a>
+            </li>
+            <li role="menuitem">
+                <a class="dropdown-item secondary-action" role="menuitem" (click)="optionSelected(2)">Option 2</a>
+            </li>
+            <li role="menuitem">
+                <a class="dropdown-item secondary-action" role="menuitem" (click)="optionSelected(3)">Option 3</a>
+            </li>
+            <li role="menuitem">
+                <a class="dropdown-item secondary-action" role="menuitem" (click)="optionSelected(4)">Option 4</a>
+            </li>
+        </ul>
+        </span>
+        <button class="btn btn-default primary-action" type="button" (click)="doAdd()">
+            <span class="fa fa-plus"></span>Add Action
+        </button>
+    </ng-template>
+</pfng-toolbar>
