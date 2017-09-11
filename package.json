@@ -84,6 +84,7 @@
     "@angularclass/hmr": "~1.2.2",
     "@angularclass/hmr-loader": "~3.0.2",
     "@ebondu/angular2-keycloak": "^0.8.2",
+    "angular-2-dropdown-multiselect": "^1.5.4",
     "angular-pipes": "^6.5.3",
     "angular2-moment": "^1.6.0",
     "angular2-websocket": "^0.9.3",

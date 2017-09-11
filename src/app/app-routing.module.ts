@@ -60,6 +60,30 @@ export const routes: Routes = [
     }
   },
 
+  // Analyze
+  {
+    path: ':entity/:space',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './space/analyze/analyze.module#AnalyzeModule',
+    data: {
+      title: 'Analyze'
+    }
+  },
+
+  // Space-settings
+  {
+    path: ':entity/:space/settings',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './space/settings/space-settings.module#SpaceSettingsModule',
+    data: {
+      title: 'Areas'
+    }
+  },
+
   {
     path: '**',
     redirectTo: '/_error'

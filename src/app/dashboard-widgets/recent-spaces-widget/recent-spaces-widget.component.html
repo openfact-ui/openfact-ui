@@ -23,10 +23,9 @@
                                         <div class="list-view-pf-description">
                                             <div class="list-group-item-text">
                                                 <span class="pficon-server" title="Space"></span>&nbsp;
-                                                <a [routerLink]="['/', space.relationalData.creator.attributes.username, space.attributes.name]">
-                                                    {{space.attributes.name | spaceName}}
-                                                </a><span> | </span>
-                                                <a> {{space.attributes.assignedId}} </a>
+                                                <a [routerLink]="['/', space.relationalData.creator.id, space.attributes.assignedId]">
+                                                    {{space.attributes.name | spaceName}} | {{space.attributes.assignedId}}
+                                                </a>                                                
                                             </div>
                                         </div>
                                     </div>
