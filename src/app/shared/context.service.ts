@@ -298,7 +298,7 @@ export class ContextService implements Contexts {
         'path': null
       } as Context;
       c.type = ContextTypes.BUILTIN.get('space');
-      c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.name;
+      c.path = '/' + c.user.id + '/' + c.space.attributes.name;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
     } else if (val.user) {
       c = {
@@ -310,8 +310,8 @@ export class ContextService implements Contexts {
       } as Context;
       c.type = ContextTypes.BUILTIN.get('user');
       // TODO replace path with username once parameterized routes are working
-      c.path = '/' + c.user.attributes.username;
-      c.name = c.user.attributes.username;
+      c.path = '/' + c.user.id;
+      c.name = c.user.id;
     } // TODO add type detection for organization and team
     if (c.type != null) {
       this.menus.attach(c);

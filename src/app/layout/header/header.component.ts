@@ -157,7 +157,66 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private updateMenus() {
-    console.log('updating menu');
+    if (this.context && this.context.type && this.context.type.hasOwnProperty('menus')) {
+      let foundPath = false;
+      let menus = (this.context.type as MenuedContextType).menus;
+      for (let n of menus) {
+        // Clear the menu's active state
+        n.active = false;
+        if (this.menuCallbacks.has(n.path)) {
+          this.menuCallbacks.get(n.path)(this).subscribe((val) => n.hide = val);
+        }
+        // lets go in reverse order to avoid matching
+        // /namespace/space/create instead of /namespace/space/create/pipelines
+        // as the 'Create' page matches to the 'Codebases' page
+        let subMenus = (n.menus || []).slice().reverse();
+        if (subMenus) {
+          for (let o of subMenus) {
+            // Clear the menu's active state
+            o.active = false;
+            if (!foundPath && o.fullPath === decodeURIComponent(this.router.url)) {
+              foundPath = true;
+              o.active = true;
+              n.active = true;
+            }
+            if (this.menuCallbacks.has(o.path)) {
+              this.menuCallbacks.get(o.path)(this).subscribe((val) => o.hide = val);
+            }
+          }
+          if (!foundPath) {
+            // lets check if the URL matches part of the path
+            for (let o of subMenus) {
+              if (!foundPath && decodeURIComponent(this.router.url).startsWith(o.fullPath + '/')) {
+                foundPath = true;
+                o.active = true;
+                n.active = true;
+              }
+              if (this.menuCallbacks.has(o.path)) {
+                this.menuCallbacks.get(o.path)(this).subscribe(val => o.hide = val);
+              }
+            }
+          }
+          if (!foundPath && this.router.routerState.snapshot.root.firstChild) {
+            // routes that can't be correctly matched based on the url should use the parent path
+            for (let o of subMenus) {
+              // tslint:disable-next-line:max-line-length
+              let parentPath = decodeURIComponent('/' + this.router.routerState.snapshot.root.firstChild.url.join('/'));
+              if (!foundPath && o.fullPath === parentPath) {
+                foundPath = true;
+                o.active = true;
+                n.active = true;
+              }
+              if (this.menuCallbacks.has(o.path)) {
+                this.menuCallbacks.get(o.path)(this).subscribe((val) => o.hide = val);
+              }
+            }
+          }
+        } else if (!foundPath && n.fullPath === this.router.url) {
+          n.active = true;
+          foundPath = true;
+        }
+      }
+    }
   }
 
   private checkContextUserEqualsLoggedInUser(): Observable<boolean> {

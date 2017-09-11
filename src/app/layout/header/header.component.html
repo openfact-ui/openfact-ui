@@ -137,6 +137,25 @@
           </li>
         </ul>
         <!-- secondary navigation for all sub-links -->
+        <ul class="nav navbar-nav navbar-primary persistent-secondary">
+          <li *ngFor="let m of context?.type?.menus" [class.active]="m.active" [class.with-no-children]="(m.menus||[]).length===0">
+            <a [routerLink]="[m.fullPath]" *ngIf="!m.hide">
+              <span *ngIf="m.icon" class="nav-item-icon">
+                <span class="{{m.icon}}"></span>
+              </span>
+              <span *ngIf="m.name">{{m.name}}</span>
+            </a>
+            <ul class="nav navbar-nav navbar-persistent" *ngIf="m.menus">
+              <li *ngFor="let n of m.menus" [class.active]="n.active">
+                <a [routerLink]="[n.fullPath]" [queryParams]="plannerFollowQueryParams" *ngIf="!n.hide">
+                <span>
+                  {{n.name}}
+                </span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
       <!-- .navbar-collapse -->
     </div>

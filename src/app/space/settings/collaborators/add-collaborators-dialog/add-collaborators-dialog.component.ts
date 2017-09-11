@@ -2,7 +2,8 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  Input, Output,
+  Input,
+  Output,
   EventEmitter,
   ViewChild,
   ViewEncapsulation
@@ -44,7 +45,6 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-
     this.dropdownSettings = {
       pullRight: false,
       enableSearch: true,
@@ -60,7 +60,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
 
     this.openSubscription = this.host.onOpen.subscribe(() => {
       this.dropdownModel = [];
-    });
+    })
   }
 
   public ngOnDestroy() {
@@ -76,7 +76,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
   }
 
   public changed(enteredValue: any) {
-    let searchValue = this.typeahead.searchFilterText;
+    let searchValue = this.typeahead.filterControl.value;
     this.userService.getUsersBySearchString(searchValue).subscribe((users) => {
       this.dropdownOptions = [];
       users.forEach((user) => {

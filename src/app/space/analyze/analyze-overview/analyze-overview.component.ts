@@ -14,16 +14,27 @@ import { Subscription } from 'rxjs';
 })
 export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
 
-  constructor(
-  ) {
+  // @ViewChild('updateSpace') public updateSpace: IModalHost;
+  // @ViewChild('spaceWizard') public spaceWizard: SpaceWizardComponent;
+  private _context: Context;
+  private contextSubscription: Subscription;
+
+  constructor(private contexts: Contexts) {
 
   }
-  ngOnInit() {
 
+  public ngOnInit() {
+    this.contextSubscription = this.contexts.current.subscribe((val) => {
+      this._context = val;
+    });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
+    this.contextSubscription.unsubscribe();
+  }
 
+  public openForgeWizard() {
+    // this.updateSpace.open(this.spaceWizard.steps.spaceConfigurator);
   }
 
 }

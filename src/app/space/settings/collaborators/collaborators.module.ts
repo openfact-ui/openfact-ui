@@ -1,3 +1,4 @@
+import { OpenfactSyncModule } from 'ngo-openfact-sync';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
@@ -20,6 +21,7 @@ import {
     BsDropdownModule.forRoot(),
     CommonModule,
     CollaboratorsRoutingModule,
+    OpenfactSyncModule,
     ListModule,
     InfiniteScrollModule,
     AddCollaboratorsDialogModule,

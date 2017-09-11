@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ModalModule } from 'ngx-modal';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
@@ -12,6 +12,7 @@ import { AddCollaboratorsDialogComponent } from './add-collaborators-dialog.comp
     CommonModule,
     ModalModule,
     FormsModule,
+    ReactiveFormsModule,
     MultiselectDropdownModule
   ],
   declarations: [AddCollaboratorsDialogComponent],

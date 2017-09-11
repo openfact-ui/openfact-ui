@@ -6,13 +6,13 @@ import { SpaceSettingsComponent } from './space-settings.component';
 import { SpaceSettingsRoutingModule } from './space-settings-routing.module';
 
 import { SettingsOverviewModule } from './settings-overview/settings-overview.module';
-import { AreasModule } from './areas/areas.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SpaceSettingsRoutingModule,
-    SettingsOverviewModule],
+    SettingsOverviewModule
+  ],
   declarations: [SpaceSettingsComponent],
 })
 export class SpaceSettingsModule {

@@ -92,6 +92,8 @@ import { ContextService } from './shared/context.service';
 import { ContextResolver } from './shared/context-resolver.service';
 import { ProfileResolver } from './shared/profile-resolver.service';
 
+import { ContextCurrentUserGuard }       from './shared/context-current-user-guard.service';
+
 // Others
 import { GettingStartedService } from './getting-started/services/getting-started.service';
 
@@ -179,6 +181,7 @@ type StoreType = {
       useClass: Fabric8UIOnLogin
     },
 
+    CollaboratorService,
     SpacesService,
     SpaceService,
     {
@@ -192,6 +195,7 @@ type StoreType = {
     },
     ContextResolver,
     ProfileResolver,
+    ContextCurrentUserGuard,
 
     // Component Services
     ConfigStore,
