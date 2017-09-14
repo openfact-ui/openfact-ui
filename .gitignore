@@ -1,7 +1,5 @@
 # @AngularClass
 
-package-lock.json
-
 # Logs
 logs
 *.log
@@ -61,6 +59,7 @@ dll/
 
 # Doc #
 /doc/
+/documentation/
 
 # IDE #
 .idea/

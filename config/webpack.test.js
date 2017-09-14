@@ -3,7 +3,6 @@
  */
 
 const helpers = require('./helpers');
-const path = require('path');
 
 /**
  * Webpack Plugins
@@ -17,31 +16,6 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
-const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
-const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
-const OPENFACT_BRANDING = 'openfact';
-
-const sassModules = [
-  {
-    name: 'bootstrap'
-  }, {
-    name: 'font-awesome',
-    module: 'font-awesome',
-    path: 'font-awesome',
-    sass: 'scss'
-  }, {
-    name: 'patternfly',
-    module: 'patternfly-sass-with-css'
-  }
-];
-
-sassModules.forEach(function (val) {
-  val.module = val.module || val.name + '-sass';
-  val.path = val.path || path.join(val.module, 'assets');
-  val.modulePath = val.modulePath || path.join('node_modules', val.path);
-  val.sass = val.sass || path.join('stylesheets');
-  val.sassPath = path.join(helpers.root(), val.modulePath, val.sass);
-});
 
 /**
  * Webpack configuration
@@ -86,7 +60,7 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#module
      *
      * 'use:' revered back to 'loader:' as a temp. workaround for #1188
-     * See: https://github.com/AngularClass/angular2-webpack-starter/issues/1188#issuecomment-262872034
+     * See: https://github.com/AngularClass/angular-starter/issues/1188#issuecomment-262872034
      */
     module: {
 
@@ -144,17 +118,6 @@ module.exports = function (options) {
         },
 
         /**
-         * Json loader support for *.json files.
-         *
-         * See: https://github.com/webpack/json-loader
-         */
-        {
-          test: /\.json$/,
-          loader: 'json-loader',
-          exclude: [helpers.root('src/index.html')]
-        },
-
-        /**
          * Raw loader support for *.css files
          * Returns file content as string
          *
@@ -173,18 +136,7 @@ module.exports = function (options) {
          */
         {
             test: /\.scss$/,
-            loader: [
-              { 
-                loader: 'raw-loader'
-              }, {
-                loader: 'sass-loader',
-                  query: {
-                  includePaths: sassModules.map(function (val) {
-                    return val.sassPath;
-                  })
-                }
-              }
-            ],
+            loader: ['raw-loader', 'sass-loader'],
             exclude: [helpers.root('src/index.html')]
         },
 
@@ -242,9 +194,7 @@ module.exports = function (options) {
         'ENV': JSON.stringify(ENV),
         'HMR': false,
         'process.env': {
-          'ENV': JSON.stringify(ENV),          
-          'OPENFACT_SYNC_API_URL': stringify(OPENFACT_SYNC_API_URL),
-          'OPENFACT_REALM': stringify(OPENFACT_REALM),          
+          'ENV': JSON.stringify(ENV),
           'NODE_ENV': JSON.stringify(ENV),
           'HMR': false,
         }

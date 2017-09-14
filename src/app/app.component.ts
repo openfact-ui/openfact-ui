@@ -1,17 +1,11 @@
-import { Observable, Subscription } from 'rxjs';
-import { Broadcaster } from 'ngo-base';
-import { LoginService } from './shared/login.service';
-import { SSO_API_URL, REALM, AuthenticationService } from 'ngo-login-client';
-import { Keycloak } from '@ebondu/angular2-keycloak';
-import { NotificationsService } from './shared/notifications.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Http } from '@angular/http';
-import { AboutService } from './shared/about.service';
-
 /**
  * Angular 2 decorators and services
  */
-import { Component, OnInit, Inject, ViewEncapsulation, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { AppState } from './app.service';
 
 /**
@@ -19,61 +13,34 @@ import { AppState } from './app.service';
  * Top Level Component
  */
 @Component({
+  selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  selector: 'ofs-app',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: [
+    './app.component.css'
+  ],
+  template: `
+    hello
+  `
 })
-export class AppComponent implements OnInit, OnDestroy {
-
-  public showClose = true;
-
-  private subscriptions: Subscription[] = [];
+export class AppComponent implements OnInit {
+  public angularclassLogo = 'assets/img/angularclass-avatar.png';
+  public name = 'Angular 2 Webpack Starter';
+  public url = 'https://twitter.com/AngularClass';
 
   constructor(
-    public appState: AppState,
-    private about: AboutService,
-    public notifications: NotificationsService,
-    @Inject(SSO_API_URL) private ssoUrl: string,
-    @Inject(REALM) private realm: string,
-    private keycloak: Keycloak) {
-  }
+    public appState: AppState
+  ) {}
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);
-
-    console.log('Welcome to Openfact Sync!');
-    console.log('This is', this.about.buildVersion,
-      '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
-
-    // Configure the Keycloak
-    Keycloak.config = {
-      url: this.ssoUrl + 'auth',
-      realm: this.realm,
-      clientId: 'openfact-public-client'
-    };
-    this.keycloak.init({
-      checkLoginIframe: false, // If true offline token fails
-      onLoad: 'check-sso'
-    });
-  }
-
-  public ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
-
-  public handleAction($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  public handleClose($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  public handleViewingChange($event: any): void {
-    this.notifications.actionSubject.next($event.action);
   }
 
 }
+
+/**
+ * Please review the https://github.com/AngularClass/angular2-examples/ repo for
+ * more angular app examples that you may copy/paste
+ * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
+ * For help or questions please contact us at @AngularClass on twitter
+ * or our chat on Slack at https://AngularClass.com/slack-join
+ */

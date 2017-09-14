@@ -3,9 +3,6 @@
  */
 
 const helpers = require('./helpers');
-const branding = require('./branding');
-const stringify = require('json-stringify');
-
 /**
  * Used to merge webpack configs
 */
@@ -25,41 +22,24 @@ const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 /**
  * Webpack Constants
  */
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
-const OPENFACT_REALM = process.env.OPENFACT_REALM;
-const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL;
-const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
-const BUILD_NUMBER = process.env.BUILD_NUMBER;
-const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
-const BUILD_VERSION = process.env.BUILD_VERSION;
-const OPENFACT_BRANDING = process.env.OPENFACT_BRANDING || 'openfact';
-
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
+const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
+const METADATA = {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false,  
-  OPENFACT_SYNC_API_URL: OPENFACT_SYNC_API_URL,
-  OPENFACT_REALM: OPENFACT_REALM,
-  OPENFACT_SSO_API_URL: OPENFACT_SSO_API_URL,
-  PUBLIC_PATH: PUBLIC_PATH,
-  BUILD_NUMBER: BUILD_NUMBER,
-  BUILD_TIMESTAMP: BUILD_TIMESTAMP,
-  BUILD_VERSION: BUILD_VERSION,
-  OPENFACT_BRANDING: OPENFACT_BRANDING
-});
+  HMR: false,
+  AOT: AOT
+};
 
 module.exports = function (env) {
   return webpackMerge(commonConfig({
@@ -153,6 +133,8 @@ module.exports = function (env) {
      */
     plugins: [
 
+      new ModuleConcatenationPlugin(),
+
       /**
        * Webpack plugin to optimize a JavaScript file for faster initial load
        * by wrapping eagerly-invoked functions.
@@ -184,27 +166,10 @@ module.exports = function (env) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
-        'process.env': {
-          'ENV': JSON.stringify(METADATA.ENV),
-          'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,          
-          'OPENFACT_SYNC_API_URL': stringify(METADATA.OPENFACT_SYNC_API_URL),
-          'OPENFACT_REALM': stringify(METADATA.OPENFACT_REALM),
-          'OPENFACT_SSO_API_URL': stringify(METADATA.OPENFACT_SSO_API_URL),          
-          'PUBLIC_PATH': stringify(METADATA.PUBLIC_PATH),
-          'BUILD_NUMBER': stringify(METADATA.BUILD_NUMBER),
-          'BUILD_TIMESTAMP': stringify(METADATA.BUILD_TIMESTAMP),
-          'BUILD_VERSION': stringify(METADATA.BUILD_VERSION),
-          'OPENFACT_BRANDING': stringify(METADATA.OPENFACT_BRANDING),
-        }
-      }),
-
-      /*
-       * Generate FavIcons from the master svg in all formats
-       */
-      new FaviconsWebpackPlugin({
-        logo: branding.assets[METADATA.OPENFACT_BRANDING].favicon.path,
-        prefix: '_assets/icons-[hash]/'
+        'AOT': METADATA.AOT,
+        'process.env.ENV': JSON.stringify(METADATA.ENV),
+        'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
+        'process.env.HMR': METADATA.HMR
       }),
 
       /**
@@ -217,41 +182,18 @@ module.exports = function (env) {
        * NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
        */
       new UglifyJsPlugin({
-        // beautify: true, //debug
-        // mangle: false, //debug
-        // dead_code: false, //debug
-        // unused: false, //debug
-        // deadCode: false, //debug
-        // compress: {
-        //   screw_ie8: true,
-        //   keep_fnames: true,
-        //   drop_debugger: false,
-        //   dead_code: false,
-        //   unused: false
-        // }, // debug
-        // comments: true, //debug
-
-
-        beautify: false, //prod
-        output: {
-          comments: false
-        }, //prod
-        mangle: {
-          screw_ie8: true
-        }, //prod
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-          conditionals: true,
-          unused: true,
-          comparisons: true,
-          sequences: true,
-          dead_code: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true,
-          negate_iife: false // we need this for lazy v8
+        parallel: true,
+        uglifyOptions: {
+          ie8: false,
+          ecma: 6,
+          warnings: true,
+          mangle: true, // debug false
+          output: {
+            comments: false,
+            beautify: false,  // debug true
+          }
         },
+        warnings: true,
       }),
 
       /**
@@ -261,7 +203,7 @@ module.exports = function (env) {
        * See: http://webpack.github.io/docs/list-of-plugins.html#normalmodulereplacementplugin
        */
       new NormalModuleReplacementPlugin(
-        /angular2-hmr/,
+        /(angular2|@angularclass)((\\|\/)|-)hmr/,
         helpers.root('config/empty.js')
       ),
 
@@ -274,37 +216,14 @@ module.exports = function (env) {
 
       /**
        * AoT
+       * Manually remove compiler just to make sure it's gone
        */
-      /*
-      new NormalModuleReplacementPlugin(
-        /@angular(\\|\/)upgrade/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /@angular(\\|\/)compiler/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /@angular(\\|\/)platform-browser-dynamic/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /dom(\\|\/)debug(\\|\/)ng_probe/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /dom(\\|\/)debug(\\|\/)by/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /src(\\|\/)debug(\\|\/)debug_node/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /src(\\|\/)debug(\\|\/)debug_renderer/,
-        helpers.root('config/empty.js')
-      ),
-      */
+      (AOT ? (
+        new NormalModuleReplacementPlugin(
+          /@angular(\\|\/)compiler/,
+          helpers.root('config/empty.js')
+        )
+      ) : (new LoaderOptionsPlugin({}))),
 
       /**
        * Plugin: CompressionPlugin
