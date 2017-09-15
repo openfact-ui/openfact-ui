@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import {HttpModule, Http} from '@angular/http';
 import {
   NgModule,
   ApplicationRef
@@ -73,7 +73,7 @@ import {ContextCurrentUserGuard} from './shared/context-current-user-guard.servi
 import {ContextResolver} from './shared/context-resolver.service';
 import {DummyService} from './shared/dummy.service';
 import {ExperimentalFeatureResolver} from './shared/experimental-feature.resolver';
-import {Fabric8UIHttpService} from './shared/fabric8-ui-http.service';
+import {OpenfactUIHttpService} from './shared/openfact-ui-http.service';
 import {LoginService} from './shared/login.service';
 import {NotificationsService} from './shared/notifications.service';
 import {SpacesService} from './shared/spaces.service';
@@ -184,6 +184,12 @@ type StoreType = {
     CollaboratorService,
 
     // Others
+    {
+      provide: Http,
+      useClass: OpenfactUIHttpService
+    },
+    HttpService,
+
     // GettingStartedService,
     MenusService,
 

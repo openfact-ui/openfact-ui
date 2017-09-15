@@ -19,15 +19,15 @@ export const routes: Routes = [
     }
   },
 
-  // // Getting started
-  // {
-  //   path: '_gettingstarted',
-  //   loadChildren: './getting-started/getting-started.module#GettingStartedModule',
-  //   data: {
-  //     title: 'Getting Started'
-  //   }
-  // },
-  //
+  // Getting started
+  {
+    path: '_gettingstarted',
+    loadChildren: './getting-started/getting-started.module#GettingStartedModule',
+    data: {
+      title: 'Getting Started'
+    }
+  },
+
   // // Error Pages
   // {
   //   path: '_error',

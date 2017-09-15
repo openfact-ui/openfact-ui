@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Injectable, Inject} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { AuthenticationService } from 'ngo-login-client';
-import { Logger } from 'ngo-base';
-import { SYNC_API_URL } from 'ngo-openfact-sync';
+import {AuthenticationService} from 'ngo-login-client';
+import {Logger} from 'ngo-base';
+import {SYNC_API_URL} from 'ngo-openfact-sync';
 
 import * as jwt_decode from 'jwt-decode';
 
@@ -11,10 +11,9 @@ import * as jwt_decode from 'jwt-decode';
 export class ProviderService {
   private loginUrl: string;
 
-  constructor(
-      private auth: AuthenticationService,
-      private logger: Logger,
-      @Inject(SYNC_API_URL) apiUrl: string) {
+  constructor(private auth: AuthenticationService,
+              private logger: Logger,
+              @Inject(SYNC_API_URL) apiUrl: string) {
     this.loginUrl = apiUrl + 'login';
   }
 
@@ -32,8 +31,8 @@ export class ProviderService {
    *
    * @param redirect URL to be redirected to after successful account linking
    */
-  public linkGitHub(redirect: string): void {
-    this.link('github', redirect);
+  public linkGoogle(redirect: string): void {
+    this.link('google', redirect);
   }
 
   /**
@@ -41,8 +40,8 @@ export class ProviderService {
    *
    * @param redirect URL to be redirected to after successful account linking
    */
-  public linkOpenShift(redirect: string): void {
-    this.link('openshift-v3', redirect);
+  public linkMicrosoft(redirect: string): void {
+    this.link('microsoft', redirect);
   }
 
   /**
@@ -63,6 +62,18 @@ export class ProviderService {
     this.redirectToAuth(url);
   }
 
+  /**
+   * Link offline token to user
+   */
+  public linkOffline(redirect: string): void {
+    let parsedToken = jwt_decode(this.auth.getToken());
+    let url = `${this.loginUrl}/linkoffline?`
+      + 'clientSession=' + parsedToken.client_session
+      + '&sessionState=' + parsedToken.session_state
+      + '&redirect=' + redirect;
+    this.redirectToAuth(url);
+  }
+
   // Private
 
   private redirectToAuth(url) {
@@ -73,4 +84,5 @@ export class ProviderService {
     this.logger.error(error);
     return Observable.throw(error.message || error);
   }
+
 }

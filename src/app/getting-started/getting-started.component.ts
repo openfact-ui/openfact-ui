@@ -14,23 +14,24 @@ import {pathJoin} from '../../a-runtime-console/kubernetes/model/utils';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'alm-getting-started',
+  selector: 'ofs-getting-started',
   templateUrl: './getting-started.component.html',
   styleUrls: ['./getting-started.component.scss'],
   providers: [GettingStartedService, ProviderService]
 })
 export class GettingStartedComponent implements OnDestroy, OnInit {
 
-  authGitHub: boolean = false;
-  authOpenShift: boolean = false;
-  gitHubLinked: boolean = false;
-  loggedInUser: User;
-  openShiftLinked: boolean = false;
-  registrationCompleted: boolean = true;
-  showGettingStarted: boolean = false;
-  subscriptions: Subscription[] = [];
-  username: string;
-  usernameInvalid: boolean = false;
+  public authGoogle: boolean = false;
+  public authMicrosoft: boolean = false;
+  public googleLinked: boolean = false;
+  public microsoftLinked: boolean = false;
+
+  public loggedInUser: User;
+  public registrationCompleted: boolean = true;
+  public showGettingStarted: boolean = false;
+  public subscriptions: Subscription[] = [];
+  public username: string;
+  public usernameInvalid: boolean = false;
 
   constructor(private auth: AuthenticationService,
               private gettingStartedService: GettingStartedService,
@@ -51,31 +52,24 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     // Route to home if registration is complete.
-    /*this.userService.loggedInUser
-      .map(user => {
+    this.userService.loggedInUser
+      .map((user) => {
         this.loggedInUser = user;
         this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
-
-        // Todo: Remove after summit?
-        if (!this.registrationCompleted) {
-          this.saveUsername();
-        }
       })
-      .switchMap(() => this.auth.gitHubToken)
+      .switchMap(() => this.auth.getGoogleToken())
       .map((token) => {
-        this.gitHubLinked = (token !== undefined && token.length !== 0);
+        this.googleLinked = (token !== undefined && token.length !== 0);
       })
-      .switchMap(() => this.auth.openShiftToken)
+      .switchMap(() => this.auth.getMicrosoftToken())
       .map((token) => {
-        if (!this.kubeMode) {
-          this.openShiftLinked = (token !== undefined && token.length !== 0);
-        }
+        this.microsoftLinked = (token !== undefined && token.length !== 0);
       })
       .do(() => {
         this.routeToHomeIfCompleted();
       })
-      .publish().connect();*/
+      .publish().connect();
 
     // Page is hidden by default to prevent flashing, but must show if tokens cannot be obtained.
     setTimeout(() => {
@@ -91,8 +85,8 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * @returns {boolean}
    */
   get isConnectAccountsDisabled(): boolean {
-    return !(this.authGitHub && !this.gitHubLinked || this.authOpenShift && !this.openShiftLinked)
-      || (this.gitHubLinked && this.openShiftLinked);
+    return !(this.authGoogle && !this.googleLinked || this.authMicrosoft && !this.microsoftLinked)
+      || (this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -101,7 +95,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * @returns {boolean} If the user has completed the getting started page
    */
   get isSuccess(): boolean {
-    return (this.registrationCompleted && this.gitHubLinked && this.openShiftLinked);
+    return (this.registrationCompleted && this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -119,12 +113,12 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
    * Link GitHub and/or OpenShift accounts
    */
   public connectAccounts(): void {
-    if (this.authGitHub && !this.gitHubLinked && this.authOpenShift && !this.openShiftLinked) {
+    if (this.authGoogle && !this.googleLinked && this.authMicrosoft && !this.microsoftLinked) {
       this.providerService.linkAll(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authGitHub && !this.gitHubLinked) {
-      this.providerService.linkGitHub(window.location.origin + '/_gettingstarted?wait=true');
-    } else if (this.authOpenShift && !this.openShiftLinked) {
-      this.providerService.linkOpenShift(window.location.origin + '/_gettingstarted?wait=true');
+    } else if (this.authGoogle && !this.googleLinked) {
+      this.providerService.linkGoogle(window.location.origin + '/_gettingstarted?wait=true');
+    } else if (this.authMicrosoft && !this.microsoftLinked) {
+      this.providerService.linkMicrosoft(window.location.origin + '/_gettingstarted?wait=true');
     }
   }
 
@@ -138,11 +132,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   /**
    * Save username
    */
-  public saveUsername(): void {
-    this.usernameInvalid = !this.isUsernameValid();
-    if (this.usernameInvalid) {
-      return;
-    }
+  public saveUser(): void {
     let profile = this.gettingStartedService.createTransientProfile();
     profile.username = this.username;
     profile.registrationCompleted = true;
@@ -150,13 +140,6 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
       this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
       this.loggedInUser = user;
-      //Since we don't allow the user to change their username then we shouldn't tell them they did
-      // if (this.username === user.attributes.username) {
-      //   this.notifications.message({
-      //     message: `Username updated!`,
-      //     type: NotificationType.SUCCESS
-      //   } as Notification);
-      // }
     }, (error) => {
       this.username = this.loggedInUser.attributes.username;
       if (error.status === 403) {
@@ -167,6 +150,10 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
         this.handleError('Failed to update username', NotificationType.DANGER);
       }
     }));
+  }
+
+  public saveUserOffline(): void {
+    this.providerService.linkOffline(window.location.origin + '/_gettingstarted?wait=true');
   }
 
   // Private
@@ -202,7 +189,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   private isUserGettingStarted(): boolean {
     let wait = this.getRequestParam('wait');
     return !(wait === null && this.registrationCompleted === true
-      && this.gitHubLinked === true && this.openShiftLinked === true);
+      && this.googleLinked === true && this.microsoftLinked === true);
   }
 
   /**

@@ -1,4 +1,4 @@
-//@import (reference) '../../assets/stylesheets/shared/osio.less';
+//@import '../../styles/styles';
 //.checkbox {
 //  input[type='checkbox'] {
 //    position: relative;
@@ -7,8 +7,8 @@
 //  }
 //  label { padding-left: 0; }
 //}
-//.stack-circle-border-blue { color: @color-pf-blue-300; }
-//.stack-circle-number { color: @color-pf-black; }
+//.stack-circle-border-blue { color: $color-pf-blue-300; }
+//.stack-circle-number { color: $color-pf-black; }
 //.getting-started-subtitle { padding-bottom: 20px; }
 //.getting-started-title { font-weight: 400; }
 //h2 {
@@ -25,7 +25,7 @@
 //  margin-top: 20px;
 //  padding-top: 20px;
 //  border-top: 1px solid;
-//  border-top-color: @color-pf-black-400;
+//  border-top-color: $color-pf-black-400;
 //}
 //.success-title { font-weight: 400; }
 //.home-logo { width: 100%; }

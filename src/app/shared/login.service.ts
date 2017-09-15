@@ -47,7 +47,7 @@ export class LoginService {
   }
 
   public redirectToAuth() {
-    var authUrl = this.authUrl;
+    let authUrl = this.authUrl;
     if (authUrl.indexOf('?') < 0) {
       // lets ensure there's a redirect parameter to avoid WIT barfing
       authUrl += '?redirect=' + window.location.href;
