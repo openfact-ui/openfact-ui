@@ -17,6 +17,10 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
+const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL;
+const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
+const OPENFACT_BRANDING = 'openfact';
+
 /**
  * Webpack configuration
  *
@@ -197,6 +201,8 @@ module.exports = function (options) {
           'ENV': JSON.stringify(ENV),
           'NODE_ENV': JSON.stringify(ENV),
           'HMR': false,
+          'OPENFACT_SYNC_API_URL': stringify(OPENFACT_SYNC_API_URL),
+          'OPENFACT_REALM': stringify(OPENFACT_REALM),
         }
       }),
 

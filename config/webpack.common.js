@@ -34,7 +34,8 @@ const METADATA = {
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: HMR,
-  AOT: AOT
+  AOT: AOT,
+  OPENFACT_BRANDING: process.env.OPENFACT_BRANDING || 'openfact'
 };
 
 /**

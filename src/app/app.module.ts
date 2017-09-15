@@ -1,6 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 import {
   NgModule,
   ApplicationRef
@@ -10,29 +10,86 @@ import {
   createNewHosts,
   createInputTransfer
 } from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
+import {ENV_PROVIDERS} from './environment';
+import {AppRoutingModule} from './app-routing.module';
+
 // App is our top level component
-import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
+import {AppComponent} from './app.component';
+import {APP_RESOLVER_PROVIDERS} from './app.resolver';
+import {AppState, InternalStateType} from './app.service';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+
+import {LocalStorageModule} from 'angular-2-local-storage';
+import {MomentModule} from 'angular2-moment';
+import {RouterModule} from '@angular/router';
+import {ModalModule} from 'ngx-modal';
+
+import {RestangularModule} from 'ngx-restangular';
+import {
+  Broadcaster,
+  Logger,
+  Notifications
+} from 'ngo-base';
+import {BsDropdownConfig, BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {
+  Contexts,
+  SpaceService,
+  Spaces,
+  CollaboratorService,
+  OpenfactSyncModule
+} from 'ngo-openfact-sync';
+import {
+  AuthenticationService,
+  HttpService,
+  UserService
+} from 'ngo-login-client';
+import {WidgetsModule} from 'ngx-widgets';
+import {PatternFlyNgModule} from 'patternfly-ng';
+
+// Footer & Header
+import {FooterComponent} from './layout/footer/footer.component';
+import {HeaderComponent} from './layout/header/header.component';
+import {MenusService} from './layout/header/menus.service';
+
+// Shared Services
+import {AboutService} from './shared/about.service';
+import {AnalyticService} from './shared/analytics.service';
+import {ApiLocatorService} from './shared/api-locator.service';
+import {AuthGuard} from './shared/auth-guard.service';
+import {authApiUrlProvider} from './shared/auth-api.provider';
+import {BrandingService} from './shared/branding.service';
+import {openfactUIConfigProvider} from './shared/config/openfact-ui-config.service';
+import {AuthUserResolve} from './shared/common.resolver';
+import {ContextService} from './shared/context.service';
+import {ContextCurrentUserGuard} from './shared/context-current-user-guard.service';
+import {ContextResolver} from './shared/context-resolver.service';
+import {DummyService} from './shared/dummy.service';
+import {ExperimentalFeatureResolver} from './shared/experimental-feature.resolver';
+import {Fabric8UIHttpService} from './shared/fabric8-ui-http.service';
+import {LoginService} from './shared/login.service';
+import {NotificationsService} from './shared/notifications.service';
+import {SpacesService} from './shared/spaces.service';
+import {ssoApiUrlProvider} from './shared/sso-api.provider';
+import {syncApiUrlProvider} from './shared/sync-api.provider';
+import {realmProvider} from './shared/realm-token.provider';
+
+// Component Services
+import {ConfigStore} from './base/config.store';
+import {ErrorService} from './layout/error/error.service';
+import {ProfileService} from './profile/profile.service';
+
+// About Modal
+import {AboutModalModule} from './layout/about-modal/about-modal.module';
+
+import {EventService} from './shared/event.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -50,9 +107,11 @@ type StoreType = {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
+    FooterComponent,
+    HeaderComponent,
   ],
   /**
    * Import Angular's modules.
@@ -62,25 +121,87 @@ type StoreType = {
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules
-    })
+    RouterModule,
+
+    BsDropdownModule.forRoot(),
+    LocalStorageModule.withConfig({
+      prefix: 'openfactsync',
+      storageType: 'localStorage'
+    }),
+    ModalModule,
+    MomentModule,
+    ReactiveFormsModule,
+    RestangularModule,
+    WidgetsModule,
+    PatternFlyNgModule,
+
+    AboutModalModule,
+    OpenfactSyncModule,
+
+    // AppRoutingModule must appear last
+    AppRoutingModule,
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.
    */
   providers: [
+    // Broadcaster must come first
+    Broadcaster,
+    Logger,
+    EventService,
+
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    AboutService,
+    APP_PROVIDERS,
+
+    AuthenticationService,
+    AuthGuard,
+
+    LoginService,
+    NotificationsService,
+    {
+      provide: Notifications,
+      useExisting: NotificationsService
+    },
+
+    // Component Services
+    ConfigStore,
+    ErrorService,
+    ProfileService,
+
+    BrandingService,
+    SpacesService,
+    SpaceService,
+    {
+      provide: Spaces,
+      useExisting: SpacesService
+    },
+    ContextService,
+    {
+      provide: Contexts,
+      useExisting: ContextService
+    },
+    CollaboratorService,
+
+    // Others
+    // GettingStartedService,
+    MenusService,
+
+    openfactUIConfigProvider,
+    ApiLocatorService,
+    syncApiUrlProvider,
+
+    UserService,
+    authApiUrlProvider,
+    ssoApiUrlProvider,
+    realmProvider,
   ]
 })
 export class AppModule {
 
-  constructor(
-    public appRef: ApplicationRef,
-    public appState: AppState
-  ) {}
+  constructor(public appRef: ApplicationRef,
+              public appState: AppState) {
+  }
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
@@ -118,7 +239,7 @@ export class AppModule {
     /**
      * Save input values
      */
-    store.restoreInputValues  = createInputTransfer();
+    store.restoreInputValues = createInputTransfer();
     /**
      * Remove styles
      */

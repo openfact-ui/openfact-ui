@@ -1,3 +1,7 @@
+import {Broadcaster} from 'ngo-base';
+import {AuthenticationService} from 'ngo-login-client';
+import {Spaces} from 'ngo-openfact-sync';
+
 /**
  * Angular 2 decorators and services
  */
@@ -6,7 +10,15 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
-import { AppState } from './app.service';
+import {AppState} from './app.service';
+
+import {ActivatedRoute, Router, NavigationEnd, NavigationStart} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+
+import {AboutService} from './shared/about.service';
+import {NotificationsService} from './shared/notifications.service';
+import {LoginService} from './shared/login.service';
+import {BrandingService} from './shared/branding.service';
 
 /**
  * App Component
@@ -15,32 +27,44 @@ import { AppState } from './app.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
-  template: `
-    hello
-  `
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  public angularclassLogo = 'assets/img/angularclass-avatar.png';
-  public name = 'Angular 2 Webpack Starter';
-  public url = 'https://twitter.com/AngularClass';
 
-  constructor(
-    public appState: AppState
-  ) {}
+  constructor(private about: AboutService,
+              private activatedRoute: ActivatedRoute,
+              public notifications: NotificationsService,
+              private loginService: LoginService,
+              // Inject services that need to start listening
+              private spaces: Spaces,
+              private authService: AuthenticationService,
+              private broadcaster: Broadcaster,
+              private router: Router,
+              private titleService: Title,
+              private brandingService: BrandingService) {
+  }
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+    console.log('Welcome to Openfact!');
+    console.log('This is', this.about.buildVersion, '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
+    this.activatedRoute.params.subscribe(() => {
+      this.loginService.login();
+    });
+
+    this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .map(() => this.activatedRoute)
+      .filter((route) => route.outlet === 'primary')
+      .mergeMap((route) => route.data)
+      .subscribe((event) => {
+        let title = event['title'] ? `${event['title']} - ${this.brandingService.name}` : this.brandingService.name;
+        this.titleService.setTitle(title);
+      });
+  }
+
+  public handleAction($event: any): void {
+    this.notifications.actionSubject.next($event.action);
   }
 
 }
-
-/**
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */
