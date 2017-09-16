@@ -80,6 +80,8 @@ import {SpacesService} from './shared/spaces.service';
 import {ssoApiUrlProvider} from './shared/sso-api.provider';
 import {syncApiUrlProvider} from './shared/sync-api.provider';
 import {realmProvider} from './shared/realm-token.provider';
+import {OpenfactRuntimeConsoleService} from './shared/runtime-console/openfact-runtime-console.service';
+import {ProfileResolver} from './shared/profile-resolver.service';
 
 // Component Services
 import {ConfigStore} from './base/config.store';
@@ -170,6 +172,8 @@ type StoreType = {
     ProfileService,
 
     BrandingService,
+    ContextResolver,
+    ContextCurrentUserGuard,
     SpacesService,
     SpaceService,
     {
@@ -182,8 +186,10 @@ type StoreType = {
       useExisting: ContextService
     },
     CollaboratorService,
+    ProfileResolver,
 
     // Others
+    OpenfactRuntimeConsoleService,
     {
       provide: Http,
       useClass: OpenfactUIHttpService

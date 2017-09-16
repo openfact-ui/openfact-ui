@@ -28,72 +28,73 @@ export const routes: Routes = [
     }
   },
 
-  // // Error Pages
-  // {
-  //   path: '_error',
-  //   loadChildren: './layout/error/error.module#ErrorModule',
-  //   data: {
-  //     title: 'Error'
-  //   }
-  // },
-  //
-  // // Profile
-  // {
-  //   path: '_profile',
-  //   resolve: {
-  //     context: ProfileResolver
-  //   },
-  //   loadChildren: './profile/profile.module#ProfileModule',
-  //   data: {
-  //     title: 'Profile'
-  //   }
-  // },
-  //
-  // {
-  //   path: ':entity',
-  //   resolve: {
-  //     context: ContextResolver
-  //   },
-  //   loadChildren: './profile/profile.module#ProfileModule',
-  //   data: {
-  //     title: 'Profile'
-  //   }
-  // },
-  //
-  // // Analyze
-  // {
-  //   path: ':entity/:space',
-  //   resolve: {
-  //     context: ContextResolver
-  //   },
-  //   loadChildren: './space/analyze/analyze.module#AnalyzeModule',
-  //   data: {
-  //     title: 'Analyze'
-  //   }
-  // },
-  //
-  // // Space-settings
-  // {
-  //   path: ':entity/:space/settings',
-  //   resolve: {
-  //     context: ContextResolver
-  //   },
-  //   loadChildren: './space/settings/space-settings.module#SpaceSettingsModule',
-  //   data: {
-  //     title: 'Areas'
-  //   }
-  // },
-  //
-  // {
-  //   path: '**',
-  //   redirectTo: '/_error'
-  // }
+  // Error Pages
+  {
+    path: '_error',
+    loadChildren: './layout/error/error.module#ErrorModule',
+    data: {
+      title: 'Error'
+    }
+  },
+
+  // Profile
+  {
+    path: '_profile',
+    resolve: {
+      context: ProfileResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
+  {
+    path: ':entity',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
+  // Analyze
+  {
+    path: ':entity/:space',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './space/analyze/analyze.module#AnalyzeModule',
+    data: {
+      title: 'Analyze'
+    }
+  },
+
+  // Space-settings
+  {
+    path: ':entity/:space/settings',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './space/settings/space-settings.module#SpaceSettingsModule',
+    data: {
+      title: 'Areas'
+    }
+  },
+
+  {
+    path: '**',
+    redirectTo: '/_error'
+  }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: Boolean(history.pushState) === false,
+      // useHash: Boolean(history.pushState) === false,
+      useHash: true,
       preloadingStrategy: PreloadAllModules,
       enableTracing: false,
     })
