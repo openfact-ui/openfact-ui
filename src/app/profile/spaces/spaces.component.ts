@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
-import {Logger} from 'ngo-base';
-import {Space, SpaceService, Context, Contexts} from 'ngo-openfact-sync';
-import {IModalHost} from '../../space/wizard/models/modal-host';
-import {EventService} from '../../shared/event.service';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { Logger } from 'ngo-base';
+import { Space, SpaceService, Context, Contexts } from 'ngo-openfact-sync';
+import { IModalHost } from '../../space/wizard/models/modal-host';
+import { EventService } from '../../shared/event.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -24,10 +24,10 @@ export class SpacesComponent implements OnInit {
   @ViewChild('deleteSpace') public deleteSpace: IModalHost;
 
   constructor(private router: Router,
-              private spaceService: SpaceService,
-              private logger: Logger,
-              private contexts: Contexts,
-              private eventService: EventService) {
+    private spaceService: SpaceService,
+    private logger: Logger,
+    private contexts: Contexts,
+    private eventService: EventService) {
     this.contexts.current.subscribe((val) => this.context = val);
   }
 
@@ -60,11 +60,11 @@ export class SpacesComponent implements OnInit {
     if (this.context && this.context.user) {
       this.spaceService.getMoreSpacesByUser()
         .subscribe((spaces) => {
-            this._spaces = this._spaces.concat(spaces);
-          },
-          (err) => {
-            this.logger.error(err);
-          });
+          this._spaces = this._spaces.concat(spaces);
+        },
+        (err) => {
+          this.logger.error(err);
+        });
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }
@@ -78,16 +78,16 @@ export class SpacesComponent implements OnInit {
           this.eventService.deleteSpaceSubject.next(space);
         })
         .subscribe((spaces) => {
-            let index = this._spaces.indexOf(space);
-            this._spaces.splice(index, 1);
-            this.spaceToDelete = undefined;
-            this.deleteSpace.close();
-          },
-          (err) => {
-            this.logger.error(err);
-            this.spaceToDelete = undefined;
-            this.deleteSpace.close();
-          });
+          let index = this._spaces.indexOf(space);
+          this._spaces.splice(index, 1);
+          this.spaceToDelete = undefined;
+          this.deleteSpace.close();
+        },
+        (err) => {
+          this.logger.error(err);
+          this.spaceToDelete = undefined;
+          this.deleteSpace.close();
+        });
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }

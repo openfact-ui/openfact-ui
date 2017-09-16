@@ -1,8 +1,8 @@
-import {Navigation} from '../models/navigation';
-import {ContextService} from './context.service';
-import {Observable, ConnectableObservable, Subject, BehaviorSubject} from 'rxjs';
-import {Context, Contexts} from 'ngo-openfact-sync';
-import {Injectable} from '@angular/core';
+import { Navigation } from '../models/navigation';
+import { ContextService } from './context.service';
+import { Observable, ConnectableObservable, Subject, BehaviorSubject } from 'rxjs';
+import { Context, Contexts } from 'ngo-openfact-sync';
+import { Injectable } from '@angular/core';
 import {
   Resolve,
   Router,
