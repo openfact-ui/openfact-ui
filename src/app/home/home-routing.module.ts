@@ -1,19 +1,31 @@
-import { NgModule }  from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 import { AuthGuard } from '../shared/auth-guard.service';
 
+import { InboxComponent } from './inbox/inbox.component';
+
 const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    component: HomeComponent
+    component: HomeComponent,
+    children: [
+      { path: '', component: InboxComponent },
+      {
+        path: '_upload',
+        loadChildren: './upload/upload.module#UploadModule',
+        data: {
+          title: 'Upload'
+        }
+      }
+    ]
   }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class HomeRoutingModule {}
+export class HomeRoutingModule { }
