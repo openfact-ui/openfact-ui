@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import {Context, Contexts} from 'ngo-openfact-sync';
-import {UserService, User} from 'ngo-login-client';
+import { Context, Contexts } from 'ngo-openfact-sync';
+import { UserService, User } from 'ngo-login-client';
 
 export class Activity {
   public what: string;
@@ -23,8 +23,8 @@ export class ActivityComponent implements OnDestroy, OnInit {
   public subscriptions: Subscription[] = [];
 
   constructor(private contexts: Contexts,
-              private userService: UserService,
-              private router: Router) {
+    private userService: UserService,
+    private router: Router) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));
     this.subscriptions.push(userService.loggedInUser.subscribe((user) => {
       this.loggedInUser = user;

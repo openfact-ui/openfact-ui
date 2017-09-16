@@ -1,12 +1,12 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import {Context, Contexts} from 'ngo-openfact-sync';
-import {Logger} from 'ngo-base';
-import {Space, SpaceService} from 'ngo-openfact-sync';
-import {UserService, User} from 'ngo-login-client';
+import { Context, Contexts } from 'ngo-openfact-sync';
+import { Logger } from 'ngo-base';
+import { Space, SpaceService } from 'ngo-openfact-sync';
+import { UserService, User } from 'ngo-login-client';
 
-import {IModalHost} from '../../../space/wizard/models/modal-host';
+import { IModalHost } from '../../../space/wizard/models/modal-host';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -26,14 +26,14 @@ export class SpacesComponent implements OnDestroy, OnInit {
   @ViewChild('deleteSpace') public deleteSpace: IModalHost;
 
   constructor(private contexts: Contexts,
-              private logger: Logger,
-              private spaceService: SpaceService,
-              private userService: UserService) {
+    private logger: Logger,
+    private spaceService: SpaceService,
+    private userService: UserService) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));
   }
 
   public ngOnInit(): void {
-    this.initSpaces({pageSize: this.pageSize});
+    this.initSpaces({ pageSize: this.pageSize });
   }
 
   public ngOnDestroy(): void {
@@ -61,11 +61,11 @@ export class SpacesComponent implements OnDestroy, OnInit {
     if (this.context && this.context.user) {
       this.subscriptions.push(this.spaceService.getMoreSpacesByUser()
         .subscribe((spaces) => {
-            this.spaces = this.spaces.concat(spaces);
-          },
-          (err) => {
-            this.logger.error(err);
-          }));
+          this.spaces = this.spaces.concat(spaces);
+        },
+        (err) => {
+          this.logger.error(err);
+        }));
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }
@@ -76,16 +76,16 @@ export class SpacesComponent implements OnDestroy, OnInit {
       let space = this.spaceToDelete;
       this.subscriptions.push(this.spaceService.deleteSpace(space)
         .subscribe((spaces) => {
-            let index = this.spaces.indexOf(space);
-            this.spaces.splice(index, 1);
-            this.spaceToDelete = undefined;
-            this.deleteSpace.close();
-          },
-          (err) => {
-            this.logger.error(err);
-            this.spaceToDelete = undefined;
-            this.deleteSpace.close();
-          }));
+          let index = this.spaces.indexOf(space);
+          this.spaces.splice(index, 1);
+          this.spaceToDelete = undefined;
+          this.deleteSpace.close();
+        },
+        (err) => {
+          this.logger.error(err);
+          this.spaceToDelete = undefined;
+          this.deleteSpace.close();
+        }));
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }

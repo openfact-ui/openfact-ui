@@ -16,8 +16,9 @@ import { SpacesModule } from './spaces/spaces.module';
     SpacesModule,
     TabsModule.forRoot(),
   ],
-  declarations: [ OverviewComponent ],
+  declarations: [OverviewComponent],
 })
 export class OverviewModule {
-  constructor(http: Http) {}
+  constructor(http: Http) {
+  }
 }

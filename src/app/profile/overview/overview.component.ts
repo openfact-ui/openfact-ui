@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import {Context, Contexts} from 'ngo-openfact-sync';
-import {Space, SpaceService} from 'ngo-openfact-sync';
-import {UserService, User} from 'ngo-login-client';
+import { Context, Contexts } from 'ngo-openfact-sync';
+import { Space, SpaceService } from 'ngo-openfact-sync';
+import { UserService, User } from 'ngo-login-client';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -20,9 +20,9 @@ export class OverviewComponent implements OnDestroy, OnInit {
   public spaces: Space[] = [];
 
   constructor(private contexts: Contexts,
-              private spaceService: SpaceService,
-              private userService: UserService,
-              private router: Router) {
+    private spaceService: SpaceService,
+    private userService: UserService,
+    private router: Router) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));
     this.subscriptions.push(userService.loggedInUser.subscribe((user) => {
       this.loggedInUser = user;

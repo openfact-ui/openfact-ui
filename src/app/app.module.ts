@@ -87,6 +87,7 @@ import {ProfileResolver} from './shared/profile-resolver.service';
 import {ConfigStore} from './base/config.store';
 import {ErrorService} from './layout/error/error.service';
 import {ProfileService} from './profile/profile.service';
+import { SpaceWizardModule } from './space/wizard/space-wizard.module';
 
 // About Modal
 import {AboutModalModule} from './layout/about-modal/about-modal.module';
@@ -139,6 +140,7 @@ type StoreType = {
 
     AboutModalModule,
     OpenfactSyncModule,
+    SpaceWizardModule,
 
     // AppRoutingModule must appear last
     AppRoutingModule,
