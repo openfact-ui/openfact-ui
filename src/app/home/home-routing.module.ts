@@ -12,14 +12,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: HomeComponent,
     children: [
-      { path: '', component: InboxComponent },
-      {
-        path: '_upload',
-        loadChildren: './upload/upload.module#UploadModule',
-        data: {
-          title: 'Upload'
-        }
-      }
+      { path: '', component: InboxComponent }
     ]
   }
 ];
