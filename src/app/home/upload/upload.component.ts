@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'ofs-inbox',
-  templateUrl: 'inbox.component.html',
-  styleUrls: ['./inbox.component.scss']
+  selector: 'ofs-upload',
+  templateUrl: 'upload.component.html',
+  styleUrls: ['./upload.component.scss']
 })
-export class InboxComponent implements OnDestroy, OnInit {
+export class UploadComponent implements OnDestroy, OnInit {
 
   constructor() {
   }

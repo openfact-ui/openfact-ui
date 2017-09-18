@@ -5,13 +5,13 @@ import { Http } from '@angular/http';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 
-import { InputModule } from './input/input.module';
+import { InboxModule } from './inbox/inbox.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HomeRoutingModule,
-    InputModule
+    InboxModule
   ],
   declarations: [HomeComponent]
 })

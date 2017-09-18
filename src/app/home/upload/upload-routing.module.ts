@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { InboxComponent } from './inbox.component';
+import { UploadComponent } from './upload.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: InboxComponent
+    component: UploadComponent
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class InboxRoutingModule { }
+export class UploadRoutingModule { }
