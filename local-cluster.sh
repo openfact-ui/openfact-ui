@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-oc project openfact-dev
+oc project openfact-sync-system
 
 export OPENFACT_REALM="openfact"
 
