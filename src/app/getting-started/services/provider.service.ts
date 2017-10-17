@@ -1,9 +1,9 @@
-import {Injectable, Inject} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Injectable, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import {AuthenticationService} from 'ngo-login-client';
-import {Logger} from 'ngo-base';
-import {SYNC_API_URL} from 'ngo-openfact-sync';
+import { AuthenticationService } from 'ngo-login-client';
+import { Logger } from 'ngo-base';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
 
 import * as jwt_decode from 'jwt-decode';
 
@@ -11,9 +11,10 @@ import * as jwt_decode from 'jwt-decode';
 export class ProviderService {
   private loginUrl: string;
 
-  constructor(private auth: AuthenticationService,
-              private logger: Logger,
-              @Inject(SYNC_API_URL) apiUrl: string) {
+  constructor(
+    private auth: AuthenticationService,
+    private logger: Logger,
+    @Inject(SYNC_API_URL) apiUrl: string) {
     this.loginUrl = apiUrl + 'login';
   }
 
@@ -22,7 +23,7 @@ export class ProviderService {
    *
    * @param redirect URL to be redirected to after successful account linking
    */
-  public linkAll(redirect: string): void {
+  linkAll(redirect: string): void {
     this.link(null, redirect);
   }
 
@@ -50,14 +51,14 @@ export class ProviderService {
    * @param provider Identity Provider name to link to the user's account
    * @param redirect URL to be redirected to after successful account linking
    */
-  public link(provider: string, redirect: string): void {
+  link(provider: string, redirect: string): void {
     let parsedToken = jwt_decode(this.auth.getToken());
     let url = `${this.loginUrl}/linksession?`
-      + 'clientSession=' + parsedToken.client_session
-      + '&sessionState=' + parsedToken.session_state
-      + '&redirect=' + redirect;
+      + "clientSession=" + parsedToken.client_session
+      + "&sessionState=" + parsedToken.session_state
+      + "&redirect=" + redirect;
     if (provider != null) {
-      url += '&provider=' + provider;
+      url += "&provider=" + provider;
     }
     this.redirectToAuth(url);
   }
@@ -65,9 +66,9 @@ export class ProviderService {
   /**
    * Link offline token to user
    */
-  public linkOffline(redirect: string): void {
+  public authorizeOffline(redirect: string): void {
     let parsedToken = jwt_decode(this.auth.getToken());
-    let url = `${this.loginUrl}/linkoffline?`
+    let url = `${this.loginUrl}/authorize_offline?`
       + 'clientSession=' + parsedToken.client_session
       + '&sessionState=' + parsedToken.session_state
       + '&redirect=' + redirect;
@@ -84,5 +85,4 @@ export class ProviderService {
     this.logger.error(error);
     return Observable.throw(error.message || error);
   }
-
 }

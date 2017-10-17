@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import {Logger, Notification, NotificationType, Notifications} from 'ngo-base';
-import {AuthenticationService, UserService, User} from 'ngo-login-client';
+import { Logger, Notification, NotificationType, Notifications } from 'ngo-base';
+import { AuthenticationService, UserService, User } from 'ngo-login-client';
 
-import {ExtUser, GettingStartedService} from './services/getting-started.service';
-import {ProviderService} from './services/provider.service';
-import {OpenfactUIConfig} from '../shared/config/openfact-ui-config';
-import {Observable} from 'rxjs/Observable';
-import {Http, Headers, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
-import {pathJoin} from '../../a-runtime-console/kubernetes/model/utils';
+import { ExtUser, GettingStartedService } from './services/getting-started.service';
+import { ProviderService } from './services/provider.service';
+import { OpenfactUIConfig } from '../shared/config/openfact-ui-config';
+import { Observable } from 'rxjs/Observable';
+import { Http, Headers, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
+import { pathJoin } from '../../a-runtime-console/kubernetes/model/utils';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -34,14 +34,14 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   public usernameInvalid: boolean = false;
 
   constructor(private auth: AuthenticationService,
-              private gettingStartedService: GettingStartedService,
-              private logger: Logger,
-              private openfactUIConfig: OpenfactUIConfig,
-              private http: Http,
-              private providerService: ProviderService,
-              private notifications: Notifications,
-              private router: Router,
-              private userService: UserService) {
+    private gettingStartedService: GettingStartedService,
+    private logger: Logger,
+    private openfactUIConfig: OpenfactUIConfig,
+    private http: Http,
+    private providerService: ProviderService,
+    private notifications: Notifications,
+    private router: Router,
+    private userService: UserService) {
   }
 
   public ngOnDestroy(): void {
@@ -153,7 +153,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   }
 
   public saveUserOffline(): void {
-    this.providerService.linkOffline(window.location.origin + '/_gettingstarted?wait=true');
+    this.providerService.authorizeOffline(window.location.origin + '/_gettingstarted?wait=true');
   }
 
   // Private

@@ -10,13 +10,13 @@ export class ValWrapper<T> {
   /**
    * The value
    */
-  public val: T;
+  val: T;
 
   /**
    * An optional property. If set to true, it indicates that the
    * val is currently being loaded. This can be used to handle streams
    * that take a long time to return and, for example, display a spinner.
    */
-  public loading?: boolean;
+  loading?: boolean;
 
 }

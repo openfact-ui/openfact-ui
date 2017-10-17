@@ -18,21 +18,21 @@ export class ConfigStore {
     private http: Http
   ) { }
 
-  public get<T>(name: string, load?: LoadCallback<T>): Observable<ValWrapper<T>> {
+  get<T>(name: string, load?: LoadCallback<T>): Observable<ValWrapper<T>> {
     if (this._cache.has(name)) {
       return this._cache
         .get(name);
     } else {
       let res = this.http
         .get(`/_config/${name}.config.json`)
-        .map((resp) => resp.json())
-        .map((json) => {
+        .map(resp => resp.json())
+        .map(json => {
           return {
             val: (json as any),
             loading: false
           } as ValWrapper<T>;
         })
-        .do((config) => console.log('Config loaded', config))
+        .do(config => console.log('Config loaded', config))
         .publishReplay(1);
       this._cache.set(name, res);
       res.connect();
@@ -40,7 +40,7 @@ export class ConfigStore {
     }
   }
 
-  public clear() {
+  clear() {
     this._cache = new Map();
   }
 }

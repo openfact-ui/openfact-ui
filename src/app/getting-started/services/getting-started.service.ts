@@ -1,51 +1,52 @@
-import {Injectable, Inject, OnDestroy} from '@angular/core';
-import {Headers, Http} from '@angular/http';
-import {Observable, Subscription} from 'rxjs';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+import { Observable, Subscription } from 'rxjs';
 
-import {Logger} from 'ngo-base';
-import {AuthenticationService, Profile, User, UserService} from 'ngo-login-client';
-import {SYNC_API_URL} from 'ngo-openfact-sync';
+import { Logger } from 'ngo-base';
+import { AuthenticationService, Profile, User, UserService } from 'ngo-login-client';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
 
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export class ExtUser extends User {
-  public attributes: ExtProfile;
+  attributes: ExtProfile;
 }
 
 export class ExtProfile extends Profile {
-  public contextInformation: any;
-  public registrationCompleted: boolean;
+  contextInformation: any;
+  registrationCompleted: boolean;
 }
 
 @Injectable()
 export class GettingStartedService implements OnDestroy {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new Headers({ 'Content-Type': 'application/json' });
   private loggedInUser: User;
   subscriptions: Subscription[] = [];
   private usersUrl: string;
 
-  constructor(private auth: AuthenticationService,
-              private http: Http,
-              private logger: Logger,
-              private userService: UserService,
-              @Inject(SYNC_API_URL) apiUrl: string) {
+  constructor(
+    private auth: AuthenticationService,
+    private http: Http,
+    private logger: Logger,
+    private userService: UserService,
+    @Inject(SYNC_API_URL) apiUrl: string) {
     if (this.auth.getToken() != null) {
       this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
     }
     this.usersUrl = apiUrl + 'users';
   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => {
       sub.unsubscribe();
     });
   }
 
-  public createTransientProfile(): ExtProfile {
+  createTransientProfile(): ExtProfile {
     let profile: ExtUser;
 
     this.userService.loggedInUser
-      .map((user) => {
+      .map(user => {
         profile = cloneDeep(user) as ExtUser;
         if (profile.attributes != undefined) {
           profile.attributes.contextInformation = (user as ExtUser).attributes.contextInformation || {};
@@ -62,11 +63,11 @@ export class GettingStartedService implements OnDestroy {
    * @param id The user ID
    * @returns {Observable<ExtUser>}
    */
-  public getExtProfile(id: string): Observable<ExtUser> {
+  getExtProfile(id: string): Observable<ExtUser> {
     let url = `${this.usersUrl}/${id}`;
     return this.http
-      .get(url, {headers: this.headers})
-      .map((response) => {
+      .get(url, { headers: this.headers })
+      .map(response => {
         return response.json().data as ExtUser;
       })
       .catch((error) => {
@@ -80,7 +81,7 @@ export class GettingStartedService implements OnDestroy {
    * @param profile The extended profile used to apply context information
    * @returns {Observable<User>}
    */
-  public update(profile: ExtProfile): Observable<ExtUser> {
+  update(profile: ExtProfile): Observable<ExtUser> {
     let payload = JSON.stringify({
       data: {
         attributes: profile,
@@ -88,8 +89,8 @@ export class GettingStartedService implements OnDestroy {
       }
     });
     return this.http
-      .patch(this.usersUrl, payload, {headers: this.headers})
-      .map((response) => {
+      .patch(this.usersUrl, payload, { headers: this.headers })
+      .map(response => {
         return response.json().data as ExtUser;
       })
       .catch((error) => {
