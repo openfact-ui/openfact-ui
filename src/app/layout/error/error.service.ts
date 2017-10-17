@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ErrorService {
@@ -9,7 +9,8 @@ export class ErrorService {
 
   update$: Observable<string> = this.updateSubject.asObservable();
 
-  updateMessage(message: string) {
+  public updateMessage(message: string) {
     this.updateSubject.next(message);
   }
+
 }

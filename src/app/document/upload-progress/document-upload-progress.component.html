@@ -1,0 +1,35 @@
+<div class="of-notification" *ngIf="!isClosed">
+    <div class="drawer-pf drawer-pf-notifications-non-clickable" [ngClass]="{'of-collapse': isMinimized}">
+        <div class="drawer-pf-title">
+            <a class="drawer-pf-toggle-expand fa fa-angle-double-down hidden-xs" *ngIf="!isMinimized" (click)="isMinimized=true" href="javascript:void(0)"></a>
+            <a class="drawer-pf-toggle-expand fa fa-angle-double-up hidden-xs" *ngIf="isMinimized" (click)="isMinimized=false" href="javascript:void(0)"></a>
+            <a class="drawer-pf-close pficon pficon-close"></a>
+            <h3 *ngIf="!isMinimized" class="text-center">Uploading</h3>
+            <h3 *ngIf="isMinimized" class="text-center">Uploading...</h3>
+        </div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="padding: 0"></div>
+                <div class="panel-collapse collapse" [ngClass]="{'in': !isMinimized}">
+                    <div class="panel-body of-panel-body" *ngIf="files.length > 0">
+                        <ofs-document-progress [file]="file | async" *ngFor="let file of files"></ofs-document-progress>                        
+                    </div>
+                    <div class="blank-slate-pf hidden" *ngIf="files.length == 0">
+                        <div class="blank-slate-pf-icon">
+                            <span class="pficon-info"></span>
+                        </div>
+                        <h1>There are no notifications to display.</h1>
+                    </div>
+                    <div class="drawer-pf-action">
+                        <div class="drawer-pf-action-link" data-toggle="mark-all-read">
+                            <button class="btn btn-link"><span class="fa fa-refresh"></span> Clear All</button>
+                        </div>
+                        <div class="drawer-pf-action-link" data-toggle="clear-all">
+                            <button class="btn btn-link"><span class="fa fa-ban"></span>Cancel All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

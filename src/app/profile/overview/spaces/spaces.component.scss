@@ -1,3 +1,4 @@
+@import '../../../../styles/styles';
 .create-work-item-icon {
   padding-top: 2px;
   padding-right: 10px;
@@ -11,5 +12,5 @@
 }
 .f8-button__delete {
   white-space: normal;
-  cursor: pointer;
+  &:hover { @include pointer(); }
 }

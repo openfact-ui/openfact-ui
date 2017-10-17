@@ -1,54 +1,56 @@
-import { Observable } from 'rxjs/Rx';
-import { LoginService } from './../shared/login.service';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { Keycloak } from '@ebondu/angular2-keycloak';
-import { ExtUser } from './services/getting-started.service';
-import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
-import { Logger, Broadcaster } from 'ngo-base';
-import { AuthenticationService, UserService, User, SSO_API_URL, REALM } from 'ngo-login-client';
+import {Logger, Notification, NotificationType, Notifications} from 'ngo-base';
+import {AuthenticationService, UserService, User} from 'ngo-login-client';
 
-import { GettingStartedService } from './services/getting-started.service';
-import { ProviderService } from './services/provider.service';
-
-import { NotificationService, Notification, NotificationType, Action } from 'patternfly-ng';
-import { EmptyStateConfig, ActionConfig } from 'patternfly-ng';
+import {ExtUser, GettingStartedService} from './services/getting-started.service';
+import {ProviderService} from './services/provider.service';
+import {OpenfactUIConfig} from '../shared/config/openfact-ui-config';
+import {Observable} from 'rxjs/Observable';
+import {Http, Headers, RequestOptions, RequestOptionsArgs, Response} from '@angular/http';
+import {pathJoin} from '../../a-runtime-console/kubernetes/model/utils';
 
 @Component({
-  selector: 'of-getting-started',
+  encapsulation: ViewEncapsulation.None,
+  selector: 'ofs-getting-started',
   templateUrl: './getting-started.component.html',
   styleUrls: ['./getting-started.component.scss'],
   providers: [GettingStartedService, ProviderService]
 })
-export class GettingStartedComponent implements OnInit, OnDestroy {
+export class GettingStartedComponent implements OnDestroy, OnInit {
 
+  public authGoogle: boolean = false;
+  public authMicrosoft: boolean = false;
   public googleLinked: boolean = false;
   public microsoftLinked: boolean = false;
 
   public loggedInUser: User;
-  public registrationCompleted: boolean = false;
+  public registrationCompleted: boolean = true;
   public showGettingStarted: boolean = false;
   public subscriptions: Subscription[] = [];
   public username: string;
   public usernameInvalid: boolean = false;
-  public refreshToken: any;
-  public isRefreshTokenOffline: boolean = false;
 
-  constructor(
-    private router: Router,
-    private broadcaster: Broadcaster,
-    private userService: UserService,
-    private authService: AuthenticationService,
-    private gettingStartedService: GettingStartedService,
-    private loginService: LoginService,
-    private notifications: NotificationService,
-    @Inject(SSO_API_URL) private ssoUrl: string,
-    @Inject(REALM) private realm: string) {
+  constructor(private auth: AuthenticationService,
+              private gettingStartedService: GettingStartedService,
+              private logger: Logger,
+              private openfactUIConfig: OpenfactUIConfig,
+              private http: Http,
+              private providerService: ProviderService,
+              private notifications: Notifications,
+              private router: Router,
+              private userService: UserService) {
   }
 
-  public ngOnInit() {
+  public ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  public ngOnInit(): void {
     // Route to home if registration is complete.
     this.userService.loggedInUser
       .map((user) => {
@@ -56,28 +58,11 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
       })
-      .switchMap(() => {
-        if (this.authService.isLoggedIn()) {
-          this.refreshToken = this.authService.getRefreshToken();
-          this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
-          return this.authService.getGoogleToken();
-        } else {
-          return this.broadcaster.on('loggedin').switchMap(() => {
-            this.refreshToken = this.authService.getRefreshToken();
-            this.isRefreshTokenOffline = this.authService.isRefreshTokenOffline();
-            return this.authService.getGoogleToken();
-          });
-        }
-      })
-      .do(() => {
-        if (this.isRefreshTokenOffline) {
-          this.saveUserToken(false);
-        }
-      })
+      .switchMap(() => this.auth.getGoogleToken())
       .map((token) => {
         this.googleLinked = (token !== undefined && token.length !== 0);
       })
-      .switchMap(() => this.authService.getMicrosoftToken())
+      .switchMap(() => this.auth.getMicrosoftToken())
       .map((token) => {
         this.microsoftLinked = (token !== undefined && token.length !== 0);
       })
@@ -94,19 +79,14 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  public ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
-
   /**
    * Helper to test if connect accounts button should be disabled
    *
    * @returns {boolean}
    */
   get isConnectAccountsDisabled(): boolean {
-    return (this.googleLinked && this.microsoftLinked);
+    return !(this.authGoogle && !this.googleLinked || this.authMicrosoft && !this.microsoftLinked)
+      || (this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -115,7 +95,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
    * @returns {boolean} If the user has completed the getting started page
    */
   get isSuccess(): boolean {
-    return (this.registrationCompleted);
+    return (this.registrationCompleted && this.googleLinked && this.microsoftLinked);
   }
 
   /**
@@ -127,10 +107,19 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     return this.registrationCompleted;
   }
 
-  public connectAccount(idp: string): void {
-    window.open(this.ssoUrl + 'auth/realms/' + this.realm
-      + '/account/identity?referrer=security-admin-console&referrer_uri='
-      + encodeURIComponent(window.location.origin + '/_gettingstarted'), '_blank');
+  // Actions
+
+  /**
+   * Link GitHub and/or OpenShift accounts
+   */
+  public connectAccounts(): void {
+    if (this.authGoogle && !this.googleLinked && this.authMicrosoft && !this.microsoftLinked) {
+      this.providerService.linkAll(window.location.origin + '/_gettingstarted?wait=true');
+    } else if (this.authGoogle && !this.googleLinked) {
+      this.providerService.linkGoogle(window.location.origin + '/_gettingstarted?wait=true');
+    } else if (this.authMicrosoft && !this.microsoftLinked) {
+      this.providerService.linkMicrosoft(window.location.origin + '/_gettingstarted?wait=true');
+    }
   }
 
   /**
@@ -140,21 +129,13 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', '_home']);
   }
 
-  public requestOfflineToken(): void {
-    this.loginService.redirectToAuth({
-      scope: 'offline_access',
-      redirectUri: window.location.origin + '/_gettingstarted?wait=true'
-    });
-  }
-
   /**
-   * Save user
+   * Save username
    */
-  public saveUserToken(redirect: boolean) {
+  public saveUser(): void {
     let profile = this.gettingStartedService.createTransientProfile();
     profile.username = this.username;
     profile.registrationCompleted = true;
-    profile.refreshToken = this.isRefreshTokenOffline ? this.refreshToken : null;
 
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
       this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
@@ -162,17 +143,17 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     }, (error) => {
       this.username = this.loggedInUser.attributes.username;
       if (error.status === 403) {
-        this.handleError('User cannot be updated more than once', NotificationType.WARNING);
+        this.handleError('Username cannot be updated more than once', NotificationType.WARNING);
       } else if (error.status === 409) {
-        this.handleError('User already exists', NotificationType.DANGER);
+        this.handleError('Username already exists', NotificationType.DANGER);
       } else {
-        this.handleError('Failed to update user', NotificationType.DANGER);
+        this.handleError('Failed to update username', NotificationType.DANGER);
       }
     }));
+  }
 
-    if (redirect) {
-      this.routeToHome();
-    }
+  public saveUserOffline(): void {
+    this.providerService.linkOffline(window.location.origin + '/_gettingstarted?wait=true');
   }
 
   // Private
@@ -184,8 +165,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
    * @returns {any} The request parameter value or null
    */
   private getRequestParam(name: string): string {
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)'))
-      .exec(window.location.search);
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
     if (param != null) {
       return decodeURIComponent(param[1]);
     }
@@ -208,7 +188,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
    */
   private isUserGettingStarted(): boolean {
     let wait = this.getRequestParam('wait');
-    return !(wait === null && this.registrationCompleted === true);
+    return !(wait === null && this.registrationCompleted === true
+      && this.googleLinked === true && this.microsoftLinked === true);
   }
 
   /**
@@ -235,8 +216,11 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleError(error: string, type: string) {
-    this.notifications.message(type, 'Error', error, false, null, []);
+  private handleError(error: string, type: NotificationType) {
+    this.notifications.message({
+      message: error,
+      type: type
+    } as Notification);
   }
 
 }

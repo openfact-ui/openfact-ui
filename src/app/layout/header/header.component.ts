@@ -1,17 +1,16 @@
-import { Keycloak } from '@ebondu/angular2-keycloak';
-import { Broadcaster, Logger } from 'ngo-base';
-import { User, UserService } from 'ngo-login-client';
-import { ContextType, Context, Contexts } from 'ngo-openfact-sync';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 
-import { Subscription, Observable } from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 
-import { LoginService } from '../../shared/login.service';
-import { ContextService } from '../shared/context.service';
-import { MenuedContextType } from './menued-context-type';
-import { Navigation } from '../../models/navigation';
-import { DummyService } from '../shared/dummy.service';
+import {Broadcaster, Logger} from 'ngo-base';
+import {UserService, User} from 'ngo-login-client';
+import {Context, Contexts} from 'ngo-openfact-sync';
+
+import {LoginService} from '../../shared/login.service';
+import {MenuedContextType} from './menued-context-type';
+import {Navigation} from '../../models/navigation';
+import {DummyService} from './../../shared/dummy.service';
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
@@ -20,34 +19,39 @@ interface MenuHiddenCallback {
 @Component({
   selector: 'ofs-app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: []
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
-  public title = 'Sync';
+  public title = 'Openfact';
   public imgLoaded: Boolean = false;
   public statusListVisible = false;
 
   public isIn = false;   // store state
+  public toggleState() { // click handler
+    let bool = this.isIn;
+    this.isIn = bool === false ? true : false;
+  }
+
+  public onStatusListVisible = (flag: boolean) => {
+    this.statusListVisible = flag;
+  };
 
   public menuCallbacks = new Map<String, MenuHiddenCallback>([
     [
-      // tslint:disable-next-line:only-arrow-functions
       '_settings', function (headerComponent) {
-        return headerComponent.checkContextUserEqualsLoggedInUser();
-      }
+      return headerComponent.checkContextUserEqualsLoggedInUser();
+    }
     ],
     [
-      // tslint:disable-next-line:only-arrow-functions
       '_resources', function (headerComponent) {
-        return headerComponent.checkContextUserEqualsLoggedInUser();
-      }
+      return headerComponent.checkContextUserEqualsLoggedInUser();
+    }
     ],
     [
-      // tslint:disable-next-line:only-arrow-functions
       'settings', function (headerComponent) {
-        return headerComponent.checkContextUserEqualsLoggedInUser();
-      }
+      return headerComponent.checkContextUserEqualsLoggedInUser();
+    }
     ]
   ]);
 
@@ -59,17 +63,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private plannerFollowQueryParams: Object = {};
   private eventListeners: any[] = [];
 
-  constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    private userService: UserService,
-    private logger: Logger,
-    public loginService: LoginService,
-    private broadcaster: Broadcaster,
-    private contexts: Contexts) {
+  constructor(public router: Router,
+              public route: ActivatedRoute,
+              private userService: UserService,
+              private logger: Logger,
+              public loginService: LoginService,
+              private broadcaster: Broadcaster,
+              private contexts: Contexts) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        this.broadcaster.broadcast('navigate', { url: val.url } as Navigation);
+        this.broadcaster.broadcast('navigate', {url: val.url} as Navigation);
         this.updateMenus();
       }
     });
@@ -95,7 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.listenToEvents();
   }
 
@@ -114,22 +117,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  public toggleState() { // click handler
-    let bool = this.isIn;
-    this.isIn = bool === false ? true : false;
-  }
-
-  public onStatusListVisible = (flag: boolean) => {
-    this.statusListVisible = flag;
-  }
-
   public login() {
     this.broadcaster.broadcast('login');
     this.loginService.redirectToAuth();
-  }
-
-  public account() {
-    Keycloak.accountManagement({});
   }
 
   public logout() {
@@ -140,7 +130,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.imgLoaded = true;
   }
 
-  private resetData(): void {
+  public resetData(): void {
     this.imgLoaded = false;
   }
 
@@ -192,14 +182,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 n.active = true;
               }
               if (this.menuCallbacks.has(o.path)) {
-                this.menuCallbacks.get(o.path)(this).subscribe(val => o.hide = val);
+                this.menuCallbacks.get(o.path)(this).subscribe((val) => o.hide = val);
               }
             }
           }
           if (!foundPath && this.router.routerState.snapshot.root.firstChild) {
             // routes that can't be correctly matched based on the url should use the parent path
             for (let o of subMenus) {
-              // tslint:disable-next-line:max-line-length
               let parentPath = decodeURIComponent('/' + this.router.routerState.snapshot.root.firstChild.url.join('/'));
               if (!foundPath && o.fullPath === parentPath) {
                 foundPath = true;

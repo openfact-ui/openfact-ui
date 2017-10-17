@@ -2,12 +2,7 @@ import {
     Component,
     Renderer2,
     ViewChild,
-    OnInit,
-    Output,
     AfterViewInit,
-    ElementRef,
-    EventEmitter,
-    Input,
     ViewEncapsulation
 } from '@angular/core';
 

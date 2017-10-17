@@ -1,9 +1,6 @@
-import './rxjs-extensions';
-
-import { SyncStatusComponent } from './sync-status-list/sync-status.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule, Http } from '@angular/http';
 import {
   NgModule,
   ApplicationRef
@@ -13,10 +10,8 @@ import {
   createNewHosts,
   createInputTransfer
 } from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -29,16 +24,21 @@ import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
+import '../styles/styles.scss';
+import '../styles/headings.css';
+
+import { LocalStorageModule } from 'angular-2-local-storage';
+import { MomentModule } from 'angular2-moment';
+import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-modal';
+
+import { RestangularModule } from 'ngx-restangular';
 import {
   Broadcaster,
-  Logger
+  Logger,
+  Notifications
 } from 'ngo-base';
-
-import {
-  AuthenticationService,
-  UserService
-} from 'ngo-login-client';
-
+import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {
   Contexts,
   SpaceService,
@@ -46,68 +46,55 @@ import {
   CollaboratorService,
   OpenfactSyncModule
 } from 'ngo-openfact-sync';
-
 import {
-  // Base functionality for the runtime console
-  OnLogin
-} from './runtime-console/shared/onlogin.service';
+  AuthenticationService,
+  HttpService,
+  UserService
+} from 'ngo-login-client';
+import { WidgetsModule } from 'ngx-widgets';
+import { PatternFlyNgModule } from 'patternfly-ng';
 
-// Header & Footer
-import { HeaderComponent } from './layout/header/header.component';
+// Footer & Header
 import { FooterComponent } from './layout/footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
 import { MenusService } from './layout/header/menus.service';
+
+// Shared Services
+import { AboutService } from './shared/about.service';
+import { AnalyticService } from './shared/analytics.service';
+import { ApiLocatorService } from './shared/api-locator.service';
+import { AuthGuard } from './shared/auth-guard.service';
+import { authApiUrlProvider } from './shared/auth-api.provider';
+import { BrandingService } from './shared/branding.service';
+import { openfactUIConfigProvider } from './shared/config/openfact-ui-config.service';
+import { AuthUserResolve } from './shared/common.resolver';
+import { ContextService } from './shared/context.service';
+import { ContextCurrentUserGuard } from './shared/context-current-user-guard.service';
+import { ContextResolver } from './shared/context-resolver.service';
+import { DummyService } from './shared/dummy.service';
+import { ExperimentalFeatureResolver } from './shared/experimental-feature.resolver';
+import { OpenfactUIHttpService } from './shared/openfact-ui-http.service';
+import { LoginService } from './shared/login.service';
+import { NotificationsService } from './shared/notifications.service';
+import { SpacesService } from './shared/spaces.service';
+import { ssoApiUrlProvider } from './shared/sso-api.provider';
+import { syncApiUrlProvider } from './shared/sync-api.provider';
+import { realmProvider } from './shared/realm-token.provider';
+import { OpenfactRuntimeConsoleService } from './shared/runtime-console/openfact-runtime-console.service';
+import { ProfileResolver } from './shared/profile-resolver.service';
+import { UploadDocumentService } from './shared/upload-document.service';
 
 // Component Services
 import { ConfigStore } from './base/config.store';
 import { ErrorService } from './layout/error/error.service';
-// import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
-// import { ProfileService } from './profile/profile.service';
-import { SpaceWizardModule } from './space/wizard/space-wizard.module';
 import { ProfileService } from './profile/profile.service';
+import { SpaceWizardModule } from './space/wizard/space-wizard.module';
+import { DocumentUploadProgressModule } from './document/upload-progress/document-upload-progress.module';
 
 // About Modal
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
 
 import { EventService } from './shared/event.service';
-
-// Shared Services
-import { AboutService } from './shared/about.service';
-import { NotificationsService } from './shared/notifications.service';
-import { LoginService } from './shared/login.service';
-
-import { fabric8UIConfigProvider } from './shared/config/fabric8-ui-config.service';
-import { ApiLocatorService } from './shared/api-locator.service';
-import { syncApiUrlProvider } from './shared/sync-api.provider';
-
-import { authApiUrlProvider } from './shared/auth-api.provider';
-import { ssoApiUrlProvider } from './shared/sso-api.provider';
-import { realmProvider } from './shared/realm-token.provider';
-
-import { Fabric8UIOnLogin } from './shared/runtime-console/fabric8-ui-onlogin.service';
-
-import { AuthGuard } from './shared/auth-guard.service';
-
-import { SpacesService } from './shared/spaces.service';
-import { ContextService } from './shared/context.service';
-import { ContextResolver } from './shared/context-resolver.service';
-import { ProfileResolver } from './shared/profile-resolver.service';
-
-import { ContextCurrentUserGuard }       from './shared/context-current-user-guard.service';
-
-// Others
-import { GettingStartedService } from './getting-started/services/getting-started.service';
-
-// Third Party libs
-import { PatternFlyNgModule } from 'patternfly-ng';
-import { LocalStorageModule } from 'angular-2-local-storage';
-import { Ng2KeycloakModule, Keycloak } from '@ebondu/angular2-keycloak';
-import { ModalModule } from 'ngx-modal';
-import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
-import { MomentModule } from 'angular2-moment';
-import { RestangularModule } from 'ngx-restangular';
-
-import '../styles/styles.scss';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -128,35 +115,35 @@ type StoreType = {
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    HeaderComponent,
     FooterComponent,
-    SyncStatusComponent,
+    HeaderComponent,
   ],
   /**
    * Import Angular's modules.
    */
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    RouterModule,
 
-    AboutModalModule,
-    SpaceWizardModule,
-
-    OpenfactSyncModule,
-
-    // Third Party libs
-    Ng2KeycloakModule.forRoot(),
-    PatternFlyNgModule,
+    BsDropdownModule.forRoot(),
     LocalStorageModule.withConfig({
-      prefix: 'fabric8',
+      prefix: 'openfactsync',
       storageType: 'localStorage'
     }),
     ModalModule,
-    BsDropdownModule.forRoot(),
-    TooltipModule.forRoot(),
     MomentModule,
-    RestangularModule.forRoot(),
+    ReactiveFormsModule,
+    RestangularModule,
+    WidgetsModule,
+    PatternFlyNgModule,
+
+    AboutModalModule,
+    OpenfactSyncModule,
+    SpaceWizardModule,
+    DocumentUploadProgressModule,
 
     // AppRoutingModule must appear last
     AppRoutingModule,
@@ -171,17 +158,27 @@ type StoreType = {
     EventService,
 
     ENV_PROVIDERS,
+    AboutService,
     APP_PROVIDERS,
 
-    Keycloak,
     AuthenticationService,
-    UserService,
+    AuthGuard,
+
+    LoginService,
+    NotificationsService,
     {
-      provide: OnLogin,
-      useClass: Fabric8UIOnLogin
+      provide: Notifications,
+      useExisting: NotificationsService
     },
 
-    CollaboratorService,
+    // Component Services
+    ConfigStore,
+    ErrorService,
+    ProfileService,
+
+    BrandingService,
+    ContextResolver,
+    ContextCurrentUserGuard,
     SpacesService,
     SpaceService,
     {
@@ -193,45 +190,36 @@ type StoreType = {
       provide: Contexts,
       useExisting: ContextService
     },
-    ContextResolver,
+    CollaboratorService,
     ProfileResolver,
-    ContextCurrentUserGuard,
+    UploadDocumentService,
 
-    // Component Services
-    ConfigStore,
-    ErrorService,
-    ProfileService,
+    // Others
+    OpenfactRuntimeConsoleService,
+    {
+      provide: Http,
+      useClass: OpenfactUIHttpService
+    },
+    HttpService,
 
-    // Shared Services
-    AboutService,
-    NotificationsService,
-    LoginService,
+    // GettingStartedService,
+    MenusService,
 
-    fabric8UIConfigProvider,
+    openfactUIConfigProvider,
     ApiLocatorService,
     syncApiUrlProvider,
 
-    // Others
-    GettingStartedService,
-    MenusService,
-
-    // Third party
-    BsDropdownConfig,
-    TooltipConfig,
-
+    UserService,
     authApiUrlProvider,
     ssoApiUrlProvider,
     realmProvider,
-
-    AuthGuard,
   ]
 })
 export class AppModule {
 
-  constructor(
-    public appRef: ApplicationRef,
-    public appState: AppState
-  ) { }
+  constructor(public appRef: ApplicationRef,
+    public appState: AppState) {
+  }
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {

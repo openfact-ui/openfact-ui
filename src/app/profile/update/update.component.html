@@ -1,9 +1,8 @@
-<div class="container-fluid content padding-top-15">
+<div id="overview" class="container-fluid content padding-top-15">
     <div class="row profile-edit">
         <!-- left column -->
         <div class="col-xs-12 col-sm-5 col-sm-offset-1">
             <h1>Edit Profile</h1>
-
             <form [formGroup]="form">
                 <div class="form-group">
                     <p class="help-block">The fields marked with <span class="required-pf">*</span> are required.</p>
@@ -31,7 +30,7 @@
                     <label class="control-label padding-left-none">Profile photo</label>
                     <div class="col-xs-12 preview-cont padding-left-none">
                         <img src="{{form.get('imageURL')}}" class="col-xs-2 preview-img padding-left-none" *ngIf="form.get('imageURL').value !== undefined && form.get('imageURL').value.length > 0">
-                        <img src="../../../assets/images/profile-user.png" class="col-xs-2 preview-img-none" *ngIf="form.get('imageURL').value === undefined || form.get('imageURL').value.length === 0">
+                        <img src="../../../assets/img/profile-user.png" class="col-xs-2 preview-img-none" *ngIf="form.get('imageURL').value === undefined || form.get('imageURL').value.length === 0">
                         <span class="col-xs-8 col-sm-7 preview-field" formControlError="imageURL">
                             <input #_imageUrl type="text" class="form-control" formControlName="imageURL" placeholder="http://www.myphoto.com">
                         </span>
@@ -57,7 +56,7 @@
         </div>
         <!-- right column -->
         <div class="col-xs-12 col-sm-4 col-sm-offset-1">
-            <form>
+            <form #advancedForm="ngForm">
                 <div class="form-group padding-top-40">
                     <div class="feature-toggle-text">
                         <div class="feature-toggle-text-header">

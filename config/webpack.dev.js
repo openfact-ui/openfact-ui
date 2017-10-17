@@ -14,6 +14,9 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+
+// Openfact config to save env variables on js
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
@@ -22,32 +25,35 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
+const PUBLIC = process.env.PUBLIC_DEV || HOST + ':' + PORT;
+const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 const HMR = helpers.hasProcessFlag('hot');
 
 // if env is 'inmemory', the inmemory debug resource is used
-const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL || 'http://openfact-openfact-development.apps.console.sistcoop.org/api/';
+const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL || 'http://openfact.com/api/';
 const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
-const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloak-keycloak-sso-development.apps.console.sistcoop.org/';
-const PUBLIC_PATH = process.env.PUBLIC_PATH || '/';
+const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloakcom/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
 const BUILD_VERSION = process.env.BUILD_VERSION;
 const OPENFACT_BRANDING = process.env.OPENFACT_BRANDING || 'openfact';
 
-const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
+const METADATA = {
   host: HOST,
   port: PORT,
+  public: PUBLIC,
   ENV: ENV,
-  HMR: HMR,  
+  HMR: HMR,
+  AOT: AOT,
   OPENFACT_SYNC_API_URL: OPENFACT_SYNC_API_URL,
   OPENFACT_REALM: OPENFACT_REALM,
   OPENFACT_SSO_API_URL: OPENFACT_SSO_API_URL,
-  PUBLIC_PATH: PUBLIC_PATH,
   BUILD_NUMBER: BUILD_NUMBER,
   BUILD_TIMESTAMP: BUILD_TIMESTAMP,
   BUILD_VERSION: BUILD_VERSION,
   OPENFACT_BRANDING: OPENFACT_BRANDING
-});
+};
+
 
 // const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
@@ -165,20 +171,17 @@ module.exports = function (options) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
-        'process.env': {
-          'ENV': JSON.stringify(METADATA.ENV),
-          'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
-          'API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),          
-          'OPENFACT_SYNC_API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
-          'OPENFACT_REALM': JSON.stringify(METADATA.OPENFACT_REALM),
-          'OPENFACT_SSO_API_URL': JSON.stringify(METADATA.OPENFACT_SSO_API_URL),          
-          'PUBLIC_PATH': JSON.stringify(METADATA.PUBLIC_PATH),
-          'BUILD_NUMBER': JSON.stringify(BUILD_NUMBER),
-          'BUILD_TIMESTAMP': JSON.stringify(BUILD_TIMESTAMP),
-          'BUILD_VERSION': JSON.stringify(BUILD_VERSION),
-          'OPENFACT_BRANDING': JSON.stringify(OPENFACT_BRANDING),
-        }
+        'process.env.ENV': JSON.stringify(METADATA.ENV),
+        'process.env.NODE_ENV': JSON.stringify(METADATA.ENV),
+        'process.env.HMR': METADATA.HMR,
+        'process.env.API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
+        'process.env.OPENFACT_SYNC_API_URL': JSON.stringify(METADATA.OPENFACT_SYNC_API_URL),
+        'process.env.OPENFACT_REALM': JSON.stringify(METADATA.OPENFACT_REALM),
+        'process.env.OPENFACT_SSO_API_URL': JSON.stringify(METADATA.OPENFACT_SSO_API_URL),
+        'process.env.BUILD_NUMBER': JSON.stringify(BUILD_NUMBER),
+        'process.env.BUILD_TIMESTAMP': JSON.stringify(BUILD_TIMESTAMP),
+        'process.env.BUILD_VERSION': JSON.stringify(BUILD_VERSION),
+        'process.env.OPENFACT_BRANDING': JSON.stringify(OPENFACT_BRANDING)
       }),
 
       // new DllBundlesPlugin({
@@ -246,6 +249,8 @@ module.exports = function (options) {
         }
       }),
 
+      new HotModuleReplacementPlugin()
+
     ],
 
     /**
@@ -259,6 +264,8 @@ module.exports = function (options) {
     devServer: {
       port: METADATA.port,
       host: METADATA.host,
+      hot: METADATA.HMR,
+      public: METADATA.public,
       historyApiFallback: true,
       watchOptions: {
         // if you're using Docker you may need this

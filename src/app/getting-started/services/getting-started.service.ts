@@ -1,41 +1,37 @@
-import { Injectable, Inject, OnDestroy } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import { Observable, Subscription } from 'rxjs';
+import {Injectable, Inject, OnDestroy} from '@angular/core';
+import {Headers, Http} from '@angular/http';
+import {Observable, Subscription} from 'rxjs';
 
-import { Logger } from 'ngo-base';
-import { AuthenticationService, Profile, User, UserService } from 'ngo-login-client';
-import { SYNC_API_URL } from 'ngo-openfact-sync';
+import {Logger} from 'ngo-base';
+import {AuthenticationService, Profile, User, UserService} from 'ngo-login-client';
+import {SYNC_API_URL} from 'ngo-openfact-sync';
 
-import { cloneDeep } from 'lodash';
+import {cloneDeep} from 'lodash';
 
-// tslint:disable-next-line:max-classes-per-file
 export class ExtUser extends User {
   public attributes: ExtProfile;
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ExtProfile extends Profile {
   public contextInformation: any;
   public registrationCompleted: boolean;
-  public refreshToken: string;
 }
 
-// tslint:disable-next-line:max-classes-per-file
 @Injectable()
 export class GettingStartedService implements OnDestroy {
-
-  public subscriptions: Subscription[] = [];
-
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new Headers({'Content-Type': 'application/json'});
   private loggedInUser: User;
+  subscriptions: Subscription[] = [];
   private usersUrl: string;
 
-  constructor(
-    private auth: AuthenticationService,
-    private http: Http,
-    private logger: Logger,
-    private userService: UserService,
-    @Inject(SYNC_API_URL) apiUrl: string) {
+  constructor(private auth: AuthenticationService,
+              private http: Http,
+              private logger: Logger,
+              private userService: UserService,
+              @Inject(SYNC_API_URL) apiUrl: string) {
+    if (this.auth.getToken() != null) {
+      this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
+    }
     this.usersUrl = apiUrl + 'users';
   }
 
@@ -51,8 +47,7 @@ export class GettingStartedService implements OnDestroy {
     this.userService.loggedInUser
       .map((user) => {
         profile = cloneDeep(user) as ExtUser;
-        if (profile.attributes !== undefined) {
-          // tslint:disable-next-line:max-line-length
+        if (profile.attributes != undefined) {
           profile.attributes.contextInformation = (user as ExtUser).attributes.contextInformation || {};
         }
       })
@@ -70,7 +65,7 @@ export class GettingStartedService implements OnDestroy {
   public getExtProfile(id: string): Observable<ExtUser> {
     let url = `${this.usersUrl}/${id}`;
     return this.http
-      .get(url, { headers: this.headers, withCredentials: true })
+      .get(url, {headers: this.headers})
       .map((response) => {
         return response.json().data as ExtUser;
       })
@@ -93,7 +88,7 @@ export class GettingStartedService implements OnDestroy {
       }
     });
     return this.http
-      .patch(this.usersUrl, payload, { headers: this.headers, withCredentials: true })
+      .patch(this.usersUrl, payload, {headers: this.headers})
       .map((response) => {
         return response.json().data as ExtUser;
       })

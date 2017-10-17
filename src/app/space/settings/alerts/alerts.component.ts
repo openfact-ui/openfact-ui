@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'ofs-alerts',
@@ -13,6 +12,6 @@ export class AlertsComponent implements OnInit {
     private router: Router) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
 }

@@ -1,18 +1,31 @@
-<div class="container-fluid container-cards-pf">
-
-    <div class="row row-cards-pf">
-        <div class="col-xs-12 col-sm-4">
-            <ofs-recent-spaces-widget [spaces]="_spaces"></ofs-recent-spaces-widget>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
+            <router-outlet></router-outlet>
         </div>
-        <div class="col-xs-12 col-sm-8">
-            <ofs-recent-documents-widget></ofs-recent-documents-widget>
+        <!-- /col -->
+        <div class="col-sm-3 col-md-2 col-sm-pull-9 col-md-pull-10 sidebar-pf sidebar-pf-left">
+            <div class="nav-category">
+                <h2>Documents</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/_home"><i class="fa fa-inbox"></i>Inbox</a></li>
+                    <!-- <li><a href="#"><i class="fa fa-file-text-o"></i>Alerts</a></li>
+                    <li><a href="#"><i class="fa fa-cloud"></i>Storage</a></li> -->
+                </ul>
+            </div>
+            <div class="nav-category">
+                <h2>Actions</h2>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <ofs-document-wizard></ofs-document-wizard>
+                    </li>
+                    <!-- <li><a href="#">User Accounts</a></li>
+                    <li><a href="#">Containers</a></li>
+                    <li><a href="#">Shutdown and Reboot</a></li> -->
+                </ul>
+            </div>
         </div>
+        <!-- /col -->
     </div>
-
-    <!-- <div class="row row-cards-pf">
-        <div class="col-md-12">
-            <ofs-spaces-widget [spaces]="_spaces"></ofs-spaces-widget>
-        </div>
-    </div> -->
-
+    <!-- /row -->
 </div>

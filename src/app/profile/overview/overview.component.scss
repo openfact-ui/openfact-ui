@@ -1,22 +1,22 @@
-//@import (reference) '../../../assets/stylesheets/shared/osio.less';
+@import '../../../styles/styles';
 //tabs content area
 .overview-nav-tab-content { padding: 20px 0; }
 .edit-profile-img {
   position: absolute;
   right: 5px;
   top: 5px;
-  color: #d1d1d1;
-  cursor: pointer;
+  color: $color-pf-black-300;
+  @include pointer();
 }
 .edit-profile-name-icon {
   margin-top: 25px;
-  color: #8b8d8f;
-  cursor: pointer;
+  color: $color-pf-black-500;
+  @include pointer();
 }
 .profile-wrapper-email {
   .pficon-edit {
-    color: #8b8d8f;
-    cursor: pointer;
+    color: $color-pf-black-500;
+    @include pointer();
   }
 }
 .profile-wrapper {
@@ -34,13 +34,13 @@
 .profile-img-none,
 .preview-img-none {
   border-top: solid 2px;
-  border-top-color: #d1d1d1;
+  border-top-color: $color-pf-black-300;
   border-right: solid 1px;
-  border-right-color: #d1d1d1;
+  border-right-color: $color-pf-black-300;
   border-bottom: solid 1px;
-  border-bottom-color: #d1d1d1;
+  border-bottom-color: $color-pf-black-300;
   border-left: solid 2px;
-  border-left-color: #d1d1d1;
+  border-left-color: $color-pf-black-300;
 }
 .truncate {
   overflow: hidden;

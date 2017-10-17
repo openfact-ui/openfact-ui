@@ -1,3 +1,4 @@
+@import '../../../../styles/styles';
 .blank-slate-pf { margin-top: 20px; }
 .collaborators-header {
   margin-top: 50px;
@@ -7,9 +8,9 @@
   margin-left: 40px;
 }
 .table-action-heading {
-  cursor: pointer;
+  @include pointer();
   float: right;
   padding-right: 32px;
-  .pficon { color: #39a5dc; }
+  .pficon { color: $color-pf-blue-300; }
 }
 .remove-footer { padding-top: 40px; }

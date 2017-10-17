@@ -9,6 +9,7 @@ import { UserService, User } from 'ngo-login-client';
 import { IModalHost } from '../../../space/wizard/models/modal-host';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-spaces',
   templateUrl: './spaces.component.html',
   styleUrls: ['./spaces.component.scss'],
@@ -22,12 +23,9 @@ export class SpacesComponent implements OnDestroy, OnInit {
   public subscriptions: Subscription[] = [];
   public spaceToDelete: Space;
   public spaces: Space[] = [];
+  @ViewChild('deleteSpace') public deleteSpace: IModalHost;
 
-  @ViewChild('deleteSpace')
-  public deleteSpace: IModalHost;
-
-  constructor(
-    private contexts: Contexts,
+  constructor(private contexts: Contexts,
     private logger: Logger,
     private spaceService: SpaceService,
     private userService: UserService) {
@@ -50,7 +48,7 @@ export class SpacesComponent implements OnDestroy, OnInit {
     this.pageSize = event.pageSize;
     if (this.context && this.context.user) {
       this.subscriptions.push(this.spaceService
-        .getSpacesByUser(this.context.user.id, this.pageSize)
+        .getSpacesByUser(this.context.user.attributes.username, this.pageSize)
         .subscribe((spaces) => {
           this.spaces = spaces;
         }));
@@ -97,5 +95,7 @@ export class SpacesComponent implements OnDestroy, OnInit {
     this.spaceToDelete = space;
     this.deleteSpace.open();
   }
+
+  // Private
 
 }

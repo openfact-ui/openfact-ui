@@ -7,12 +7,11 @@ import { AnalyzeRoutingModule } from './analyze-routing.module';
 
 import { AnalyzeOverviewModule } from './analyze-overview/analyze-overview.module';
 
+
 @NgModule({
-  imports: [
-    AnalyzeOverviewModule,
-    AnalyzeRoutingModule,
-    CommonModule
-  ],
+  imports: [AnalyzeOverviewModule,
+            AnalyzeRoutingModule,
+            CommonModule],
   declarations: [AnalyzeComponent]
 })
 export class AnalyzeModule {

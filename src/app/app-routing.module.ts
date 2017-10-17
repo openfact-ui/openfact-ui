@@ -1,7 +1,7 @@
-import { ProfileResolver } from './shared/profile-resolver.service';
-import { ContextResolver } from './shared/context-resolver.service';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {ProfileResolver} from './shared/profile-resolver.service';
+import {ContextResolver} from './shared/context-resolver.service';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -91,7 +91,14 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      // useHash: Boolean(history.pushState) === false,
+      useHash: true,
+      preloadingStrategy: PreloadAllModules,
+      enableTracing: false,
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

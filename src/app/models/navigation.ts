@@ -1,5 +1,5 @@
 export class Navigation {
-    public url: string;
-    public user: string;
-    public space: string;
+  url: string;
+  user: string;
+  space: string;
 }

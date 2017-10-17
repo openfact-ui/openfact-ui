@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'ofs-analyze',
@@ -13,7 +12,7 @@ export class AnalyzeComponent implements OnInit {
     private router: Router) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
   }
 

@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { SpacesComponent } from './spaces.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: SpacesComponent
-    }
+  {
+    path: '',
+    component: SpacesComponent
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class SpacesRoutingModule { }

@@ -1,10 +1,7 @@
-.cards-pf { background-color: #d1d1d1; }
+@import '../../../../styles/styles';
+.cards-pf { background-color: $color-pf-black-300; }
 .analyze-overview-wrapper {
-  background-color: #d1d1d1;
+  background-color: $color-pf-black-300;
   min-height: 100%;
   height: 100%;
-}
-
-.margin-top-15 {
-  margin-top: 15px;
 }

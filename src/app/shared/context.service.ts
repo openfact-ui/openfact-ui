@@ -1,9 +1,9 @@
-import { ExtProfile, ProfileService } from './../profile/profile.service';
-import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { cloneDeep } from 'lodash';
-import { Broadcaster } from 'ngo-base';
-import { User, UserService, Entity } from 'ngo-login-client';
+import {ExtProfile, ProfileService} from '../profile/profile.service';
+import {Injectable} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {cloneDeep} from 'lodash';
+import {Broadcaster, Notifications, Notification, NotificationType} from 'ngo-base';
+import {User, UserService, Entity} from 'ngo-login-client';
 import {
   Space,
   Context,
@@ -12,18 +12,17 @@ import {
   SpaceService,
   SpaceNamePipe
 } from 'ngo-openfact-sync';
-import { NotificationService, Notification, NotificationType, Action } from 'patternfly-ng';
-import { Subject } from 'rxjs/Subject';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import {Subject} from 'rxjs/Subject';
+import {ReplaySubject} from 'rxjs/ReplaySubject';
 
-import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
-import { Observable } from 'rxjs';
+import {ConnectableObservable} from 'rxjs/observable/ConnectableObservable';
+import {Observable} from 'rxjs';
 
-import { LocalStorageService } from 'angular-2-local-storage';
-import { Navigation } from './../models/navigation';
-import { MenusService } from '../layout/header/menus.service';
+import {LocalStorageService} from 'angular-2-local-storage';
+import {Navigation} from '../models/navigation';
+import {MenusService} from '../layout/header/menus.service';
 
-import { EventService } from './event.service';
+import {EventService} from './event.service';
 
 interface RawContext {
   user: any;
@@ -34,6 +33,7 @@ interface RawContext {
 /*
  * A shared service that manages the users current context. The users context is defined as the
  * user (user or org) and space that they are operating on.
+ *
  */
 @Injectable()
 export class ContextService implements Contexts {
@@ -46,21 +46,19 @@ export class ContextService implements Contexts {
   private _addRecent: Subject<Context>;
   private _deleteFromRecent: Subject<Context>;
 
-  constructor(
-    private router: Router,
-    private broadcaster: Broadcaster,
-    private menus: MenusService,
-    private spaceService: SpaceService,
-    private userService: UserService,
-    private notifications: NotificationService,
-    private route: ActivatedRoute,
-    private profileService: ProfileService,
-    private spaceNamePipe: SpaceNamePipe,
-    private eventService: EventService) {
+  constructor(private router: Router,
+              private broadcaster: Broadcaster,
+              private menus: MenusService,
+              private spaceService: SpaceService,
+              private userService: UserService,
+              private notifications: Notifications,
+              private route: ActivatedRoute,
+              private profileService: ProfileService,
+              private spaceNamePipe: SpaceNamePipe,
+              private eventService: EventService) {
 
     this._addRecent = new Subject<Context>();
     this._deleteFromRecent = new Subject<Context>();
-
     // subscribe to delete space event
     this.eventService.deleteSpaceSubject
       .map((val) => {
@@ -79,19 +77,19 @@ export class ContextService implements Contexts {
       .subscribe((val) => {
         this._deleteFromRecent.next(val);
       });
-
     // Initialize the default context when the logged in user changes
     this._default = this.userService.loggedInUser
-      // First use map to convert the broadcast event to just a username
+    // First use map to convert the broadcast event to just a username
       .map((val) => {
         if (!(val && val.id)) {
           // this is a logout event
         } else if (val.attributes.username) {
           return val.attributes.username;
         } else {
-          this.notifications.message(NotificationType.DANGER, 'Error',
-            'Something went badly wrong. Please try again later or ask for help.', true, null, []
-          );
+          this.notifications.message({
+            message: 'Something went badly wrong. Please try again later or ask for help.',
+            type: NotificationType.DANGER
+          } as Notification);
           console.log('No username attached to user', val);
           throw 'Unknown user';
         }
@@ -127,7 +125,6 @@ export class ContextService implements Contexts {
       .do((val) => {
         if (val.type) {
           // Add to the recent contexts
-          // TODO WARNING: THIS WAS OMMITED IN ORDER TO MAKE HEADER WORKS
           this._addRecent.next(val);
         }
       })
@@ -135,11 +132,9 @@ export class ContextService implements Contexts {
 
     // Create the recent space list
     this._recent = Observable.merge(this._addRecent, this._deleteFromRecent)
-      // Map from the context being added to an array of recent contexts
-      // The scan operator allows us to access the list of recent contexts and add ours
-
-      // The final value to scan is the initial value, used when the app starts
-      .scan(this.updateRecentSpaceList, [])
+    // Map from the context being added to an array of recent contexts
+    // The scan operator allows us to access the list of recent contexts and add ours
+      .scan(this.updateRecentSpaceList, [])  // The final value to scan is the initial value, used when the app starts
       // Finally save the list of recent contexts
       .do((val) => {
         // Truncate the number of recent contexts to the correct length
@@ -154,7 +149,6 @@ export class ContextService implements Contexts {
         this.saveRecent(val);
       })
       .multicast(() => new ReplaySubject(1));
-
     // Finally, start broadcasting
     this._default.connect();
     this._recent.connect();
@@ -179,9 +173,8 @@ export class ContextService implements Contexts {
   }
 
   public updateRecentSpaceList(contextList: Context[], ctx: Context): Context[] {
-    if (ctx.space && ctx.space.id && ctx.name === 'TO_DELETE') { // a space deletion
-      // tslint:disable-next-line:max-line-length
-      let indexForSpaceToDelete = contextList.findIndex((x) => x.space && x.space.id === ctx.space.id);
+    if (ctx.space && ctx.space.id && ctx.name == 'TO_DELETE') { // a space deletion
+      let indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id == ctx.space.id);
       if (indexForSpaceToDelete > -1) { // the space deleted is in the recently visited array
         let copyContext = cloneDeep(contextList);
         const deleted = copyContext.splice(indexForSpaceToDelete, 1);
@@ -198,21 +191,25 @@ export class ContextService implements Contexts {
       // Then add this context to the top of the list
       contextList.unshift(ctx);
     }
-    return contextList;
+    return contextList
   }
 
   public changeContext(navigation: Observable<Navigation>): Observable<Context> {
     let res = navigation
-      // Process the navigation only if it is safe
+    // Process the navigation only if it is safe
       .filter((val) => {
         if (this.checkForReservedWords(val.user)) {
-          this.notifications.message(NotificationType.WARNING, 'Warning',
-            `${val.user} not found`, false, null, []);
+          this.notifications.message({
+            message: `${val.user} not found`,
+            type: NotificationType.WARNING
+          } as Notification);
           console.log(`User name ${val.user} from path ${val.url} contains reserved characters.`);
           return false;
         } else if (this.checkForReservedWords(val.space)) {
-          this.notifications.message(NotificationType.WARNING, 'Warning',
-            `${val.space} not found`, false, null, []);
+          this.notifications.message({
+            message: `${val.space} not found`,
+            type: NotificationType.WARNING
+          } as Notification);
           console.log(`Space name ${val.space} from path ${val.url} contains reserved characters.`);
           return false;
         }
@@ -224,32 +221,33 @@ export class ContextService implements Contexts {
           // If it's a space that's been requested then load the space creator as the owner
           return this
             .loadSpace(val.user, val.space)
-            .map((space) => {
-              // tslint:disable-next-line:object-literal-shorthand
-              return { user: space.relationalData.creator, space: space } as RawContext;
+            .map(space => {
+              return {user: space.relationalData.creator, space: space} as RawContext;
             })
             .catch((err, caught) => {
-              // tslint:disable-next-line:max-line-length
-              this.notifications.message(NotificationType.WARNING, 'Warning', `${val.url} not found`, false, null, []);
-              console.log(`Space with name ${val.space} and owner ${val.user} from path ${val.url} was not found because of ${err}`);
+              this.notifications.message({
+                message: `${val.url} not found`,
+                type: NotificationType.WARNING
+              } as Notification);
+              console.log(`Space with name ${val.space} and owner ${val.user}
+                from path ${val.url} was not found because of ${err}`);
+              return Observable.throw(`Space with name ${val.space} and owner ${val.user}
+                from path ${val.url} was not found because of ${err}`);
 
-              // tslint:disable-next-line:max-line-length
-              return Observable.throw(`Space with name ${val.space} and owner ${val.user} from path ${val.url} was not found because of ${err}`);
             });
         } else {
           // Otherwise, load the user and use that as the owner
           return this
             .loadUser(val.user)
             .map((user) => {
-              // tslint:disable-next-line:object-literal-shorthand
-              return { user: user, space: null } as RawContext;
+              return {user: user, space: null} as RawContext;
             })
             .catch((err, caught) => {
-              this.notifications.message(NotificationType.WARNING, 'Warning',
-                `${val.url} not found`, false, null, []);
+              this.notifications.message({
+                message: `${val.url} not found`,
+                type: NotificationType.WARNING
+              } as Notification);
               console.log(`Owner ${val.user} from path ${val.url} was not found because of ${err}`);
-
-              // tslint:disable-next-line:max-line-length
               return Observable.throw(`Owner ${val.user} from path ${val.url} was not found because of ${err}`);
             });
         }
@@ -260,7 +258,7 @@ export class ContextService implements Contexts {
       // Broadcast the spaceChanged event
       // Ensure the menus are built
       .do((val) => {
-        if (val) { this.menus.attach(val); }
+        if (val) this.menus.attach(val);
       })
       .do((val) => {
         if (val) {
@@ -276,7 +274,7 @@ export class ContextService implements Contexts {
       })
       // Subscribe the current context to the revent space collector
       .do((val) => {
-        if (val) { this._addRecent.next(val); }
+        if (val) this._addRecent.next(val);
       })
       .do((val) => {
         this._current.next(val);
@@ -298,7 +296,7 @@ export class ContextService implements Contexts {
         'path': null
       } as Context;
       c.type = ContextTypes.BUILTIN.get('space');
-      c.path = '/' + c.user.id + '/' + c.space.attributes.name;
+      c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.name;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
     } else if (val.user) {
       c = {
@@ -310,8 +308,8 @@ export class ContextService implements Contexts {
       } as Context;
       c.type = ContextTypes.BUILTIN.get('user');
       // TODO replace path with username once parameterized routes are working
-      c.path = '/' + c.user.id;
-      c.name = c.user.id;
+      c.path = '/' + c.user.attributes.username;
+      c.name = c.user.attributes.username;
     } // TODO add type detection for organization and team
     if (c.type != null) {
       this.menus.attach(c);
@@ -327,19 +325,18 @@ export class ContextService implements Contexts {
     return null;
   }
 
-  private loadUser(userId: string): Observable<User> {
+  private loadUser(userName: string): Observable<User> {
     return this.userService
-      .getUserByUserId(userId)
+      .getUserByUsername(userName)
       .map((val) => {
         if (val && val.id) {
           return val;
         } else {
-          throw new Error(`No user found for ${userId}`);
+          throw new Error(`No user found for ${userName}`);
         }
       });
   }
 
-  // tslint:disable-next-line:member-ordering
   public extractSpace(): string {
     let params = this.getRouteParams();
     if (params && params['space']) {
@@ -361,9 +358,9 @@ export class ContextService implements Contexts {
     return null;
   }
 
-  private loadSpace(userId: string, spaceAssignedID: string): Observable<Space> {
-    if (userId && spaceAssignedID) {
-      return this.spaceService.getSpaceByAssignedId(userId, spaceAssignedID);
+  private loadSpace(userName: string, spaceName: string): Observable<Space> {
+    if (userName && spaceName) {
+      return this.spaceService.getSpaceByAssignedId(userName, spaceName);
     } else {
       return Observable.of({} as Space);
     }
@@ -385,15 +382,16 @@ export class ContextService implements Contexts {
   }
 
   private loadRecent(): Observable<Context[]> {
-    return this.profileService.current.switchMap((profile) => {
+    return this.profileService.current.switchMap(profile => {
       if (profile.store.recentContexts) {
         return Observable.forkJoin((profile.store.recentContexts as RawContext[])
-          // We invert the order above when we add recent contexts
+        // We invert the order above when we add recent contexts
           .reverse()
           .map((raw) => {
             if (raw.space) {
               return this.spaceService.getSpaceById(raw.space)
-                .map((val) => this.buildContext({ space: val } as RawContext));
+                .map((val) => this
+                  .buildContext({space: val} as RawContext));
             } else {
               return this.userService.getUserByUserId(raw.user)
                 .catch((err) => {
@@ -401,7 +399,7 @@ export class ContextService implements Contexts {
                   return Observable.empty<Context>();
                 })
                 .map((val) => {
-                  return this.buildContext({ user: val } as RawContext);
+                  return this.buildContext({user: val} as RawContext)
                 });
             }
           }));
@@ -420,10 +418,9 @@ export class ContextService implements Contexts {
         } as RawContext))
       }
     } as ExtProfile;
-    return this.profileService.silentSave(patch).subscribe(
-      (profile) => { },
-      (err) => console.log('Error saving recent spaces:', err)
-    );
+    return this.profileService.silentSave(patch)
+      .subscribe((profile) => {
+      }, (err) => console.log('Error saving recent spaces:', err));
   }
 
 }

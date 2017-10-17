@@ -1,78 +1,69 @@
-import { Observable, Subscription } from 'rxjs';
-import { Broadcaster } from 'ngo-base';
-import { LoginService } from './shared/login.service';
-import { SSO_API_URL, REALM, AuthenticationService } from 'ngo-login-client';
-import { Keycloak } from '@ebondu/angular2-keycloak';
-import { NotificationsService } from './shared/notifications.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Http } from '@angular/http';
-import { AboutService } from './shared/about.service';
+import {Broadcaster} from 'ngo-base';
+import {AuthenticationService} from 'ngo-login-client';
+import {Spaces} from 'ngo-openfact-sync';
 
 /**
  * Angular 2 decorators and services
  */
-import { Component, OnInit, Inject, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { AppState } from './app.service';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
+import {AppState} from './app.service';
+
+import {ActivatedRoute, Router, NavigationEnd, NavigationStart} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+
+import {AboutService} from './shared/about.service';
+import {NotificationsService} from './shared/notifications.service';
+import {LoginService} from './shared/login.service';
+import {BrandingService} from './shared/branding.service';
 
 /**
  * App Component
  * Top Level Component
  */
 @Component({
+  selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  selector: 'ofs-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
 
-  public showClose = true;
-
-  private subscriptions: Subscription[] = [];
-
-  constructor(
-    public appState: AppState,
-    private about: AboutService,
-    public notifications: NotificationsService,
-    @Inject(SSO_API_URL) private ssoUrl: string,
-    @Inject(REALM) private realm: string,
-    private keycloak: Keycloak) {
+  constructor(private about: AboutService,
+              private activatedRoute: ActivatedRoute,
+              public notifications: NotificationsService,
+              private loginService: LoginService,
+              // Inject services that need to start listening
+              private spaces: Spaces,
+              private authService: AuthenticationService,
+              private broadcaster: Broadcaster,
+              private router: Router,
+              private titleService: Title,
+              private brandingService: BrandingService) {
   }
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
-
-    console.log('Welcome to Openfact Sync!');
-    console.log('This is', this.about.buildVersion,
-      '(Build', '#' + this.about.buildNumber, ' and was built on', this.about.buildTimestamp, ')');
-
-    // Configure the Keycloak
-    Keycloak.config = {
-      url: this.ssoUrl + 'auth',
-      realm: this.realm,
-      clientId: 'openfact-public-client'
-    };
-    this.keycloak.init({
-      checkLoginIframe: false, // If true offline token fails
-      onLoad: 'check-sso'
+    console.log('Welcome to Openfact!');
+    console.log('This is', this.about.buildVersion, '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
+    this.activatedRoute.params.subscribe(() => {
+      this.loginService.login();
     });
-  }
 
-  public ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
+    this.router.events
+      .filter((event) => event instanceof NavigationEnd)
+      .map(() => this.activatedRoute)
+      .filter((route) => route.outlet === 'primary')
+      .mergeMap((route) => route.data)
+      .subscribe((event) => {
+        let title = event['title'] ? `${event['title']} - ${this.brandingService.name}` : this.brandingService.name;
+        this.titleService.setTitle(title);
+      });
   }
 
   public handleAction($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  public handleClose($event: any): void {
-    this.notifications.actionSubject.next($event.action);
-  }
-
-  public handleViewingChange($event: any): void {
     this.notifications.actionSubject.next($event.action);
   }
 

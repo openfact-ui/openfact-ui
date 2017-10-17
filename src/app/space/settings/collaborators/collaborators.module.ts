@@ -12,20 +12,18 @@ import { ListModule } from 'patternfly-ng';
 import { CollaboratorsComponent } from './collaborators.component';
 import { CollaboratorsRoutingModule } from './collaborators-routing.module';
 
-import {
-  AddCollaboratorsDialogModule
-} from './add-collaborators-dialog/add-collaborators-dialog.module';
+import { AddCollaboratorsDialogModule } from './add-collaborators-dialog/add-collaborators-dialog.module';
 
 @NgModule({
   imports: [
     BsDropdownModule.forRoot(),
     CommonModule,
     CollaboratorsRoutingModule,
-    OpenfactSyncModule,
     ListModule,
     InfiniteScrollModule,
     AddCollaboratorsDialogModule,
     ModalModule,
+    OpenfactSyncModule
   ],
   declarations: [
     CollaboratorsComponent

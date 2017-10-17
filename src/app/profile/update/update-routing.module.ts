@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { UpdateComponent } from './update.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: UpdateComponent
-    }
+  {
+    path: '',
+    component: UpdateComponent
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class UpdateRoutingModule { }

@@ -1,37 +1,37 @@
-import { ErrorService } from '../layout/error/error.service';
-import { SYNC_API_URL } from 'ngo-openfact-sync';
-import { Router } from '@angular/router';
-import { LocalStorageService } from 'angular-2-local-storage';
-import { Injectable, Inject } from '@angular/core';
+import {Router} from '@angular/router';
+import {LocalStorageService} from 'angular-2-local-storage';
+import {Injectable, Inject} from '@angular/core';
 
-import { Broadcaster } from 'ngo-base';
-import { AuthenticationService } from 'ngo-login-client';
+import {Observable} from 'rxjs';
 
-import { NotificationService, NotificationType } from 'patternfly-ng';
+import {Broadcaster, Notifications, Notification, NotificationType} from 'ngo-base';
+import {AuthenticationService, UserService} from 'ngo-login-client';
+import {SYNC_API_URL} from 'ngo-openfact-sync';
 
-import { Keycloak } from '@ebondu/angular2-keycloak';
+import {ContextService} from './context.service';
+import {ErrorService} from '../layout/error/error.service';
 
 @Injectable()
 export class LoginService {
 
   public static readonly REDIRECT_URL_KEY = 'redirectUrl';
   public static readonly DEFAULT_URL = '/_home';
+
   // URLs that the redirect should ignore
   public static readonly BANNED_REDIRECT_URLS = ['/'];
-  public static readonly LOGIN_URL = '/';
+  private static readonly LOGIN_URL = '/';
 
   private authUrl: string;  // URL to web api
 
-  constructor(
-    private router: Router,
-    private localStorage: LocalStorageService,
-    @Inject(SYNC_API_URL) private apiUrl: string,
-    private broadcaster: Broadcaster,
-    private errorService: ErrorService,
-    private authService: AuthenticationService,
-    private notifications: NotificationService,
-    private keycloak: Keycloak
-  ) {
+  constructor(private router: Router,
+              private localStorage: LocalStorageService,
+              @Inject(SYNC_API_URL) private apiUrl: string,
+              private broadcaster: Broadcaster,
+              private errorService: ErrorService,
+              private authService: AuthenticationService,
+              private contextService: ContextService,
+              private notifications: Notifications,
+              private userService: UserService) {
     // Removed ?link=true in favor of getting started page
     this.authUrl = apiUrl + 'login/authorize';
     this.broadcaster.on('authenticationError').subscribe(() => {
@@ -46,8 +46,13 @@ export class LoginService {
     });
   }
 
-  public redirectToAuth(options?: any) {
-    this.authService.logIn(options);
+  public redirectToAuth() {
+    let authUrl = this.authUrl;
+    if (authUrl.indexOf('?') < 0) {
+      // lets ensure there's a redirect parameter to avoid WIT barfing
+      authUrl += '?redirect=' + window.location.href;
+    }
+    window.location.href = authUrl;
   }
 
   public redirectAfterLogin() {
@@ -66,9 +71,30 @@ export class LoginService {
 
   public logout() {
     this.authService.logout();
+    window.location.href = this.apiUrl + 'logout?redirect=' + encodeURIComponent(window.location.origin);
+  }
 
-    // Logout should be localted on apiUrl/logout?redirect=
-    const redirect = this.apiUrl + 'logout?redirect=' + encodeURIComponent(window.location.origin);
+  public login() {
+    let query = window.location.search.substr(1);
+    let result: any = {};
+    query.split('&').forEach(function (part) {
+      let item: any = part.split('=');
+      result[item[0]] = decodeURIComponent(item[1]);
+    });
+    if (result['error']) {
+      this.notifications.message({message: result['error'], type: NotificationType.DANGER} as Notification);
+      // this.errorService.updateMessage('Error logging in');
+      // this.router.navigate(['_error']);
+    } else if (result['token_json']) {
+      // Handle the case that this is a login
+      this.authService.logIn(result['token_json']);
+
+      // Navigate back to the current URL to clear up the query string
+      this.router.navigateByUrl(this.router.url);
+    } else if (this.authService.isLoggedIn()) {
+      // Handle the case the user is already logged in
+      this.authService.onLogIn();
+    }
   }
 
   public set redirectUrl(value: string) {

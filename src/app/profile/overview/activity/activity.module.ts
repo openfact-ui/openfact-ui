@@ -21,4 +21,5 @@ import { ActivityComponent } from './activity.component';
   declarations: [ActivityComponent],
   exports: [ActivityComponent],
 })
-export class ActivityModule { }
+export class ActivityModule {
+}

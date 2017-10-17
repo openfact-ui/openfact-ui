@@ -13,12 +13,12 @@ const routes: Routes = [
     },
     component: SpaceSettingsComponent,
     children: [
-      { path: '', component: SettingsOverviewComponent },
+      // { path: '', component: AreasComponent },
       // { path: 'alerts', loadChildren: './alerts/alerts.module#AlertsModule' },
       // { path: 'security', loadChildren: './security/security.module#SecurityModule' },
       // { path: 'work', loadChildren: './work/work.module#WorkModule' },
       {
-        path: 'collaborators',
+        path: '',
         loadChildren: './collaborators/collaborators.module#CollaboratorsModule',
         data: {
           title: 'Collaborators'

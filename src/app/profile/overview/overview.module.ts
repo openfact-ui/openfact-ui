@@ -3,21 +3,22 @@ import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
 import { TabsModule } from 'ngx-bootstrap';
 
+import { ActivityModule } from './activity/activity.module';
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
-import { ActivityModule } from './activity/activity.module';
 import { SpacesModule } from './spaces/spaces.module';
 
 @NgModule({
   imports: [
+    ActivityModule,
     CommonModule,
     OverviewRoutingModule,
+    SpacesModule,
     TabsModule.forRoot(),
-    ActivityModule,
-    SpacesModule
   ],
   declarations: [OverviewComponent],
 })
 export class OverviewModule {
-  constructor(http: Http) { }
+  constructor(http: Http) {
+  }
 }

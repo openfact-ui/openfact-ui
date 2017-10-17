@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Fabric8UIConfig } from './config/fabric8-ui-config';
+import {OpenfactUIConfig} from './config/openfact-ui-config';
 
 @Injectable()
 export class ApiLocatorService {
@@ -8,20 +8,16 @@ export class ApiLocatorService {
   public readonly DEFAULT_API_ENV_VAR_NAMES = new Map<string, string>(
     [
       ['sync', 'OPENFACT_SYNC_API_URL'],
-      ['recommender', 'FABRIC8_RECOMMENDER_API_URL'],
       ['sso', 'OPENFACT_SSO_API_URL'],
       ['realm', 'OPENFACT_REALM'],
       ['branding', 'BRANDING'],
-      ['forge', 'FABRIC8_FORGE_API_URL']
 
     ]
   );
 
   public readonly DEFAULT_API_PREFIXES = new Map<string, string>([
     ['sync', 'api'],
-    ['recommender', 'recommender'],
     ['sso', 'sso'],
-    ['forge', 'forge.api']
   ]);
 
   public readonly DEFAULT_API_PATHS = new Map<string, string>([
@@ -30,7 +26,7 @@ export class ApiLocatorService {
 
   private envVars = new Map<string, string>();
 
-  constructor(private config: Fabric8UIConfig) {
+  constructor(private config: OpenfactUIConfig) {
     this.DEFAULT_API_ENV_VAR_NAMES.forEach((value, key) => {
       this.loadEnvVar(key);
     });
@@ -41,23 +37,15 @@ export class ApiLocatorService {
   }
 
   get branding(): string {
-    return this.envVars.get('branding') || 'fabric8';
+    return this.envVars.get('branding') || 'openfact';
   }
 
   get syncApiUrl(): string {
     return this.config.syncApiUrl || this.buildApiUrl('sync');
   }
 
-  get forgeApiUrl(): string {
-    return this.config.forgeApiUrl || this.buildApiUrl('forge');
-  }
-
   get ssoApiUrl(): string {
     return this.config.ssoApiUrl || this.buildApiUrl('sso');
-  }
-
-  get recommenderApiUrl(): string {
-    return this.config.recommenderApiUrl || this.buildApiUrl('recommender');
   }
 
   private loadEnvVar(key: string): void {

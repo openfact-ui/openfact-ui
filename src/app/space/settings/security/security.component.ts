@@ -12,7 +12,7 @@ export class SecurityComponent implements OnInit {
     private router: Router) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
 
   }
 

@@ -1,0 +1,160 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: f8ui
+  creationTimestamp: null
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    generation: 1
+    labels:
+      service: f8ui
+    name: f8ui
+  spec:
+    replicas: 3
+    selector:
+      service: f8ui
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          service: f8ui
+      spec:
+        containers:
+        - image: registry.devshift.net/fabric8-ui/fabric8-ui:${IMAGE_TAG}
+          imagePullPolicy: Always
+          name: f8ui
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          env:
+            - name: ANALYTICS_WRITE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: analytics.write.key
+            - name: WS_K8S_API_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: ws.k8s.api.server
+            - name: K8S_API_SERVER_PROTOCOL
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: k8s.api.server.protocol
+            - name: K8S_API_SERVER_BASE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: k8s.api.server.base.path
+            - name: OAUTH_ISSUER
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: oauth.issuer
+            - name: OAUTH_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: oauth.client.id
+            - name: OAUTH_SCOPE
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: oauth.scope
+            - name: OAUTH_AUTHORIZE_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: oauth.authorize.uri
+            - name: AUTH_LOGOUT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: oauth.logout.uri
+            - name: FABRIC8_PIPELINES_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: fabric8.pipelines.namespace
+            - name: PROXY_PASS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: proxy.pass.url
+            - name: OPENSHIFT_CONSOLE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: f8ui
+                  key: openshift.console.url
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 20
+            timeoutSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 10
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+  status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    labels:
+      service: f8ui
+    name: f8ui
+  spec:
+    ports:
+    - name: "8080"
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      service: f8ui
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      service: f8ui
+    name: f8ui-pp
+  spec:
+    host: ''
+    port:
+      targetPort: "8080"
+    to:
+      kind: Service
+      name: f8ui
+      weight: 100
+    wildcardPolicy: None
+  status: {}
+parameters:
+- name: IMAGE_TAG
+  value: latest

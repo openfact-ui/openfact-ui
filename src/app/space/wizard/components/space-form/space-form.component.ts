@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { ISpaceForm } from './../../models/spaceForm';
+import { ISpaceForm } from '../../models/spaceForm';
 
 @Component({
   selector: 'ofs-space-form',

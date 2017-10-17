@@ -9,9 +9,10 @@ import { OverviewModule } from './overview/overview.module';
 
 
 @NgModule({
-    imports: [CommonModule, OverviewModule, ProfileRoutingModule],
-    declarations: [ProfileComponent],
+  imports: [CommonModule, OverviewModule, ProfileRoutingModule],
+  declarations: [ProfileComponent],
 })
 export class ProfileModule {
-    constructor(http: Http) { }
+  constructor(http: Http) {
+  }
 }

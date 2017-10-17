@@ -1,8 +1,9 @@
+@import '../../../../../styles/styles';
 .add-dialog { padding: 20px; }
 .add-dialog-header {
   position: absolute;
   top: -48px;
-  .glyphicon-remove { cursor: pointer; }
+  .glyphicon-remove { @include pointer(); }
 }
 .user-select { width: 400px; }
 .add-fieldset { min-height: 400px; }

@@ -1,3 +1,5 @@
+@import '../../../styles/styles';
+
 /* stylelint-disable */
 .view-width-100 { width: 100vw !important; }
 /* stylelint-enable */
@@ -12,31 +14,31 @@
     }
     &>a {
       height: 43px;
-      background-color: #292e34;
-      border-color: #72767b;
+      background-color: $color-pf-black-900;
+      border-color: $color-pf-black-600;
     }
   }
 }
 .navbar {
   margin-bottom: 0;
   border-top: 3px solid;
-  border-top-color: #cc0000;
+  border-top-color: $brand-primary;
   &-collapse {
     padding-right: 0;
     padding-left: 0;
   }
   &-right { margin-right: 0; }
   .context {
-    &:hover { cursor: pointer; }
+    &:hover { @include pointer(); }
   }
   .status-dropdown {
     border-right: 1px solid;
-    border-right-color: #72767b;
+    border-right-color: $color-pf-black-600;
   }
   .user-dropdown-menu {
     height: 43px;
     transition: height 4s;
-    &:hover { cursor: pointer; }
+    &:hover { @include pointer(); }
     .user-dropdown {
       width: 200px;
       height: 43px;
@@ -49,7 +51,7 @@
 }
 .navbar-pf {
   min-height: 48px;
-  border-color: #cc0000;
+  border-color: $brand-primary;
   .infotip {
     &.bottom-right {
       .arrow { left: 88%; }
@@ -57,9 +59,9 @@
   }
   .navbar-primary {
     > .active > a {
-      background-color: #292e34;
-      background-image: linear-gradient(to bottom, #4d5258 0, #292e34 100%);
-      border-bottom-color: #292e34;
+      background-color: $color-pf-black-900;
+      background-image: linear-gradient(to bottom, $color-pf-black-700 0, $color-pf-black-900 100%);
+      border-bottom-color: $color-pf-black-900;
     }
     &.persistent-secondary {
       background: none;
@@ -69,11 +71,11 @@
         }
         .navbar-persistent {
           border-bottom: 1px solid;
-          border-bottom-color: #030303;
-          background-color: #292e34;
+          border-bottom-color: $color-pf-black;
+          background-color: $color-pf-black-900;
           > li a {
-            color: #fff;
-            &:hover { color: #d1d1d1; }
+            color: $color-pf-white;
+            &:hover { color: $color-pf-black-300; }
           }
         }
       }
@@ -84,7 +86,7 @@
   height: 43px;
   width: 275px;
   border-right: 1px solid;
-  border-right-color: #72767b;
+  border-right-color: $color-pf-black-600;
 }
 .recent-items-toggle {
   width: 273px;
@@ -109,38 +111,38 @@
   &.open {
     .recent-items {
       width: 275px;
-      &:hover { cursor: pointer; }
+      &:hover { @include pointer(); }
     }
   }
 }
 
 .status-dropdown {
-  &:hover { cursor: pointer; }
+  &:hover { @include pointer(); }
   a {
     padding-top: 12px;
     padding-bottom: 12px;
   }
   .pficon-white {
     font-size: 1.3em;
-    &:before { color: #fff }
+    &:before { color: $color-pf-white; }
   }
 }
 .login-block {
   border-left: 1px solid;
-  border-left-color: #72767b;
+  border-left-color: $color-pf-black-600;
   a {
     padding-top: 11px;
     padding-bottom: 11px;
     width: 200px;
     &-logged-out-user {
       border: 1px solid;
-      border-color: #72767b;
+      border-color: $color-pf-black-600;
       padding: 2px;
       display: inline-block;
       vertical-align: text-bottom;
-      i { color: #8b8d8f; }
+      i { color: $color-pf-black-500; }
     }
-    &:hover { cursor: pointer; }
+    &:hover { @include pointer(); }
   }
 }
 .user-icon {
@@ -154,7 +156,7 @@
 .user-dropdown {
   padding: 10px 14px;
   width: 200px;
-  &:hover { cursor: pointer; }
+  &:hover { @include pointer(); }
   &-items {
     text-overflow: ellipsis;
     overflow: hidden;

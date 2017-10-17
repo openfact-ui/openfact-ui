@@ -1,22 +1,25 @@
-import { Logger } from 'ngo-base';
-import { Router } from '@angular/router';
-import { BrandInformation } from './../models/brand-information';
-import { Subscription } from 'rxjs';
-import { Space, Context, SpaceService, Contexts, Spaces } from 'ngo-openfact-sync';
-import { User, UserService } from 'ngo-login-client';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Router} from '@angular/router';
+import {Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
+
+import {Subscription} from 'rxjs';
+
+import {Space, Spaces, SpaceService, Context, Contexts} from 'ngo-openfact-sync';
+import {UserService, User} from 'ngo-login-client';
+
+import {Logger} from 'ngo-base';
+import {OpenfactUIConfig} from '../shared/config/openfact-ui-config';
+import {BrandInformation} from '../models/brand-information';
 
 @Component({
-  selector: 'ofs-home',
+  encapsulation: ViewEncapsulation.None,
+  selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  public brandInformation: BrandInformation;
-
-  public loggedInUser: User;
-  public recent: Space[];
+  loggedInUser: User;
+  recent: Space[];
   private _context: Context;
   private _defaultContext: Context;
   private _spaces: Space[] = [];
@@ -24,21 +27,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _loggedInUserSubscription: Subscription;
   private _contextSubscription: Subscription;
   private _contextDefaultSubscription: Subscription;
+  public brandInformation: BrandInformation;
 
-  constructor(
-    private userService: UserService,
-    private spaceService: SpaceService,
-    private router: Router,
-    private contexts: Contexts,
-    private spaces: Spaces,
-    private logger: Logger) {
+  constructor(private userService: UserService,
+              private spaceService: SpaceService,
+              private router: Router,
+              private contexts: Contexts,
+              private spaces: Spaces,
+              private logger: Logger,
+              private openfactUIConfig: OpenfactUIConfig,) {
     this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
   }
 
   public ngOnInit() {
-    this._loggedInUserSubscription = this.userService.loggedInUser.subscribe((val) => {
-      this.loggedInUser = val;
-    });
+    this._loggedInUserSubscription = this.userService.loggedInUser.subscribe((val) => this.loggedInUser = val);
     this._contextSubscription = this.contexts.current.subscribe((val) => {
       this._context = val;
     });
@@ -48,12 +50,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
 
     this.brandInformation = new BrandInformation();
-
-    // replace background image with fabric8 background once available
-    this.brandInformation.backgroundClass = 'home-fabric8-background-image';
-    this.brandInformation.description = 'A free, end-to-end, cloud-native development experience.';
-    this.brandInformation.name = 'openfactsync.io';
-    this.brandInformation.moreInfoLink = 'https://openfact.io/';
   }
 
   public ngOnDestroy() {
@@ -66,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public initSpaces() {
     if (this.context && this.context.user) {
       this.spaceService
-        .getSpacesByUser(this.context.user.id, 5)
+        .getSpacesByUser(this.context.user.attributes.username, 5)
         .subscribe((spaces) => {
           this._spaces = spaces;
         });

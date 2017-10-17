@@ -1,4 +1,4 @@
-import { SpacesService } from './../../shared/spaces.service';
+import { SpacesService } from '../../shared/spaces.service';
 import { UserService } from 'ngo-login-client';
 import { ILoggerDelegate } from './common/logger';
 import { ISpaceForm } from './models/spaceForm';

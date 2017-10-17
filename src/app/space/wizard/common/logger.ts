@@ -54,7 +54,7 @@ export class LoggerFactory {
     }
   }
 
-  createLoggerDelegate(origin: string, instance: number = 0): ILoggerDelegate {
+  public createLoggerDelegate(origin: string, instance: number = 0): ILoggerDelegate {
     let me = this;
 
     function addLogEntry(entry: ILogEntry, ...args) {
@@ -70,8 +70,8 @@ export class LoggerFactory {
       }
       let fmt = formatConsole === true ? '%c' : '';
       let msg = `${fmt}${origin}${fmt} ${instance} ${fmt}${entry.message || ''}`;
-      let functionArgs = args.filter(a => typeof(a) === 'function');
-      let otherArgs = args.filter(a => typeof(a) !== 'function');
+      let functionArgs = args.filter((a) => typeof(a) === 'function');
+      let otherArgs = args.filter((a) => typeof(a) !== 'function');
       let newArgs = [msg, ...otherArgs];
       if ( fmt.length > 0 ) {
         newArgs = [msg, me.styles.origin, me.styles.instance, me.styles.message, ...otherArgs];

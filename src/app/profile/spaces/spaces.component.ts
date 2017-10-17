@@ -1,10 +1,10 @@
-import { EventService } from './../../shared/event.service';
-import { Logger } from 'ngo-base';
-import { IModalHost } from './../../space/wizard/models/modal-host';
-import { Contexts, Context, Space, SpaceService } from 'ngo-openfact-sync';
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { Logger } from 'ngo-base';
+import { Space, SpaceService, Context, Contexts } from 'ngo-openfact-sync';
+import { IModalHost } from '../../space/wizard/models/modal-host';
+import { EventService } from '../../shared/event.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -14,25 +14,20 @@ import { Subject } from 'rxjs';
 })
 export class SpacesComponent implements OnInit {
 
-  // @Input() spaceId: string;
-
+  @Input() public spaceId: string;
   public contentItemHeight: number = 54;
   public _spaces: Space[] = [];
   public pageSize: number = 20;
   public searchTermStream = new Subject<string>();
   public context: Context;
   public spaceToDelete: Space;
+  @ViewChild('deleteSpace') public deleteSpace: IModalHost;
 
-  @ViewChild('deleteSpace')
-  public deleteSpace: IModalHost;
-
-  constructor(
-    private router: Router,
+  constructor(private router: Router,
     private spaceService: SpaceService,
     private logger: Logger,
     private contexts: Contexts,
-    private eventService: EventService
-  ) {
+    private eventService: EventService) {
     this.contexts.current.subscribe((val) => this.context = val);
   }
 
@@ -52,7 +47,7 @@ export class SpacesComponent implements OnInit {
     this.pageSize = event.pageSize;
     if (this.context && this.context.user) {
       this.spaceService
-        .getSpacesByUser(this.context.user.id, this.pageSize)
+        .getSpacesByUser(this.context.user.attributes.username, this.pageSize)
         .subscribe((spaces) => {
           this._spaces = spaces;
         });
@@ -114,5 +109,4 @@ export class SpacesComponent implements OnInit {
   public searchSpaces(searchText: string) {
     this.searchTermStream.next(searchText);
   }
-
 }

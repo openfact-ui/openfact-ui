@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Modal } from 'ngx-modal';
 import { Context, CollaboratorService } from 'ngo-openfact-sync';
@@ -19,17 +10,18 @@ import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-mul
   host: {
     'class': 'add-dialog'
   },
+  encapsulation: ViewEncapsulation.None,
   selector: 'add-collaborators-dialog',
   templateUrl: './add-collaborators-dialog.component.html',
   styleUrls: ['./add-collaborators-dialog.component.scss']
 })
 export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
 
-  @Input() public host: Modal;
-  @Input() public spaceId: string;
-  @Input() public collaborators: User[];
-  @Output() public onAdded = new EventEmitter<User[]>();
-  @ViewChild('typeahead') public typeahead: any;
+  @Input() host: Modal;
+  @Input() spaceId: string;
+  @Input() collaborators: User[];
+  @Output() onAdded = new EventEmitter<User[]>();
+  @ViewChild('typeahead') typeahead: any;
 
   public dropdownOptions: IMultiSelectOption[] = [];
   public dropdownModel: User[];
@@ -44,7 +36,8 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
     this.contexts.current.subscribe(val => this.context = val);
   }
 
-  public ngOnInit() {
+  ngOnInit() {
+
     this.dropdownSettings = {
       pullRight: false,
       enableSearch: true,
@@ -63,11 +56,11 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
     })
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     this.openSubscription.unsubscribe();
   }
 
-  public addCollaborators() {
+  addCollaborators () {
     this.host.close();
     this.collaboratorService.addCollaborators(this.spaceId, this.dropdownModel).subscribe(() => {
       this.onAdded.emit(this.dropdownModel as User[]);
@@ -75,11 +68,11 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  public changed(enteredValue: any) {
-    let searchValue = this.typeahead.filterControl.value;
+  changed(enteredValue: any) {
+    let searchValue = this.typeahead.searchFilterText;
     this.userService.getUsersBySearchString(searchValue).subscribe((users) => {
       this.dropdownOptions = [];
-      users.forEach((user) => {
+      users.forEach(user => {
         this.dropdownOptions.push({
           id: user,
           name: user.attributes.fullName
@@ -88,7 +81,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  public cancel() {
+  cancel() {
     this.host.close();
   }
 }

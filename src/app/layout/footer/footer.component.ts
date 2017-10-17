@@ -1,31 +1,16 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { AboutService } from '../../shared/about.service';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
+  templateUrl: './footer.component.html'
 })
 
-export class FooterComponent implements OnInit {
+export class FooterComponent {
 
-  public showFooter = false;
+  constructor(public about: AboutService) {
 
-  constructor(
-    public router: Router,
-    public about: AboutService) {
-
-  }
-
-  public ngOnInit() {
-    setTimeout(() => {
-      this.showFooter = true;
-    }, 1000);
-  }
-
-  get isLandingPagePage(): boolean {
-    return this.router.url.indexOf('/_') === -1;
   }
 
 }

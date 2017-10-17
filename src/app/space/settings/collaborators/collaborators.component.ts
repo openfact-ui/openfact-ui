@@ -11,15 +11,12 @@ import { ContextService } from '../../../shared/context.service';
 import { find } from 'lodash';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-collaborators',
   templateUrl: 'collaborators.component.html',
   styleUrls: ['./collaborators.component.scss']
 })
 export class CollaboratorsComponent implements OnInit, OnDestroy {
-
-  @ViewChild('addCollaborators') public addCollaboratorsModal: IModalHost;
-  @ViewChild('removeCollaborator') public removeCollaborator: IModalHost;
-
   private context: Context;
   private collaborators: User[];
   private emptyStateConfig: EmptyStateConfig;
@@ -27,11 +24,13 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   private contextSubscription: Subscription;
   private collaboratorSubscription: Subscription;
   private userToRemove: User;
+  @ViewChild('addCollaborators') addCollaboratorsModal: IModalHost;
+  @ViewChild('removeCollaborator') removeCollaborator: IModalHost;
 
   constructor(
     private contexts: ContextService,
     private collaboratorService: CollaboratorService) {
-    this.contextSubscription = this.contexts.current.subscribe((val) => {
+    this.contextSubscription = this.contexts.current.subscribe(val => {
       this.context = val;
     });
   }
@@ -49,31 +48,28 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     this.collaborators = [];
   }
 
-  public ngOnDestroy() {
-    this.contextSubscription.unsubscribe();
-    this.collaboratorSubscription.unsubscribe();
-  }
-
   public initCollaborators(event: any): void {
     let pageSize = event.pageSize;
     console.log('event size from page', pageSize);
     pageSize = 20;
-
-    // tslint:disable-next-line:max-line-length
-    this.collaboratorSubscription = this.collaboratorService.getInitialBySpaceId(this.context.space.id, pageSize).subscribe((collaborators) => {
+    this.collaboratorSubscription = this.collaboratorService.getInitialBySpaceId(this.context.space.id, pageSize).subscribe(collaborators => {
       this.collaborators = collaborators;
     });
   }
 
   public fetchMoreCollaborators($event): void {
     this.collaboratorService.getNextCollaborators()
-      .subscribe((collaborators) => {
-        if (collaborators) {
+      .subscribe(collaborators => {
+        if(collaborators)
           this.collaborators = this.collaborators.concat(collaborators);
-        }
-      }, (err) => {
+        }, err => {
         console.log(err);
       });
+  }
+
+  public ngOnDestroy() {
+    this.contextSubscription.unsubscribe();
+    this.collaboratorSubscription.unsubscribe();
   }
 
   public launchAddCollaborators() {
@@ -86,7 +82,6 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   }
 
   public removeUser() {
-    // tslint:disable-next-line:max-line-length
     this.collaboratorService.removeCollaborator(this.context.space.id, this.userToRemove.id).subscribe(() => {
       this.collaborators.splice(this.collaborators.indexOf(this.userToRemove), 1);
       this.userToRemove = null;
@@ -95,11 +90,11 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   }
 
   public addCollaboratorsToParent(addedUsers: User[]) {
-    addedUsers.forEach((user) => {
+    addedUsers.forEach(user => {
       let matchingUser = find(this.collaborators, (existing) => {
         return existing.id === user.id;
       });
-      if (!matchingUser) {
+      if(!matchingUser) {
         this.collaborators.push(user);
       }
     });

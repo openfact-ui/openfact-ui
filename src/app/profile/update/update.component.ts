@@ -1,42 +1,30 @@
-import { OfValidators } from './../validators/ofs-validators';
-import { NotificationService, NotificationType } from 'patternfly-ng';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  OnDestroy,
-  Renderer2,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
+import { Notification, NotificationType, Notifications } from 'ngo-base';
 import { Context, Contexts } from 'ngo-openfact-sync';
 import { AuthenticationService, UserService, User } from 'ngo-login-client';
 
-import { CopyService } from '../services/copy.service';
-import {
-  ExtProfile, GettingStartedService
-} from '../../getting-started/services/getting-started.service';
+import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
 import { ProviderService } from '../../getting-started/services/provider.service';
 
+import { OfValidators } from '../validators/ofs-validators';
+
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-update',
   templateUrl: 'update.component.html',
   styleUrls: ['./update.component.scss'],
   providers: [GettingStartedService, ProviderService]
 })
-export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UpdateComponent implements AfterViewInit, OnInit {
 
   @ViewChild('_email') public emailElement: ElementRef;
   @ViewChild('_bio') public bioElement: HTMLElement;
   @ViewChild('_imageUrl') public imageUrlElement: ElementRef;
   @ViewChild('_url') public urlElement: ElementRef;
-  @ViewChild('profileForm') public profileForm: NgForm;
-  @ViewChild('advancedForm') public advancedForm: NgForm;
 
   public form: FormGroup;
   public context: Context;
@@ -48,7 +36,7 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder,
     private gettingStartedService: GettingStartedService,
     private contexts: Contexts,
-    private notifications: NotificationService,
+    private notifications: Notifications,
     private providerService: ProviderService,
     private renderer: Renderer2,
     private router: Router,
@@ -69,7 +57,7 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
     }));
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     // Set focus
     if (this.getRequestParam('bio') !== null) {
       this.setElementFocus(null, this.bioElement);
@@ -82,9 +70,10 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public ngOnInit() { }
+  ngOnInit() {
+  }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
@@ -93,23 +82,14 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
   // Actions
 
   public linkImageUrl(): void {
-    /*this.subscriptions.push(this.gitHubService.getUser().subscribe(user => {
-      if (user.avatar_url !== undefined && user.avatar_url.length > 0) {
-        this.profileForm.form.markAsDirty();
-        this.imageUrl = user.avatar_url;
-      } else {
-        this.handleError('No image found', NotificationType.INFO);
-      }
-    }, error => {
-      this.handleError('Unable to link image', NotificationType.WARNING);
-    }));*/
+
   }
 
   /**
    * Route to user profile
    */
   public routeToProfile(): void {
-    this.router.navigate(['/', this.context.user.id]);
+    this.router.navigate(['/', this.context.user.attributes.username]);
   }
 
   /**
@@ -135,9 +115,11 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
       this.setUserProperties(user);
-      this.notifications.message(NotificationType.SUCCESS, 'Success',
-        `Profile updated!`, false, null, []);
       this.routeToProfile();
+      this.notifications.message({
+        message: `Profile updated!`,
+        type: NotificationType.SUCCESS
+      } as Notification);
     }, (error) => {
       if (error.status === 409) {
         this.handleError('Email already exists', NotificationType.DANGER);
@@ -196,7 +178,10 @@ export class UpdateComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private handleError(error: string, type: NotificationType) {
-    this.notifications.message(type as string, 'Error', error, false, null, []);
+    this.notifications.message({
+      message: error,
+      type: type
+    } as Notification);
   }
 
 }
