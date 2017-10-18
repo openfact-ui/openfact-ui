@@ -12,6 +12,8 @@ export class DocumentWizardComponent implements OnInit, OnDestroy {
 
     @Input() public label = 'Upload';
     @Input() public isButton = true;
+    @Input() public buttonType = 'primary';
+    @Input() public buttonSize = 'lg';
 
     public uploadInput: EventEmitter<UploadInput> = new EventEmitter<UploadInput>();
 

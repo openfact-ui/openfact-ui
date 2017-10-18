@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
-import {Subscription, Observable} from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
-import {Broadcaster, Logger} from 'ngo-base';
-import {UserService, User} from 'ngo-login-client';
-import {Context, Contexts} from 'ngo-openfact-sync';
+import { Broadcaster, Logger } from 'ngo-base';
+import { UserService, User } from 'ngo-login-client';
+import { Context, Contexts } from 'ngo-openfact-sync';
 
-import {LoginService} from '../../shared/login.service';
-import {MenuedContextType} from './menued-context-type';
-import {Navigation} from '../../models/navigation';
-import {DummyService} from './../../shared/dummy.service';
+import { LoginService } from '../../shared/login.service';
+import { MenuedContextType } from './menued-context-type';
+import { Navigation } from '../../models/navigation';
+import { DummyService } from './../../shared/dummy.service';
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
@@ -40,18 +40,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public menuCallbacks = new Map<String, MenuHiddenCallback>([
     [
       '_settings', function (headerComponent) {
-      return headerComponent.checkContextUserEqualsLoggedInUser();
-    }
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
     ],
     [
       '_resources', function (headerComponent) {
-      return headerComponent.checkContextUserEqualsLoggedInUser();
-    }
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
     ],
     [
       'settings', function (headerComponent) {
-      return headerComponent.checkContextUserEqualsLoggedInUser();
-    }
+        return headerComponent.checkContextUserEqualsLoggedInUser();
+      }
     ]
   ]);
 
@@ -64,15 +64,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private eventListeners: any[] = [];
 
   constructor(public router: Router,
-              public route: ActivatedRoute,
-              private userService: UserService,
-              private logger: Logger,
-              public loginService: LoginService,
-              private broadcaster: Broadcaster,
-              private contexts: Contexts) {
+    public route: ActivatedRoute,
+    private userService: UserService,
+    private logger: Logger,
+    public loginService: LoginService,
+    private broadcaster: Broadcaster,
+    private contexts: Contexts) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        this.broadcaster.broadcast('navigate', {url: val.url} as Navigation);
+        this.broadcaster.broadcast('navigate', { url: val.url } as Navigation);
         this.updateMenus();
       }
     });
@@ -135,7 +135,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   get context(): Context {
-    if (this.router.url === '/_home') {
+    if (this.router.url.indexOf('/_home') !== -1) {
       return this._defaultContext;
     } else {
       return this._context;

@@ -9,6 +9,7 @@
                 <h2>Documents</h2>
                 <ul class="nav nav-pills nav-stacked">
                     <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/_home"><i class="fa fa-inbox"></i>Inbox</a></li>
+                    <li routerLinkActive="active"><a routerLink="./_started"><i class="fa fa-star"></i>Started</a></li>
                     <!-- <li><a href="#"><i class="fa fa-file-text-o"></i>Alerts</a></li>
                     <li><a href="#"><i class="fa fa-cloud"></i>Storage</a></li> -->
                 </ul>
@@ -17,7 +18,7 @@
                 <h2>Actions</h2>
                 <ul class="nav nav-pills nav-stacked">
                     <li>
-                        <ofs-document-wizard></ofs-document-wizard>
+                        <ofs-document-wizard [isButton]="true" style="padding: 1px 20px;"></ofs-document-wizard>
                     </li>
                     <!-- <li><a href="#">User Accounts</a></li>
                     <li><a href="#">Containers</a></li>

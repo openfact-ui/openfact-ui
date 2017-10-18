@@ -1,7 +1,7 @@
 <div *ngIf="isButton; then buttonTemplate else linkTemplate"></div>
 
 <ng-template #buttonTemplate>
-    <label for="file-upload" class="btn btn-default">
+    <label for="file-upload" class="btn btn-{{buttonType}} btn-{{buttonSize}}">
         <span class="fa fa-cloud-upload"></span> {{label}}
     </label>
     <input id="file-upload" type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput" multiple/>

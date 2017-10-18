@@ -12,7 +12,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: HomeComponent,
     children: [
-      { path: '', component: InboxComponent }
+      { path: '', component: InboxComponent },
+      {
+        path: '_started',
+        loadChildren: './started/started.module#StartedModule'
+      },
     ]
   }
 ];
