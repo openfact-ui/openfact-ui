@@ -105,7 +105,7 @@
     "ngx-modal": "0.0.29",
     "ngx-restangular": "^1.0.13",
     "ngx-uploader": "^4.0.0",
-    "ngx-widgets": "^2.2.8",
+    "ngx-widgets": "^2.2.9",
     "patternfly": "^3.28.3",
     "patternfly-ng": "^0.13.3",
     "patternfly-sass": "^3.23.2",
