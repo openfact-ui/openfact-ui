@@ -1,4 +1,4 @@
-import { Space } from 'ngo-openfact-sync';
+import { Space, UBLDocumentService } from 'ngo-openfact-sync';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,13 +12,20 @@ export class InboxComponent implements OnDestroy, OnInit {
 
   categorizedSpaces: Space[] = [];
 
-  constructor() {
+  constructor(private documentService: UBLDocumentService) {
   }
 
   public ngOnInit() {
   }
 
   public ngOnDestroy(): void {
+  }
+
+  search($event) {
+    console.log($event);
+    this.documentService.search($event).subscribe((data) => {
+      console.log(data);
+    });
   }
 
 }

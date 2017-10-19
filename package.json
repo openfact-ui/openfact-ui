@@ -100,7 +100,7 @@
     "jwt-decode": "^2.2.0",
     "ngo-base": "0.7.3",
     "ngo-login-client": "0.2.10",
-    "ngo-openfact-sync": "0.0.40",
+    "ngo-openfact-sync": "0.0.42",
     "ngx-bootstrap": "^1.9.3",
     "ngx-modal": "0.0.29",
     "ngx-restangular": "^1.0.13",

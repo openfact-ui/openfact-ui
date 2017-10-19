@@ -44,6 +44,7 @@ import {
   SpaceService,
   Spaces,
   CollaboratorService,
+  UBLDocumentService,
   OpenfactSyncModule
 } from 'ngo-openfact-sync';
 import {
@@ -193,6 +194,7 @@ type StoreType = {
     CollaboratorService,
     ProfileResolver,
     UploadDocumentService,
+    UBLDocumentService,
 
     // Others
     OpenfactRuntimeConsoleService,

@@ -1,21 +1,26 @@
 import { Subject, Subscription } from 'rxjs';
-import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy } from '@angular/core';
+import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy, Output } from '@angular/core';
 
 @Component({
-    selector: 'ofs-document-search-toolbar',
-    templateUrl: './document-search-toolbar.component.html',
-    styleUrls: ['./document-search-toolbar.component.scss'],
+  selector: 'ofs-document-search-toolbar',
+  templateUrl: './document-search-toolbar.component.html',
+  styleUrls: ['./document-search-toolbar.component.scss'],
 })
 export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
 
-    constructor() { }
+  @Output()
+  query: EventEmitter<string> = new EventEmitter<string>();
 
-    public ngOnInit() {
+  constructor() { }
 
-    }
+  public ngOnInit() {
+    setTimeout(() => {
+      this.query.emit("{ 'query': { 'match' : { 'type' : 'invoice' } } }");
+    }, 1500)
+  }
 
-    public ngOnDestroy(): void {
+  public ngOnDestroy(): void {
 
-    }
+  }
 
 }
