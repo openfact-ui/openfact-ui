@@ -1,14 +1,14 @@
-import {Router} from '@angular/router';
-import {Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {Space, Spaces, SpaceService, Context, Contexts} from 'ngo-openfact-sync';
-import {UserService, User} from 'ngo-login-client';
+import { Space, Spaces, SpaceService, Context, Contexts } from 'ngo-openfact-sync';
+import { UserService, User } from 'ngo-login-client';
 
-import {Logger} from 'ngo-base';
-import {OpenfactUIConfig} from '../shared/config/openfact-ui-config';
-import {BrandInformation} from '../models/brand-information';
+import { Logger } from 'ngo-base';
+import { OpenfactUIConfig } from '../shared/config/openfact-ui-config';
+import { BrandInformation } from '../models/brand-information';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -30,12 +30,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public brandInformation: BrandInformation;
 
   constructor(private userService: UserService,
-              private spaceService: SpaceService,
-              private router: Router,
-              private contexts: Contexts,
-              private spaces: Spaces,
-              private logger: Logger,
-              private openfactUIConfig: OpenfactUIConfig,) {
+    private spaceService: SpaceService,
+    private router: Router,
+    private contexts: Contexts,
+    private spaces: Spaces,
+    private logger: Logger,
+    private openfactUIConfig: OpenfactUIConfig) {
     this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
   }
 
