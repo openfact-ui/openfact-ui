@@ -98,6 +98,7 @@
     "ie-shim": "^0.1.0",
     "jw-bootstrap-switch-ng2": "^1.0.6",
     "jwt-decode": "^2.2.0",
+    "mydaterangepicker": "^4.1.11",
     "ngo-base": "0.7.3",
     "ngo-login-client": "0.2.10",
     "ngo-openfact-sync": "0.0.42",

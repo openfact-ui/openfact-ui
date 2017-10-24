@@ -17,97 +17,51 @@
 <!-- Toolbar -->
 <ofs-document-search-toolbar (query)="search($event)"></ofs-document-search-toolbar>
 
-<!-- Table HTML -->
-<table class="table table-striped table-bordered table-hover" id="table1">
-  <thead>
-    <tr>
-      <th>
-        <label class="sr-only" for="selectAll">Select all rows</label>
-        <input type="checkbox" id="selectAll" name="selectAll">
-      </th>
-      <th>Rendering Engine</th>
-      <th>Browser</th>
-      <th>Platform(s)</th>
-      <th>Engine Version</th>
-      <th>CSS Grade</th>
-      <th colspan="2">Actions</th>
-    </tr>
-  </thead>
-</table>
+<!-- List -->
+<pfng-list [actionTemplate]="actionTemplate" [config]="listConfig" [expandTemplate]="expandTemplate" [items]="items" [itemTemplate]="itemTemplate"
+  (onActionSelect)="handleAction($event)" (onClick)="handleClick($event)" (onDblClick)="handleDblClick($event)" (onSelectionChange)="handleSelectionChange($event)">
+  <ng-template #itemTemplate let-item="item" let-index="index">
 
-<form class="content-view-pf-pagination table-view-pf-pagination clearfix" id="pagination1">
-  <div class="form-group">
-    <select class="selectpicker pagination-pf-pagesize">
-      <option value="6">6</option>
-      <option value="10">10</option>
-      <option value="15" selected="selected">15</option>
-      <option value="25">25</option>
-      <option value="50">50</option>
-    </select>
-    <span>per page</span>
-  </div>
-  <div class="form-group">
-    <span>
-      <span class="pagination-pf-items-current">1-15</span> of
-      <span class="pagination-pf-items-total">75</span>
-    </span>
-    <ul class="pagination pagination-pf-back">
-      <li class="disabled">
-        <a href="#" title="First Page">
-          <span class="i fa fa-angle-double-left"></span>
-        </a>
-      </li>
-      <li class="disabled">
-        <a href="#" title="Previous Page">
-          <span class="i fa fa-angle-left"></span>
-        </a>
-      </li>
-    </ul>
-    <label for="pagination1-page" class="sr-only">Current Page</label>
-    <input class="pagination-pf-page" type="text" value="1" id="pagination1-page">
-    <span>of
-      <span class="pagination-pf-pages">5</span>
-    </span>
-    <ul class="pagination pagination-pf-forward">
-      <li>
-        <a href="#" title="Next Page">
-          <span class="i fa fa-angle-right"></span>
-        </a>
-      </li>
-      <li>
-        <a href="#" title="Last Page">
-          <span class="i fa fa-angle-double-right"></span>
-        </a>
-      </li>
-    </ul>
-  </div>
-</form>
+    <div class="list-pf-left">
+      <span class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+    </div>
+    <div class="list-pf-content-wrapper">
+      <div class="list-pf-main-content">
+        <div class="list-pf-title">
+          {{item.attributes.assignedId}}
+          <small>{{item.attributes.type | uppercase}}</small>
+        </div>
+        <div class="list-pf-description text-overflow-pf">
+          {{item.attributes.supplierName | uppercase}}
+          <small>{{item.attributes.supplierAssignedId}}</small>
+        </div>
+        <div class="list-pf-description text-overflow-pf">
+          {{item.attributes.customerName | uppercase}}
+          <small>{{item.attributes.customerAssignedId}}</small>
+        </div>
+      </div>
+      <div class="list-pf-additional-content">
+        <div>
+          <strong>{{item.attributes.amount | number}}</strong> {{item.attributes.currency | uppercase}}
+        </div>
+        <div>
+          {{item.attributes.issueDate | date: 'shortDate'}}
+        </div>
+      </div>
+    </div>
 
-<!-- Blank Slate HTML -->
-<div class="blank-slate-pf table-view-pf-empty hidden" id="emptyState1">
-  <div class="blank-slate-pf-icon">
-    <span class="pficon pficon pficon-add-circle-o"></span>
-  </div>
-  <h1>
-    Empty State Title
-  </h1>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut
-    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-  </p>
-  <p>
-    Learn more about this
-    <a href="#">on the documentation</a>.
-  </p>
-  <div class="blank-slate-pf-main-action">
-    <button class="btn btn-primary btn-lg"> Main Action </button>
-  </div>
-  <div class="blank-slate-pf-secondary-action">
-    <button class="btn btn-default"> Secondary Action </button>
-    <button class="btn btn-default"> Secondary Action </button>
-    <button class="btn btn-default"> Secondary Action </button>
-  </div>
-</div>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget eros tincidunt, semper ante nec, dapibus ante.
-</p>
+  </ng-template>
+  <ng-template #actionTemplate let-item="item" let-index="index">
+    <pfng-action class="list-pf-actions" [config]="getActionConfig(item, actionButtonTemplate, startButtonTemplate)" (onActionSelect)="handleAction($event, item)">
+      <ng-template #actionButtonTemplate let-action="action">
+        <span class="fa fa-plus">&nbsp;</span>{{action.title}}
+      </ng-template>
+      <ng-template #startButtonTemplate let-action="action">
+        {{item.started === true ? "Starting" : action.title}}
+      </ng-template>
+    </pfng-action>
+  </ng-template>
+  <ng-template #expandTemplate let-item="item" let-index="index">
+    <h1>Basic content</h1>
+  </ng-template>
+</pfng-list>

@@ -1,8 +1,11 @@
-import { DocumentSearchToolbarModule } from './../../document/search-toolbar/document-search-toolbar.module';
-import { OpenfactSyncModule } from 'ngo-openfact-sync';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
+
+import { ListModule, EmptyStateModule, ActionModule } from 'patternfly-ng';
+import { OpenfactSyncModule } from 'ngo-openfact-sync';
+
+import { DocumentSearchToolbarModule } from './../../document/search-toolbar/document-search-toolbar.module';
 
 import { InboxRoutingModule } from './inbox-routing.module';
 import { InboxComponent } from './inbox.component';
@@ -11,6 +14,9 @@ import { InboxComponent } from './inbox.component';
   imports: [
     CommonModule,
     InboxRoutingModule,
+    ListModule,
+    EmptyStateModule,
+    ActionModule,
     OpenfactSyncModule,
     DocumentSearchToolbarModule
   ],
