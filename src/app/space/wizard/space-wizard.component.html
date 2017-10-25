@@ -1,6 +1,6 @@
 <ng-template #wizardTemplate>
 
-    <pfng-wizard #wizard [config]="wizardConfig" (onCancel)="close()" (onNext)="nextClicked($event)" (onStepChange)="stepChanged($event)">
+    <pfng-wizard #wizard [config]="wizardConfig" (onCancel)="close($event)" (onNext)="nextClicked($event)" (onStepChange)="stepChanged($event)">
 
         <pfng-wizard-step [config]="stepSpaceConfig">
             <pfng-wizard-substep [config]="stepSpaceTermsConditionsConfig">
@@ -11,10 +11,10 @@
             </pfng-wizard-substep>
         </pfng-wizard-step>
 
-        <pfng-wizard-step [config]="stepClaimConfig">            
+        <pfng-wizard-step [config]="stepClaimConfig">
             <pfng-wizard-substep [config]="stepClaimReviewConfig">
                 <pfng-wizard-review></pfng-wizard-review>
-            </pfng-wizard-substep>            
+            </pfng-wizard-substep>
             <pfng-wizard-substep [config]="stepClaimResultConfig" (onShow)="startClaim()">
                 <div class="wizard-pf-contents">
                     <div class="wizard-pf-process blank-slate-pf" *ngIf="!claimComplete">
@@ -48,5 +48,5 @@
             </div>
         </form>
     </ng-template>
-    
+
 </ng-template>

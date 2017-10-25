@@ -10,7 +10,7 @@ import { FormExtensionsModule } from './../../util/form-extensions/form-extensio
 
 import { SpaceWizardComponent } from './space-wizard.component';
 import {
-    SpaceTermsConditionsComponent
+  SpaceTermsConditionsComponent
 } from './components/space-terms-conditions/space-terms-conditions.component';
 import { SpaceFormComponent } from './components/space-form/space-form.component';
 
@@ -21,32 +21,32 @@ import { SelectedItemsPipe } from './pipes/selected-items.pipe';
 import { LoggerFactory } from './common/logger';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        WizardModule,
-        TooltipModule,
-        ModalModule,
-        FormExtensionsModule
-    ],
-    declarations: [
-        SpaceWizardComponent,
-        SpaceTermsConditionsComponent,
-        SpaceFormComponent,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    WizardModule,
+    TooltipModule,
+    ModalModule,
+    FormExtensionsModule
+  ],
+  declarations: [
+    SpaceWizardComponent,
+    SpaceTermsConditionsComponent,
+    SpaceFormComponent,
 
-        SelectedItemsPipe,
-        VisibleItemsPipe,
-        TrustHtmlPipe,
-        TrustStylePipe,
-    ],
-    exports: [
-        SpaceWizardComponent,
-    ],
-    providers: [
-        TooltipConfig,
-        LoggerFactory,
-    ]
+    SelectedItemsPipe,
+    VisibleItemsPipe,
+    TrustHtmlPipe,
+    TrustStylePipe,
+  ],
+  exports: [
+    SpaceWizardComponent,
+  ],
+  providers: [
+    TooltipConfig,
+    LoggerFactory,
+  ]
 })
 
 export class SpaceWizardModule {

@@ -32,3 +32,8 @@ $img-path: "~patternfly-sass/assets/images/patternfly/";
 
 // General layout information
 @import "layout";
+
+
+.wizard-pf-row {
+  position: inherit !important;
+}
