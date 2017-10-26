@@ -1,3 +1,4 @@
+import { QueryService } from './services/query.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
@@ -15,7 +16,10 @@ import { InboxModule } from './inbox/inbox.module';
     DocumentWizardModule,
     InboxModule
   ],
-  declarations: [HomeComponent]
+  declarations: [HomeComponent],
+  providers: [
+    QueryService
+  ]
 })
 export class HomeModule {
   constructor(http: Http) {

@@ -7,26 +7,26 @@ import {
   EmptyStateModule,
   ActionModule
 } from 'patternfly-ng';
+import { OpenfactSyncModule } from 'ngo-openfact-sync';
 
-import { InboxRoutingModule } from './inbox-routing.module';
-import { InboxComponent } from './inbox.component';
+import { SearchRoutingModule } from './search-routing.module';
+import { SearchComponent } from './search.component';
 
-import { SpaceTabsModule } from './space-tabs/space-tabs.module';
 import { DocumentSearchToolbarModule } from './../search-toolbar/document-search-toolbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    InboxRoutingModule,
+    SearchRoutingModule,
     ListModule,
     EmptyStateModule,
     ActionModule,
-    DocumentSearchToolbarModule,
-    SpaceTabsModule
+    OpenfactSyncModule,
+    DocumentSearchToolbarModule
   ],
-  declarations: [InboxComponent],
+  declarations: [SearchComponent],
 })
-export class InboxModule {
+export class SearchModule {
   constructor(http: Http) {
   }
 }

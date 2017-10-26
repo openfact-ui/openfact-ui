@@ -14,8 +14,12 @@ const routes: Routes = [
     children: [
       { path: '', component: InboxComponent },
       {
-        path: '_started',
-        loadChildren: './started/started.module#StartedModule'
+        path: '_search',
+        loadChildren: './search/search.module#SearchModule'
+      },
+      {
+        path: ':document',
+        loadChildren: './edit/edit.module#EditModule'
       },
     ]
   }

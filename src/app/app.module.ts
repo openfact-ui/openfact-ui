@@ -94,7 +94,7 @@ import { DocumentUploadProgressModule } from './document/upload-progress/documen
 
 // About Modal
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
-
+import { GettingStartedService } from './getting-started/services/getting-started.service';
 import { EventService } from './shared/event.service';
 
 // Application wide providers
@@ -204,7 +204,7 @@ type StoreType = {
     },
     HttpService,
 
-    // GettingStartedService,
+    GettingStartedService,
     MenusService,
 
     openfactUIConfigProvider,

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UBLDocumentService, Space } from 'ngo-openfact-sync';
 
 import {
   ListEvent,
@@ -12,21 +11,18 @@ import {
 } from 'patternfly-ng';
 
 @Component({
-  selector: 'ofs-inbox',
-  templateUrl: 'inbox.component.html',
-  styleUrls: ['./inbox.component.scss']
+  selector: 'ofs-search',
+  templateUrl: 'search.component.html',
+  styleUrls: ['./search.component.scss']
 })
-export class InboxComponent implements OnDestroy, OnInit {
+export class SearchComponent implements OnDestroy, OnInit {
 
   emptyStateConfig: EmptyStateConfig;
   listConfig: ListConfig;
 
   items: any[] = [];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private documentService: UBLDocumentService) {
+  constructor(private router: Router) {
   }
 
   public ngOnInit() {
@@ -50,63 +46,49 @@ export class InboxComponent implements OnDestroy, OnInit {
 
   }
 
-  search($event) {
-    this.documentService.search($event).subscribe((data) => {
-      this.items = data;
-    });
-  }
+
 
   // Actions
   handleAction($event: Action, item: any): void {
-    if ($event.id === 'edit') {
-      this.router.navigate([item.id], { relativeTo: this.route });
-    }
+    console.log($event);
   }
 
   handleClick($event: ListEvent): void {
-    console.log($event);
+    //console.log($event);
   }
 
   handleDblClick($event: ListEvent): void {
-    console.log($event);
+    //console.log($event);
   }
 
   handleSelectionChange($event: ListEvent): void {
-    console.log($event);
+    //console.log($event);
   }
 
   onQueryChange($event: string) {
-    this.search($event);
-  }
-
-  addSpacesToParent(addedSpaces: Space[]) {
-    console.log(addedSpaces);
+    //console.log($event);
   }
 
   /**
    * Get the ActionConfig properties for each row
    *
    * @param item The current row item
-   * @param printButtonTemplate {TemplateRef} Custom button template
-   * @param downloadButtonTemplate {TemplateRef} Custom button template
+   * @param actionButtonTemplate {TemplateRef} Custom button template
+   * @param startButtonTemplate {TemplateRef} Custom button template
    * @returns {ActionConfig}
    */
-  getActionConfig(item: any, printButtonTemplate: TemplateRef<any>, downloadButtonTemplate: TemplateRef<any>): ActionConfig {
+  getActionConfig(item: any, actionButtonTemplate: TemplateRef<any>, startButtonTemplate: TemplateRef<any>): ActionConfig {
     let actionConfig = {
       primaryActions: [{
-        id: 'print',
-        title: 'Print',
-        tooltip: 'Print',
-        template: printButtonTemplate
+        id: 'start',
+        styleClass: 'btn-primary',
+        title: 'Start',
+        tooltip: 'Start the server',
+        template: startButtonTemplate
       }, {
-        id: 'download',
-        title: 'Download',
-        tooltip: 'Download',
-        template: downloadButtonTemplate
-      }, {
-        id: 'edit',
-        title: 'Edit',
-        tooltip: 'Edit'
+        id: 'action1',
+        title: 'Action 1',
+        tooltip: 'Perform an action'
       }],
       moreActions: [{
         id: 'moreActions1',

@@ -1,0 +1,40 @@
+<form role="form" #spacesForm="ngForm" (ngSubmit)="updateSpaces()" novalidate>
+  <header>
+    <h3 class="add-dialog-header">
+      <b>Select spaces to enable</b>
+    </h3>
+  </header>
+  <section>
+    <div class="form">
+      <fieldset class="add-fieldset">
+
+        <div class="form-group">
+          <label class="control-label">Owned</label>
+          <div *ngFor="let space of ownedSpaces">
+            <label>
+              <input type="checkbox" (change)="onOwnedChange(space, $event.target.checked)" [checked]="isSpaceSelected(space)">{{space.attributes?.name}}
+            </label>
+          </div>
+          <div *ngIf="!ownedSpaces || ownedSpaces.length === 0">
+            <span>No owned spaces</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Collaborated</label>
+          <div *ngFor="let space of collaboratedSpaces">
+            <label>{{space.attributes?.name}}</label>
+          </div>
+          <div *ngIf="!collaboratedSpaces || collaboratedSpaces.length === 0">
+              <span>No spaces as collaborator</span>
+            </div>
+        </div>
+
+      </fieldset>
+    </div>
+  </section>
+  <footer>
+    <button class="btn btn-primary" [disabled]="!spacesForm.form.valid" type="submit">Save</button>
+    <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+  </footer>
+</form>

@@ -1,0 +1,25 @@
+<ul class="nav nav-tabs" style="margin-top: 5px; margin-bottom: 10px;">
+  <li class="active">
+    <a href="#">All</a>
+  </li>
+  <li *ngFor="let s of favoriteSpaces">
+    <a href="#">{{s.attributes.name | spaceName}}</a>
+  </li>
+  <li>
+    <a href="javascript:void(0);" (click)="addSpaces.open()">
+      <span></span>
+      <i class="fa fa-plus"></i>
+    </a>
+  </li>
+</ul>
+
+<modal (onOpen)="openSpaceModal()" #addSpaces>
+  <modal-content>
+    <add-spaces-dialog [host]="addSpaces"
+    [favoriteSpaces]="favoriteSpaces"
+    [ownedSpaces]="ownedSpaces | async"
+    [collaboratedSpaces]="collaboratedSpaces | async"
+    (onAdded)="addSpacesToParent($event)">
+    </add-spaces-dialog>
+  </modal-content>
+</modal>

@@ -1,14 +1,12 @@
-<div class="row toolbar-pf table-view-pf-toolbar" id="toolbar1">
+<div class="row toolbar-pf">
   <div class="col-sm-12">
     <form class="toolbar-pf-actions">
       <div class="form-group toolbar-pf-filter">
         <label class="sr-only" for="filter">Rendering Engine</label>
         <div class="input-group">
           <ofs-role-filter [config]="roleConfig" (onChange)="roleChange($event)"></ofs-role-filter>
-          <input type="text" class="form-control" placeholder="Filter By Rendering Engine..." autocomplete="off"
-            name="filterText"
-            [(ngModel)]="filterText"
-            (keypress)="searchInputKeyPress($event)">
+          <input type="text" class="form-control" placeholder="Filter By Rendering Engine..." autocomplete="off" name="filterText"
+            [(ngModel)]="filterText" (keypress)="searchInputKeyPress($event)">
         </div>
       </div>
       <div class="form-group">
@@ -41,11 +39,6 @@
         </div>
       </div>
       <div class="toolbar-pf-action-right">
-        <div class="form-group">
-          <button type="button" class="btn btn-default" (click)="showTools=!showTools">
-            <i class="fa pficon-settings"></i> Tools
-          </button>
-        </div>
         <div class="form-group toolbar-pf-find">
           <button class="btn btn-link btn-find" type="button">
             <span class="fa fa-search"></span>
@@ -66,6 +59,11 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-link" (click)="showTools=!showTools">
+            <i class="fa pficon-settings"></i>
+          </button>
+        </div>
       </div>
     </form>
     <div class="row" [hidden]="!showTools">
@@ -81,16 +79,29 @@
       </div>
     </div>
 
-    <div class="row toolbar-pf-results" *ngIf="data">
+    <div class="row toolbar-pf-results">
       <div class="col-sm-9">
         <div>
-          <h5>{{data.totalItems | number}} Results</h5>
+          <h5>0 Results</h5>
         </div>
       </div>
-      <!-- <div class="col-sm-3 table-view-pf-select-results">
-        <strong>{{data.selectedItems}}</strong> of
-        <strong>{{data.availableItems}}</strong> selected
-      </div> -->
+      <div class="col-sm-3 table-view-pf-select-results">
+        <strong>0</strong> of
+        <strong>10</strong> selected
+
+        <ul class="pagination">
+          <li>
+            <a href="#">
+              <span class="i fa fa-angle-left"></span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="i fa fa-angle-right"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
