@@ -1,4 +1,3 @@
-import { NumberCustomRange } from './number-filter-custom-value';
 import { NumberFilterField } from './number-filter-field';
 
 /**

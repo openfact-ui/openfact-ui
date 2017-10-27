@@ -37,6 +37,11 @@ export class DateFilterComponent implements DoCheck, OnInit {
   @Input() config: DateFilterConfig;
 
   /**
+   * Custom range is visible
+   */
+  @Input() isCustomRangeVisible: boolean;
+
+  /**
    * The event emitted when the sort has changed
    */
   @Output('onChange') onChange = new EventEmitter();
@@ -124,14 +129,17 @@ export class DateFilterComponent implements DoCheck, OnInit {
     }
   }
 
-  selectCustomRange() {
+  go() {
+    let fromTitle: string = this.datePipe.transform(this.fromDate, 'mediumDate');
+    let toTitle: string = this.datePipe.transform(this.toDate, 'mediumDate');
+
     let customRangeField: DateFilterField = {
       id: 'customXRange',
-      title: this.datePipe.transform(this.fromDate, 'mediumDate') + ' - ' + this.datePipe.transform(this.toDate.toString(), 'mediumDate'),
+      title: fromTitle + ' - ' + toTitle,
       value: () => {
         return {
-          after: this.toDate,
-          before: this.fromDate
+          after: this.fromDate,
+          before: this.toDate
         } as DateFilterValue;
       }
     } as DateFilterField;

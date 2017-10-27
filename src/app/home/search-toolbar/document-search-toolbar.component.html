@@ -2,17 +2,17 @@
   <div class="col-sm-12">
     <form class="toolbar-pf-actions">
       <div class="form-group toolbar-pf-filter">
-        <label class="sr-only" for="filter">Rendering Engine</label>
+        <label class="sr-only">Filter text</label>
         <div class="input-group">
           <ofs-role-filter [config]="roleConfig" (onChange)="roleChange($event)"></ofs-role-filter>
-          <input type="text" class="form-control" placeholder="Filter By Rendering Engine..." autocomplete="off" name="filterText"
-            [(ngModel)]="filterText" (keypress)="searchInputKeyPress($event)">
+          <input type="text" class="form-control" placeholder="Filter text..." autocomplete="off" name="filterText" [(ngModel)]="filterText"
+            (keypress)="searchInputKeyPress($event)">
         </div>
       </div>
       <div class="form-group">
         <pfng-sort [config]="sortConfig" (onChange)="sortChange($event)"></pfng-sort>
       </div>
-      <div class="form-group">
+      <div class="form-group" [hidden]="!results.totalSelected">
         <button class="btn btn-default" type="button">
           <i class="fa fa-cloud-download"></i> Download
         </button>
@@ -40,24 +40,9 @@
       </div>
       <div class="toolbar-pf-action-right">
         <div class="form-group toolbar-pf-find">
-          <button class="btn btn-link btn-find" type="button">
+          <button class="btn btn-link btn-find" type="button" (click)="search()">
             <span class="fa fa-search"></span>
           </button>
-          <div class="find-pf-dropdown-container">
-            <input type="text" class="form-control" id="find" placeholder="Find By Keyword...">
-            <div class="find-pf-buttons">
-              <span class="find-pf-nums">1 of 3</span>
-              <button class="btn btn-link" type="button">
-                <span class="fa fa-angle-up"></span>
-              </button>
-              <button class="btn btn-link" type="button">
-                <span class="fa fa-angle-down"></span>
-              </button>
-              <button class="btn btn-link btn-find-close" type="button">
-                <span class="pficon pficon-close"></span>
-              </button>
-            </div>
-          </div>
         </div>
         <div class="form-group">
           <button type="button" class="btn btn-link" (click)="showTools=!showTools">
@@ -70,10 +55,10 @@
       <div class="col-sm-12">
         <ul class="list-inline">
           <li>
-            <ofs-date-filter [config]="dateFilterConfig" (onChange)="dateFilterChange($event)"></ofs-date-filter>
+            <ofs-date-filter [config]="dateFilterConfig" [isCustomRangeVisible]="true" (onChange)="dateFilterChange($event)"></ofs-date-filter>
           </li>
           <li>
-            <ofs-number-filter [config]="amountFilterConfig" (onChange)="amountFilterChange($event)"></ofs-number-filter>
+            <ofs-number-filter [config]="amountFilterConfig" [isCustomRangeVisible]="true" (onChange)="amountFilterChange($event)"></ofs-number-filter>
           </li>
         </ul>
       </div>
@@ -82,25 +67,29 @@
     <div class="row toolbar-pf-results">
       <div class="col-sm-9">
         <div>
-          <h5>0 Results</h5>
+          <h5>{{results.totalResults | number}} Results</h5>
         </div>
       </div>
       <div class="col-sm-3 table-view-pf-select-results">
-        <strong>0</strong> of
-        <strong>10</strong> selected
+        <div style="display: inline-block;">
+            <strong>{{results.totalSelected | number}}</strong> of
+            <strong>{{limit | number}}</strong> selected
+        </div>
 
-        <ul class="pagination">
-          <li>
-            <a href="#">
-              <span class="i fa fa-angle-left"></span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span class="i fa fa-angle-right"></span>
-            </a>
-          </li>
-        </ul>
+        <div style="display: inline-block;">
+          <ul class="pagination">
+            <li>
+              <a href="javascript:void(0);" (click)="previousPage()">
+                <span class="i fa fa-angle-left"></span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" (click)="nextPage()">
+                <span class="i fa fa-angle-right"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

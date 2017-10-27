@@ -1,10 +1,12 @@
-<ofs-document-search-toolbar (query)="onQueryChange($event)"></ofs-document-search-toolbar>
+<ofs-document-search-toolbar [results]="toolbarInfo" (onChange)="onToolbarChange($event)">
+</ofs-document-search-toolbar>
 
-<ofs-space-tabs></ofs-space-tabs>
+<ofs-space-tabs (onChange)="onTabChange($event)">
+</ofs-space-tabs>
 
 <!-- List -->
 <pfng-list [actionTemplate]="actionTemplate" [config]="listConfig" [expandTemplate]="expandTemplate" [items]="items" [itemTemplate]="itemTemplate"
-  (onActionSelect)="handleAction($event)" (onClick)="handleClick($event)" (onDblClick)="handleDblClick($event)" (onSelectionChange)="handleSelectionChange($event)">
+  (onActionSelect)="handleAction($event)" (onClick)="handleClick($event)" (onSelectionChange)="handleSelectionChange($event)">
   <ng-template #itemTemplate let-item="item" let-index="index">
 
     <div class="list-pf-left">

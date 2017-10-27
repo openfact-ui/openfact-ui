@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ModalModule } from 'ngx-modal';
+import {VSChecklistModule} from 'ng2-vs-checklist';
 
 import { AddSpacesDialogComponent } from './add-spaces-dialog.component';
 
@@ -10,7 +11,8 @@ import { AddSpacesDialogComponent } from './add-spaces-dialog.component';
   imports: [
     CommonModule,
     ModalModule,
-    FormsModule
+    FormsModule,
+    VSChecklistModule
   ],
   declarations: [AddSpacesDialogComponent],
   exports: [

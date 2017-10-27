@@ -1,4 +1,3 @@
-import { RoleFilterCustomRange } from './role-filter-custom-value';
 /**
  * An object containing properties for a sortable field, used to select categories of sorting
  */

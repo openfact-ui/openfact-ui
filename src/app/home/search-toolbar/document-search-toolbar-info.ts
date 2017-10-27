@@ -1,3 +1,4 @@
 export interface DocumentSearchToolbarInfo {
-  totalItems: number;
+  totalResults: number;
+  totalSelected: number;
 }

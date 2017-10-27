@@ -1,36 +1,33 @@
-<form role="form" #spacesForm="ngForm" (ngSubmit)="updateSpaces()" novalidate>
+<form role="form" #spacesForm="ngForm" (ngSubmit)="save()" novalidate>
   <header>
     <h3 class="add-dialog-header">
       <b>Select spaces to enable</b>
     </h3>
   </header>
   <section>
-    <div class="form">
-      <fieldset class="add-fieldset">
-
-        <div class="form-group">
-          <label class="control-label">Owned</label>
-          <div *ngFor="let space of ownedSpaces">
-            <label>
-              <input type="checkbox" (change)="onOwnedChange(space, $event.target.checked)" [checked]="isSpaceSelected(space)">{{space.attributes?.name}}
-            </label>
-          </div>
-          <div *ngIf="!ownedSpaces || ownedSpaces.length === 0">
-            <span>No owned spaces</span>
-          </div>
+    <div class="row">
+      <div class="col-sm-5">
+        <h2>Owned</h2>
+        <div *ngFor="let space of ownedSpaces">
+          <input type="checkbox" [value]="space.attributes.assignedId" [checklist]="selectedSpaces" /> {{space.attributes.name}}
+        </div>
+        <div *ngIf="!ownedSpaces || ownedSpaces.length === 0">
+          <em>No owned spaces found.</em>
         </div>
 
-        <div class="form-group">
-          <label class="control-label">Collaborated</label>
-          <div *ngFor="let space of collaboratedSpaces">
-            <label>{{space.attributes?.name}}</label>
-          </div>
-          <div *ngIf="!collaboratedSpaces || collaboratedSpaces.length === 0">
-              <span>No spaces as collaborator</span>
-            </div>
+        <h2>Collaborating</h2>
+        <div *ngFor="let space of collaboratedSpaces">
+          <input type="checkbox" [value]="space.attributes.assignedId" [checklist]="selectedSpaces" /> {{space.attributes.name}}
         </div>
-
-      </fieldset>
+        <div *ngIf="!collaboratedSpaces || collaboratedSpaces.length === 0">
+          <em>No collaborating spaces.</em>
+        </div>
+      </div>
+      <div class="col-sm-7">
+        <p>Choose which message categories to show as inbox tabs. Other messages will appear in the Primary tab.</p>
+        <p>Deselect all categories to go back to your old inbox.</p>
+        <img src="../../../assets/img/tabbed_inbox.png" style="width: 100%;">
+      </div>
     </div>
   </section>
   <footer>

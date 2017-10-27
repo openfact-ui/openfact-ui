@@ -13,6 +13,9 @@ export class DocumentQuery {
 
   private _query: string[] = [];
 
+  private offset: string;
+  private limit: string;
+
   constructor(builder: DocumentQueryBuilder) {
     if (builder.getFilterText()) {
       this._query.push('filterText:' + builder.getFilterText());
@@ -32,17 +35,29 @@ export class DocumentQuery {
     if (builder.getLessThan()) {
       this._query.push('lessThan:' + builder.getLessThan());
     }
-    if (builder.getTypes()) {
+    if (builder.getTypes() && builder.getTypes().length > 0) {
       this._query.push('types:' + builder.getTypes());
     }
-    if (builder.getCurrencies()) {
+    if (builder.getCurrencies() && builder.getCurrencies().length > 0) {
       this._query.push('currencies:' + builder.getCurrencies());
     }
-    if (builder.getTags()) {
+    if (builder.getTags() && builder.getTags().length > 0) {
       this._query.push('tags:' + builder.getTags());
     }
-    if (builder.getSpaces()) {
+    if (builder.getSpaces() && builder.getSpaces().length > 0) {
       this._query.push('spaces:' + builder.getSpaces());
+    }
+    if (builder.getOffset()) {
+      this._query.push('offset:' + builder.getOffset());
+    }
+    if (builder.getLimit()) {
+      this._query.push('limit:' + builder.getLimit());
+    }
+    if (builder.getOrderBy()) {
+      this._query.push('orderBy:' + builder.getOrderBy());
+    }
+    if (builder.getAsc() !== undefined && builder.getAsc() !== null) {
+      this._query.push('asc:' + builder.getAsc());
     }
   }
 
@@ -73,6 +88,11 @@ export class DocumentQueryBuilder {
   private _tags: string[];
 
   private _spaces: string[];
+
+  private _offset: number;
+  private _limit: number;
+  private _orderBy: string;
+  private _asc: boolean;
 
   build() {
     return new DocumentQuery(this);
@@ -167,4 +187,41 @@ export class DocumentQueryBuilder {
     this._spaces = spaces;
     return this;
   }
+
+  getOffset() {
+    return this._offset;
+  }
+
+  offset(offset: number): DocumentQueryBuilder {
+    this._offset = offset;
+    return this;
+  }
+
+  getLimit() {
+    return this._limit;
+  }
+
+  limit(limit: number): DocumentQueryBuilder {
+    this._limit = limit;
+    return this;
+  }
+
+  getOrderBy() {
+    return this._orderBy;
+  }
+
+  orderBy(orderBy: string): DocumentQueryBuilder {
+    this._orderBy = orderBy;
+    return this;
+  }
+
+  getAsc() {
+    return this._asc;
+  }
+
+  asc(asc: boolean): DocumentQueryBuilder {
+    this._asc = asc;
+    return this;
+  }
+
 }

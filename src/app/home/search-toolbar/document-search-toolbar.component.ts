@@ -27,12 +27,12 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   /**
    * Data
    */
-  @Input() data: DocumentSearchToolbarInfo;
+  @Input() results: DocumentSearchToolbarInfo;
 
   /**
    * Query
    */
-  @Output() query: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onChange: EventEmitter<DocumentQueryBuilder> = new EventEmitter<DocumentQueryBuilder>();
 
   filterText: string;
   roleConfig: RoleFilterConfig;
@@ -43,28 +43,14 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   dateFilterConfig: DateFilterConfig;
   amountFilterConfig: NumberFilterConfig;
 
+  private offset: number = 0;
+  private limit: number = 10;
+
   private queryBuilder: DocumentQueryBuilder = DocumentQuery.builder();
 
   constructor() { }
 
   public ngOnInit() {
-    this.sortConfig = {
-      fields: [{
-        id: 'customerName',
-        title: 'Customer Name',
-        sortType: 'alpha'
-      }, {
-        id: 'supplierName',
-        title: 'Supplier Name',
-        sortType: 'alpha'
-      }, {
-        id: 'issueDate',
-        title: 'Issue Date',
-        sortType: 'alpha'
-      }],
-      isAscending: this.isAscendingSort
-    } as SortConfig;
-
     this.roleConfig = {
       fields: [{
         id: 'all',
@@ -79,6 +65,19 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
         value: 'receiver'
       }]
     } as RoleFilterConfig;
+
+    this.sortConfig = {
+      fields: [{
+        id: 'issueDate',
+        title: 'Issue Date',
+        sortType: 'alpha'
+      }, {
+        id: 'amount',
+        title: 'Amount',
+        sortType: 'alpha'
+      }],
+      isAscending: this.isAscendingSort
+    } as SortConfig;
 
     this.dateFilterConfig = {
       fields: [{
@@ -183,13 +182,15 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
 
   }
 
-  sortChange($event: SortEvent): void {
-    console.log($event);
-  }
-
   roleChange($event: RoleFilterEvent): void {
     let role: string = $event.field.value;
     this.queryBuilder.role(role);
+    this.search();
+  }
+
+  sortChange($event: SortEvent): void {
+    this.queryBuilder.orderBy($event.field.id);
+    this.queryBuilder.asc($event.isAscending);
     this.search();
   }
 
@@ -210,15 +211,32 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   // Actions
   searchInputKeyPress($event: KeyboardEvent): void {
     if ($event.which === 13) {
-      this.search();
+      if (this.filterText) {
+        this.search();
+      }
     }
   }
 
+  previousPage() {
+    this.offset = this.offset - this.limit;
+    if (this.offset < 0) {
+      this.offset = 0;
+    }
+    this.search();
+  }
+
+  nextPage() {
+    let factor = this.offset === 0 ? 1 : 0;
+    this.offset = this.offset + this.limit - factor;
+    this.search();
+  }
+
   search(): void {
-    let q = this.queryBuilder.filterText(this.filterText)
-      .build()
-      .query();
-    this.query.emit(q);
+    this.queryBuilder
+      .filterText(this.filterText)
+      .offset(this.offset)
+      .limit(this.limit);
+    this.onChange.emit(this.queryBuilder);
   }
 
 }

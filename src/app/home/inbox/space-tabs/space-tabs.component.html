@@ -1,10 +1,11 @@
 <ul class="nav nav-tabs" style="margin-top: 5px; margin-bottom: 10px;">
-  <li class="active">
-    <a href="#">All</a>
+  <li [ngClass]="{'active': !selectedSpace}">
+    <a href="javascript:void(0);" (click)="selectSpace()">All</a>
   </li>
-  <li *ngFor="let s of favoriteSpaces">
-    <a href="#">{{s.attributes.name | spaceName}}</a>
+  <li *ngFor="let s of favoriteSpaces" [ngClass]="{'active': selectedSpace?.id === s.id}">
+    <a href="javascript:void(0);" (click)="selectSpace(s)">{{s.attributes.name | spaceName}}</a>
   </li>
+
   <li>
     <a href="javascript:void(0);" (click)="addSpaces.open()">
       <span></span>
@@ -13,13 +14,13 @@
   </li>
 </ul>
 
-<modal (onOpen)="openSpaceModal()" #addSpaces>
+<modal #addSpaces>
   <modal-content>
     <add-spaces-dialog [host]="addSpaces"
     [favoriteSpaces]="favoriteSpaces"
     [ownedSpaces]="ownedSpaces | async"
     [collaboratedSpaces]="collaboratedSpaces | async"
-    (onAdded)="addSpacesToParent($event)">
+    (onChange)="updateFavoriteSpaces($event)">
     </add-spaces-dialog>
   </modal-content>
 </modal>

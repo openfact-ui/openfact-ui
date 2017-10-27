@@ -14,7 +14,7 @@ import { Space, Context, SpaceService } from 'ngo-openfact-sync';
 import { Notifications, Notification, NotificationType } from 'ngo-base';
 
 import { ContextService } from './../../../shared/context.service';
-import { ExtUser } from './../../../getting-started/services/getting-started.service';
+import { ExtUser, GettingStartedService } from './../../../getting-started/services/getting-started.service';
 
 @Component({
   selector: 'ofs-space-tabs',
@@ -29,12 +29,16 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
   ownedSpaces: Observable<Space[]>;
   collaboratedSpaces: Observable<Space[]>;
 
+  selectedSpace: Space;
+
   private loggedInUser: User;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private userService: UserService,
-    private spaceService: SpaceService) {
+    private spaceService: SpaceService,
+    private gettingStartedService: GettingStartedService,
+    private notifications: Notifications) {
     this.subscriptions.push(
       this.userService.loggedInUser.subscribe(user => {
         this.loggedInUser = user;
@@ -90,8 +94,27 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openSpaceModal() {
+  selectSpace(space: Space) {
+    this.selectedSpace = space;
+    this.onChange.emit(space);
+  }
 
+  updateFavoriteSpaces(spaces: Space[]) {
+    let profile = this.gettingStartedService.createTransientProfile();
+    profile.favoriteSpaces = spaces.map(space => space.attributes.assignedId);
+
+    this.gettingStartedService.update(profile).subscribe(() => {
+      this.favoriteSpaces = spaces;
+      this.notifications.message({
+        message: `Favorite spaces updated!`,
+        type: NotificationType.SUCCESS
+      } as Notification);
+    }, error => {
+      this.notifications.message({
+        message: `Failed to update favorite spaces"`,
+        type: NotificationType.DANGER
+      } as Notification);
+    });
   }
 
 }

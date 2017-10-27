@@ -1,5 +1,5 @@
-import { DateFilterCustomRange } from './date-filter-custom-value';
 import { DateFilterValueGenerator } from './date-filter-value';
+
 /**
  * An object containing properties for a sortable field, used to select categories of sorting
  */

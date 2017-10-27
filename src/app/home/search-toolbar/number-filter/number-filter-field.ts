@@ -1,4 +1,3 @@
-import { NumberFilterCustomRange } from './number-filter-custom-value';
 import { NumberFilterValue } from './number-filter-value';
 /**
  * An object containing properties for a sortable field, used to select categories of sorting

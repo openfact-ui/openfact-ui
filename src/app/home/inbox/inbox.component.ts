@@ -1,7 +1,10 @@
+import { DocumentSearchToolbarInfo } from './../search-toolbar/document-search-toolbar-info';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UBLDocumentService, Space } from 'ngo-openfact-sync';
+
+import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 
 import {
   ListEvent,
@@ -23,6 +26,14 @@ export class InboxComponent implements OnDestroy, OnInit {
 
   items: any[] = [];
 
+  toolbarInfo: DocumentSearchToolbarInfo = {
+    totalResults: 0,
+    totalSelected: 0
+  };
+
+  private selectedSpace: Space;
+  private queryBuilder: DocumentQueryBuilder;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -38,22 +49,18 @@ export class InboxComponent implements OnDestroy, OnInit {
     this.listConfig = {
       dblClick: false,
       emptyStateConfig: this.emptyStateConfig,
-      multiSelect: false,
+      multiSelect: true,
       selectItems: false,
       selectionMatchProp: 'name',
       showCheckbox: true,
       useExpandItems: false
     } as ListConfig;
+
+    this.search();
   }
 
   public ngOnDestroy(): void {
 
-  }
-
-  search($event) {
-    this.documentService.search($event).subscribe((data) => {
-      this.items = data;
-    });
   }
 
   // Actions
@@ -64,23 +71,40 @@ export class InboxComponent implements OnDestroy, OnInit {
   }
 
   handleClick($event: ListEvent): void {
-    console.log($event);
-  }
-
-  handleDblClick($event: ListEvent): void {
-    console.log($event);
+    this.router.navigate([$event.item.id], { relativeTo: this.route });
   }
 
   handleSelectionChange($event: ListEvent): void {
-    console.log($event);
+    this.toolbarInfo.totalSelected = $event.selectedItems.length;
   }
 
-  onQueryChange($event: string) {
-    this.search($event);
+  //  Toolbar actions
+  onToolbarChange($event: DocumentQueryBuilder) {
+    this.queryBuilder = $event;
+    this.search();
   }
 
-  addSpacesToParent(addedSpaces: Space[]) {
-    console.log(addedSpaces);
+  // Tab actions
+  onTabChange(space: Space) {
+    this.selectedSpace = space;
+    this.search();
+  }
+
+  // Search
+  search() {
+    if (!this.queryBuilder) {
+      this.queryBuilder = DocumentQuery.builder();
+    }
+    if (this.selectedSpace) {
+      this.queryBuilder.spaces([this.selectedSpace.attributes.assignedId]);
+    } else {
+      this.queryBuilder.spaces([]);
+    }
+
+    this.documentService.search(this.queryBuilder.build().query()).subscribe((data) => {
+      this.items = data;
+      this.toolbarInfo.totalResults = data.length;
+    });
   }
 
   /**

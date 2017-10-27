@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
-import '../styles/styles.scss';
+import '../styles/patternfly.scss';
 import '../styles/headings.css';
 
 import { LocalStorageModule } from 'angular-2-local-storage';

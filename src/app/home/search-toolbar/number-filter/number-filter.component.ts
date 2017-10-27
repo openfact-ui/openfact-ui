@@ -35,6 +35,11 @@ export class NumberFilterComponent implements DoCheck, OnInit {
   @Input() config: NumberFilterConfig;
 
   /**
+   * Custom range is visible
+   */
+  @Input() isCustomRangeVisible: boolean;
+
+  /**
    * The event emitted when the sort has changed
    */
   @Output('onChange') onChange = new EventEmitter();
@@ -100,7 +105,7 @@ export class NumberFilterComponent implements DoCheck, OnInit {
 
   // Actions
 
-  selectCustomRange() {
+  go() {
     let customRangeField: NumberFilterField = {
       id: 'customXRange',
       title: this.decimalPipe.transform(this.min) + ' - ' + this.decimalPipe.transform(this.max),

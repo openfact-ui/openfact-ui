@@ -31,9 +31,10 @@ export class AddSpacesDialogComponent implements OnInit, OnDestroy {
   @Input() favoriteSpaces: Space[];
   @Input() ownedSpaces: Space[];
   @Input() collaboratedSpaces: Space[];
+
   @Output() onChange = new EventEmitter<Space[]>();
 
-  private selectedSpaces: Space[] = [];
+  selectedSpaces: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -50,58 +51,32 @@ export class AddSpacesDialogComponent implements OnInit, OnDestroy {
 
   }
 
-  /*clearAndRefreshSelections() {
-    this.selectedFavoriteSpaces = [];
-    this.ownedSpaces.forEach(space => {
-      if (this.favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
-        this.selectedFavoriteSpaces.push(space);
-      }
-    });
-    this.collaboratedSpaces.forEach(space => {
-      if (this.favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
-        this.selectedFavoriteSpaces.push(space);
-      }
-    });
-  }*/
-
   isSpaceSelected(space: Space) {
     return this.favoriteSpaces
       .map(s => s.attributes.assignedId)
       .indexOf(space.attributes.assignedId) > -1;
   }
 
-  onOwnedChange(space: Space, isChecked: boolean) {
-    if (isChecked) {
-      this.selectedSpaces.push(space);
-    } else {
-      let index = this.selectedSpaces.findIndex(s => s.attributes.assignedId === space.attributes.assignedId)
-      this.selectedSpaces.splice(index, 1);
-    }
-  }
-
-  /*updateSpaces() {
-    this.host.close();
-
-    let profile = this.gettingStartedService.createTransientProfile();
-    profile.favoriteSpaces = this.selectedFavoriteSpaces.map(space => space.attributes.assignedId);
-
-    this.gettingStartedService.update(profile).subscribe(() => {
-      this.onChange.emit(this.selectedFavoriteSpaces);
-      this.notifications.message({
-        message: `Experimental features enabled!`,
-        type: NotificationType.SUCCESS
-      } as Notification);
-    }, error => {
-      this.notifications.message({
-        message: `Failed to update profile"`,
-        type: NotificationType.DANGER
-      } as Notification);
+  save() {
+    let result: Space[] = [];
+    this.ownedSpaces.forEach(e => {
+      let index = this.selectedSpaces.indexOf(e.attributes.assignedId);
+      if (index !== -1) {
+        result.push(e);
+      }
     });
-  }*/
+    this.collaboratedSpaces.forEach(e => {
+      let index = this.selectedSpaces.indexOf(e.attributes.assignedId);
+      if (index !== -1) {
+        result.push(e);
+      }
+    });
+    this.onChange.emit(result);
+    this.host.close();
+  }
 
   cancel() {
     this.host.close();
-    this.selectedSpaces = [];
   }
 
 }
