@@ -8,23 +8,23 @@ import { FormHelpBlockComponent } from './form-help-block/form-help-block.compon
 import { FormControlErrorDirective } from './form-status/form-status.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TooltipModule,
-    ],
-    declarations: [
-        FormControlErrorDirective,
-        FormHelpBlockComponent,
-    ],
-    exports: [
-        FormControlErrorDirective,
-        FormHelpBlockComponent,
-    ],
-    providers: [
-        TooltipConfig,
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TooltipModule,
+  ],
+  declarations: [
+    FormControlErrorDirective,
+    FormHelpBlockComponent,
+  ],
+  exports: [
+    FormControlErrorDirective,
+    FormHelpBlockComponent,
+  ],
+  providers: [
+    TooltipConfig,
+  ]
 })
 
 export class FormExtensionsModule {
