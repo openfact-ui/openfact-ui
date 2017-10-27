@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -11,7 +11,6 @@ export class Activity {
 }
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-activity',
   templateUrl: './activity.component.html'
 })
@@ -22,7 +21,8 @@ export class ActivityComponent implements OnDestroy, OnInit {
   public loggedInUser: User;
   public subscriptions: Subscription[] = [];
 
-  constructor(private contexts: Contexts,
+  constructor(
+    private contexts: Contexts,
     private userService: UserService,
     private router: Router) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));

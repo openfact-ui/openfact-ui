@@ -1,15 +1,13 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Context, Contexts } from 'ngo-openfact-sync';
 import { Logger } from 'ngo-base';
 import { Space, SpaceService } from 'ngo-openfact-sync';
 import { UserService, User } from 'ngo-login-client';
-
-import { IModalHost } from '../../../space/wizard/models/modal-host';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-spaces',
   templateUrl: './spaces.component.html',
   styleUrls: ['./spaces.component.scss'],
@@ -17,18 +15,20 @@ import { IModalHost } from '../../../space/wizard/models/modal-host';
 })
 export class SpacesComponent implements OnDestroy, OnInit {
 
-  public context: Context;
-  public loggedInUser: User;
-  public pageSize: number = 20;
-  public subscriptions: Subscription[] = [];
-  public spaceToDelete: Space;
-  public spaces: Space[] = [];
-  @ViewChild('deleteSpace') public deleteSpace: IModalHost;
+  context: Context;
+  loggedInUser: User;
+  pageSize: number = 20;
+  subscriptions: Subscription[] = [];
+  spaceToDelete: Space;
+  spaces: Space[] = [];
+  modalRef: BsModalRef;
 
-  constructor(private contexts: Contexts,
+  constructor(
+    private contexts: Contexts,
     private logger: Logger,
     private spaceService: SpaceService,
-    private userService: UserService) {
+    private userService: UserService,
+    private modalService: BsModalService) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));
   }
 
@@ -79,21 +79,25 @@ export class SpacesComponent implements OnDestroy, OnInit {
           let index = this.spaces.indexOf(space);
           this.spaces.splice(index, 1);
           this.spaceToDelete = undefined;
-          this.deleteSpace.close();
+          this.modalRef.hide();
         },
         (err) => {
           this.logger.error(err);
           this.spaceToDelete = undefined;
-          this.deleteSpace.close();
+          this.modalRef.hide();
         }));
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }
   }
 
-  public confirmDeleteSpace(space: Space): void {
+  public confirmDeleteSpace(space: Space, deleteSpace: TemplateRef<any>): void {
     this.spaceToDelete = space;
-    this.deleteSpace.open();
+    this.modalRef = this.modalService.show(deleteSpace, { class: 'modal-lg' });
+  }
+
+  cancel() {
+    this.modalRef.hide();
   }
 
   // Private

@@ -30,7 +30,7 @@
                       {{space.attributes.name | spaceName}}
                     </a>
                   </div>
-                  <button class="col-xs-2 btn btn-danger f8-button__delete" (click)="confirmDeleteSpace(space)">
+                  <button class="col-xs-2 btn btn-danger ofs-button__delete" (click)="confirmDeleteSpace(space, deleteSpace)">
                     Delete
                   </button>
                 </div>
@@ -47,12 +47,16 @@
 <ofs-space-wizard #spaceWizard></ofs-space-wizard>
 
 <!-- Delete Space modal -->
-<modal #deleteSpace title="Remove the space">
-  <modal-content>
-    <h2>Are you sure you want to remove the space?</h2>
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-cancel" (click)="deleteSpace.close()">Cancel</button>
+<ng-template #deleteSpace title="Remove the space">
+  <div class="modal-header">
+    <button class="close" aria-label="Close" type="button" (click)="cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <dt class="modal-title">Remove Space</dt>
+  </div>
+  <div class="modal-body">
+    <h2>Are you sure you want to remove the space</h2>
+    <button class="btn btn-default" (click)="cancel()">Cancel</button>
     <button class="btn btn-danger" (click)="removeSpace()">Remove</button>
-  </modal-footer>
-</modal>
+  </div>
+</ng-template>

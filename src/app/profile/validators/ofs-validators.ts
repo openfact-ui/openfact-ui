@@ -34,7 +34,7 @@ export class OfValidators {
             return v === undefined
                 || v === null
                 || v.trim().length <= 0
-                || v.trim().indexOf('@') === -1 ? { 'valid': false } : null;
+                || v.trim().indexOf('http') === -1 ? { 'valid': false } : null;
         };
     }
 

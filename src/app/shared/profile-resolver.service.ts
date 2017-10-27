@@ -1,6 +1,6 @@
-import {Observable} from 'rxjs';
-import {UserService, User} from 'ngo-login-client';
-import {Injectable} from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserService, User } from 'ngo-login-client';
+import { Injectable } from '@angular/core';
 import {
   Resolve,
   Router,
@@ -10,8 +10,8 @@ import {
 import {
   Context
 } from 'ngo-openfact-sync';
-import {Navigation} from '../models/navigation';
-import {ContextService} from './context.service';
+import { Navigation } from '../models/navigation';
+import { ContextService } from './context.service';
 
 @Injectable()
 export class ProfileResolver implements Resolve<Context> {

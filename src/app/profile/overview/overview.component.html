@@ -11,9 +11,9 @@
         </ng-template>
         <ng-template #addImageURL>
           <a href="javascript:void(0)" [routerLink]="['/', context?.user?.attributes?.username, '_update']" [queryParams]="{ imageUrl: true }">
-              <img src="../../../assets/img/profile-user.png" class="img-responsive profile-img-none">
-              <span class="pficon pficon-edit edit-profile-img"></span>
-            </a>
+            <img src="../../../assets/img/profile-user.png" class="img-responsive profile-img-none">
+            <span class="pficon pficon-edit edit-profile-img"></span>
+          </a>
         </ng-template>
         <h3 class="col-sm-12 profile-wrapper-username">{{context?.user?.attributes?.fullName}}</h3>
         <p class="col-sm-12 profile-wrapper-username">

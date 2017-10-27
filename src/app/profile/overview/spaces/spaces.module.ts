@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { InfiniteScrollModule, WidgetsModule } from 'ngx-widgets';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
-import { ModalModule } from 'ngx-modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgArrayPipesModule } from 'angular-pipes';
 
 import { SpaceWizardModule } from '../../../space/wizard/space-wizard.module';
@@ -18,7 +18,7 @@ import { SpacesComponent } from './spaces.component';
     OpenfactSyncModule,
     FormsModule,
     InfiniteScrollModule,
-    ModalModule,
+    ModalModule.forRoot(),
     WidgetsModule,
     NgArrayPipesModule,
     SpaceWizardModule

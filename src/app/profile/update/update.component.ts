@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,7 +21,6 @@ import { ProviderService } from '../../getting-started/services/provider.service
 import { OfValidators } from '../validators/ofs-validators';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-update',
   templateUrl: 'update.component.html',
   styleUrls: ['./update.component.scss'],
