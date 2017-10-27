@@ -10,5 +10,5 @@ import { ErrorRoutingModule } from './error-routing.module';
   declarations: [ErrorComponent]
 })
 export class ErrorModule {
-  constructor(http: Http) {}
+  constructor(http: Http) { }
 }

@@ -11,6 +11,7 @@ import { LoginService } from '../../shared/login.service';
 import { MenuedContextType } from './menued-context-type';
 import { Navigation } from '../../models/navigation';
 import { DummyService } from './../../shared/dummy.service';
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
@@ -23,17 +24,18 @@ interface MenuHiddenCallback {
   providers: []
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public title = 'Openfact';
-  public imgLoaded: Boolean = false;
-  public statusListVisible = false;
+  title = 'Openfact Sync';
+  imgLoaded: Boolean = false;
+  statusListVisible = false;
+  modalRef: BsModalRef;
 
-  public isIn = false;   // store state
-  public toggleState() { // click handler
+  isIn = false;   // store state
+  toggleState() { // click handler
     let bool = this.isIn;
     this.isIn = bool === false ? true : false;
   }
 
-  public onStatusListVisible = (flag: boolean) => {
+  onStatusListVisible = (flag: boolean) => {
     this.statusListVisible = flag;
   };
 
@@ -55,21 +57,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ]
   ]);
 
-  public recent: Context[];
-  public loggedInUser: User;
+  recent: Context[];
+  loggedInUser: User;
   private _context: Context;
   private _defaultContext: Context;
   private _loggedInUserSubscription: Subscription;
-  private plannerFollowQueryParams: Object = {};
   private eventListeners: any[] = [];
+  private space: string;
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     public route: ActivatedRoute,
     private userService: UserService,
     private logger: Logger,
     public loginService: LoginService,
     private broadcaster: Broadcaster,
     private contexts: Contexts) {
+    this.space = '';
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.broadcaster.broadcast('navigate', { url: val.url } as Navigation);
@@ -99,22 +103,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.listenToEvents();
+
   }
 
   public ngOnDestroy() {
     this.eventListeners.forEach((e) => e.unsubscribe());
-  }
-
-  public listenToEvents() {
-    this.eventListeners.push(
-      this.route.queryParams.subscribe((params) => {
-        this.plannerFollowQueryParams = {};
-        if (Object.keys(params).indexOf('iteration') > -1) {
-          this.plannerFollowQueryParams['iteration'] = params['iteration'];
-        }
-      })
-    );
   }
 
   public login() {

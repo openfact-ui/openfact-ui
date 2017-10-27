@@ -5,10 +5,10 @@ import { ModalModule } from 'ngx-bootstrap';
 import { AboutModalComponent } from './about-modal.component';
 
 @NgModule({
-    imports: [CommonModule, ModalModule.forRoot()],
-    declarations: [AboutModalComponent],
-    exports: [AboutModalComponent, ModalModule]
+  imports: [CommonModule, ModalModule.forRoot()],
+  declarations: [AboutModalComponent],
+  exports: [AboutModalComponent, ModalModule]
 })
 export class AboutModalModule {
-    constructor() { }
+  constructor() { }
 }
