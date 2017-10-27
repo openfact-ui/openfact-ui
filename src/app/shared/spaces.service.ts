@@ -1,4 +1,4 @@
-import { ProfileService, ExtProfile } from '../profile/profile.service';
+import { ProfileService, ExtProfile } from './../profile/profile.service';
 import { Broadcaster } from 'ngo-base';
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -11,10 +11,10 @@ import { Spaces, Contexts, Space, SpaceService } from 'ngo-openfact-sync';
 @Injectable()
 export class SpacesService implements Spaces {
 
-  public static readonly RECENT_SPACE_LENGTH = 8;
+  static readonly RECENT_SPACE_LENGTH = 8;
   private static readonly RECENT_SPACE_KEY = 'recentSpaceIds';
 
-  public addRecent: Subject<Space> = new Subject<Space>();
+  addRecent: Subject<Space> = new Subject<Space>();
   private _current: Observable<Space>;
   private _recent: ConnectableObservable<Space[]>;
 
@@ -27,7 +27,7 @@ export class SpacesService implements Spaces {
   ) {
     this._current = Observable.merge(
       contexts.current
-        .map((val) => val.space),
+        .map(val => val.space),
       this.broadcaster.on<Space>('spaceUpdated'));
     // Create the recent context list
 
@@ -51,7 +51,7 @@ export class SpacesService implements Spaces {
       },
       [])
       // Finally save the list of recent contexts
-      .do((val) => {
+      .do(val => {
         // Truncate the number of recent contexts to the correct length
         if (val.length > SpacesService.RECENT_SPACE_LENGTH) {
           val.splice(
@@ -60,12 +60,12 @@ export class SpacesService implements Spaces {
           );
         }
       })
-      .do((val) => {
+      .do(val => {
         this.saveRecent(val);
       })
       .multicast(() => new ReplaySubject(1));
     this._recent.connect();
-    this.loadRecent().subscribe((val) => val.forEach(space => this.addRecent.next(space)));
+    this.loadRecent().subscribe(val => val.forEach(space => this.addRecent.next(space)));
   }
 
   get current(): Observable<Space> {
@@ -77,12 +77,12 @@ export class SpacesService implements Spaces {
   }
 
   private loadRecent(): Observable<Space[]> {
-    return this.profileService.current.switchMap((profile) => {
+    return this.profileService.current.switchMap(profile => {
       if (profile.store.recentSpaces) {
         return Observable.forkJoin((profile.store.recentSpaces as string[])
           // We invert the order above when we add recent contexts
           .reverse()
-          .map((id) => {
+          .map(id => {
             return this.spaceService.getSpaceById(id);
           }));
       } else {
@@ -94,11 +94,11 @@ export class SpacesService implements Spaces {
   private saveRecent(recent: Space[]) {
     let patch = {
       store: {
-        recentSpaces: recent.map((val) => val.id)
+        recentSpaces: recent.map(val => val.id)
       }
     } as ExtProfile;
     return this.profileService.silentSave(patch)
-      .subscribe((profile) => { }, err => console.log('Error saving recent spaces:', err));
+      .subscribe(profile => { }, err => console.log('Error saving recent spaces:', err));
   }
 
 }

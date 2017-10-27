@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {
   Http,
   Response,
@@ -9,20 +9,21 @@ import {
   Headers
 } from '@angular/http';
 
-import {Observable} from 'rxjs';
-import {SYNC_API_URL} from 'ngo-openfact-sync';
-import {HttpService, SSO_API_URL} from 'ngo-login-client';
+import { Observable } from 'rxjs';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
+import { HttpService, SSO_API_URL } from 'ngo-login-client';
 
 import * as uuidV4 from 'uuid/v4';
 
 @Injectable()
 export class OpenfactUIHttpService extends Http {
 
-  constructor(backend: XHRBackend,
-              options: RequestOptions,
-              private httpService: HttpService,
-              @Inject(SYNC_API_URL) private syncApiUrl: string,
-              @Inject(SSO_API_URL) private ssoApiUrl: string) {
+  constructor(
+    backend: XHRBackend,
+    options: RequestOptions,
+    private httpService: HttpService,
+    @Inject(SYNC_API_URL) private syncApiUrl: string,
+    @Inject(SSO_API_URL) private ssoApiUrl: string) {
     super(backend, options);
   }
 
@@ -32,7 +33,7 @@ export class OpenfactUIHttpService extends Http {
     if (urlStr.startsWith(this.syncApiUrl)) {
       if (typeof url === 'string') {
         if (!options) {
-          options = {headers: new Headers()};
+          options = { headers: new Headers() };
         }
         if (!options.headers.has('X-Request-Id')) {
           options.headers.set('X-Request-Id', uuidV4());

@@ -1,37 +1,41 @@
-import {Router} from '@angular/router';
-import {LocalStorageService} from 'angular-2-local-storage';
-import {Injectable, Inject} from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { Injectable, Inject } from '@angular/core';
 
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {Broadcaster, Notifications, Notification, NotificationType} from 'ngo-base';
-import {AuthenticationService, UserService} from 'ngo-login-client';
-import {SYNC_API_URL} from 'ngo-openfact-sync';
+import { Broadcaster, Notifications, Notification, NotificationType } from 'ngo-base';
+import { AuthenticationService, UserService } from 'ngo-login-client';
+import { SYNC_API_URL } from 'ngo-openfact-sync';
 
-import {ContextService} from './context.service';
-import {ErrorService} from '../layout/error/error.service';
+import { ContextService } from './context.service';
+import { Navigation } from './../models/navigation';
+import { ErrorService } from '../layout/error/error.service';
+
 
 @Injectable()
 export class LoginService {
 
-  public static readonly REDIRECT_URL_KEY = 'redirectUrl';
-  public static readonly DEFAULT_URL = '/_home';
-
+  static readonly REDIRECT_URL_KEY = 'redirectUrl';
+  static readonly DEFAULT_URL = '/_home';
   // URLs that the redirect should ignore
-  public static readonly BANNED_REDIRECT_URLS = ['/'];
-  private static readonly LOGIN_URL = '/';
+  static readonly BANNED_REDIRECT_URLS = ['/'];
+  static readonly LOGIN_URL = '/';
+
 
   private authUrl: string;  // URL to web api
 
-  constructor(private router: Router,
-              private localStorage: LocalStorageService,
-              @Inject(SYNC_API_URL) private apiUrl: string,
-              private broadcaster: Broadcaster,
-              private errorService: ErrorService,
-              private authService: AuthenticationService,
-              private contextService: ContextService,
-              private notifications: Notifications,
-              private userService: UserService) {
+  constructor(
+    private router: Router,
+    private localStorage: LocalStorageService,
+    @Inject(SYNC_API_URL) private apiUrl: string,
+    private broadcaster: Broadcaster,
+    private errorService: ErrorService,
+    private authService: AuthenticationService,
+    private contextService: ContextService,
+    private notifications: Notifications,
+    private userService: UserService
+  ) {
     // Removed ?link=true in favor of getting started page
     this.authUrl = apiUrl + 'login/authorize';
     this.broadcaster.on('authenticationError').subscribe(() => {
@@ -46,7 +50,7 @@ export class LoginService {
     });
   }
 
-  public redirectToAuth() {
+  redirectToAuth() {
     let authUrl = this.authUrl;
     if (authUrl.indexOf('?') < 0) {
       // lets ensure there's a redirect parameter to avoid WIT barfing
@@ -82,7 +86,7 @@ export class LoginService {
       result[item[0]] = decodeURIComponent(item[1]);
     });
     if (result['error']) {
-      this.notifications.message({message: result['error'], type: NotificationType.DANGER} as Notification);
+      this.notifications.message({ message: result['error'], type: NotificationType.DANGER } as Notification);
       // this.errorService.updateMessage('Error logging in');
       // this.router.navigate(['_error']);
     } else if (result['token_json']) {

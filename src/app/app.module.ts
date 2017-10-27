@@ -81,7 +81,7 @@ import { SpacesService } from './shared/spaces.service';
 import { ssoApiUrlProvider } from './shared/sso-api.provider';
 import { syncApiUrlProvider } from './shared/sync-api.provider';
 import { realmProvider } from './shared/realm-token.provider';
-import { OpenfactRuntimeConsoleService } from './shared/runtime-console/openfact-runtime-console.service';
+//import { OpenfactRuntimeConsoleService } from './shared/runtime-console/openfact-runtime-console.service';
 import { ProfileResolver } from './shared/profile-resolver.service';
 import { UploadDocumentService } from './shared/upload-document.service';
 
@@ -197,7 +197,7 @@ type StoreType = {
     UBLDocumentService,
 
     // Others
-    OpenfactRuntimeConsoleService,
+    //OpenfactRuntimeConsoleService,
     {
       provide: Http,
       useClass: OpenfactUIHttpService

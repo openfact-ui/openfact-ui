@@ -1,9 +1,9 @@
-import {ExtProfile, ProfileService} from '../profile/profile.service';
-import {Injectable} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {cloneDeep} from 'lodash';
-import {Broadcaster, Notifications, Notification, NotificationType} from 'ngo-base';
-import {User, UserService, Entity} from 'ngo-login-client';
+import { ExtProfile, ProfileService } from './../profile/profile.service';
+import { Injectable } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { cloneDeep } from 'lodash';
+import { Broadcaster, Notifications, Notification, NotificationType } from 'ngo-base';
+import { User, UserService, Entity } from 'ngo-login-client';
 import {
   Space,
   Context,
@@ -12,17 +12,17 @@ import {
   SpaceService,
   SpaceNamePipe
 } from 'ngo-openfact-sync';
-import {Subject} from 'rxjs/Subject';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import {ConnectableObservable} from 'rxjs/observable/ConnectableObservable';
-import {Observable} from 'rxjs';
+import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
+import { Observable } from 'rxjs';
 
-import {LocalStorageService} from 'angular-2-local-storage';
-import {Navigation} from '../models/navigation';
-import {MenusService} from '../layout/header/menus.service';
+import { LocalStorageService } from 'angular-2-local-storage';
+import { Navigation } from './../models/navigation';
+import { MenusService } from '../layout/header/menus.service';
 
-import {EventService} from './event.service';
+import { EventService } from "./event.service";
 
 interface RawContext {
   user: any;
@@ -38,30 +38,31 @@ interface RawContext {
 @Injectable()
 export class ContextService implements Contexts {
 
-  public readonly RECENT_CONTEXT_LENGTH = 8;
-  public readonly RESERVED_WORDS: string[] = [];
+  readonly RECENT_CONTEXT_LENGTH = 8;
+  readonly RESERVED_WORDS: string[] = [];
   private _current: Subject<Context> = new ReplaySubject<Context>(1);
   private _default: ConnectableObservable<Context>;
   private _recent: ConnectableObservable<Context[]>;
   private _addRecent: Subject<Context>;
   private _deleteFromRecent: Subject<Context>;
 
-  constructor(private router: Router,
-              private broadcaster: Broadcaster,
-              private menus: MenusService,
-              private spaceService: SpaceService,
-              private userService: UserService,
-              private notifications: Notifications,
-              private route: ActivatedRoute,
-              private profileService: ProfileService,
-              private spaceNamePipe: SpaceNamePipe,
-              private eventService: EventService) {
+  constructor(
+    private router: Router,
+    private broadcaster: Broadcaster,
+    private menus: MenusService,
+    private spaceService: SpaceService,
+    private userService: UserService,
+    private notifications: Notifications,
+    private route: ActivatedRoute,
+    private profileService: ProfileService,
+    private spaceNamePipe: SpaceNamePipe,
+    private eventService: EventService) {
 
     this._addRecent = new Subject<Context>();
     this._deleteFromRecent = new Subject<Context>();
     // subscribe to delete space event
     this.eventService.deleteSpaceSubject
-      .map((val) => {
+      .map(val => {
         if (val && val.id) {
           return {
             user: null,
@@ -74,13 +75,13 @@ export class ContextService implements Contexts {
           return {} as Context;
         }
       })
-      .subscribe((val) => {
+      .subscribe(val => {
         this._deleteFromRecent.next(val);
       });
     // Initialize the default context when the logged in user changes
     this._default = this.userService.loggedInUser
-    // First use map to convert the broadcast event to just a username
-      .map((val) => {
+      // First use map to convert the broadcast event to just a username
+      .map(val => {
         if (!(val && val.id)) {
           // this is a logout event
         } else if (val.attributes.username) {
@@ -96,8 +97,8 @@ export class ContextService implements Contexts {
       })
       .distinctUntilChanged()
       // Then, perform another map to create a context from the user
-      .switchMap((val) => this.userService.getUserByUsername(val))
-      .map((val) => {
+      .switchMap(val => this.userService.getUserByUsername(val))
+      .map(val => {
         if (val && val.id) {
           return {
             user: val,
@@ -111,18 +112,18 @@ export class ContextService implements Contexts {
         }
       })
       // Ensure the menus are built
-      .do((val) => {
+      .do(val => {
         if (val.type) {
           this.menus.attach(val);
         }
       })
-      .do((val) => {
+      .do(val => {
         if (val.type) {
           console.log('Default Context Changed to', val);
           this.broadcaster.broadcast('defaultContextChanged', val);
         }
       })
-      .do((val) => {
+      .do(val => {
         if (val.type) {
           // Add to the recent contexts
           this._addRecent.next(val);
@@ -132,11 +133,11 @@ export class ContextService implements Contexts {
 
     // Create the recent space list
     this._recent = Observable.merge(this._addRecent, this._deleteFromRecent)
-    // Map from the context being added to an array of recent contexts
-    // The scan operator allows us to access the list of recent contexts and add ours
+      // Map from the context being added to an array of recent contexts
+      // The scan operator allows us to access the list of recent contexts and add ours
       .scan(this.updateRecentSpaceList, [])  // The final value to scan is the initial value, used when the app starts
       // Finally save the list of recent contexts
-      .do((val) => {
+      .do(val => {
         // Truncate the number of recent contexts to the correct length
         if (val.length > this.RECENT_CONTEXT_LENGTH) {
           val.splice(
@@ -145,7 +146,7 @@ export class ContextService implements Contexts {
           );
         }
       })
-      .do((val) => {
+      .do(val => {
         this.saveRecent(val);
       })
       .multicast(() => new ReplaySubject(1));
@@ -153,9 +154,9 @@ export class ContextService implements Contexts {
     this._default.connect();
     this._recent.connect();
     this.loadRecent().subscribe(
-      (val) => {
-        let toto = val;
-        val.forEach((space) => this._addRecent.next(space));
+      val => {
+        var toto = val;
+        val.forEach(space => this._addRecent.next(space))
       }
     );
   }
@@ -172,7 +173,7 @@ export class ContextService implements Contexts {
     return this._default;
   }
 
-  public updateRecentSpaceList(contextList: Context[], ctx: Context): Context[] {
+  updateRecentSpaceList(contextList: Context[], ctx: Context): Context[] {
     if (ctx.space && ctx.space.id && ctx.name == 'TO_DELETE') { // a space deletion
       let indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id == ctx.space.id);
       if (indexForSpaceToDelete > -1) { // the space deleted is in the recently visited array
@@ -194,10 +195,10 @@ export class ContextService implements Contexts {
     return contextList
   }
 
-  public changeContext(navigation: Observable<Navigation>): Observable<Context> {
+  changeContext(navigation: Observable<Navigation>): Observable<Context> {
     let res = navigation
-    // Process the navigation only if it is safe
-      .filter((val) => {
+      // Process the navigation only if it is safe
+      .filter(val => {
         if (this.checkForReservedWords(val.user)) {
           this.notifications.message({
             message: `${val.user} not found`,
@@ -216,13 +217,13 @@ export class ContextService implements Contexts {
         return true;
       })
       // Fetch the objects from the REST API
-      .switchMap((val) => {
+      .switchMap(val => {
         if (val.space) {
           // If it's a space that's been requested then load the space creator as the owner
           return this
             .loadSpace(val.user, val.space)
             .map(space => {
-              return {user: space.relationalData.creator, space: space} as RawContext;
+              return { user: space.relationalData.creator, space: space } as RawContext;
             })
             .catch((err, caught) => {
               this.notifications.message({
@@ -239,8 +240,8 @@ export class ContextService implements Contexts {
           // Otherwise, load the user and use that as the owner
           return this
             .loadUser(val.user)
-            .map((user) => {
-              return {user: user, space: null} as RawContext;
+            .map(user => {
+              return { user: user, space: null } as RawContext;
             })
             .catch((err, caught) => {
               this.notifications.message({
@@ -253,30 +254,30 @@ export class ContextService implements Contexts {
         }
       })
       // Use a map to convert from a navigation url to a context
-      .map((val) => this.buildContext(val))
+      .map(val => this.buildContext(val))
       .distinctUntilKeyChanged('path')
       // Broadcast the spaceChanged event
       // Ensure the menus are built
-      .do((val) => {
+      .do(val => {
         if (val) this.menus.attach(val);
       })
-      .do((val) => {
+      .do(val => {
         if (val) {
           console.log('Context Changed to', val);
           this.broadcaster.broadcast('contextChanged', val);
         }
       })
-      .do((val) => {
+      .do(val => {
         if (val && val.space) {
           console.log('Space Changed to', val);
           this.broadcaster.broadcast('spaceChanged', val.space);
         }
       })
       // Subscribe the current context to the revent space collector
-      .do((val) => {
+      .do(val => {
         if (val) this._addRecent.next(val);
       })
-      .do((val) => {
+      .do(val => {
         this._current.next(val);
       })
       .multicast(() => new Subject());
@@ -325,10 +326,11 @@ export class ContextService implements Contexts {
     return null;
   }
 
+
   private loadUser(userName: string): Observable<User> {
     return this.userService
       .getUserByUsername(userName)
-      .map((val) => {
+      .map(val => {
         if (val && val.id) {
           return val;
         } else {
@@ -385,21 +387,21 @@ export class ContextService implements Contexts {
     return this.profileService.current.switchMap(profile => {
       if (profile.store.recentContexts) {
         return Observable.forkJoin((profile.store.recentContexts as RawContext[])
-        // We invert the order above when we add recent contexts
+          // We invert the order above when we add recent contexts
           .reverse()
-          .map((raw) => {
+          .map(raw => {
             if (raw.space) {
               return this.spaceService.getSpaceById(raw.space)
-                .map((val) => this
-                  .buildContext({space: val} as RawContext));
+                .map(val => this
+                  .buildContext({ space: val } as RawContext));
             } else {
               return this.userService.getUserByUserId(raw.user)
-                .catch((err) => {
+                .catch(err => {
                   console.log('Unable to restore recent context', err);
                   return Observable.empty<Context>();
                 })
-                .map((val) => {
-                  return this.buildContext({user: val} as RawContext)
+                .map(val => {
+                  return this.buildContext({ user: val } as RawContext)
                 });
             }
           }));
@@ -412,15 +414,14 @@ export class ContextService implements Contexts {
   private saveRecent(recent: Context[]) {
     let patch = {
       store: {
-        recentContexts: recent.map((ctx) => ({
+        recentContexts: recent.map(ctx => ({
           user: ctx.user.id,
           space: (ctx.space ? ctx.space.id : null)
         } as RawContext))
       }
     } as ExtProfile;
     return this.profileService.silentSave(patch)
-      .subscribe((profile) => {
-      }, (err) => console.log('Error saving recent spaces:', err));
+      .subscribe(profile => { }, err => console.log('Error saving recent spaces:', err));
   }
 
 }

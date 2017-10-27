@@ -43,7 +43,7 @@ export class UploadDocumentService {
             'Authorization': this.headers.get('Authorization')
           }
         } as UploadInput);
-      } else if (output.type === 'uploading' && typeof output.file !== 'undefined') { // 3         
+      } else if (output.type === 'uploading' && typeof output.file !== 'undefined') { // 3
         const index = this._files
           .map(file => file.getValue())
           .findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
