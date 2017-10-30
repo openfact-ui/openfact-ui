@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { SpacesService } from '../../shared/spaces.service';
 import { UserService } from 'ngo-login-client';
 import { ILoggerDelegate } from './common/logger';
@@ -20,6 +21,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   TemplateRef,
+  EventEmitter,
 } from '@angular/core';
 
 import {
@@ -33,13 +35,15 @@ import {
   WizardConfig,
   WizardComponent,
   WizardEvent,
-  WizardStepConfig
+  WizardStepConfig,
+  WizardStep,
+  WizardStepComponent
 } from 'patternfly-ng';
+
+import { Notification, NotificationAction, Notifications, NotificationType } from 'ngo-base';
 
 import { TabDirective } from 'ngx-bootstrap/tabs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
-import { NotificationService, Notification, NotificationType, Action } from 'patternfly-ng';
 
 @Component({
   selector: 'ofs-space-wizard',
@@ -48,13 +52,13 @@ import { NotificationService, Notification, NotificationType, Action } from 'pat
 })
 export class SpaceWizardComponent implements OnInit {
 
-  @ViewChild('wizardTemplate')
-  public wizardTemplate: TemplateRef<any>;
+  @Output('onSaved') onSaved = new EventEmitter();
+  @Output('onCancel') onCancel = new EventEmitter();
 
-  public acceptTermsConditions = false;
-  public spaceForm: ISpaceForm = null;
+  @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
-  public claimComplete: boolean = true;
+  space: Space;
+  working: boolean = false;
 
   // Wizard
   public wizardConfig: WizardConfig;
@@ -73,13 +77,14 @@ export class SpaceWizardComponent implements OnInit {
   private modalRef: BsModalRef;
 
   constructor(
+    private router: Router,
     private modalService: BsModalService,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private spaceService: SpaceService,
     private spacesService: SpacesService,
     private spaceNamePipe: SpaceNamePipe,
-    private notifications: NotificationService) { }
+    private notifications: Notifications) { }
 
   /**
    * used to add a log entry to the logger
@@ -95,21 +100,20 @@ export class SpaceWizardComponent implements OnInit {
       title: 'Space'
     } as WizardStepConfig;
 
+    this.stepSpaceInfoConfig = {
+      id: 'stepSpaceInfo',
+      expandReviewDetails: true,
+      nextEnabled: false,
+      priority: 0,
+      title: 'Space Data'
+    } as WizardStepConfig;
+
     this.stepSpaceTermsConditionsConfig = {
       id: 'stepSpaceTermsConditions',
       expandReviewDetails: true,
       nextEnabled: false,
-      allowNavAway: false,
-      allowClickNav: false,
-      priority: 0,
-      title: 'Terms & Conditions'
-    } as WizardStepConfig;
-    this.stepSpaceInfoConfig = {
-      id: 'stepSpaceInfo',
-      expandReviewDetails: true,
-      allowClickNav: false,
       priority: 1,
-      title: 'Space Data'
+      title: 'Terms & Conditions'
     } as WizardStepConfig;
 
     // Step 3
@@ -135,24 +139,6 @@ export class SpaceWizardComponent implements OnInit {
     } as WizardConfig;
   }
 
-  /**
-   * Open modal
-   * @param options
-   */
-  public open(options?: any) {
-    this.wizardConfig.done = false;
-
-    const defaultOptions = { class: 'modal-lg' };
-    this.modalRef = this.modalService.show(this.wizardTemplate, options || defaultOptions);
-  }
-
-  /**
-   * Close modal
-   */
-  public close() {
-    this.modalRef.hide();
-  }
-
   // Methods
   public nextClicked($event: WizardEvent): void {
     if ($event.step.config.id === 'stepClaimResult') {
@@ -160,12 +146,10 @@ export class SpaceWizardComponent implements OnInit {
     }
   }
 
-  public stepChanged($event: WizardEvent) {
-    if ($event.step.config.id === 'stepSpaceTermsConditions') {
-      this.stepSpaceTermsConditionsRefresh();
-    } else if ($event.step.config.id === 'stepSpaceInfo') {
-      this.stepSpaceInfoRefresh();
-    } else if ($event.step.config.id === 'stepClaimReview') {
+  public stepChanged($event: WizardEvent, wizard: WizardComponent) {
+    let flatSteps = this.flattenWizardSteps(wizard);
+    let currentStep = flatSteps.find(step => step.config.id === $event.step.config.id);
+    if ($event.step.config.id === 'stepClaimReview') {
       this.wizardConfig.nextTitle = 'Claim';
     } else if ($event.step.config.id === 'stepClaimResult') {
       this.wizardConfig.nextTitle = 'Close';
@@ -174,69 +158,85 @@ export class SpaceWizardComponent implements OnInit {
     }
   }
 
-  public startClaim(): void {
-    this.claimComplete = false;
+  flattenWizardSteps(wizard: WizardComponent): WizardStep[] {
+    let flatWizard: WizardStep[] = [];
+    wizard.steps.forEach((step: WizardStepComponent) => {
+      if (step.hasSubsteps) {
+        step.steps.forEach(substep => {
+          flatWizard.push(substep);
+        });
+      } else {
+        flatWizard.push(step);
+      }
+    });
+    return flatWizard;
+  }
+
+  //
+
+  onSpaceFormChange($event: ISpaceForm) {
+    if ($event) {
+      this.space = this.createTransientSpace();
+      this.space.attributes.name = $event.name;
+      this.space.attributes.assignedId = $event.assignedId;
+    } else {
+      this.space = null;
+    }
+
+    let isValid = $event ? true : false;
+    this.stepSpaceInfoConfig.nextEnabled = this.stepSpaceInfoConfig.allowNavAway = isValid;
+  }
+
+  onTermsConditionsChange($event: boolean) {
+    this.stepSpaceTermsConditionsConfig.nextEnabled = this.stepSpaceTermsConditionsConfig.allowNavAway = $event;
+  }
+
+  // Actions
+
+  save(): void {
+    this.working = true;
     this.wizardConfig.done = true;
 
-    // Simulate a delay
-    setTimeout(() => {
-      this.claimComplete = true;
-    }, 2500);
+    // Saving
+    console.log('Creating space', this.space);
+    this.space.attributes.name = this.space.attributes.name.replace(/ /g, '_');
 
-    this.log(`createSpace ...`);
-    let space = this.createTransientSpace();
-    space.attributes.name = this.spaceForm.name;
-    space.attributes.assignedId = this.spaceForm.assignedId;
-
-    console.log('Creating space', space);
     this.userService.loggedInUser
       .switchMap((user) => {
-        space.relationships['owned-by'].data.id = user.id;
-        return this.spaceService.create(space);
+        this.space.relationships['owned-by'].data.id = user.id;
+        return this.spaceService.create(this.space);
       })
       .do((createdSpace) => {
         this.spacesService.addRecent.next(createdSpace);
       })
       .subscribe((createdSpace) => {
-        // this.configurator.currentSpace = createdSpace;
-        const primaryAction: Action = {
-          id: 'openSpace',
-          tooltip: `Open Space`,
+        const primaryAction: NotificationAction = {
+          name: `Open Space`,
           title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
+          id: 'openSpace'
         };
-
-        this.notifications.message(NotificationType.SUCCESS, 'Success',
-          `Your new space is created!`, false, null, [primaryAction]);
-
-        this.claimComplete = true;
+        this.notifications.message(<Notification>{
+          message: `Your new space is created!`,
+          type: NotificationType.SUCCESS,
+          primaryAction: primaryAction
+        })
+          .filter(action => action.id === primaryAction.id)
+          .subscribe(action => {
+            this.router.navigate([createdSpace.relationalData.creator.attributes.username,
+            createdSpace.attributes.name]);
+            this.finish();
+          });
+        this.router.navigate([createdSpace.relationalData.creator.attributes.username, createdSpace.attributes.name]);
+        this.finish();
       },
       (err) => {
         console.log('Error creating space', err);
-        this.notifications.message(NotificationType.DANGER, 'Error',
-          `Failed to create "${space.name}"`, false, null, []);
+        this.notifications.message(<Notification>{
+          message: `Failed to create "${this.space.attributes.name}"`,
+          type: NotificationType.DANGER
+        });
+        this.finish();
       });
-  }
-
-  public changeAcceptTermsConditions($event: boolean) {
-    this.acceptTermsConditions = $event;
-    this.stepSpaceTermsConditionsRefresh();
-  }
-
-  public changeSpaceForm($event: ISpaceForm) {
-    this.spaceForm = $event;
-    this.stepSpaceInfoRefresh();
-  }
-
-  private stepSpaceTermsConditionsRefresh() {
-    this.stepSpaceTermsConditionsConfig.nextEnabled
-      = this.stepSpaceTermsConditionsConfig.allowNavAway
-      = this.acceptTermsConditions;
-  }
-
-  private stepSpaceInfoRefresh() {
-    this.stepSpaceInfoConfig.nextEnabled
-      = this.stepSpaceInfoConfig.allowNavAway
-      = !(this.spaceForm == null);
   }
 
   private createTransientSpace(): Space {
@@ -254,6 +254,37 @@ export class SpaceWizardComponent implements OnInit {
       }
     };
     return space;
+  }
+
+  finish() {
+    console.log(`finish ...`);
+    this.working = false;
+    this.onSaved.emit({ flow: 'selectFlow', space: this.space.attributes.name });
+  }
+
+  // Modal
+  open() {
+    const defaultOptions = {
+      class: 'modal-lg',
+      keyboard: false,
+      ignoreBackdropClick: true
+    };
+    this.modalRef = this.modalService.show(this.wizardTemplate, defaultOptions);
+  }
+
+  cancel() {
+    this.onCancel.emit({});
+    this.close();
+  }
+
+  close() {
+    this.wizardConfig.nextTitle = 'Next >';
+
+    this.stepSpaceTermsConditionsConfig.nextEnabled = this.stepSpaceTermsConditionsConfig.allowNavAway = false;
+    this.stepSpaceInfoConfig.nextEnabled = this.stepSpaceInfoConfig.allowNavAway = false;
+
+    this.wizardConfig.done = false;
+    this.modalRef.hide();
   }
 
 }

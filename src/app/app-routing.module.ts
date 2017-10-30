@@ -93,10 +93,10 @@ export const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      // useHash: Boolean(history.pushState) === false,
+      //useHash: Boolean(history.pushState) === false,
       useHash: true,
-      preloadingStrategy: PreloadAllModules,
-      enableTracing: false,
+      //preloadingStrategy: PreloadAllModules,
+      enableTracing: true,
     })
   ],
   exports: [RouterModule]
