@@ -60,7 +60,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
     this.openSubscription.unsubscribe();
   }
 
-  addCollaborators () {
+  addCollaborators() {
     this.host.close();
     this.collaboratorService.addCollaborators(this.spaceId, this.dropdownModel).subscribe(() => {
       this.onAdded.emit(this.dropdownModel as User[]);
@@ -69,7 +69,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
   }
 
   changed(enteredValue: any) {
-    let searchValue = this.typeahead.searchFilterText;
+    let searchValue = this.typeahead.filterControl.value;
     this.userService.getUsersBySearchString(searchValue).subscribe((users) => {
       this.dropdownOptions = [];
       users.forEach(user => {

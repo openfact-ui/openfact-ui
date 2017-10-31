@@ -1,27 +1,25 @@
 <div class="container-fluid">
-  <h3 class="collaborators-header">Collaborators of {{context.space.attributes.name | spaceName}} Space:</h3>
   <div class="row">
-    <div class="col-md-11">
-      Collaborator details:
+    <div class="col-xs-8 col-sm-8 col-md-9">
+      <h3 class="collaborators-header">Collaborators of {{context.space.attributes.name | spaceName}} Space:</h3>
     </div>
-    <div class="table-action-heading" (click)="launchAddCollaborators()">
-      <i class="pficon pficon-add-circle-o margin-top-4">
-      </i>
+    <div class="col-xs-4 col-sm-4 col-md-3">
+      <div class="table-action-heading" (click)="launchAddCollaborators()">
+        <a>
+          <i class="pficon pficon-add-circle-o"></i> Add Collaborators</a>
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12 padding-none">
-      <div class="collaborator-list-scroll" almInfiniteScroll (eachElementHeightInPx)='54' (initItems)='initCollaborators($event)' (fetchMore)='fetchMoreCollaborators($event)'>
-        <pfng-list
-          [config]="listConfig"
-          [itemTemplate]="itemTemplate"
-          [actionTemplate]="actionTemplate"
-          [items]="collaborators" >
-          <ng-template #itemTemplate let-item="item" let-index="index">
+    <div class="col-md-12">
+      <div class="collaborator-list-scroll" almInfiniteScroll (eachElementHeightInPx)='54' (initItems)='initCollaborators($event)'
+        (fetchMore)='fetchMoreCollaborators($event)'>
+        <pfng-list [config]="listConfig" [itemTemplate]="itemTemplate" [actionTemplate]="actionTemplate" [items]="collaborators">
+          <template #itemTemplate let-item="item" let-index="index">
             <div class="list-pf-content-wrapper">
               <div class="list-pf-main-content">
                 <div class="list-pf-title">
-                  <img [src]="item.attributes.imageURL" height="40"/>
+                  <img [src]="item.attributes.imageURL" height="40" />
                   <span class="margin-left-40">{{item.attributes.fullName}}</span>
                 </div>
                 <div class="list-pf-description">
@@ -29,18 +27,22 @@
                 </div>
               </div>
             </div>
-          </ng-template>
-          <ng-template #actionTemplate let-item="item" let-index="index">
+          </template>
+          <template #actionTemplate let-item="item" let-index="index">
             <span class="dropdown-kebab-pf dropdown" dropdown>
               <button class="btn btn-link dropdown-toggle" type="button" dropdownToggle>
                 <span class="fa fa-ellipsis-v"></span>
               </button>
               <ul class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab" *dropdownMenu>
-                <li role="menuitem"><a [routerLink]="['/', item.attributes.username]" class="secondary-action">View user</a></li>
-                <li role="menuitem"><a href="javascript:void(0)" class="secondary-action" (click)="confirmUserRemove(item)">Remove from space</a></li>
+                <li role="menuitem">
+                  <a [routerLink]="['/', item.attributes.username]" class="secondary-action">View user</a>
+                </li>
+                <li role="menuitem">
+                  <a href="javascript:void(0)" class="secondary-action" (click)="confirmUserRemove(item)">Remove from space</a>
+                </li>
               </ul>
             </span>
-          </ng-template>
+          </template>
         </pfng-list>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContextCurrentUserGuard } from './../../shared/context-current-user-guard.service';
 import { SpaceSettingsComponent } from './space-settings.component';
 import { SettingsOverviewComponent } from './settings-overview/settings-overview.component';
+import { AreasComponent } from './areas/areas.component';
 
 const routes: Routes = [
   {
@@ -13,12 +14,19 @@ const routes: Routes = [
     },
     component: SpaceSettingsComponent,
     children: [
-      // { path: '', component: AreasComponent },
+      { path: '', component: AreasComponent },
       // { path: 'alerts', loadChildren: './alerts/alerts.module#AlertsModule' },
       // { path: 'security', loadChildren: './security/security.module#SecurityModule' },
       // { path: 'work', loadChildren: './work/work.module#WorkModule' },
       {
-        path: '',
+        path: 'areas',
+        loadChildren: './areas/areas.module#AreasModule',
+        data: {
+          title: 'Areas'
+        }
+      },
+      {
+        path: 'collaborators',
         loadChildren: './collaborators/collaborators.module#CollaboratorsModule',
         data: {
           title: 'Collaborators'

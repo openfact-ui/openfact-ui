@@ -27,25 +27,25 @@ export class ContextCurrentUserGuard implements Resolve<any> {
     // Store the last visited URL so we can navigate back if the context
     // cannot be resolved
     this.router.events
-      .filter((e) => e instanceof NavigationEnd)
+      .filter(e => e instanceof NavigationEnd)
       .map((e: NavigationEnd) => e.urlAfterRedirects)
-      .subscribe((val) => this._lastRoute = val);
+      .subscribe(val => this._lastRoute = val);
   }
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return Observable.combineLatest(
-      this.contexts.current.map((val) => val.user.id).do((val) => console.log('context', val)),
-      this.userService.loggedInUser.map((val) => val.id).do((val) => console.log('user', val)),
+      this.contexts.current.map(val => val.user.id).do(val => console.log('context', val)),
+      this.userService.loggedInUser.map(val => val.id).do(val => console.log('user', val)),
       (a, b) => (a === b)
     )
-      .do((val) => {
+      .do(val => {
         if (!val) {
           this.notifications.message({
             message: `You cannot access ${state.url}`,
             type: NotificationType.WARNING
           } as Notification);
         }
-      }).map((val) => {
+      }).map(val => {
         if (val) {
           return true;
         } else {

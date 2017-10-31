@@ -11,7 +11,6 @@ import { ContextService } from '../../../shared/context.service';
 import { find } from 'lodash';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-collaborators',
   templateUrl: 'collaborators.component.html',
   styleUrls: ['./collaborators.component.scss']
@@ -35,7 +34,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.listConfig = {
       dblClick: false,
       dragEnabled: false,
@@ -48,7 +47,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     this.collaborators = [];
   }
 
-  public initCollaborators(event: any): void {
+  initCollaborators(event: any): void {
     let pageSize = event.pageSize;
     console.log('event size from page', pageSize);
     pageSize = 20;
@@ -57,31 +56,31 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public fetchMoreCollaborators($event): void {
+  fetchMoreCollaborators($event): void {
     this.collaboratorService.getNextCollaborators()
       .subscribe(collaborators => {
-        if(collaborators)
+        if (collaborators)
           this.collaborators = this.collaborators.concat(collaborators);
-        }, err => {
+      }, err => {
         console.log(err);
       });
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     this.contextSubscription.unsubscribe();
     this.collaboratorSubscription.unsubscribe();
   }
 
-  public launchAddCollaborators() {
+  launchAddCollaborators() {
     this.addCollaboratorsModal.open();
   }
 
-  public confirmUserRemove(user: User): void {
+  confirmUserRemove(user: User): void {
     this.userToRemove = user;
     this.removeCollaborator.open();
   }
 
-  public removeUser() {
+  removeUser() {
     this.collaboratorService.removeCollaborator(this.context.space.id, this.userToRemove.id).subscribe(() => {
       this.collaborators.splice(this.collaborators.indexOf(this.userToRemove), 1);
       this.userToRemove = null;
@@ -89,12 +88,12 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addCollaboratorsToParent(addedUsers: User[]) {
+  addCollaboratorsToParent(addedUsers: User[]) {
     addedUsers.forEach(user => {
       let matchingUser = find(this.collaborators, (existing) => {
         return existing.id === user.id;
       });
-      if(!matchingUser) {
+      if (!matchingUser) {
         this.collaborators.push(user);
       }
     });
