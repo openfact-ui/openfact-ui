@@ -476,7 +476,7 @@ export class ContextService implements Contexts {
     let patch = {
       store: {
         recentContexts: recent.map(ctx => ({
-          user: ctx.user.id,
+          user: (ctx.user ? ctx.user.id : null),
           space: (ctx.space ? ctx.space.id : null),
           document: (ctx.document ? ctx.document.id : null)
         } as RawContext))

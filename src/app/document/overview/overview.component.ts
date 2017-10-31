@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'ofs-edit',
-  templateUrl: 'edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  selector: 'ofs-overview',
+  templateUrl: 'overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
-export class EditComponent implements OnDestroy, OnInit {
+export class OverviewComponent implements OnDestroy, OnInit {
 
   constructor() {
   }

@@ -28,6 +28,26 @@ export const routes: Routes = [
     }
   },
 
+  // Documents
+  {
+    path: '_documents',
+    loadChildren: './document/inbox/inbox.module#InboxModule',
+    data: {
+      title: 'Documents'
+    }
+  },
+
+  {
+    path: '_documents/:document',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './document/overview/overview.module#OverviewModule',
+    data: {
+      title: 'Document'
+    }
+  },
+
   // Error Pages
   {
     path: '_error',

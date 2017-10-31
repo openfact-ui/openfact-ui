@@ -71,7 +71,7 @@ export class InboxComponent implements OnDestroy, OnInit {
   }
 
   handleClick($event: ListEvent): void {
-    this.router.navigate([$event.item.id], { relativeTo: this.route });
+    this.router.navigate(['/_documents', $event.item.id], /*{ relativeTo: this.route }*/);
   }
 
   handleSelectionChange($event: ListEvent): void {

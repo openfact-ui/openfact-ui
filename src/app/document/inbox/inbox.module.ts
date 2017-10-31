@@ -13,6 +13,7 @@ import { InboxComponent } from './inbox.component';
 
 import { SpaceTabsModule } from './space-tabs/space-tabs.module';
 import { DocumentSearchToolbarModule } from './../search-toolbar/document-search-toolbar.module';
+import { SidebarModule } from './../sidebar/sidebar.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { DocumentSearchToolbarModule } from './../search-toolbar/document-search
     EmptyStateModule,
     ActionModule,
     DocumentSearchToolbarModule,
-    SpaceTabsModule
+    SpaceTabsModule,
+    SidebarModule
   ],
   declarations: [InboxComponent],
 })

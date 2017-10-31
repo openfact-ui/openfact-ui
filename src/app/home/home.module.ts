@@ -1,4 +1,3 @@
-import { QueryService } from './services/query.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
@@ -7,7 +6,7 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 
 import { DocumentWizardModule } from '../document/wizard/document-wizard.module';
-import { InboxModule } from './inbox/inbox.module';
+import { InboxModule } from './../document/inbox/inbox.module';
 
 @NgModule({
   imports: [
@@ -18,7 +17,6 @@ import { InboxModule } from './inbox/inbox.module';
   ],
   declarations: [HomeComponent],
   providers: [
-    QueryService
   ]
 })
 export class HomeModule {

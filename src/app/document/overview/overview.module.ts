@@ -1,32 +1,26 @@
+import { SidebarModule } from './../sidebar/sidebar.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
 
-import {
-  ListModule,
-  EmptyStateModule,
-  ActionModule
-} from 'patternfly-ng';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
 
-import { SearchRoutingModule } from './search-routing.module';
-import { SearchComponent } from './search.component';
+import { OverviewRoutingModule } from './overview-routing.module';
+import { OverviewComponent } from './overview.component';
 
 import { DocumentSearchToolbarModule } from './../search-toolbar/document-search-toolbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    SearchRoutingModule,
-    ListModule,
-    EmptyStateModule,
-    ActionModule,
+    OverviewRoutingModule,
     OpenfactSyncModule,
-    DocumentSearchToolbarModule
+    DocumentSearchToolbarModule,
+    SidebarModule
   ],
-  declarations: [SearchComponent],
+  declarations: [OverviewComponent],
 })
-export class SearchModule {
+export class OverviewModule {
   constructor(http: Http) {
   }
 }

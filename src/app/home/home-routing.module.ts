@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { AuthGuard } from '../shared/auth-guard.service';
 
-import { InboxComponent } from './inbox/inbox.component';
+import { InboxComponent } from './../document/inbox/inbox.component';
 
 const routes: Routes = [
   {
@@ -13,18 +13,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: HomeComponent,
     children: [
-      { path: '', component: InboxComponent },
-      {
-        path: '_search',
-        loadChildren: './search/search.module#SearchModule'
-      },
-      {
-        path: ':document',
-        resolve: {
-          context: ContextResolver
-        },
-        loadChildren: './edit/edit.module#EditModule'
-      },
+      { path: '', component: InboxComponent }
     ]
   }
 ];
