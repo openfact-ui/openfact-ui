@@ -1,7 +1,7 @@
-import {ProfileResolver} from './shared/profile-resolver.service';
-import {ContextResolver} from './shared/context-resolver.service';
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
+import { ProfileResolver } from './shared/profile-resolver.service';
+import { ContextResolver } from './shared/context-resolver.service';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 export const routes: Routes = [
   {

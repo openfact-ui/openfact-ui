@@ -27,7 +27,8 @@ export class ProfileResolver implements Resolve<Context> {
         .changeContext(Observable.of({
           url: url,
           user: userName.attributes.username,
-          space: null
+          space: null,
+          document: null
         } as Navigation)).first()
         .catch((err: any, caught: Observable<Context>) => {
           console.log(`Caught in resolver ${err}`);

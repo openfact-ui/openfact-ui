@@ -37,7 +37,8 @@ export class ContextResolver implements Resolve<Context> {
       .changeContext(Observable.of({
         url: state.url,
         user: route.params['entity'],
-        space: route.params['space']
+        space: route.params['space'],
+        document: route.params['document']
       } as Navigation)).first()
       .catch((err: any, caught: Observable<Context>) => {
         console.log(`Caught in resolver ${err}`);

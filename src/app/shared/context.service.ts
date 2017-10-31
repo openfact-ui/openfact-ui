@@ -24,9 +24,12 @@ import { MenusService } from '../layout/header/menus.service';
 
 import { EventService } from "./event.service";
 
+import { UBLDocumentService, UBLDocument } from "ngo-openfact-sync";
+
 interface RawContext {
   user: any;
   space: any;
+  document: any;
   url: string;
 }
 
@@ -56,7 +59,8 @@ export class ContextService implements Contexts {
     private route: ActivatedRoute,
     private profileService: ProfileService,
     private spaceNamePipe: SpaceNamePipe,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private documentService: UBLDocumentService) {
 
     this._addRecent = new Subject<Context>();
     this._deleteFromRecent = new Subject<Context>();
@@ -67,6 +71,7 @@ export class ContextService implements Contexts {
           return {
             user: null,
             space: val,
+            document: null,
             type: ContextTypes.BUILTIN.get('user'),
             name: 'TO_DELETE',
             path: null
@@ -103,6 +108,7 @@ export class ContextService implements Contexts {
           return {
             user: val,
             space: null,
+            document: null,
             type: ContextTypes.BUILTIN.get('user'),
             name: val.attributes.username,
             path: '/' + val.attributes.username
@@ -236,6 +242,21 @@ export class ContextService implements Contexts {
                 from path ${val.url} was not found because of ${err}`);
 
             });
+        } else if (val.document) {
+          // If it's a document that's been requested then load the document
+          return this
+            .loadDocument(val.document)
+            .map(document => {
+              return { user: null, space: null, document: document } as RawContext;
+            })
+            .catch((err, caught) => {
+              this.notifications.message({
+                message: `${val.url} not found`,
+                type: NotificationType.WARNING
+              } as Notification);
+              console.log(`Document ${val.document} from path ${val.url} was not found because of ${err}`);
+              return Observable.throw(`Document ${val.document} from path ${val.url} was not found because of ${err}`);
+            });
         } else {
           // Otherwise, load the user and use that as the owner
           return this
@@ -273,6 +294,12 @@ export class ContextService implements Contexts {
           this.broadcaster.broadcast('spaceChanged', val.space);
         }
       })
+      .do(val => {
+        if (val && val.document) {
+          console.log('Document Changed to', val);
+          this.broadcaster.broadcast('documentChanged', val.document);
+        }
+      })
       // Subscribe the current context to the revent space collector
       .do(val => {
         if (val) this._addRecent.next(val);
@@ -299,6 +326,19 @@ export class ContextService implements Contexts {
       c.type = ContextTypes.BUILTIN.get('space');
       c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.name;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
+    } else if (val.document) {
+      c = {
+        'user': null,
+        'space': null,
+        'document': val.document,
+        'type': null,
+        'name': null,
+        'path': null
+      } as Context;
+      c.type = ContextTypes.BUILTIN.get('document');
+      // TODO replace path with username once parameterized routes are working
+      c.path = '/home/' + c.document.id;
+      c.name = c.document.attributes.assignedId;
     } else if (val.user) {
       c = {
         'user': val.user,
@@ -360,6 +400,18 @@ export class ContextService implements Contexts {
     return null;
   }
 
+  private loadDocument(documentId: string): Observable<UBLDocument> {
+    return this.documentService
+      .getDocumentById(documentId)
+      .map(val => {
+        if (val && val.id) {
+          return val;
+        } else {
+          throw new Error(`No document found for ${documentId}`);
+        }
+      });
+  }
+
   private loadSpace(userName: string, spaceName: string): Observable<Space> {
     if (userName && spaceName) {
       return this.spaceService.getSpaceByAssignedId(userName, spaceName);
@@ -394,6 +446,15 @@ export class ContextService implements Contexts {
               return this.spaceService.getSpaceById(raw.space)
                 .map(val => this
                   .buildContext({ space: val } as RawContext));
+            } else if (raw.document) {
+              return this.documentService.getDocumentById(raw.document)
+                .catch(err => {
+                  console.log('Unable to restore recent document', err);
+                  return Observable.empty<Context>();
+                })
+                .map(val => {
+                  return this.buildContext({ document: val } as RawContext)
+                });
             } else {
               return this.userService.getUserByUserId(raw.user)
                 .catch(err => {
@@ -416,7 +477,8 @@ export class ContextService implements Contexts {
       store: {
         recentContexts: recent.map(ctx => ({
           user: ctx.user.id,
-          space: (ctx.space ? ctx.space.id : null)
+          space: (ctx.space ? ctx.space.id : null),
+          document: (ctx.document ? ctx.document.id : null)
         } as RawContext))
       }
     } as ExtProfile;

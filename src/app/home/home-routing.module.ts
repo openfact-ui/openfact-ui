@@ -1,3 +1,4 @@
+import { ContextResolver } from './../shared/context-resolver.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -19,6 +20,9 @@ const routes: Routes = [
       },
       {
         path: ':document',
+        resolve: {
+          context: ContextResolver
+        },
         loadChildren: './edit/edit.module#EditModule'
       },
     ]
