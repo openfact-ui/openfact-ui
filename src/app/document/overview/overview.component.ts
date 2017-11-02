@@ -14,7 +14,7 @@ export class OverviewComponent implements OnDestroy, OnInit {
   private context: Context;
   private contextSubscription: Subscription;
 
-  stared: boolean;
+  starred: boolean;
   _tags: string[] = [];
 
   constructor(
@@ -26,7 +26,7 @@ export class OverviewComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    this.stared = this.context.document.attributes.stared;
+    this.starred = this.context.document.attributes.starred;
     this.tags = this.context.document.attributes.tags;
   }
 
@@ -53,10 +53,10 @@ export class OverviewComponent implements OnDestroy, OnInit {
   }
 
   onStarChange() {
-    this.stared = !this.stared;
+    this.starred = !this.starred;
 
     let document = this.buildTransitiveDocument();
-    document.attributes.stared = this.stared;
+    document.attributes.starred = this.starred;
     this.documentService.update(document).subscribe(val => {
 
     });

@@ -15,11 +15,11 @@ import {
 } from 'patternfly-ng';
 
 @Component({
-  selector: 'ofs-inbox',
-  templateUrl: 'inbox.component.html',
-  styleUrls: ['./inbox.component.scss']
+  selector: 'ofs-starred',
+  templateUrl: 'starred.component.html',
+  styleUrls: ['./starred.component.scss']
 })
-export class InboxComponent implements OnDestroy, OnInit {
+export class StarredComponent implements OnDestroy, OnInit {
 
   emptyStateConfig: EmptyStateConfig;
   listConfig: ListConfig;
@@ -71,7 +71,7 @@ export class InboxComponent implements OnDestroy, OnInit {
   }
 
   handleClick($event: ListEvent): void {
-    this.router.navigate(['/_inbox', $event.item.id], /*{ relativeTo: this.route }*/);
+    this.router.navigate(['/_starred', $event.item.id], /*{ relativeTo: this.route }*/);
   }
 
   handleSelectionChange($event: ListEvent): void {
@@ -81,12 +81,6 @@ export class InboxComponent implements OnDestroy, OnInit {
   //  Toolbar actions
   onToolbarChange($event: DocumentQueryBuilder) {
     this.queryBuilder = $event;
-    this.search();
-  }
-
-  // Tab actions
-  onTabChange(space: Space) {
-    this.selectedSpace = space;
     this.search();
   }
 
@@ -100,6 +94,7 @@ export class InboxComponent implements OnDestroy, OnInit {
     } else {
       this.queryBuilder.spaces([]);
     }
+    this.queryBuilder.starred(true);
 
     this.documentService.search(this.queryBuilder.build().query()).subscribe((data) => {
       this.items = data;

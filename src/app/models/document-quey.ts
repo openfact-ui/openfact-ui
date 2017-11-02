@@ -16,6 +16,8 @@ export class DocumentQuery {
   private offset: string;
   private limit: string;
 
+  private starred: string;
+
   constructor(builder: DocumentQueryBuilder) {
     if (builder.getFilterText()) {
       this._query.push('filterText:' + builder.getFilterText());
@@ -59,6 +61,9 @@ export class DocumentQuery {
     if (builder.getAsc() !== undefined && builder.getAsc() !== null) {
       this._query.push('asc:' + builder.getAsc());
     }
+    if (builder.getStarred() !== undefined && builder.getStarred() !== null) {
+      this._query.push('starred:' + builder.getStarred());
+    }
   }
 
   query(): string {
@@ -93,6 +98,8 @@ export class DocumentQueryBuilder {
   private _limit: number;
   private _orderBy: string;
   private _asc: boolean;
+
+  private _starred: boolean;
 
   build() {
     return new DocumentQuery(this);
@@ -221,6 +228,15 @@ export class DocumentQueryBuilder {
 
   asc(asc: boolean): DocumentQueryBuilder {
     this._asc = asc;
+    return this;
+  }
+
+  getStarred() {
+    return this._starred;
+  }
+
+  starred(starred: boolean): DocumentQueryBuilder {
+    this._starred = starred;
     return this;
   }
 

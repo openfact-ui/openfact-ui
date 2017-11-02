@@ -30,15 +30,34 @@ export const routes: Routes = [
 
   // Documents
   {
-    path: '_documents',
+    path: '_inbox',
     loadChildren: './document/inbox/inbox.module#InboxModule',
     data: {
-      title: 'Documents'
+      title: 'Inbox'
     }
   },
 
   {
-    path: '_documents/:document',
+    path: '_starred',
+    loadChildren: './document/starred/starred.module#StarredModule',
+    data: {
+      title: 'Starred'
+    }
+  },
+
+  {
+    path: '_inbox/:document',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './document/overview/overview.module#OverviewModule',
+    data: {
+      title: 'Document'
+    }
+  },
+
+  {
+    path: '_starred/:document',
     resolve: {
       context: ContextResolver
     },
