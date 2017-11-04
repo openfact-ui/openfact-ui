@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UBLDocumentService, Space } from 'ngo-openfact-sync';
 
+import * as FileSaver from 'file-saver';
+
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 
 import {
@@ -66,12 +68,20 @@ export class InboxComponent implements OnDestroy, OnInit {
   // Actions
   handleAction($event: Action, item: any): void {
     if ($event.id === 'edit') {
-      this.router.navigate([item.id], { relativeTo: this.route });
+      this.router.navigate(['/_inbox', item.id]);
+    } else if ($event.id === 'print') {
+      this.documentService.getDocumentReportById(item.id).subscribe(val => {
+        FileSaver.saveAs(val.file, val.filename || `${item.attributes.assignedId}.pdf`);
+      });
+    } else if ($event.id === 'download') {
+      this.documentService.getDocumentXmlById(item.id).subscribe(val => {
+        FileSaver.saveAs(val.file, val.filename || `${item.attributes.assignedId}.xml`);
+      });
     }
   }
 
   handleClick($event: ListEvent): void {
-    this.router.navigate(['/_inbox', $event.item.id], /*{ relativeTo: this.route }*/);
+    this.router.navigate(['/_inbox', $event.item.id]);
   }
 
   handleSelectionChange($event: ListEvent): void {
