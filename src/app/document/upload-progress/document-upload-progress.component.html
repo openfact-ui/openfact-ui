@@ -12,7 +12,7 @@
                 <div class="panel-heading" style="padding: 0"></div>
                 <div class="panel-collapse collapse" [ngClass]="{'in': !isMinimized}">
                     <div class="panel-body of-panel-body" *ngIf="files.length > 0">
-                        <ofs-document-progress [file]="file | async" *ngFor="let file of files"></ofs-document-progress>                        
+                        <ofs-document-progress [file]="file | async" *ngFor="let file of files"></ofs-document-progress>
                     </div>
                     <div class="blank-slate-pf hidden" *ngIf="files.length == 0">
                         <div class="blank-slate-pf-icon">
