@@ -28,45 +28,6 @@ export const routes: Routes = [
     }
   },
 
-  // Documents
-  {
-    path: '_inbox',
-    loadChildren: './document/inbox/inbox.module#InboxModule',
-    data: {
-      title: 'Inbox'
-    }
-  },
-
-  {
-    path: '_starred',
-    loadChildren: './document/starred/starred.module#StarredModule',
-    data: {
-      title: 'Starred'
-    }
-  },
-
-  {
-    path: '_inbox/:document',
-    resolve: {
-      context: ContextResolver
-    },
-    loadChildren: './document/overview/overview.module#OverviewModule',
-    data: {
-      title: 'Document'
-    }
-  },
-
-  {
-    path: '_starred/:document',
-    resolve: {
-      context: ContextResolver
-    },
-    loadChildren: './document/overview/overview.module#OverviewModule',
-    data: {
-      title: 'Document'
-    }
-  },
-
   // Error Pages
   {
     path: '_error',
@@ -120,6 +81,46 @@ export const routes: Routes = [
     loadChildren: './space/settings/space-settings.module#SpaceSettingsModule',
     data: {
       title: 'Areas'
+    }
+  },
+
+
+  // Documents
+  {
+    path: '_inbox',
+    loadChildren: './document/inbox/inbox.module#InboxModule',
+    data: {
+      title: 'Inbox'
+    }
+  },
+
+  {
+    path: '_starred',
+    loadChildren: './document/starred/starred.module#StarredModule',
+    data: {
+      title: 'Starred'
+    }
+  },
+
+  {
+    path: '_inbox/:document',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './document/overview/overview.module#OverviewModule',
+    data: {
+      title: 'Document'
+    }
+  },
+
+  {
+    path: '_starred/:document',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './document/overview/overview.module#OverviewModule',
+    data: {
+      title: 'Document'
     }
   },
 

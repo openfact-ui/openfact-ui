@@ -1,6 +1,6 @@
-import {Broadcaster} from 'ngo-base';
-import {AuthenticationService} from 'ngo-login-client';
-import {Spaces} from 'ngo-openfact-sync';
+import { Broadcaster } from 'ngo-base';
+import { AuthenticationService } from 'ngo-login-client';
+import { Spaces } from 'ngo-openfact-sync';
 
 /**
  * Angular 2 decorators and services
@@ -10,15 +10,15 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
-import {AppState} from './app.service';
+import { AppState } from './app.service';
 
-import {ActivatedRoute, Router, NavigationEnd, NavigationStart} from '@angular/router';
-import {Title} from '@angular/platform-browser';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
-import {AboutService} from './shared/about.service';
-import {NotificationsService} from './shared/notifications.service';
-import {LoginService} from './shared/login.service';
-import {BrandingService} from './shared/branding.service';
+import { AboutService } from './shared/about.service';
+import { NotificationsService } from './shared/notifications.service';
+import { LoginService } from './shared/login.service';
+import { BrandingService } from './shared/branding.service';
 
 /**
  * App Component
@@ -32,21 +32,22 @@ import {BrandingService} from './shared/branding.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private about: AboutService,
-              private activatedRoute: ActivatedRoute,
-              public notifications: NotificationsService,
-              private loginService: LoginService,
-              // Inject services that need to start listening
-              private spaces: Spaces,
-              private authService: AuthenticationService,
-              private broadcaster: Broadcaster,
-              private router: Router,
-              private titleService: Title,
-              private brandingService: BrandingService) {
+  constructor(
+    private about: AboutService,
+    private activatedRoute: ActivatedRoute,
+    public notifications: NotificationsService,
+    private loginService: LoginService,
+    // Inject services that need to start listening
+    private spaces: Spaces,
+    private authService: AuthenticationService,
+    private broadcaster: Broadcaster,
+    private router: Router,
+    private titleService: Title,
+    private brandingService: BrandingService) {
   }
 
   public ngOnInit() {
-    console.log('Welcome to Openfact!');
+    console.log('Welcome to Openfact Sync!');
     console.log('This is', this.about.buildVersion, '(Build', '#' + this.about.buildNumber, 'and was built on', this.about.buildTimestamp, ')');
     this.activatedRoute.params.subscribe(() => {
       this.loginService.login();
