@@ -10,7 +10,6 @@ import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-mul
   host: {
     'class': 'add-dialog'
   },
-  encapsulation: ViewEncapsulation.None,
   selector: 'add-collaborators-dialog',
   templateUrl: './add-collaborators-dialog.component.html',
   styleUrls: ['./add-collaborators-dialog.component.scss']

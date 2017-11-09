@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-settingsOverview',
   templateUrl: 'settings-overview.component.html'
 })

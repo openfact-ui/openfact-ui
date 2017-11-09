@@ -13,7 +13,6 @@ import { ErrorService } from './error.service';
 import { UserService, AuthenticationService } from 'ngo-login-client';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss']

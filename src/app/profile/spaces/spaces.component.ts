@@ -7,7 +7,6 @@ import { IModalHost } from '../../space/wizard/models/modal-host';
 import { EventService } from '../../shared/event.service';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-spaces',
   templateUrl: 'spaces.component.html',
   styleUrls: ['./spaces.component.scss'],

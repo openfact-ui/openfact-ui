@@ -13,7 +13,6 @@ import { Http, Headers, RequestOptions, RequestOptionsArgs, Response } from '@an
 import { pathJoin } from '../../a-runtime-console/kubernetes/model/utils';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-getting-started',
   templateUrl: './getting-started.component.html',
   styleUrls: ['./getting-started.component.scss'],

@@ -11,7 +11,6 @@ import { OpenfactUIConfig } from '../shared/config/openfact-ui-config';
 import { BrandInformation } from '../models/brand-information';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

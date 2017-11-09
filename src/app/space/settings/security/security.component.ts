@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-security',
   templateUrl: 'security.component.html'
 })

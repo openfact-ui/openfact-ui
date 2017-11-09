@@ -9,7 +9,6 @@ import {
 import { AboutService } from '../../shared/about.service';
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: 'ofs-about-modal',
   templateUrl: './about-modal.component.html',
   styleUrls: ['./about-modal.component.scss']
