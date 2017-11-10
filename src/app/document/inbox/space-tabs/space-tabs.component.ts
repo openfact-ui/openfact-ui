@@ -2,12 +2,13 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  Input,
   Output,
   EventEmitter,
-  ViewChild
+  TemplateRef
 } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
+
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { User, UserService } from 'ngo-login-client';
 import { Space, Context, SpaceService } from 'ngo-openfact-sync';
@@ -31,54 +32,55 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
 
   selectedSpace: Space;
 
-  private loggedInUser: User;
+  bsModalRef: BsModalRef;
+
   private subscriptions: Subscription[] = [];
 
   constructor(
+    private modalService: BsModalService,
     private userService: UserService,
     private spaceService: SpaceService,
-    private gettingStartedService: GettingStartedService,
-    private notifications: Notifications) {
+    private gettingStartedService: GettingStartedService) {
     this.subscriptions.push(
-      this.userService.loggedInUser.subscribe(user => {
-        this.loggedInUser = user;
-
-        if (this.loggedInUser.attributes) {
+      this.userService.loggedInUser.subscribe(loggedInUser => {
+        if (loggedInUser.attributes) {
           // Owned spaces
-          let ownedSpaces = (this.loggedInUser as ExtUser).attributes.ownedSpaces || [];
+          let ownedSpaces = (loggedInUser as ExtUser).attributes.ownedSpaces || [];
           if (ownedSpaces.length > 0) {
             this.ownedSpaces = Observable.forkJoin((ownedSpaces as string[]).map((assignedId) => {
-              return this.spaceService.getSpaceByAssignedId(this.loggedInUser.attributes.username, assignedId);
+              return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
             }));
           } else {
             this.ownedSpaces = Observable.of([]);
           }
 
           // Collaborated spaces
-          let collaboratedSpaces = (this.loggedInUser as ExtUser).attributes.collaboratedSpaces || [];
+          let collaboratedSpaces = (loggedInUser as ExtUser).attributes.collaboratedSpaces || [];
           if (collaboratedSpaces.length > 0) {
             this.collaboratedSpaces = Observable.forkJoin((collaboratedSpaces as string[]).map((assignedId) => {
-              return this.spaceService.getSpaceByAssignedId(this.loggedInUser.attributes.username, assignedId);
+              return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
             }));
           } else {
             this.collaboratedSpaces = Observable.of([]);
           }
 
           // Favorite spaces
-          Observable.forkJoin(this.ownedSpaces, this.collaboratedSpaces).subscribe((allSpaces) => {
-            let favoriteSpaces = (this.loggedInUser as ExtUser).attributes.favoriteSpaces || [];
+          this.subscriptions.push(
+            Observable.forkJoin(this.ownedSpaces, this.collaboratedSpaces).subscribe((allSpaces) => {
+              let favoriteSpaces = (loggedInUser as ExtUser).attributes.favoriteSpaces || [];
 
-            let spaces = [];
-            allSpaces.forEach(elem => {
-              elem.forEach(space => {
-                if (favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
-                  spaces.push(space);
-                }
-              })
-            });
+              let spaces = [];
+              allSpaces.forEach(elem => {
+                elem.forEach(space => {
+                  if (favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
+                    spaces.push(space);
+                  }
+                })
+              });
 
-            this.favoriteSpaces = spaces;
-          });
+              this.favoriteSpaces = spaces;
+            })
+          );
         }
       })
     );
@@ -94,26 +96,26 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
     });
   }
 
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template, {
+      keyboard: false,
+      ignoreBackdropClick: true
+    });
+  }
+
   selectSpace(space: Space) {
     this.selectedSpace = space;
     this.onChange.emit(space);
   }
 
-  updateFavoriteSpaces(spaces: Space[]) {
+  onFavoriteSpacesChange(spaces: Space[]) {
     let profile = this.gettingStartedService.createTransientProfile();
     profile.favoriteSpaces = spaces.map(space => space.attributes.assignedId);
 
     this.gettingStartedService.update(profile).subscribe(() => {
       this.favoriteSpaces = spaces;
-      this.notifications.message({
-        message: `Favorite spaces updated!`,
-        type: NotificationType.SUCCESS
-      } as Notification);
     }, error => {
-      this.notifications.message({
-        message: `Failed to update favorite spaces"`,
-        type: NotificationType.DANGER
-      } as Notification);
+      console.log('Could not update favorite spaces:');
     });
   }
 
