@@ -5,8 +5,10 @@
       <ofs-document-search-toolbar [results]="toolbarInfo" (onChange)="onToolbarChange($event)">
       </ofs-document-search-toolbar>
 
+      <br/>
       <ofs-space-tabs (onChange)="onTabChange($event)">
       </ofs-space-tabs>
+      <br/>
 
       <!-- List -->
       <pfng-list [actionTemplate]="actionTemplate" [config]="listConfig" [expandTemplate]="expandTemplate" [items]="items" [itemTemplate]="itemTemplate"

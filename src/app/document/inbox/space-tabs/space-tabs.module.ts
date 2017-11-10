@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
-import { AddSpacesDialogModule } from './../add-spaces-dialog/add-spaces-dialog.module';
+import { AddSpacesDialogModule } from './add-spaces-dialog/add-spaces-dialog.module';
 
 import { SpaceTabsComponent } from './space-tabs.component';
 

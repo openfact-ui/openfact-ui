@@ -16,6 +16,7 @@
 
 <template #configFavoriteSpacesModal>
   <add-spaces-dialog
+    [host]="spaceModal"
     [favoriteSpaces]="favoriteSpaces"
     [ownedSpaces]="ownedSpaces | async"
     [collaboratedSpaces]="collaboratedSpaces | async"

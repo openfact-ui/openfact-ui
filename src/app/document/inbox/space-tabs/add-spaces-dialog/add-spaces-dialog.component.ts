@@ -24,6 +24,8 @@ import { GettingStartedService, ExtUser } from './../../../../getting-started/se
 })
 export class AddSpacesDialogComponent implements OnInit, OnDestroy {
 
+  @Input() host: BsModalRef;
+
   @Input() favoriteSpaces: Space[];
   @Input() ownedSpaces: Space[];
   @Input() collaboratedSpaces: Space[];
@@ -33,7 +35,6 @@ export class AddSpacesDialogComponent implements OnInit, OnDestroy {
   selectedSpaces: string[] = [];
 
   constructor(
-    //public bsModalRef: BsModalRef,
     private userService: UserService,
     private spaceService: SpaceService,
     private gettingStartedService: GettingStartedService,
@@ -73,7 +74,7 @@ export class AddSpacesDialogComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    //this.bsModalRef.hide();
+    this.host.hide();
     this.selectedSpaces = [];
   }
 

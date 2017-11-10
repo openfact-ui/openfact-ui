@@ -32,7 +32,7 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
 
   selectedSpace: Space;
 
-  bsModalRef: BsModalRef;
+  spaceModal: BsModalRef;
 
   private subscriptions: Subscription[] = [];
 
@@ -97,7 +97,7 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.bsModalRef = this.modalService.show(template, {
+    this.spaceModal = this.modalService.show(template, {
       keyboard: false,
       ignoreBackdropClick: true
     });
