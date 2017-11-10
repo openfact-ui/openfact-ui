@@ -110,6 +110,9 @@ export class InboxComponent implements OnDestroy, OnInit {
     } else {
       this.queryBuilder.spaces([]);
     }
+    if (!this.queryBuilder.getLimit()) {
+      this.queryBuilder.limit(10);
+    }
 
     this.documentService.search(this.queryBuilder.build().query()).subscribe((data) => {
       this.items = data;

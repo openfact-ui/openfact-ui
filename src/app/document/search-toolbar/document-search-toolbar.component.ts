@@ -43,6 +43,8 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   dateFilterConfig: DateFilterConfig;
   amountFilterConfig: NumberFilterConfig;
 
+  showTools: boolean = true;
+
   private offset: number = 0;
   private limit: number = 10;
 
@@ -211,9 +213,7 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   // Actions
   searchInputKeyPress($event: KeyboardEvent): void {
     if ($event.which === 13) {
-      if (this.filterText) {
-        this.search();
-      }
+      this.search();
     }
   }
 
