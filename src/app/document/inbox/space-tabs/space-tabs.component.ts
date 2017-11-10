@@ -41,53 +41,54 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private spaceService: SpaceService,
     private gettingStartedService: GettingStartedService) {
-    this.subscriptions.push(
-      this.userService.loggedInUser.subscribe(loggedInUser => {
-        if (loggedInUser.attributes) {
-          // Owned spaces
-          let ownedSpaces = (loggedInUser as ExtUser).attributes.ownedSpaces || [];
-          if (ownedSpaces.length > 0) {
-            this.ownedSpaces = Observable.forkJoin((ownedSpaces as string[]).map((assignedId) => {
-              return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
-            }));
-          } else {
-            this.ownedSpaces = Observable.of([]);
-          }
-
-          // Collaborated spaces
-          let collaboratedSpaces = (loggedInUser as ExtUser).attributes.collaboratedSpaces || [];
-          if (collaboratedSpaces.length > 0) {
-            this.collaboratedSpaces = Observable.forkJoin((collaboratedSpaces as string[]).map((assignedId) => {
-              return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
-            }));
-          } else {
-            this.collaboratedSpaces = Observable.of([]);
-          }
-
-          // Favorite spaces
-          this.subscriptions.push(
-            Observable.forkJoin(this.ownedSpaces, this.collaboratedSpaces).subscribe((allSpaces) => {
-              let favoriteSpaces = (loggedInUser as ExtUser).attributes.favoriteSpaces || [];
-
-              let spaces = [];
-              allSpaces.forEach(elem => {
-                elem.forEach(space => {
-                  if (favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
-                    spaces.push(space);
-                  }
-                })
-              });
-
-              this.favoriteSpaces = spaces;
-            })
-          );
-        }
-      })
-    );
   }
 
   ngOnInit() {
+    this.subscriptions.push(
+      this.userService.loggedInUser
+        .switchMap(user => this.userService.getUserByUserId(user.id))
+        .subscribe(loggedInUser => {
+          if (loggedInUser.attributes) {
+            // Owned spaces
+            let ownedSpaces = (loggedInUser as ExtUser).attributes.ownedSpaces || [];
+            if (ownedSpaces.length > 0) {
+              this.ownedSpaces = Observable.forkJoin((ownedSpaces as string[]).map((assignedId) => {
+                return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
+              }));
+            } else {
+              this.ownedSpaces = Observable.of([]);
+            }
 
+            // Collaborated spaces
+            let collaboratedSpaces = (loggedInUser as ExtUser).attributes.collaboratedSpaces || [];
+            if (collaboratedSpaces.length > 0) {
+              this.collaboratedSpaces = Observable.forkJoin((collaboratedSpaces as string[]).map((assignedId) => {
+                return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
+              }));
+            } else {
+              this.collaboratedSpaces = Observable.of([]);
+            }
+
+            // Favorite spaces
+            this.subscriptions.push(
+              Observable.forkJoin(this.ownedSpaces, this.collaboratedSpaces).subscribe((allSpaces) => {
+                let favoriteSpaces = (loggedInUser as ExtUser).attributes.favoriteSpaces || [];
+
+                let spaces = [];
+                allSpaces.forEach(elem => {
+                  elem.forEach(space => {
+                    if (favoriteSpaces.indexOf(space.attributes.assignedId) !== -1) {
+                      spaces.push(space);
+                    }
+                  })
+                });
+
+                this.favoriteSpaces = spaces;
+              })
+            );
+          }
+        })
+    );
   }
 
   ngOnDestroy() {
