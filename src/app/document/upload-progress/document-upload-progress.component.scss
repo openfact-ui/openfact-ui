@@ -1,82 +1,39 @@
 @import '../../../styles/styles';
 
-.of-notification {
-    .drawer-pf {
-      height: calc(100vh - 59vh);
-      bottom: 0;
-    }
-    .drawer-pf-trigger-icon { cursor: pointer; }
+.panel-black {
+  border-color: $color-pf-black-300;
+  box-shadow: 5px 5px 10px $color-pf-black-300;
+  .panel-heading {
+    color: $color-pf-black-100;
+    background: $color-pf-black; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient($color-pf-black-900, $color-pf-black-800, $color-pf-black-900); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient($color-pf-black-900, $color-pf-black-800, $color-pf-black-900); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient($color-pf-black-900, $color-pf-black-800, $color-pf-black-900); /* For Firefox 3.6 to 15 */
+    background: linear-gradient($color-pf-black-900, $color-pf-black-800, $color-pf-black-900); /* Standard syntax */
+  }
+  + .panel-default {
+    border-top-color: $color-pf-black-300;
+  }
+  + .panel-primary {
+    border-top-color: $color-pf-black-300;
+  }
+  + .panel-success {
+    border-top-color: $color-pf-black-300;
+  }
+  + .panel-warning {
+    border-top-color: $color-pf-black-300;
+  }
 }
 
-.of-collapse {
-  height: 27px !important;
-}
-
-
-.of-panel-body {
-  max-height: calc(100vh - 70vh); 
-  overflow-y: auto;
-}
-
-/*
-* Current patternfly sass version dont support this
-* Remove this when upgrade patternfly-sass
-*/
-.drawer-pf {
-  width: 335px !important;
-}
-
-.drawer-pf-close, .drawer-pf-toggle-expand {
-  color: inherit;
-  cursor: pointer;
-  line-height: inherit;
-  padding: 2px 5px;
+.panel-right-bottom {
+  bottom: 24px;
+  left: auto;
+  max-height: 323px;
   position: absolute;
-  &:hover,
-  &:focus {
-    color: inherit;
-    text-decoration: none;
-  }
-}
-.drawer-pf-toggle-expand {
-  left: 0;
-  &:before {
-    content: "\f100";
-    font-family: "FontAwesome";
-  }
-  &:hover {
-    color: $link-color;
-  }
-}
-.drawer-pf-close {
-  right: 0;
+  right: 24px;
 }
 
-
-.drawer-pf-action {
-  display: flex;
-  .btn-link {
-    color: $link-color;
-    padding: 10px 0;
-    .pficon, .fa {
-      margin-right: 3px;
-    }
-
-    &:hover { color: $link-hover-color; }
-  }
-}
-
-.drawer-pf-action-link {
-  border-left: solid 1px $color-pf-black-300;
-  flex: 1 1 0%;
-  margin: 10px 0;
-  text-align: center;
-
-  &:first-of-type {
-    border-left-width: 0;
-  }
-
-  .btn-link {
-    padding: 0;
-  }
+.ofs-row:hover {
+  background-color: $color-pf-blue-50;
+  cursor: pointer;
 }

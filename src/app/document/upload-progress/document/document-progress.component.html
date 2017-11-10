@@ -1,54 +1,10 @@
-<div class="drawer-pf-notification">
-
-    <div [ngSwitch]="file?.progress?.status">
-        <!-- Done -->
-        <div *ngSwitchCase="2">
-            <div *ngIf="(file?.responseStatus == 200 || file?.responseStatus == 201)" class="dropdown pull-right dropdown-kebab-pf" dropdown>
-                <button type="button" class="btn btn-link dropdown-toggle" dropdownToggle>
-                    <span class="fa fa-ellipsis-v"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight11" *dropdownMenu>
-                    <li><a href="#">View</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Delete</a></li>
-                </ul>
-            </div>
-        </div>
-        <div *ngSwitchDefault></div>
+<div>
+  <div class="progress-description">
+    <strong>File:</strong> {{file?.name}}
+  </div>
+  <div class="progress progress-xs progress-label-top-right">
+    <div class="progress-bar" [ngStyle]="{ 'width.%': file?.progress?.data?.percentage }">
+      <span>{{file?.progress?.data?.percentage}}%</span>
     </div>
-
-    <div [ngSwitch]="file?.progress?.status">
-        <!-- Queded -->
-        <span *ngSwitchCase="0" class="pficon pficon-build pull-left"></span>
-
-        <!-- Uploading -->
-        <span *ngSwitchCase="1" class="pficon pficon-spinner pull-left"></span>
-
-        <!-- Done -->
-        <div *ngSwitchCase="2">
-            <div *ngIf="(file?.responseStatus == 200 || file?.responseStatus == 201); then showSuccess else showError"></div>
-            <ng-template #showSuccess>
-                <span class="pficon pficon-ok pull-left"></span>
-            </ng-template>
-            <ng-template #showError>
-                <span class="pficon pficon-error-circle-o pull-left"></span>
-            </ng-template>
-        </div>
-
-        <!-- Canceled -->
-        <span *ngSwitchCase="3" class="pficon pficon-warning-triangle-o pull-left"></span>
-
-        <span *ngSwitchDefault></span>
-    </div>
-
-    <div class="drawer-pf-notification-content">
-        <span class="drawer-pf-notification-message">{{file?.name}}</span>
-        <div class="drawer-pf-notification-info">
-            <div class="progress progress-xs">
-                <div class="progress-bar" [ngStyle]="{ 'width.%': file?.progress?.data?.percentage }">
-                    <span class="sr-only">{{file?.progress?.data?.percentage}}% complete</span>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

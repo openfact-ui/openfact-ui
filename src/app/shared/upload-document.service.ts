@@ -2,16 +2,16 @@ import { Headers } from '@angular/http';
 import { SYNC_API_URL } from 'ngo-openfact-sync';
 import { AuthenticationService } from 'ngo-login-client';
 import { UploadFile, UploadOutput, UploadInput } from 'ngx-uploader';
-import { Injectable, Inject, EventEmitter, Output } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class UploadDocumentService {
 
-  public _files: BehaviorSubject<UploadFile>[] = [];
-  public _filesSubject = new BehaviorSubject<Observable<UploadFile>[]>([]);
+  private uploadFiles: UploadFile[] = [];
+  private _files: BehaviorSubject<UploadFile[]> = new BehaviorSubject<UploadFile[]>([]);
 
-  private uploadOutputs: Observable<UploadOutput>[] = [];
+  private _input: EventEmitter<UploadInput> = new EventEmitter<UploadInput>();
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private documentsUrl: string;
@@ -23,38 +23,45 @@ export class UploadDocumentService {
       this.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
     }
     this.documentsUrl = apiUrl + 'documents';
-  }
 
-  public attach(obs: Observable<UploadOutput>): Observable<UploadInput> {
-    this.uploadOutputs.push(obs);
-
-    return obs.switchMap((output) => {
-      if (output.type === 'addedToQueue' && typeof output.file !== 'undefined') { // 1
-        let file = new BehaviorSubject<UploadFile>(output.file);
-        this._files.push(file);
-        this._filesSubject.next(this._files);
-      } else if (output.type === 'allAddedToQueue') {
-        return Observable.of({
-          type: 'uploadAll',
-          url: this.documentsUrl,
-          method: 'POST',
-          concurrency: 5,
-          headers: {
-            'Authorization': this.headers.get('Authorization')
-          }
-        } as UploadInput);
-      } else if (output.type === 'uploading' && typeof output.file !== 'undefined') { // 3
-        const index = this._files
-          .map(file => file.getValue())
-          .findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
-        this._files[index].next(output.file);
+    this._input.subscribe(event => {
+      if (event.type === 'removeAll') {
+        this.uploadFiles = [];
+        this._files.next(this.uploadFiles);
       }
-      return Observable.of(null);
     });
   }
 
-  get files(): Observable<Observable<UploadFile>[]> {
-    return this._filesSubject.asObservable();
+  get files(): Observable<UploadFile[]> {
+    return this._files;
+  }
+
+  get input(): EventEmitter<UploadInput> {
+    return this._input;
+  }
+
+  output(output: UploadOutput): void {
+    if (output.type === 'allAddedToQueue') { // when all files added in queue
+      const event: UploadInput = {
+        type: 'uploadAll',
+        url: this.documentsUrl,
+        method: 'POST',
+        headers: {
+          'Authorization': this.headers.get('Authorization')
+        }
+      };
+      this._input.emit(event);
+    } else if (output.type === 'addedToQueue' && typeof output.file !== 'undefined') {
+      this.uploadFiles.push(output.file);
+      this._files.next(this.uploadFiles);
+    } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
+      const index = this.uploadFiles.findIndex(file => typeof output.file !== 'undefined' && file.id === output.file.id);
+      this.uploadFiles[index] = output.file;
+      this._files.next(this.uploadFiles);
+    } else if (output.type === 'removed') {
+      this.uploadFiles = this.uploadFiles.filter((file: UploadFile) => file !== output.file);
+      this._files.next(this.uploadFiles);
+    }
   }
 
 }

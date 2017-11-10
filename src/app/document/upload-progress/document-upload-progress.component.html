@@ -1,35 +1,41 @@
-<div class="of-notification" *ngIf="!isClosed">
-    <div class="drawer-pf drawer-pf-notifications-non-clickable" [ngClass]="{'of-collapse': isMinimized}">
-        <div class="drawer-pf-title">
-            <a class="drawer-pf-toggle-expand fa fa-angle-double-down hidden-xs" *ngIf="!isMinimized" (click)="isMinimized=true" href="javascript:void(0)"></a>
-            <a class="drawer-pf-toggle-expand fa fa-angle-double-up hidden-xs" *ngIf="isMinimized" (click)="isMinimized=false" href="javascript:void(0)"></a>
-            <a class="drawer-pf-close pficon pficon-close"></a>
-            <h3 *ngIf="!isMinimized" class="text-center">Uploading</h3>
-            <h3 *ngIf="isMinimized" class="text-center">Uploading...</h3>
-        </div>
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="padding: 0"></div>
-                <div class="panel-collapse collapse" [ngClass]="{'in': !isMinimized}">
-                    <div class="panel-body of-panel-body" *ngIf="files.length > 0">
-                        <ofs-document-progress [file]="file | async" *ngFor="let file of files"></ofs-document-progress>
-                    </div>
-                    <div class="blank-slate-pf hidden" *ngIf="files.length == 0">
-                        <div class="blank-slate-pf-icon">
-                            <span class="pficon-info"></span>
-                        </div>
-                        <h1>There are no notifications to display.</h1>
-                    </div>
-                    <div class="drawer-pf-action">
-                        <div class="drawer-pf-action-link" data-toggle="mark-all-read">
-                            <button class="btn btn-link"><span class="fa fa-refresh"></span> Clear All</button>
-                        </div>
-                        <div class="drawer-pf-action-link" data-toggle="clear-all">
-                            <button class="btn btn-link"><span class="fa fa-ban"></span>Cancel All</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="panel panel-black panel-right-bottom" *ngIf="!isClosed">
+
+  <div class="panel-heading clearfix" style="min-width: 350px;">
+    <div *ngIf="isUploading" class="panel-title pull-left">
+      Uploading {{totalUploading}} files
     </div>
+    <div *ngIf="!isUploading" class="panel-title pull-left">
+      {{files.length}} uploads complete
+    </div>
+    <div class="btn-group pull-right">
+      <a (click)="changeMinimize()" *ngIf="isMinimized" href="javascript:void(0)" class="btn btn-link">
+        <svg x="0px" y="0px" width="14px" height="14px" viewBox="0 0 24 24" focusable="false">
+          <path fill="#FFFFFF" d="M21.17,5.17L12,14.34l-9.17-9.17L0,8l12,12,12-12z"></path>
+        </svg>
+      </a>
+      <a (click)="changeMinimize()" *ngIf="!isMinimized" href="javascript:void(0)" class="btn btn-link">
+        <svg x="0px" y="0px" width="14px" height="14px" viewBox="0 0 24 24" focusable="false">
+          <path fill="#FFFFFF" d="M2.83,18.83L12,9.66l9.17,9.17L24,16,12,4,0,16z"></path>
+        </svg>
+      </a>
+      <a (click)="close()" href="javascript:void(0)" class="btn btn-link">
+        <svg x="0px" y="0px" width="14px" height="14px" viewBox="0 0 10 10" focusable="false">
+          <polygon class="a-s-fa-Ha-pa" fill="#FFFFFF" points="10,1.01 8.99,0 5,3.99 1.01,0 0,1.01 3.99,5 0,8.99 1.01,10 5,6.01 8.99,10 10,8.99 6.01,5 "></polygon>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div [hidden]="isMinimized" style="overflow-y: scroll; max-height: 200px;">
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let file of files" class="ofs-row" (click)="edit(file)">
+          <th>
+            <ofs-document-progress [file]="file"></ofs-document-progress>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
