@@ -2,7 +2,7 @@ import { DocumentSearchToolbarInfo } from './../search-toolbar/document-search-t
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UBLDocumentService, Space } from 'ngo-openfact-sync';
+import { UBLDocumentService, UBLDocument, Space } from 'ngo-openfact-sync';
 
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 
@@ -24,12 +24,12 @@ export class StarredComponent implements OnDestroy, OnInit {
   emptyStateConfig: EmptyStateConfig;
   listConfig: ListConfig;
 
+  //
   items: any[] = [];
 
-  toolbarInfo: DocumentSearchToolbarInfo = {
-    totalResults: 0,
-    totalSelected: 0
-  };
+  //
+  totalResults: number = 0;
+  documentsSelected: UBLDocument[] = [];
 
   private selectedSpace: Space;
   private queryBuilder: DocumentQueryBuilder;
@@ -75,7 +75,7 @@ export class StarredComponent implements OnDestroy, OnInit {
   }
 
   handleSelectionChange($event: ListEvent): void {
-    this.toolbarInfo.totalSelected = $event.selectedItems.length;
+    this.documentsSelected = $event.selectedItems;
   }
 
   //  Toolbar actions
@@ -96,9 +96,9 @@ export class StarredComponent implements OnDestroy, OnInit {
     }
     this.queryBuilder.starred(true);
 
-    this.documentService.search(this.queryBuilder.build().query()).subscribe((data) => {
-      this.items = data;
-      this.toolbarInfo.totalResults = data.length;
+    this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
+      this.items = searchResult.data;
+      this.totalResults = searchResult.totalResults;
     });
   }
 

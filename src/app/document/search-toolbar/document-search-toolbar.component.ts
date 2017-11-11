@@ -1,3 +1,5 @@
+import { UBLDocumentService } from 'ngo-openfact-sync';
+import { UBLDocument } from 'ngo-openfact-sync';
 import { RoleFilterEvent } from './role-filter/role-filter-event';
 import { RoleFilterConfig } from './role-filter/role-filter-config';
 import { DocumentSearchToolbarInfo } from './document-search-toolbar-info';
@@ -10,6 +12,9 @@ import { NumberFilterConfig } from './number-filter/number-filter-config';
 import { NumberFilterValue } from './number-filter/number-filter-value';
 import { Subject, Subscription } from 'rxjs';
 import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy, Output } from '@angular/core';
+
+import * as FileSaver from 'file-saver';
+import { cloneDeep } from 'lodash';
 
 import {
   SortConfig,
@@ -27,7 +32,12 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   /**
    * Data
    */
-  @Input() results: DocumentSearchToolbarInfo;
+  @Input() totalResults: number;
+
+  /**
+   * Data
+   */
+  @Input() selections: UBLDocument[] = [];
 
   /**
    * Query
@@ -50,7 +60,7 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
 
   private queryBuilder: DocumentQueryBuilder = DocumentQuery.builder();
 
-  constructor() { }
+  constructor(private documentService: UBLDocumentService) { }
 
   public ngOnInit() {
     this.roleConfig = {
@@ -237,6 +247,33 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
       .offset(this.offset)
       .limit(this.limit);
     this.onChange.emit(this.queryBuilder);
+  }
+
+  // Actions
+
+  download() {
+    this.documentService.downloadDocumentsMassive(this.selections.map(d => d.id)).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `xmls.zip`);
+    });
+  }
+
+  print() {
+    this.documentService.printDocumentsMassive(this.selections.map(d => d.id)).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `reports.zip`);
+    });
+  }
+
+  markAsStarred() {
+    let documents = this.selections.map(document => {
+      let result: UBLDocument = cloneDeep(document);
+      delete result['selected'];
+      result.attributes.starred = true;
+      return result;
+    });
+    this.documentService.updateMassive(documents).subscribe(val => {
+      console.log('Documents were marked as starred');
+      this.search();
+    });
   }
 
 }

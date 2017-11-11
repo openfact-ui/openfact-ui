@@ -12,26 +12,21 @@
       <div class="form-group">
         <pfng-sort [config]="sortConfig" (onChange)="sortChange($event)"></pfng-sort>
       </div>
-      <div class="form-group" [hidden]="!results || !results.totalSelected">
-        <button class="btn btn-default" type="button">
+      <div class="form-group" [hidden]="selections.length <= 0">
+        <button type="button" (click)="download()" class="btn btn-default">
           <i class="fa fa-cloud-download"></i> Download
         </button>
-        <button class="btn btn-default" type="button">
-          <i class="fa fa-paper-plane"></i> Send by Email
+        <button type="button" class="btn btn-default" (click)="print()">
+          <i class="fa pficon-print"></i> Print
         </button>
         <div class="dropdown btn-group  dropdown-kebab-pf" dropdown>
           <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" dropdownToggle>
             <span class="fa fa-ellipsis-v"></span>
           </button>
           <ul class="dropdown-menu " aria-labelledby="dropdownKebab" *dropdownMenu>
+            <!-- <li role="separator" class="divider"></li> -->
             <li>
-              <a href="#">
-                <i class="fa pficon-print"></i> Print
-              </a>
-            </li>
-            <li role="separator" class="divider"></li>
-            <li>
-              <a href="#">
+              <a href="javascript:void(0)" (click)="markAsStarred()">
                 <i class="fa fa-star"></i> Mark as Started
               </a>
             </li>
@@ -72,8 +67,8 @@
       </div>
       <div class="col-sm-3 table-view-pf-select-results">
         <div style="display: inline-block;">
-            <strong>{{results.totalSelected | number}}</strong> of
-            <strong>{{limit | number}}</strong> selected
+          <strong>{{results.totalSelected | number}}</strong> of
+          <strong>{{limit | number}}</strong> selected
         </div>
 
         <div style="display: inline-block;">

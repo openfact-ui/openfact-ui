@@ -2,7 +2,10 @@
   <div class="row">
     <div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
 
-      <ofs-document-search-toolbar [results]="toolbarInfo" (onChange)="onToolbarChange($event)">
+      <ofs-document-search-toolbar
+        [totalResults]="totalResults"
+        [selections]="documentsSelected"
+        (onChange)="onToolbarChange($event)">
       </ofs-document-search-toolbar>
 
       <br/>
@@ -16,7 +19,8 @@
         <ng-template #itemTemplate let-item="item" let-index="index">
 
           <div class="list-pf-left">
-            <span class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+            <span *ngIf="item.attributes.starred" class="fa fa-star list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+            <span *ngIf="!item.attributes.starred" class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
           </div>
           <div class="list-pf-content-wrapper">
             <div class="list-pf-main-content">

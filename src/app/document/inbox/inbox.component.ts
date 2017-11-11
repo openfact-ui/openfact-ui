@@ -2,7 +2,7 @@ import { DocumentSearchToolbarInfo } from './../search-toolbar/document-search-t
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UBLDocumentService, Space } from 'ngo-openfact-sync';
+import { UBLDocumentService, UBLDocument, Space } from 'ngo-openfact-sync';
 
 import * as FileSaver from 'file-saver';
 
@@ -28,11 +28,11 @@ export class InboxComponent implements OnDestroy, OnInit {
 
   items: any[] = [];
 
-  toolbarInfo: DocumentSearchToolbarInfo = {
-    totalResults: 0,
-    totalSelected: 0
-  };
+  //
+  totalResults: number = 0;
+  documentsSelected: UBLDocument[] = [];
 
+  //
   private selectedSpace: Space;
   private queryBuilder: DocumentQueryBuilder;
 
@@ -70,11 +70,11 @@ export class InboxComponent implements OnDestroy, OnInit {
     if ($event.id === 'edit') {
       this.router.navigate(['/_inbox', item.id]);
     } else if ($event.id === 'print') {
-      this.documentService.getDocumentReportById(item.id).subscribe(val => {
+      this.documentService.printDocumentById(item.id).subscribe(val => {
         FileSaver.saveAs(val.file, val.filename || `${item.attributes.assignedId}.pdf`);
       });
     } else if ($event.id === 'download') {
-      this.documentService.getDocumentXmlById(item.id).subscribe(val => {
+      this.documentService.downloadDocumentById(item.id).subscribe(val => {
         FileSaver.saveAs(val.file, val.filename || `${item.attributes.assignedId}.xml`);
       });
     }
@@ -85,7 +85,7 @@ export class InboxComponent implements OnDestroy, OnInit {
   }
 
   handleSelectionChange($event: ListEvent): void {
-    this.toolbarInfo.totalSelected = $event.selectedItems.length;
+    this.documentsSelected = $event.selectedItems;
   }
 
   //  Toolbar actions
@@ -114,9 +114,9 @@ export class InboxComponent implements OnDestroy, OnInit {
       this.queryBuilder.limit(10);
     }
 
-    this.documentService.search(this.queryBuilder.build().query()).subscribe((data) => {
-      this.items = data;
-      this.toolbarInfo.totalResults = data.length;
+    this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
+      this.items = searchResult.data;
+      this.totalResults = searchResult.totalResults;
     });
   }
 
