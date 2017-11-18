@@ -74,6 +74,7 @@ import { AuthUserResolve } from './shared/common.resolver';
 import { ContextService } from './shared/context.service';
 import { ContextCurrentUserGuard } from './shared/context-current-user-guard.service';
 import { ContextResolver } from './shared/context-resolver.service';
+import { QueryResolver } from './shared/query-resolver.service';
 import { DummyService } from './shared/dummy.service';
 import { ExperimentalFeatureResolver } from './shared/experimental-feature.resolver';
 import { OpenfactUIHttpService } from './shared/openfact-ui-http.service';
@@ -181,6 +182,7 @@ type StoreType = {
 
     BrandingService,
     ContextResolver,
+    QueryResolver,
     ContextCurrentUserGuard,
     SpacesService,
     SpaceService,

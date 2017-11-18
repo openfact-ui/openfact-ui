@@ -1,3 +1,4 @@
+import { DocumentQueryBuilder } from './../../models/document-quey';
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -67,6 +68,12 @@ export class OverviewComponent implements OnDestroy, OnInit {
     this.documentService.update(document).subscribe(val => {
 
     });
+  }
+
+  // Search actions
+  onToolbarChange($event: DocumentQueryBuilder) {
+    let query = $event.build().query();
+    this.router.navigate(['/_search', query]);
   }
 
   // Actions

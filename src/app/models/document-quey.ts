@@ -105,6 +105,18 @@ export class DocumentQueryBuilder {
     return new DocumentQuery(this);
   }
 
+  query(q: string): DocumentQueryBuilder {
+    let result = {};
+    q.split(', ').forEach(function(x){
+        let arr = x.split(':');
+        arr[1] && (result[arr[0]] = arr[1]);
+    });
+
+    console.log(result);
+
+    return null;
+  }
+
   getFilterText() {
     return this._filterText;
   }

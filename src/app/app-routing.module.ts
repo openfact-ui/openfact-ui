@@ -1,3 +1,4 @@
+import { QueryResolver } from './shared/query-resolver.service';
 import { ProfileResolver } from './shared/profile-resolver.service';
 import { ContextResolver } from './shared/context-resolver.service';
 import { NgModule } from '@angular/core';
@@ -42,6 +43,17 @@ export const routes: Routes = [
     loadChildren: './document/starred/starred.module#StarredModule',
     data: {
       title: 'Starred'
+    }
+  },
+
+  {
+    path: '_search/:query',
+    resolve: {
+      query: QueryResolver
+    },
+    loadChildren: './document/search/search.module#SearchModule',
+    data: {
+      title: 'Search'
     }
   },
 
