@@ -1,8 +1,12 @@
-import { ContextService } from './../../shared/context.service';
-import { Context, UBLDocumentService, UBLDocument } from 'ngo-openfact-sync';
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { Context, UBLDocumentService, UBLDocument } from 'ngo-openfact-sync';
+import { ContextService } from './../../shared/context.service';
+
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'ofs-overview',
@@ -18,6 +22,9 @@ export class OverviewComponent implements OnDestroy, OnInit {
   _tags: string[] = [];
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
     private contexts: ContextService,
     private documentService: UBLDocumentService) {
     this.contextSubscription = this.contexts.current.subscribe(val => {
@@ -59,6 +66,23 @@ export class OverviewComponent implements OnDestroy, OnInit {
     document.attributes.starred = this.starred;
     this.documentService.update(document).subscribe(val => {
 
+    });
+  }
+
+  // Actions
+  back() {
+    this.location.back();
+  }
+
+  print() {
+    this.documentService.printDocumentById(this.document.id).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `${this.document.attributes.assignedId}.pdf`);
+    });
+  }
+
+  download() {
+    this.documentService.downloadDocumentById(this.document.id).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `${this.document.attributes.assignedId}.xml`);
     });
   }
 
