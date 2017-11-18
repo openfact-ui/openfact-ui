@@ -112,7 +112,7 @@
     "ngx-uploader": "^4.1.2",
     "ngx-widgets": "^2.3.3",
     "patternfly": "^3.30.0",
-    "patternfly-ng": "^0.13.3",
+    "patternfly-ng": "^0.14.0",
     "patternfly-sass": "^3.23.2",
     "patternfly-sass-with-css": "^3.23.0",
     "pluralize": "^7.0.0",

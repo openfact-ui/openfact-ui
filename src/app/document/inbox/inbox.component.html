@@ -2,10 +2,7 @@
   <div class="row">
     <div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
 
-      <ofs-document-search-toolbar
-        [totalResults]="totalResults"
-        [selections]="documentsSelected"
-        (onChange)="onToolbarChange($event)">
+      <ofs-document-search-toolbar [totalResults]="totalResults" [selections]="documentsSelected" (onChange)="onToolbarChange($event)">
       </ofs-document-search-toolbar>
 
       <br/>
@@ -19,8 +16,10 @@
         <ng-template #itemTemplate let-item="item" let-index="index">
 
           <div class="list-pf-left">
-            <span *ngIf="item.attributes.starred" class="fa fa-star list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
-            <span *ngIf="!item.attributes.starred" class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+            <div style="cursor: pointer;" (click)="markAsStarred(item)">
+              <span *ngIf="item.attributes.starred" class="fa fa-star list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+              <span *ngIf="!item.attributes.starred" class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+            </div>
           </div>
           <div class="list-pf-content-wrapper">
             <div class="list-pf-main-content">
@@ -49,12 +48,9 @@
 
         </ng-template>
         <ng-template #actionTemplate let-item="item" let-index="index">
-          <pfng-action class="list-pf-actions" [config]="getActionConfig(item, printButtonTemplate, downloadButtonTemplate)" (onActionSelect)="handleAction($event, item)">
+          <pfng-action class="list-pf-actions" [config]="getActionConfig(item, printButtonTemplate)" (onActionSelect)="handleAction($event, item)">
             <ng-template #printButtonTemplate let-action="action">
               <span class="fa fa-print">&nbsp;</span>{{action.title}}
-            </ng-template>
-            <ng-template #downloadButtonTemplate let-action="action">
-              <span class="fa fa-cloud-download">&nbsp;</span>{{action.title}}
             </ng-template>
           </pfng-action>
         </ng-template>

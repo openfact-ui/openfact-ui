@@ -81,7 +81,7 @@ export class InboxComponent implements OnDestroy, OnInit {
   }
 
   handleClick($event: ListEvent): void {
-    this.router.navigate(['/_inbox', $event.item.id]);
+    //this.router.navigate(['/_inbox', $event.item.id]);
   }
 
   handleSelectionChange($event: ListEvent): void {
@@ -125,10 +125,9 @@ export class InboxComponent implements OnDestroy, OnInit {
    *
    * @param item The current row item
    * @param printButtonTemplate {TemplateRef} Custom button template
-   * @param downloadButtonTemplate {TemplateRef} Custom button template
    * @returns {ActionConfig}
    */
-  getActionConfig(item: any, printButtonTemplate: TemplateRef<any>, downloadButtonTemplate: TemplateRef<any>): ActionConfig {
+  getActionConfig(item: any, printButtonTemplate: TemplateRef<any>): ActionConfig {
     let actionConfig = {
       primaryActions: [{
         id: 'print',
@@ -136,25 +135,27 @@ export class InboxComponent implements OnDestroy, OnInit {
         tooltip: 'Print',
         template: printButtonTemplate
       }, {
-        id: 'download',
-        title: 'Download',
-        tooltip: 'Download',
-        template: downloadButtonTemplate
-      }, {
         id: 'edit',
         title: 'Edit',
         tooltip: 'Edit'
       }],
       moreActions: [{
-        id: 'moreActions1',
-        title: 'Action',
-        tooltip: 'Perform an action'
+        id: 'download',
+        title: 'Download',
+        tooltip: 'Download'
       }],
       moreActionsDisabled: false,
       moreActionsVisible: true
     } as ActionConfig;
 
     return actionConfig;
+  }
+
+  markAsStarred(item: UBLDocument) {
+    item.attributes.starred = !item.attributes.starred;
+    this.documentService.update(item).subscribe(val => {
+      console.log('Document updated');
+    });
   }
 
 }
