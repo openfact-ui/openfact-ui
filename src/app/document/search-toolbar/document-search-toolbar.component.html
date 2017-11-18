@@ -59,15 +59,15 @@
       </div>
     </div>
 
-    <div class="row toolbar-pf-results" *ngIf="results">
+    <div class="row toolbar-pf-results" *ngIf="totalResults">
       <div class="col-sm-9">
         <div>
-          <h5>{{results.totalResults | number}} Results</h5>
+          <h5>{{totalResults | number}} Results</h5>
         </div>
       </div>
       <div class="col-sm-3 table-view-pf-select-results">
         <div style="display: inline-block;">
-          <strong>{{results.totalSelected | number}}</strong> of
+          <strong>{{selections.length | number}}</strong> of
           <strong>{{limit | number}}</strong> selected
         </div>
 
