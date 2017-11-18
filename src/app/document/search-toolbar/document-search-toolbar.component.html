@@ -60,18 +60,19 @@
     </div>
 
     <div class="row toolbar-pf-results" *ngIf="totalResults">
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <div>
           <h5>{{totalResults | number}} Results</h5>
         </div>
       </div>
-      <div class="col-sm-3 table-view-pf-select-results">
+      <div class="col-sm-4 table-view-pf-select-results">
         <div style="display: inline-block;">
-          <strong>{{selections.length | number}}</strong> of
-          <strong>{{limit | number}}</strong> selected
+          <h5>
+            <strong>{{selections.length | number}}</strong> of
+            <strong>{{limit | number}}</strong> selected
+          </h5>
         </div>
-
-        <div style="display: inline-block;">
+        <div style="display: inline-block; vertical-align: middle;">
           <ul class="pagination">
             <li>
               <a href="javascript:void(0);" (click)="previousPage()">
