@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 import { Subscription, Observable } from 'rxjs';
 
 import { Broadcaster, Logger } from 'ngo-base';
-import { UserService, User } from 'ngo-login-client';
+import { UserService, User, SSO_API_URL, REALM } from 'ngo-login-client';
 import { Context, Contexts } from 'ngo-openfact-sync';
 
 import { LoginService } from '../../shared/login.service';
@@ -72,7 +72,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private logger: Logger,
     public loginService: LoginService,
     private broadcaster: Broadcaster,
-    private contexts: Contexts) {
+    private contexts: Contexts,
+    @Inject(SSO_API_URL) private ssoApiUrl,
+    @Inject(REALM) private realm) {
     this.space = '';
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
@@ -210,6 +212,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userService.loggedInUser.map((val) => val.id),
       (a, b) => (a !== b)
     );
+  }
+
+  manageAccount() {
+    let current = encodeURIComponent(window.location.href);
+    window.open(`${this.ssoApiUrl}auth/realms/${this.realm}/account?referrer=security-admin-console&referrer_uri=${current}`);
   }
 
 }

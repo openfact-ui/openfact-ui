@@ -111,14 +111,14 @@
           <li id="header_status" dropdown class="dropdown status-dropdown" placement="top" tooltip="Status: Ok" (onShown)="onStatusListVisible(true)"
             (onClose)="onStatusListVisible(false)">
             <a (onHidden)="onStatusList(false)" class="dropdown-toggle" dropdownToggle>
-              <span class="pficon pficon-ok pficon-white"></span>
+              <span class="pficon pficon-ok"></span>
             </a>
-            <div class="dropdown-menu infotip bottom-right" *dropdownMenu>
+            <!-- <div class="dropdown-menu infotip bottom-right" *dropdownMenu>
               <div class="arrow"></div>
               <ul class="list-group" *ngIf="statusListVisible">
-                <!--<fabric8-status-list></fabric8-status-list>-->
+                <fabric8-status-list></fabric8-status-list>
               </ul>
-            </div>
+            </div> -->
           </li>
           <li class="login-block">
             <a *ngIf="!loggedInUser" (click)="login();">
@@ -148,6 +148,12 @@
               <li id="header_loggedinAbout">
                 <a (click)="aboutModal.open()" class="pointer">
                   About
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="javascript:void(0);" (click)="manageAccount()">
+                  Manage account
                 </a>
               </li>
               <li class="divider"></li>
