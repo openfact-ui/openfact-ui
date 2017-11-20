@@ -20,7 +20,7 @@
     </aside>
     <section class="col-sm-9">
       <div class="row">
-        <form class="form-horizontal">
+        <div class="form-horizontal">
           <div class="form-group">
             <div class="col-sm-10">
               <div class="search-pf-input-group">
@@ -31,7 +31,7 @@
               <button class="btn btn-primary" type="button" (click)="spaceWizard.open()">New</button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <div class="row contents">
         <div class="spaces-list-page">
@@ -63,7 +63,7 @@
     <h2>Are you sure you want to remove the space?</h2>
   </modal-content>
   <modal-footer>
-    <button class="btn btn-cancel" (click)="deleteSpace.close()">Cancel</button>
+    <button class="btn btn-default" (click)="deleteSpace.close()">Cancel</button>
     <button class="btn btn-danger" (click)="removeSpace()">Remove</button>
   </modal-footer>
 </modal>
