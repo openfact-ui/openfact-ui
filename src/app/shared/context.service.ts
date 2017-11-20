@@ -337,7 +337,7 @@ export class ContextService implements Contexts {
       } as Context;
       c.type = ContextTypes.BUILTIN.get('document');
       // TODO replace path with username once parameterized routes are working
-      c.path = '/home/' + c.document.id;
+      c.path = '/_inbox/' + c.document.id;
       c.name = c.document.attributes.assignedId;
     } else if (val.user) {
       c = {
