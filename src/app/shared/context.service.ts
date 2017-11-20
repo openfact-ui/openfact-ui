@@ -324,7 +324,7 @@ export class ContextService implements Contexts {
         'path': null
       } as Context;
       c.type = ContextTypes.BUILTIN.get('space');
-      c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.name;
+      c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.assignedId;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
     } else if (val.document) {
       c = {
