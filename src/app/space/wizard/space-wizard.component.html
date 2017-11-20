@@ -28,11 +28,11 @@
     </pfng-wizard-step>
 
     <pfng-wizard-step [config]="stepSpaceConfig">
-      <pfng-wizard-substep [config]="stepSpaceTermsConditionsConfig">
-        <ofs-space-terms-conditions (onChange)="onTermsConditionsChange($event)"></ofs-space-terms-conditions>
-      </pfng-wizard-substep>
       <pfng-wizard-substep [config]="stepSpaceInfoConfig" [reviewTemplate]="stepSpaceInfoReviewTemplate">
         <ofs-space-form (onChange)="onSpaceFormChange($event)"></ofs-space-form>
+      </pfng-wizard-substep>
+      <pfng-wizard-substep [config]="stepSpaceTermsConditionsConfig">
+        <ofs-space-terms-conditions (onChange)="onTermsConditionsChange($event)"></ofs-space-terms-conditions>
       </pfng-wizard-substep>
     </pfng-wizard-step>
 

@@ -58,6 +58,7 @@ export class SpaceWizardComponent implements OnInit {
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
   space: Space;
+  termsAndConditions: boolean;
   working: boolean = false;
 
   // Wizard
@@ -92,7 +93,11 @@ export class SpaceWizardComponent implements OnInit {
    */
   public log: ILoggerDelegate = () => { };
 
-  public ngOnInit() {
+  ngOnInit() {
+    this.initWizard();
+  }
+
+  initWizard() {
     // Step Space
     this.stepSpaceConfig = {
       id: 'stepSpace',
@@ -116,19 +121,21 @@ export class SpaceWizardComponent implements OnInit {
       title: 'Terms & Conditions'
     } as WizardStepConfig;
 
-    // Step 3
+    // Step 2
     this.stepClaimConfig = {
       id: 'stepClaim',
-      priority: 2,
+      priority: 1,
       title: 'Review'
     } as WizardStepConfig;
     this.stepClaimReviewConfig = {
       id: 'stepClaimReview',
+      nextEnabled: false,
       priority: 0,
       title: 'Summary'
     } as WizardStepConfig;
     this.stepClaimResultConfig = {
       id: 'stepClaimResult',
+      nextEnabled: false,
       priority: 1,
       title: 'Claim'
     } as WizardStepConfig;
@@ -137,10 +144,12 @@ export class SpaceWizardComponent implements OnInit {
     this.wizardConfig = {
       title: 'Claim Space'
     } as WizardConfig;
+
+    this.setNavAway(false);
   }
 
   // Methods
-  public nextClicked($event: WizardEvent): void {
+  nextClicked($event: WizardEvent): void {
     if ($event.step.config.id === 'stepClaimResult') {
       this.close();
     }
@@ -149,13 +158,36 @@ export class SpaceWizardComponent implements OnInit {
   public stepChanged($event: WizardEvent, wizard: WizardComponent) {
     let flatSteps = this.flattenWizardSteps(wizard);
     let currentStep = flatSteps.find(step => step.config.id === $event.step.config.id);
-    if ($event.step.config.id === 'stepClaimReview') {
+
+    if (currentStep) {
+      currentStep.config.nextEnabled = true;
+    }
+    if ($event.step.config.id === 'stepSpaceInfo') {
+      this.stepSpaceInfoConfig.nextEnabled = (this.space !== undefined && this.space !== null);
+      this.setNavAway(this.stepSpaceInfoConfig.nextEnabled);
+    } else if ($event.step.config.id === 'stepSpaceTermsConditions') {
+      this.stepSpaceTermsConditionsConfig.nextEnabled = this.termsAndConditions;
+      this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+    } else if ($event.step.config.id === 'stepClaimReview') {
       this.wizardConfig.nextTitle = 'Claim';
     } else if ($event.step.config.id === 'stepClaimResult') {
       this.wizardConfig.nextTitle = 'Close';
     } else {
       this.wizardConfig.nextTitle = 'Next >';
     }
+  }
+
+  private setNavAway(allow: boolean) {
+    this.stepSpaceInfoConfig.allowNavAway = allow;
+    this.stepClaimReviewConfig.allowNavAway = allow;
+
+    this.stepSpaceConfig.allowClickNav = allow;
+    this.stepSpaceInfoConfig.allowClickNav = allow;
+    this.stepSpaceTermsConditionsConfig.allowClickNav = allow;
+
+    this.stepClaimConfig.allowClickNav = allow;
+    this.stepClaimReviewConfig.allowClickNav = allow;
+    this.stepClaimResultConfig.allowClickNav = allow;
   }
 
   flattenWizardSteps(wizard: WizardComponent): WizardStep[] {
@@ -183,12 +215,15 @@ export class SpaceWizardComponent implements OnInit {
       this.space = null;
     }
 
-    let isValid = $event ? true : false;
-    this.stepSpaceInfoConfig.nextEnabled = this.stepSpaceInfoConfig.allowNavAway = isValid;
+    this.stepSpaceInfoConfig.nextEnabled = $event ? true : false;
+    this.setNavAway(this.stepSpaceInfoConfig.nextEnabled);
   }
 
   onTermsConditionsChange($event: boolean) {
-    this.stepSpaceTermsConditionsConfig.nextEnabled = this.stepSpaceTermsConditionsConfig.allowNavAway = $event;
+    this.termsAndConditions = $event;
+
+    this.stepSpaceTermsConditionsConfig.nextEnabled = $event;
+    this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
   }
 
   // Actions
@@ -223,10 +258,10 @@ export class SpaceWizardComponent implements OnInit {
           .filter(action => action.id === primaryAction.id)
           .subscribe(action => {
             this.router.navigate([createdSpace.relationalData.creator.attributes.username,
-            createdSpace.attributes.name]);
+            createdSpace.attributes.assignedId]);
             this.finish();
           });
-        this.router.navigate([createdSpace.relationalData.creator.attributes.username, createdSpace.attributes.name]);
+        this.router.navigate([createdSpace.relationalData.creator.attributes.username, createdSpace.attributes.assignedId]);
         this.finish();
       },
       (err) => {
@@ -278,12 +313,11 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   close() {
-    this.wizardConfig.nextTitle = 'Next >';
+    // clear wizard
+    this.initWizard();
+    this.space = null;
+    this.termsAndConditions = false;
 
-    this.stepSpaceTermsConditionsConfig.nextEnabled = this.stepSpaceTermsConditionsConfig.allowNavAway = false;
-    this.stepSpaceInfoConfig.nextEnabled = this.stepSpaceInfoConfig.allowNavAway = false;
-
-    this.wizardConfig.done = false;
     this.modalRef.hide();
   }
 
