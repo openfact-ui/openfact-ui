@@ -32,6 +32,11 @@ export class DocumentSearchToolbarComponent implements OnInit, OnDestroy {
   /**
    * Data
    */
+  @Input() isAdvancedFilterEnabled: boolean = true;
+
+  /**
+   * Data
+   */
   @Input() totalResults: number;
 
   /**

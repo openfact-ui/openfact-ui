@@ -46,8 +46,8 @@
         </div>
       </div>
     </form>
-    <div class="row" [hidden]="!showTools">
-      <div class="col-sm-12">
+    <div class="row" *ngIf="isAdvancedFilterEnabled">
+      <div class="col-sm-12" [hidden]="!showTools">
         <ul class="list-inline">
           <li>
             <ofs-date-filter [config]="dateFilterConfig" [isCustomRangeVisible]="true" (onChange)="dateFilterChange($event)"></ofs-date-filter>

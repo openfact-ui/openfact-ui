@@ -51,7 +51,7 @@ export const routes: Routes = [
     resolve: {
       query: QueryResolver
     },
-    loadChildren: './document/search/search.module#SearchModule',
+    loadChildren: './document/inbox/inbox.module#InboxModule',
     data: {
       title: 'Search'
     }

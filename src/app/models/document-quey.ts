@@ -106,15 +106,66 @@ export class DocumentQueryBuilder {
   }
 
   query(q: string): DocumentQueryBuilder {
-    let result = {};
-    q.split(', ').forEach(function(x){
-        let arr = x.split(':');
-        arr[1] && (result[arr[0]] = arr[1]);
+    let result: any = {};
+    q.split(', ').forEach(function (x) {
+      let arr = x.split(':');
+      arr[1] && (result[arr[0]] = arr[1]);
     });
 
-    console.log(result);
+    if (Object.keys(result).length === 0 && result.constructor === Object) {
+      return null;
+    }
 
-    return null;
+    if (result.filterText) {
+      this.filterText(result.filterText);
+    }
+    if (result.role) {
+      this.role(result.role);
+    }
+    if (result.before) {
+      this.before(result.before);
+    }
+    if (result.after) {
+      this.after(result.after);
+    }
+    if (result.greaterThan) {
+      this.greaterThan(result.greaterThan);
+    }
+    if (result.lessThan) {
+      this.lessThan(result.lessThan);
+    }
+
+    if (result.types) {
+      this.types(result.types);
+    }
+    if (result.currencies) {
+      this.currencies(result.currencies);
+    }
+    if (result.tags) {
+      this.tags(result.tags);
+    }
+
+    if (result.spaces) {
+      this.spaces(result.spaces);
+    }
+
+    if (result.offset) {
+      this.offset(result.offset);
+    }
+    if (result.limit) {
+      this.limit(result.limit);
+    }
+    if (result.orderBy) {
+      this.orderBy(result.orderBy);
+    }
+    if (result.asc) {
+      this.asc(result.asc);
+    }
+    if (result.starred) {
+      this.starred(result.starred);
+    }
+
+    return this;
   }
 
   getFilterText() {

@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UBLDocumentService, UBLDocument, Space } from 'ngo-openfact-sync';
@@ -21,11 +22,17 @@ export class InboxComponent implements OnDestroy, OnInit {
   private selectedSpace: Space;
   private queryBuilder: DocumentQueryBuilder;
 
-  constructor( private documentService: UBLDocumentService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private documentService: UBLDocumentService) {
   }
 
   ngOnInit() {
-    this.search();
+    this.route.data.subscribe(val => {
+      this.queryBuilder = val['query'];
+      this.search();
+    });
   }
 
   ngOnDestroy() {

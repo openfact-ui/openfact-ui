@@ -130,7 +130,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   get context(): Context {
     if (this.router.url === '/_home'
       || this.router.url.indexOf('/_inbox') !== -1
-      || this.router.url.indexOf('/_starred') !== -1) {
+      || this.router.url.indexOf('/_starred') !== -1
+      || this.router.url.indexOf('/_search') !== -1) {
       return this._defaultContext;
     } else {
       return this._context;
