@@ -211,6 +211,7 @@ export class SpaceWizardComponent implements OnInit {
       this.space = this.createTransientSpace();
       this.space.attributes.name = $event.name;
       this.space.attributes.assignedId = $event.assignedId;
+      this.space.attributes.description = $event.description;
     } else {
       this.space = null;
     }
