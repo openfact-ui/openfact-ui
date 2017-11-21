@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WizardModule } from 'patternfly-ng';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { FormExtensionsModule } from './../../util/form-extensions/form-extensions.module';
 
@@ -28,6 +29,7 @@ import { LoggerFactory } from './common/logger';
     WizardModule,
     TooltipModule,
     ModalModule,
+    TranslateModule,
     FormExtensionsModule
   ],
   declarations: [

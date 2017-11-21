@@ -1,4 +1,14 @@
 {
+  "SESSION": {
+    "LOGIN": "Iniciar Sesion",
+    "LOGOUT": "Cerrar Sesion"
+  },
+  "BUTTONS": {
+    "SAVE": "Guardar",
+    "CANCEL": "Cancelar",
+    "DELETE": "Eliminar",
+    "NEXT": "Siguiente"
+  },
   "HEADER": {
     "RECENT_ITEMS": {
       "CREATE_SPACE": "Crear espacio",
@@ -8,11 +18,19 @@
     "LOGGED_IN_USER": {
       "PROFILE": "Mi perfil",
       "ABOUT": "Acerca de",
-      "MANAGE_ACCOUNT": "Administrar cuenta",
-      "LOG_OUT": "Cerrar Session"
+      "MANAGE_ACCOUNT": "Administrar cuenta"
     },
-    "LOGGED_OUT_USER": {
-      "LOG_IN": "Inicial Session"
+    "SPACE_WIZARD": {
+      "TITLE": "Reclamar Espacio",
+      "SPACE": "Espacio",
+      "REVIEW": "Revisar",
+      "SPACE_INFO": "Information de Espacio",
+      "TERMS_AND_CONDITIONS": "Terminos y condiciones",
+      "SPACE_FORM": {
+        "ASSIGNED_ID": "ID Assignado",
+        "NAME": "Nombre",
+        "DESCRIPTION": "Descripcion"
+      }
     }
   }
 }

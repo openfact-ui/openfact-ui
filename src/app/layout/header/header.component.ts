@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     private broadcaster: Broadcaster,
     private contexts: Contexts,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private gettingStartedService: GettingStartedService,
     @Inject(SSO_API_URL) private ssoApiUrl,
     @Inject(REALM) private realm) {
@@ -105,7 +105,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
           let language = (<any>val.attributes).language;
           if (language) {
-            this.translate.use(language);
+            this.translateService.use(language);
           }
         } else {
           this.resetData();
@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.langs = this.translate.getLangs();
+    this.langs = this.translateService.getLangs();
   }
 
   public ngOnDestroy() {
@@ -231,7 +231,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   changeLanguage(language: string) {
-    this.translate.use(language);
+    this.translateService.use(language);
     let patch = {
       language: language
     } as any;

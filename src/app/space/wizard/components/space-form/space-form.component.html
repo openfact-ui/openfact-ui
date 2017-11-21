@@ -1,6 +1,6 @@
 <form [formGroup]="form" class="form-horizontal">
   <div class="form-group" formControlError="assignedId">
-    <label class="col-sm-3 control-label required-pf">Assigned Id
+    <label class="col-sm-3 control-label required-pf">{{ 'SPACE_WIZARD.SPACE_FORM.ASSIGNED_ID' | translate }}
       <i class="fa fa-question-circle text-muted" tooltip="Assigned Space Id, usually a number e.x. DNI" placement="right"></i>
     </label>
     <div class="col-sm-9">
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="form-group" formControlError="name">
-    <label class="col-sm-3 control-label required-pf">Name
+    <label class="col-sm-3 control-label required-pf">{{ 'SPACE_WIZARD.SPACE_FORM.NAME' | translate }}
       <i class="fa fa-question-circle text-muted" tooltip="Space Name" placement="right"></i>
     </label>
     <div class="col-sm-9">
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="form-group" formControlError="description">
-    <label class="col-sm-3 control-label">Description
+    <label class="col-sm-3 control-label">{{ 'SPACE_WIZARD.SPACE_FORM.DESCRIPTION' | translate }}
       <i class="fa fa-question-circle text-muted" tooltip="Space Description" placement="right"></i>
     </label>
     <div class="col-sm-9">

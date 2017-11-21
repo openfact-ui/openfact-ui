@@ -9,7 +9,7 @@
           <span class="login-block-logged-out-user">
             <i id="getting_started_header_login" class="pficon pficon-user"></i>
           </span>
-          {{ 'HEADER.LOGGED_OUT_USER.LOG_IN' | translate }}
+          {{ 'SESSION.LOGIN' | translate }}
         </a>
       </li>
       <li *ngIf="loggedInUser" dropdown class="pull-right dropdown user-dropdown-menu">
@@ -27,7 +27,7 @@
           <!--li class="divider"></li-->
           <li id="getting_started_header_logout">
             <a *ngIf="loggedInUser" (click)="logout();" class="pointer">
-              {{ 'HEADER.LOGGED_IN_USER.LOG_OUT' | translate }}
+              {{ 'SESSION.LOGOUT' | translate }}
             </a>
           </li>
         </ul>
@@ -136,7 +136,7 @@
               <span class="login-block-logged-out-user">
                 <i id="header_login" class="pficon pficon-user"></i>
               </span>
-              {{ 'HEADER.LOGGED_OUT_USER.LOG_IN' | translate }}
+              {{ 'SESSION.LOGIN' | translate }}
             </a>
           </li>
           <li *ngIf="loggedInUser" dropdown class="pull-right dropdown user-dropdown-menu">
@@ -171,7 +171,7 @@
               <li class="divider"></li>
               <li id="header_logout">
                 <a *ngIf="loggedInUser" (click)="logout();" class="pointer">
-                  {{ 'HEADER.LOGGED_IN_USER.LOG_OUT' | translate }}
+                  {{ 'SESSION.LOGOUT' | translate }}
                 </a>
               </li>
             </ul>
