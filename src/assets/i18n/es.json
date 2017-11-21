@@ -1,0 +1,18 @@
+{
+  "HEADER": {
+    "RECENT_ITEMS": {
+      "CREATE_SPACE": "Crear espacio",
+      "VIEW_ALL_SPACES": "Ver todos los espacios",
+      "ACCOUNT_HOME": "Pagina de inicio"
+    },
+    "LOGGED_IN_USER": {
+      "PROFILE": "Mi perfil",
+      "ABOUT": "Acerca de",
+      "MANAGE_ACCOUNT": "Administrar cuenta",
+      "LOG_OUT": "Cerrar Session"
+    },
+    "LOGGED_OUT_USER": {
+      "LOG_IN": "Inicial Session"
+    }
+  }
+}

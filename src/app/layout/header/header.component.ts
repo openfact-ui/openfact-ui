@@ -1,3 +1,4 @@
+import { GettingStartedService } from './../../getting-started/services/getting-started.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
@@ -12,6 +13,7 @@ import { MenuedContextType } from './menued-context-type';
 import { Navigation } from '../../models/navigation';
 import { DummyService } from './../../shared/dummy.service';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { TranslateService } from '@ngx-translate/core';
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
@@ -65,6 +67,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private eventListeners: any[] = [];
   private space: string;
 
+  langs: string[];
+
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -73,6 +77,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     private broadcaster: Broadcaster,
     private contexts: Contexts,
+    private translate: TranslateService,
+    private gettingStartedService: GettingStartedService,
     @Inject(SSO_API_URL) private ssoApiUrl,
     @Inject(REALM) private realm) {
     this.space = '';
@@ -96,6 +102,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (val) => {
         if (val.id) {
           this.loggedInUser = val;
+
+          let language = (<any>val.attributes).language;
+          if (language) {
+            this.translate.use(language);
+          }
         } else {
           this.resetData();
           this.loggedInUser = null;
@@ -105,7 +116,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-
+    this.langs = this.translate.getLangs();
   }
 
   public ngOnDestroy() {
@@ -219,4 +230,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     window.open(`${this.ssoApiUrl}auth/realms/${this.realm}/account?referrer=security-admin-console&referrer_uri=${current}`);
   }
 
+  changeLanguage(language: string) {
+    this.translate.use(language);
+    let patch = {
+      language: language
+    } as any;
+
+    this.gettingStartedService.update(patch).subscribe(val => {
+      console.log(`Space language updated.`);
+    });
+  }
 }

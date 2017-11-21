@@ -9,7 +9,7 @@
           <span class="login-block-logged-out-user">
             <i id="getting_started_header_login" class="pficon pficon-user"></i>
           </span>
-          Log In
+          {{ 'HEADER.LOGGED_OUT_USER.LOG_IN' | translate }}
         </a>
       </li>
       <li *ngIf="loggedInUser" dropdown class="pull-right dropdown user-dropdown-menu">
@@ -27,7 +27,7 @@
           <!--li class="divider"></li-->
           <li id="getting_started_header_logout">
             <a *ngIf="loggedInUser" (click)="logout();" class="pointer">
-              Log Out
+              {{ 'HEADER.LOGGED_IN_USER.LOG_OUT' | translate }}
             </a>
           </li>
         </ul>
@@ -83,7 +83,7 @@
                   <span class="nav-item-icon">
                     <i class="pficon pficon-add-circle-o"></i>
                   </span>
-                  Create space
+                  {{ 'HEADER.RECENT_ITEMS.CREATE_SPACE' | translate }}
                 </a>
               </li>
               <li id="header_viewAllSpaces">
@@ -91,7 +91,7 @@
                   <span class="nav-item-icon">
                     <i class="fa fa-th"></i>
                   </span>
-                  View all spaces
+                  {{ 'HEADER.RECENT_ITEMS.VIEW_ALL_SPACES' | translate }}
                 </a>
               </li>
               <li class="divider"></li>
@@ -100,32 +100,43 @@
                   <span class="nav-item-icon">
                     <i class="pficon pficon-home"></i>
                   </span>
-                  Account home
+                  {{ 'HEADER.RECENT_ITEMS.ACCOUNT_HOME' | translate }}
                 </a>
               </li>
             </ul>
           </li>
         </ul>
         <!-- user profile dropdown -->
+
         <ul id="header_rightDropdown" class="nav navbar-nav navbar-right">
-          <li id="header_status" dropdown class="dropdown status-dropdown" placement="top" tooltip="Status: Ok" (onShown)="onStatusListVisible(true)"
+          <li dropdown class="dropdown user-dropdown-menu">
+            <a class="dropdown-toggle" dropdownToggle>
+              <span class="fa fa-language"></span>
+            </a>
+            <ul class="dropdown-menu" *dropdownMenu>
+              <li *ngFor="let l of langs">
+                <a (click)="changeLanguage(l)" href="javascript:void(0);">{{l}}</a>
+              </li>
+            </ul>
+          </li>
+          <!-- <li id="header_status" dropdown class="dropdown status-dropdown" placement="top" tooltip="Status: Ok" (onShown)="onStatusListVisible(true)"
             (onClose)="onStatusListVisible(false)">
             <a (onHidden)="onStatusList(false)" class="dropdown-toggle" dropdownToggle>
               <span class="pficon pficon-ok"></span>
             </a>
-            <!-- <div class="dropdown-menu infotip bottom-right" *dropdownMenu>
+            <div class="dropdown-menu infotip bottom-right" *dropdownMenu>
               <div class="arrow"></div>
               <ul class="list-group" *ngIf="statusListVisible">
                 <fabric8-status-list></fabric8-status-list>
               </ul>
-            </div> -->
-          </li>
+            </div>
+          </li> -->
           <li class="login-block">
             <a *ngIf="!loggedInUser" (click)="login();">
               <span class="login-block-logged-out-user">
                 <i id="header_login" class="pficon pficon-user"></i>
               </span>
-              Log In
+              {{ 'HEADER.LOGGED_OUT_USER.LOG_IN' | translate }}
             </a>
           </li>
           <li *ngIf="loggedInUser" dropdown class="pull-right dropdown user-dropdown-menu">
@@ -142,24 +153,25 @@
             <ul class="dropdown-menu" *dropdownMenu>
               <li id="header_loggedinProfile">
                 <a [routerLink]="[loggedInUser.attributes.username]">
-                  Profile
+                  {{ 'HEADER.LOGGED_IN_USER.PROFILE' | translate }}
                 </a>
               </li>
               <li id="header_loggedinAbout">
                 <a (click)="aboutModal.open()" class="pointer">
-                  About
+                  {{ 'HEADER.LOGGED_IN_USER.ABOUT' | translate }}
                 </a>
               </li>
               <li class="divider"></li>
               <li>
                 <a href="javascript:void(0);" (click)="manageAccount()">
-                  Manage account
+                  {{ 'HEADER.LOGGED_IN_USER.MANAGE_ACCOUNT' | translate }}
                 </a>
               </li>
               <li class="divider"></li>
+              <li class="divider"></li>
               <li id="header_logout">
                 <a *ngIf="loggedInUser" (click)="logout();" class="pointer">
-                  Log Out
+                  {{ 'HEADER.LOGGED_IN_USER.LOG_OUT' | translate }}
                 </a>
               </li>
             </ul>

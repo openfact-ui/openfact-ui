@@ -19,6 +19,7 @@ import { AboutService } from './shared/about.service';
 import { NotificationsService } from './shared/notifications.service';
 import { LoginService } from './shared/login.service';
 import { BrandingService } from './shared/branding.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * App Component
@@ -42,7 +43,12 @@ export class AppComponent implements OnInit {
     private broadcaster: Broadcaster,
     private router: Router,
     private titleService: Title,
-    private brandingService: BrandingService) {
+    private brandingService: BrandingService,
+    private translate: TranslateService) {
+    translate.addLangs(["en", "es"]);
+    translate.setDefaultLang('en');
+    let browserLang: string = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');
   }
 
   public ngOnInit() {

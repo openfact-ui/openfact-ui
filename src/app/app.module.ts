@@ -100,6 +100,13 @@ import { AboutModalModule } from './layout/about-modal/about-modal.module';
 import { GettingStartedService } from './getting-started/services/getting-started.service';
 import { EventService } from './shared/event.service';
 
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
@@ -131,6 +138,14 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule,
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      }
+    }),
 
     BsDropdownModule.forRoot(),
     LocalStorageModule.withConfig({
