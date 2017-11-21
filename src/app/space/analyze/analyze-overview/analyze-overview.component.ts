@@ -16,6 +16,8 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
   private contextSubscription: Subscription;
   private space: Space;
 
+  isExperimentalBarActive: boolean = true;
+
   constructor(private contexts: Contexts) {
 
   }
