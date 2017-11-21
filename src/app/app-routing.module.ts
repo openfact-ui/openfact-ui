@@ -131,7 +131,7 @@ export const routes: Routes = [
     },
     loadChildren: './space/settings/space-settings.module#SpaceSettingsModule',
     data: {
-      title: 'Areas'
+      title: 'Settings'
     }
   },
 

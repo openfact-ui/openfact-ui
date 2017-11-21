@@ -1,1 +1,68 @@
-areas
+<div id="overview" class="container-fluid content padding-top-15">
+  <div class="row profile-edit">
+    <!-- left column -->
+    <div class="col-xs-12 col-sm-5 col-sm-offset-1">
+      <h1>Edit Space</h1>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="form-group">
+          <p class="help-block">The fields marked with
+            <span class="required-pf">*</span> are required.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label">Assigned ID</label>
+          <div formControlError="assignedId">
+            <input type="text" formControlName="assignedId" class="form-control" readonly/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Name</label>
+          <div formControlError="name">
+            <input type="text" formControlName="name" class="form-control" placeholder="Enter a name"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea formControlName="description" class="form-control" rows="5" placeholder="Enter a description" [blockInputAtMaxLimit]="true"
+            [charsMaxLimit]="255" [charsRemainingElement]="remainingCountElement" [charsRemainingWarning]="5" pfng-remaining-chars-count>
+            </textarea>
+          <span class="pull-right chars-remaining-pf">
+            <span #remainingCountElement></span>
+            <span class="fields-status-pf">characters remaining</span>
+          </span>
+        </div>
+      </form>
+    </div>
+    <!-- right column -->
+    <div class="col-xs-12 col-sm-4 col-sm-offset-1">
+      <form #advancedForm="ngForm">
+        <div class="form-group padding-top-40">
+          <div class="feature-toggle-text">
+            <div class="feature-toggle-text-header">
+              <h2>Experimental Features</h2>
+              <p>Experimental features are areas of the product that we’re trying out and would like your feedback on.
+              </p>
+            </div>
+            <div class="feature-toggle-text-body">
+              <p>Experimental features are provided for use with no guarantee of service, data longevity, or support. You agree
+                to use these at your own risk with the acknowledgement that the features may not operate correctly and may
+                be substantially modified. These features are provided “AS IS” without warranty of any kind. In no event
+                shall Red Hat be liable for any damage whatsoever arising out of the use or inability to use these features.
+                You can opt out of these experimental features at any point in time by unchecking the box below.</p>
+              <p>These terms and conditions do not replace the terms and conditions you agreed to when you signed up for the
+                OpenShift.io service.</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="profile-bar">
+    <div class="profile-bar-buttons col-sm-12">
+      <button class="btn btn-primary btn-update btn-lg col-sm-3 col-md-2 col-lg-1 col-sm-offset-3 col-md-offset-4 col-lg-offset-5"
+        [disabled]="!form.valid" (click)="updateSpace()">Update</button>
+      <button class="btn btn-cancel btn-default btn-lg col-sm-3 col-md-2 col-lg-1" (click)="routeToSpaceHome()">Cancel</button>
+    </div>
+  </div>
+</div>
