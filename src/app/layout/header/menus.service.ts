@@ -30,7 +30,7 @@ export class MenusService {
                 path: 'collaborators'
               }
             ]
-          }, {
+          }, /*{
             name: 'Analyze',
             path: ''
           }, {
@@ -66,7 +66,7 @@ export class MenusService {
                 path: 'environments'
               }
             ]
-          }
+          }*/
         ]
       ]
     ]);
