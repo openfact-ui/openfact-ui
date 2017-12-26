@@ -156,7 +156,7 @@ type StoreType = {
     MomentModule,
     ReactiveFormsModule,
     RestangularModule,
-    WidgetsModule,
+    //    WidgetsModule,
     PatternFlyNgModule,
 
     AboutModalModule,

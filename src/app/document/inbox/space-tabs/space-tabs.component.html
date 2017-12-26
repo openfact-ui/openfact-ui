@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs">
   <li [ngClass]="{'active': !selectedSpace}">
-    <a href="javascript:void(0);" (click)="selectSpace()">All</a>
+    <a href="javascript:void(0);" (click)="selectSpace(null)">All</a>
   </li>
   <li *ngFor="let s of favoriteSpaces" [ngClass]="{'active': selectedSpace?.id === s.id}">
     <a href="javascript:void(0);" (click)="selectSpace(s)">{{s.attributes.name | spaceName}}</a>

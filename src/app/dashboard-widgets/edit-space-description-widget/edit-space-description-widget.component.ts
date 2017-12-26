@@ -20,7 +20,7 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit {
   private loggedInUser: User;
   @ViewChild('description') description: any;
 
-  private isEditing: boolean = false;
+  public isEditing: boolean = false;
 
   constructor(
     private spaces: Spaces,

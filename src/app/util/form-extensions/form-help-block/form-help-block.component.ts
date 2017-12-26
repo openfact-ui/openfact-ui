@@ -11,7 +11,7 @@ export class FormHelpBlockComponent implements OnInit {
   @Input('formControlHelp')
   public name: string;
 
-  private control: AbstractControl;
+  public control: AbstractControl;
 
   constructor(private parent: ControlContainer) { }
 

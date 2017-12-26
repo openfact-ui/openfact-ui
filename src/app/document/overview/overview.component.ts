@@ -70,6 +70,10 @@ export class OverviewComponent implements OnDestroy, OnInit {
     });
   }
 
+  onTagsChange(event?: any) {
+
+  }
+
   // Search actions
   onToolbarChange($event: DocumentQueryBuilder) {
     let query = $event.build().query();

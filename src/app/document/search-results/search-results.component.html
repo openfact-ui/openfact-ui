@@ -1,5 +1,5 @@
 <pfng-list [actionTemplate]="actionTemplate" [config]="listConfig" [expandTemplate]="expandTemplate" [items]="items" [itemTemplate]="itemTemplate"
-  (onActionSelect)="handleAction($event)" (onClick)="handleClick($event)" (onSelectionChange)="handleSelectionChange($event)">
+  (onActionSelect)="handleAction($event, null)" (onClick)="handleClick($event)" (onSelectionChange)="handleSelectionChange($event)">
   <ng-template #itemTemplate let-item="item" let-index="index">
 
     <div class="list-pf-left">

@@ -33,6 +33,8 @@ export class UpdateComponent implements AfterViewInit, OnInit {
   @ViewChild('_imageUrl') public imageUrlElement: ElementRef;
   @ViewChild('_url') public urlElement: ElementRef;
 
+  public isUpdateProfileDisabled: boolean;
+
   public form: FormGroup;
   public context: Context;
   public loggedInUser: User;

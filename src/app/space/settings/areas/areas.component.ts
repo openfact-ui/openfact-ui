@@ -76,5 +76,9 @@ export class AreasComponent implements OnInit, OnDestroy {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
+  save() {
+
+  }
+
 }
 

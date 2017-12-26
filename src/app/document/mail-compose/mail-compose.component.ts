@@ -3,10 +3,12 @@ import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy } from '@angu
 
 @Component({
   selector: 'ofs-mail-compose',
-  templateUrl: './mail.component.html',
-  styleUrls: ['./mail.component.scss'],
+  templateUrl: './mail-compose.component.html',
+  styleUrls: ['./mail-compose.component.scss'],
 })
 export class MailComposeComponent implements OnInit, OnDestroy {
+
+  @Input() isButton: boolean;
 
   constructor() { }
 

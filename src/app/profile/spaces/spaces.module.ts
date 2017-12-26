@@ -11,7 +11,14 @@ import { SpacesRoutingModule } from './spaces-routing.module';
 import { SpaceWizardModule } from '../../space/wizard/space-wizard.module';
 
 @NgModule({
-  imports: [CommonModule, SpacesRoutingModule, ModalModule, SpaceWizardModule, InfiniteScrollModule, OpenfactSyncModule],
+  imports: [
+    CommonModule,
+    SpacesRoutingModule,
+    ModalModule,
+    SpaceWizardModule,
+    InfiniteScrollModule,
+    OpenfactSyncModule
+  ],
   declarations: [SpacesComponent]
 })
 export class SpacesModule {

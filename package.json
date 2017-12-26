@@ -106,7 +106,7 @@
     "ng2-vs-checklist": "0.0.1",
     "ngo-base": "0.7.3",
     "ngo-login-client": "0.2.10",
-    "ngo-openfact-sync": "0.1.11",
+    "ngo-openfact-sync": "0.1.15",
     "ngx-bootstrap": "^1.9.3",
     "ngx-chips": "^1.5.9",
     "ngx-modal": "0.0.29",

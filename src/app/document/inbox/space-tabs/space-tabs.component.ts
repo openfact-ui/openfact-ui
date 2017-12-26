@@ -104,7 +104,7 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectSpace(space: Space) {
+  selectSpace(space?: Space) {
     this.selectedSpace = space;
     this.onChange.emit(space);
   }

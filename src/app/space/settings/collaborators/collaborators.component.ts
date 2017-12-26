@@ -16,13 +16,13 @@ import { find } from 'lodash';
   styleUrls: ['./collaborators.component.scss']
 })
 export class CollaboratorsComponent implements OnInit, OnDestroy {
-  private context: Context;
-  private collaborators: User[];
+  public context: Context;
+  public collaborators: User[];
   private emptyStateConfig: EmptyStateConfig;
-  private listConfig: ListConfig;
+  public listConfig: ListConfig;
   private contextSubscription: Subscription;
   private collaboratorSubscription: Subscription;
-  private userToRemove: User;
+  public userToRemove: User;
   @ViewChild('addCollaborators') addCollaboratorsModal: IModalHost;
   @ViewChild('removeCollaborator') removeCollaborator: IModalHost;
 

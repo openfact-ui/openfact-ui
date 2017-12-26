@@ -1,6 +1,6 @@
-import {OpenfactUIConfig} from './openfact-ui-config';
+import { OpenfactUIConfig } from './openfact-ui-config';
 
-function openfactUIConfigFactory(): OpenfactUIConfig {
+export function openfactUIConfigFactory(): OpenfactUIConfig {
   let answer = window['OpenfactUIEnv'] || {};
   // lets filter out any values of 'undefined' in case an env var is missing in the template expression
   for (let key in answer) {
@@ -12,7 +12,7 @@ function openfactUIConfigFactory(): OpenfactUIConfig {
   return answer as OpenfactUIConfig;
 }
 
-export let openfactUIConfigProvider = {
+export const openfactUIConfigProvider = {
   provide: OpenfactUIConfig,
   useFactory: openfactUIConfigFactory,
   deps: []
