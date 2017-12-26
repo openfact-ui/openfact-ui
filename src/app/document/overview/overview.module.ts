@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Http } from '@angular/http';
 
 import { MomentModule } from 'angular2-moment';
-import { TagInputModule } from 'ngx-chips';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
 
 import { SidebarModule } from './../sidebar/sidebar.module';
@@ -18,7 +17,6 @@ import { OverviewComponent } from './overview.component';
     CommonModule,
     FormsModule,
     MomentModule,
-    TagInputModule,
     OverviewRoutingModule,
     OpenfactSyncModule,
     DocumentSearchToolbarModule,
