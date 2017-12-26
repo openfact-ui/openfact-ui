@@ -35,8 +35,7 @@
       </div>
       <div class="row contents">
         <div class="spaces-list-page">
-          <div class="spaces-list-wrap" almInfiniteScroll (eachElementHeightInPx)='contentItemHeight' (initItems)='initSpaces($event)'
-            (fetchMore)='fetchMoreSpaces($event)'>
+          <div class="spaces-list-wrap">
             <div *ngFor="let s of spaces">
               <div class="space-item" *ngIf="s.relationalData && s.relationalData.creator && s.relationalData.creator.attributes">
                 <h2>

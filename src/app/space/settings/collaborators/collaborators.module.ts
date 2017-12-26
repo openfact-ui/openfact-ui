@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
 
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { InfiniteScrollModule } from 'ngx-widgets';
 import { ModalModule } from 'ngx-modal';
 
 import { ListModule } from 'patternfly-ng';
@@ -20,7 +19,6 @@ import { AddCollaboratorsDialogModule } from './add-collaborators-dialog/add-col
     CommonModule,
     CollaboratorsRoutingModule,
     ListModule,
-    InfiniteScrollModule,
     AddCollaboratorsDialogModule,
     ModalModule,
     OpenfactSyncModule

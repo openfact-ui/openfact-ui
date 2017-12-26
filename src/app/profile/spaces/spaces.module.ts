@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';
 
-import { InfiniteScrollModule } from 'ngx-widgets';
 import { OpenfactSyncModule } from 'ngo-openfact-sync';
 
 import { SpacesComponent } from './spaces.component';
@@ -16,7 +15,6 @@ import { SpaceWizardModule } from '../../space/wizard/space-wizard.module';
     SpacesRoutingModule,
     ModalModule,
     SpaceWizardModule,
-    InfiniteScrollModule,
     OpenfactSyncModule
   ],
   declarations: [SpacesComponent]

@@ -18,7 +18,7 @@
 <ng-template #showSpaces>
   <h2 class="margin-left-15">{{context?.user?.attributes?.username}}'s spaces</h2>
   <div class="col-xs-12">
-    <div class="spaces-list-scroll" almInfiniteScroll (fetchMore)='fetchMoreSpaces($event)'>
+    <div class="spaces-list-scroll">
       <ul class="list-group list-view-pf list-view-pf-view">
         <li class="list-group-item" *ngFor="let space of spaces">
           <div class="list-view-pf-main-info">

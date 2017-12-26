@@ -54,7 +54,6 @@ import {
   HttpService,
   UserService
 } from 'ngo-login-client';
-import { WidgetsModule } from 'ngx-widgets';
 import { PatternFlyNgModule } from 'patternfly-ng';
 
 // Footer & Header
@@ -156,7 +155,6 @@ type StoreType = {
     MomentModule,
     ReactiveFormsModule,
     RestangularModule,
-    //    WidgetsModule,
     PatternFlyNgModule,
 
     AboutModalModule,
