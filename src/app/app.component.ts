@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private brandingService: BrandingService,
     private translate: TranslateService) {
-    translate.addLangs(["en", "es"]);
+    translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
     let browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|es/) ? browserLang : 'en');

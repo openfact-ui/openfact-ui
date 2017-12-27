@@ -144,9 +144,9 @@ export const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      //useHash: Boolean(history.pushState) === false,
+//      useHash: Boolean(history.pushState) === false,
       useHash: true,
-      //preloadingStrategy: PreloadAllModules,
+//      preloadingStrategy: PreloadAllModules,
       enableTracing: true,
     })
   ],

@@ -214,7 +214,7 @@ type StoreType = {
     UBLDocumentService,
 
     // Others
-    //OpenfactRuntimeConsoleService,
+    // OpenfactRuntimeConsoleService,
     {
       provide: Http,
       useClass: OpenfactUIHttpService
@@ -236,7 +236,8 @@ type StoreType = {
 })
 export class AppModule {
 
-  constructor(public appRef: ApplicationRef,
+  constructor(
+    public appRef: ApplicationRef,
     public appState: AppState) {
   }
 
