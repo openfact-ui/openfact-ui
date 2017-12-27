@@ -26,6 +26,9 @@ const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenat
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 
+// Openfact config to save env variables on js
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 /**
  * Webpack Constants
  */
@@ -37,7 +40,7 @@ const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 // if env is 'inmemory', the inmemory debug resource is used
 const OPENFACT_SYNC_API_URL = process.env.OPENFACT_SYNC_API_URL || 'http://openfact.com/api/';
 const OPENFACT_REALM = process.env.OPENFACT_REALM || 'openfact';
-const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloakcom/';
+const OPENFACT_SSO_API_URL = process.env.OPENFACT_SSO_API_URL || 'http://keycloak.com/';
 const BUILD_NUMBER = process.env.BUILD_NUMBER;
 const BUILD_TIMESTAMP = process.env.BUILD_TIMESTAMP;
 const BUILD_VERSION = process.env.BUILD_VERSION;
@@ -149,6 +152,17 @@ module.exports = function (env) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: 'src/config',
+          to: '_config',
+          transform: function env(content, path) {
+            return content.toString('utf-8').replace(/{{ .Env.([a-zA-Z0-9_-]*) }}/g, function(match, p1, offset, string){
+              return process.env[p1];
+            });
+          }
+        }
+      ]),
 
       new ModuleConcatenationPlugin(),
 
