@@ -1,16 +1,27 @@
-import { Injectable } from "@angular/core";
-import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend } from "@angular/http";
-import { KeycloakService } from "./keycloak.service";
-import { Observable } from "rxjs/Rx";
+import { Injectable } from '@angular/core';
+import { Http, Request, XHRBackend, ConnectionBackend, RequestOptions, RequestOptionsArgs, Response, Headers } from '@angular/http';
 
+import { KeycloakService } from './keycloak.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/operator/map';
+
+
+/**
+ * This provides a wrapper over the ng2 Http class that insures tokens are refreshed on each request.
+ */
 @Injectable()
 export class KeycloakHttp extends Http {
-  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private keycloakService: KeycloakService) {
-    super(backend, defaultOptions);
+
+  constructor(_backend: ConnectionBackend, _defaultOptions: RequestOptions, private _keycloakService: KeycloakService) {
+    super(_backend, _defaultOptions);
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    const tokenPromise: Promise<string> = this.keycloakService.getToken();
+    if (!this._keycloakService.authenticated()) return super.request(url, options);
+
+    const tokenPromise: Promise<string> = this._keycloakService.getToken();
     const tokenObservable: Observable<string> = Observable.fromPromise(tokenPromise);
 
     if (typeof url === 'string') {
@@ -30,3 +41,9 @@ export class KeycloakHttp extends Http {
 export function keycloakHttpFactory(backend: XHRBackend, defaultOptions: RequestOptions, keycloakService: KeycloakService) {
   return new KeycloakHttp(backend, defaultOptions, keycloakService);
 }
+
+export const KEYCLOAK_HTTP_PROVIDER = {
+  provide: Http,
+  useFactory: keycloakHttpFactory,
+  deps: [XHRBackend, RequestOptions, KeycloakService]
+};
