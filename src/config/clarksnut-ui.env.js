@@ -6,6 +6,6 @@
 
 window.ClarksnutUIEnv = {
   "ssoApiUrl": "http://keycloak-keycloak-sso.apps.console.sistcoop.org/auth",
-  "clarksnutApiUrl": "{{ .Env.CLARKSNUT_API_URL }}",
-  "authApiUrl": "{{ .Env.CLARKSNUT_AUTH_API_URL }}"
+  "clarksnutApiUrl": "http://clarksnut-clarksnut.apps.console.sistcoop.org/api",
+  "authApiUrl": "http://clarksnut-clarksnut.apps.console.sistcoop.org/api"
 };

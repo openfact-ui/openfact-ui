@@ -9,6 +9,8 @@ import { Broadcaster, Logger } from '../../ngx-base';
 import { AUTH_API_URL } from '../shared/auth-api';
 import { User } from './user';
 
+import 'rxjs/add/operator/multicast';
+
 /**
  *  Provides user and user list methods to retrieve current or user list details
  *
@@ -33,27 +35,12 @@ export class UserService {
     private logger: Logger,
     broadcaster: Broadcaster,
     @Inject(AUTH_API_URL) apiUrl: string) {
-    this.userUrl = apiUrl + 'user';
-    this.usersUrl = apiUrl + 'users';
-    this.searchUrl = apiUrl + 'search';
-    this.loggedInUser = Observable.merge(
-      broadcaster.on('loggedin').map(val => 'loggedIn'),
-      broadcaster.on('logout').map(val => 'loggedOut'),
-      broadcaster.on('authenticationError').map(val => 'authenticationError')
-    )
-      .switchMap(val => {
-        // If it's a login event, then we need to retreive the user's details
-        if (val === 'loggedIn') {
-          return this.http
-            .get(this.userUrl, { headers: this.headers })
-            .map(response => cloneDeep(response.json().data as User));
-        } else {
-          // Otherwise, we clear the user
-          return Observable.of({} as User);
-        }
-      })
-      // In order to ensure any future subscribers get the currently user
-      // we use a replay subject of size 1
+    this.userUrl = apiUrl + '/user';
+    this.usersUrl = apiUrl + '/users';
+    this.searchUrl = apiUrl + '/search';
+    this.loggedInUser = this.http
+      .get(this.userUrl, { headers: this.headers })
+      .map(response => cloneDeep(response.json().data as User))
       .multicast(() => new ReplaySubject(1));
     this.loggedInUser.connect();
   }
