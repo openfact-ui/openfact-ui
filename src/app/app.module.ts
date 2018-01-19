@@ -33,8 +33,11 @@ import { ApiLocatorService } from './ngx-login-client-impl/api-locator.service';
 import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
 import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
+// Shared Services
+import { AboutService } from './shared/about.service';
+
 // Footer & Header
-//import { FooterComponent } from './layout/footer/footer.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
 //import { MenusService } from './layout/header/menus.service';
@@ -42,7 +45,7 @@ import { ContextSelectorComponent } from './layout/header/context-selector/conte
 @NgModule({
   declarations: [
     AppComponent,
-    //    FooterComponent,
+    FooterComponent,
     HeaderComponent,
     ContextSelectorComponent
   ],
@@ -80,8 +83,10 @@ import { ContextSelectorComponent } from './layout/header/context-selector/conte
 
     ApiLocatorService,
     ssoApiUrlProvider,
-    realmProvider
+    realmProvider,
 
+    // Shared Services
+    AboutService
   ],
   bootstrap: [AppComponent]
 })
