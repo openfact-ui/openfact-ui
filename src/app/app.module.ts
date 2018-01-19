@@ -13,6 +13,9 @@ import { KEYCLOAK_HTTP_PROVIDER } from './keycloak-service/keycloak.http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
+// Bootstrap
+import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 // Config
 import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service';
 
@@ -32,22 +35,26 @@ import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
 // Footer & Header
 //import { FooterComponent } from './layout/footer/footer.component';
-//import { HeaderComponent } from './layout/header/header.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
 //import { MenusService } from './layout/header/menus.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     //    FooterComponent,
-    //HeaderComponent,
+    HeaderComponent,
+    ContextSelectorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
 
     // Translate
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
 
+    // Bootstraop
+    BsDropdownModule.forRoot(),
 
   ],
   providers: [

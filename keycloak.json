@@ -1,7 +1,0 @@
-{
-  "realm": "clarksnut",
-  "auth-server-url": "http://keycloak-keycloak-sso.apps.console.sistcoop.org/auth",
-  "ssl-required": "external",
-  "resource": "clarksnut-html5-client",
-  "public-client": true
-}
