@@ -45,6 +45,9 @@ import { HeaderComponent } from './layout/header/header.component';
 import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
 //import { MenusService } from './layout/header/menus.service';
 
+// Error
+import { ErrorService } from './layout/error/error.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,7 +95,10 @@ import { ContextSelectorComponent } from './layout/header/context-selector/conte
     realmProvider,
 
     // Shared Services
-    AboutService
+    AboutService,
+
+    // Error
+    ErrorService,
   ],
   bootstrap: [AppComponent]
 })
