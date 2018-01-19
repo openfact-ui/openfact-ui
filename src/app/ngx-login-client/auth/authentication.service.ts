@@ -39,10 +39,6 @@ export class AuthenticationService {
     this.realm = realm;
   }
 
-  onLogIn() {
-    this.broadcaster.broadcast('loggedin', 1);
-  }
-
   logout() {
     this.broadcaster.broadcast('logout', 1);
     this.logout();

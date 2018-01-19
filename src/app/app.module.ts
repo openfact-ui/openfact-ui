@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { XHRBackend, RequestOptions } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,6 +33,7 @@ import { AuthenticationService, UserService } from './ngx-login-client';
 
 // Ngx-login-client-impl
 import { ApiLocatorService } from './ngx-login-client-impl/api-locator.service';
+import { authServiceProvider } from './ngx-login-client-impl/auth-service-keycloak.service';
 import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
 import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
 import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
@@ -59,6 +60,8 @@ import { ErrorService } from './layout/error/error.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+
+    HttpModule,
 
     // Translate
     TranslateModule.forRoot(),
@@ -92,6 +95,7 @@ import { ErrorService } from './layout/error/error.service';
     UserService,
 
     ApiLocatorService,
+    authServiceProvider,
     ssoApiUrlProvider,
     authApiUrlProvider,
     realmProvider,

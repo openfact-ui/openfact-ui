@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './../ngx-login-client/token/auth-service';
 import { KeycloakService } from '../keycloak-service/keycloak.service';
 
+@Injectable()
 export class AuthKeycloakService extends AuthService {
 
   constructor(private keycloakService: KeycloakService) {
@@ -17,3 +19,13 @@ export class AuthKeycloakService extends AuthService {
   }
 
 }
+
+export let authServiceFactory = (keycloakService: KeycloakService) => {
+  return new AuthKeycloakService(keycloakService);
+};
+
+export let authServiceProvider = {
+  provide: AuthService,
+  useFactory: authServiceFactory,
+  deps: [KeycloakService]
+};
