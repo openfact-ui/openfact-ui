@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
-import { KeycloakService } from './../keycloak/keycloak.service';
-import { AuthService } from './../ngx-login-client/auth-service';
+import { AuthService } from './../ngx-login-client/token/auth-service';
+import { KeycloakService } from '../keycloak-service/keycloak.service';
 
 export class AuthKeycloakService extends AuthService {
 
@@ -13,7 +13,7 @@ export class AuthKeycloakService extends AuthService {
   }
 
   public logout(): void {
-    KeycloakService.logout();
+    this.keycloakService.logout();
   }
 
 }

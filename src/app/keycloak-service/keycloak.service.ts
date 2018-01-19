@@ -23,7 +23,13 @@ export class KeycloakService {
    *                       for details.
    * @returns {Promise<T>}
    */
-  static init(configOptions?: string | {}, initOptions?: InitOptions): Promise<any> {
+  static init(initOptions?: InitOptions): Promise<any> {
+    const configOptions: string | {} = {
+      realm: 'clarksnut',
+      url: window['ClarksnutUIEnv']['ssoApiUrl'],
+      clientId: 'clarksnut-html5-client'
+    };
+
     KeycloakService.keycloakAuth = Keycloak(configOptions);
 
     return new Promise((resolve, reject) => {

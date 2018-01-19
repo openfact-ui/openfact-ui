@@ -6,8 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Keycloak
-import { KeycloakService } from './keycloak/keycloak.service';
-import { KeycloakHttp, keycloakHttpFactory } from './keycloak/keycloak.http';
+import { KeycloakService } from './keycloak-service/keycloak.service';
+import { KEYCLOAK_HTTP_PROVIDER } from './keycloak-service/keycloak.http';
 
 // Translage
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -20,10 +20,10 @@ import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service'
 import { Broadcaster, Logger, Notifications } from './ngx-base';
 
 // Ngx-base implementations
-import { NotificationsService } from './shared/notifications.service';
+import { NotificationsService } from './ngx-base-impl/notifications.service';
 
 // Ngx-login-client
-import { AuthenticationService, HttpService, UserService } from './ngx-login-client';
+import { AuthenticationService, UserService } from './ngx-login-client';
 
 // Ngx-login-client-impl
 import { ApiLocatorService } from './ngx-login-client-impl/api-locator.service';
@@ -52,12 +52,8 @@ import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
   ],
   providers: [
     // Keycloak
-    /*{
-      provide: KeycloakHttp,
-      useFactory: keycloakHttpFactory,
-      deps: [XHRBackend, RequestOptions, KeycloakService]
-    },*/
     KeycloakService,
+    KEYCLOAK_HTTP_PROVIDER,
 
     // Config
     clarksnutUIConfigProvider,
@@ -73,7 +69,6 @@ import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
     // Ngx-login-client
     AuthenticationService,
-    HttpService,
     UserService,
 
     ApiLocatorService,
