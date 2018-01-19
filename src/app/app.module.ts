@@ -16,6 +16,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 // Bootstrap
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
+// Patternfly
+import { NotificationModule } from 'patternfly-ng';
+
 // Config
 import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service';
 
@@ -58,6 +61,9 @@ import { ContextSelectorComponent } from './layout/header/context-selector/conte
 
     // Bootstraop
     BsDropdownModule.forRoot(),
+
+    // Patternfly
+    NotificationModule,
 
   ],
   providers: [

@@ -1,5 +1,19 @@
 <cn-header></cn-header>
 
-<router-outlet></router-outlet>
+<pfng-toast-notification-list
+  [notifications]="notifications.current"
+  (onActionSelect)="handleAction($event)">
+</pfng-toast-notification-list>
+
+<div>
+  <div>
+    <router-outlet name="action"></router-outlet>
+  </div>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- <cn-document-upload-progress></cn-document-upload-progress> -->
 
 <cn-footer></cn-footer>
