@@ -10,20 +10,20 @@ import { Router } from '@angular/router';
 
 import { ErrorService } from './error.service';
 
-import { UserService, AuthenticationService } from 'ngo-login-client';
+import { UserService, AuthenticationService } from '../../ngx-login-client';
 
 @Component({
-  selector: 'ofs-error',
+  selector: 'cn-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnDestroy {
 
-  public message: string = '';
-  public subscription: Subscription;
-  public hideBanner: boolean;
-  public spaceLink: string;
-  public userSubscription: Subscription;
+  message: string = '';
+  subscription: Subscription;
+  hideBanner: boolean;
+  spaceLink: string;
+  userSubscription: Subscription;
 
   constructor(
     private errorService: ErrorService,
@@ -35,18 +35,14 @@ export class ErrorComponent implements OnDestroy {
         this.message = message;
       });
 
-    if (authService.isLoggedIn()) {
-      this.userSubscription = userService.loggedInUser.subscribe((val) => {
-        if (val.id) {
-          this.spaceLink = '/' + val.attributes.username + '/_spaces';
-        }
-      });
-    } else {
-      this.spaceLink = '/_home';
-    }
+    this.userSubscription = userService.loggedInUser.subscribe((val) => {
+      if (val.id) {
+        this.spaceLink = '/' + val.attributes.username + '/_spaces';
+      }
+    });
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

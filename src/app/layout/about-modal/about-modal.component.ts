@@ -16,16 +16,16 @@ import { AboutService } from '../../shared/about.service';
 export class AboutModalComponent implements AfterViewInit {
 
   @ViewChild('staticModal')
-  public staticModal: any;
+  staticModal: any;
 
   constructor(
     public about: AboutService,
     public renderer: Renderer2
   ) { }
 
-  public ngAfterViewInit() { }
+  ngAfterViewInit() { }
 
-  public open() {
+  open() {
     this.staticModal.show();
   }
 

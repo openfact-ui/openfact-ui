@@ -1,17 +1,19 @@
-<header>
-  <ofs-app-header></ofs-app-header>
-</header>
+<cn-header></cn-header>
+
 <pfng-toast-notification-list
   [notifications]="notifications.current"
   (onActionSelect)="handleAction($event)">
 </pfng-toast-notification-list>
-<main class="">
-  <div class="">
+
+<div>
+  <div>
     <router-outlet name="action"></router-outlet>
   </div>
   <div>
     <router-outlet></router-outlet>
   </div>
-</main>
+</div>
 
-<ofs-document-upload-progress></ofs-document-upload-progress>
+<!-- <cn-document-upload-progress></cn-document-upload-progress> -->
+
+<cn-footer></cn-footer>

@@ -1,39 +1,8 @@
 // PatternFly
+
 $fa-font-path: "~font-awesome-sass/assets/fonts/font-awesome/";
-$font-path: "~patternfly-sass/assets/fonts/patternfly/";
+$font-path: "~patternfly/dist/fonts/";
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$img-path: "~patternfly-sass/assets/images/patternfly/";
+$img-path: "~patternfly/dist/img/";
 
 @import "patternfly";
-
-// margin and padding formulas
-@import "formulas";
-
-// site variables and PatternFly overrides
-@import "utilities";
-@import "variables";
-
-// OSIO custom mixins
-@import "mixins";
-
-// OSIO shared component styles
-@import "animations";
-@import "cards";
-@import "backgrounds";
-@import "experimental";
-@import "forms";
-@import "icons";
-
-// Overrides of PatternFly
-@import "overrides";
-
-// New typography settings
-@import "typography";
-
-// General layout information
-@import "layout";
-
-
-.wizard-pf-row {
-  position: inherit !important;
-}

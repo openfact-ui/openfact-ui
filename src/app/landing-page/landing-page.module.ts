@@ -10,5 +10,5 @@ import { LandingPageRoutingModule } from './landing-page-routing.module';
   declarations: [LandingPageComponent]
 })
 export class LandingPageModule {
-  constructor(http: Http) { }
+  constructor() { }
 }

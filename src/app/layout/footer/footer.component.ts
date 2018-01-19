@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { AboutService } from '../../shared/about.service';
 
 @Component({
-  selector: 'ofs-app-footer',
+  selector: 'cn-footer',
   templateUrl: './footer.component.html'
 })
 
