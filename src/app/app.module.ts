@@ -34,6 +34,7 @@ import { AuthenticationService, UserService } from './ngx-login-client';
 // Ngx-login-client-impl
 import { ApiLocatorService } from './ngx-login-client-impl/api-locator.service';
 import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
+import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
 import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
 // Shared Services
@@ -92,6 +93,7 @@ import { ErrorService } from './layout/error/error.service';
 
     ApiLocatorService,
     ssoApiUrlProvider,
+    authApiUrlProvider,
     realmProvider,
 
     // Shared Services
