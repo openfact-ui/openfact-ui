@@ -1,0 +1,100 @@
+// note this is mixin, so it needs to be at the top
+.fullscreen() {
+  background: #000;
+  height: 100%;
+  width: 100%;
+  &.disconnected .fullscreen-toggle {
+    display: block;
+  }
+  .fullscreen-toggle {
+    right: 55px;
+    .exit-fullscreen {
+      display: block;
+    }
+    .go-fullscreen {
+      display: none;
+    }
+  }
+}
+
+// note this is mixin, so it needs to be at the top
+.style-terminal-action() {
+  color: @gray-light;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  &:hover, &:active, &:focus {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.container-terminal-wrapper {
+  position: relative;
+  @media(min-width: @screen-sm-min) {
+    // Show the expand to fullscreen action when hovering over the terminal.
+    &:hover {
+      .fullscreen-toggle {
+        display: block;
+      }
+    }
+  }
+  &.disconnected .fullscreen-toggle {
+    display: none;
+  }
+  .fullscreen-toggle {
+    display: none;
+    line-height: 1;
+    position: absolute;
+    right: 25px;
+    top: 0;
+    z-index: 1;
+    a {
+      .style-terminal-action();
+    }
+    .exit-fullscreen {
+      display: none;
+    }
+    .go-fullscreen {
+      display: block;
+    }
+  }
+  .terminal-actions .btn {
+    background: none;
+    .btn-link();
+    .style-terminal-action();
+  }
+  // so that &-:ms-fullscreen works correctly, these need to come after .fullscreen-toggle
+  &:-moz-full-screen {
+    .fullscreen();
+  }
+  &:-ms-fullscreen {
+    .fullscreen();
+  }
+  &:-webkit-full-screen {
+    .fullscreen();
+  }
+  &:-fullscreen {
+    .fullscreen();
+  }
+}
+
+kubernetes-container-terminal {
+  // Control what fonts are used in the container terminal since we need the terminal-font class for row/col character calculations
+  .terminal {
+    .terminal-font();
+  }
+  .terminal-actions {
+    top: 0;
+    right: 47px;
+    .spinner {
+      top: 5px;
+    }
+  }
+}
+
+.terminal-font {
+  font-family: "Monospace Regular", "DejaVu Sans Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1em;
+}
