@@ -30,7 +30,8 @@
       "stylePreprocessorOptions": {
         "includePaths": [
           "../node_modules/bootstrap-sass/assets/stylesheets",
-          "../node_modules/font-awesome-sass/assets/stylesheets"
+          "../node_modules/font-awesome-sass/assets/stylesheets",
+          "styles"
         ]
       }
     }
