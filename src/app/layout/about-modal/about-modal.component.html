@@ -1,0 +1,27 @@
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content about-modal-pf">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+                    <span class="pficon pficon-close"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h1>Openfact Sync</h1>
+                <div class="product-versions-pf">
+                    <ul class="list-unstyled">
+                        <li><strong>Build</strong> <span *ngIf="about.buildNumber">#{{about.buildNumber}}</span></li>
+                        <li><strong>Time stamp</strong><span *ngIf="about.buildNumber"> {{about.buildTimestamp}}</span></li>
+                    </ul>
+                </div>
+                <div class="trademark-pf">
+                    Sistcoop Inc. Copyright
+                </div>
+            </div>
+            <div class="modal-footer">
+                <img src="../../../assets/img/logo-alt.svg" alt="Patternfly Symbol">
+            </div>
+        </div>
+    </div>
+</div>
