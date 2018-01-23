@@ -19,13 +19,19 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cn",
       "styles": [
-        "styles.less"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
+      },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../node_modules/bootstrap-sass/assets/stylesheets",
+          "../node_modules/font-awesome-sass/assets/stylesheets"
+        ]
       }
     }
   ],
@@ -54,7 +60,7 @@
     }
   },
   "defaults": {
-    "styleExt": "less",
+    "styleExt": "scss",
     "component": {}
   }
 }
