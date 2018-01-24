@@ -4,8 +4,14 @@
   "authApiUrl": "{{ .Env.CLARKSNUT_AUTH_API_URL }}"
 };*/
 
-window.ClarksnutUIEnv = {
+/*window.ClarksnutUIEnv = {
   "ssoApiUrl": "http://keycloak-keycloak-sso.apps.console.sistcoop.org/auth",
   "clarksnutApiUrl": "http://clarksnut-clarksnut.apps.console.sistcoop.org/api",
   "authApiUrl": "http://clarksnut-clarksnut.apps.console.sistcoop.org/api"
+};*/
+
+window.ClarksnutUIEnv = {
+  "ssoApiUrl": "http://keycloak-keycloak-sso.apps.console.sistcoop.org/auth",
+  "clarksnutApiUrl": "http://localhost:8080/api",
+  "authApiUrl": "http://localhost:8080/api"
 };

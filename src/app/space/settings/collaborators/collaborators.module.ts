@@ -6,7 +6,7 @@ import { Http } from '@angular/http';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-modal';
 
-import { ListModule } from 'patternfly-ng';
+import { ListModule } from 'patternfly-ng/list';
 
 import { CollaboratorsComponent } from './collaborators.component';
 import { CollaboratorsRoutingModule } from './collaborators-routing.module';

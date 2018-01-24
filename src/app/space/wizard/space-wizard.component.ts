@@ -38,7 +38,7 @@ import {
   WizardStepConfig,
   WizardStep,
   WizardStepComponent
-} from 'patternfly-ng';
+} from 'patternfly-ng/wizard';
 
 import { Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
 

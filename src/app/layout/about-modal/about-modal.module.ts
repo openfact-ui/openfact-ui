@@ -1,13 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule as BSModalModule } from 'ngx-bootstrap/modal';
+import { ModalModule } from 'patternfly-ng/modal';
+
 import { AboutModalComponent } from './about-modal.component';
 
 @NgModule({
-  imports: [CommonModule, ModalModule.forRoot()],
-  declarations: [AboutModalComponent],
-  exports: [AboutModalComponent, ModalModule]
+  imports: [
+    CommonModule,
+    BSModalModule.forRoot(),
+    ModalModule
+  ],
+  declarations: [
+    AboutModalComponent
+  ],
+  exports: [
+    AboutModalComponent
+  ]
 })
 export class AboutModalModule {
   constructor() { }

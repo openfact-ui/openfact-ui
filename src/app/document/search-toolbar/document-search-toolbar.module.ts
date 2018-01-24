@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { SortModule } from 'patternfly-ng';
+import { SortModule } from 'patternfly-ng/sort';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { RoleFilterModule } from './role-filter/role-filter.module';

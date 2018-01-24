@@ -12,19 +12,22 @@
       <span class="sr-only">Help</span>
       <span class="caret" aria-hidden="true"></span>
     </a>
-    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="help-dropdown" extension-point extension-name="nav-help-dropdown" extension-types="dom html">
-      <li role="menuitem"><a class="dropdown-item" href="#">About</a></li>
+    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="help-dropdown">
+      <li role="menuitem"><a class="dropdown-item" (click)="aboutModal.open()" href="javascript:void(0);">About</a></li>
     </ul>
   </li>
   <li dropdown *ngIf="user">
     <a dropdownToggle id="user-dropdown" class="nav-item-iconic">
       <span class="fa pf-icon pficon-user" aria-hidden="true"></span>
-      <span class="username truncate">carlos feria</span>
+      <span class="username truncate">{{user.attributes.fullNam || user.attributes.username}}</span>
       <span class="caret" aria-hidden="true"></span>
     </a>
-
-    <ul *dropdownMenu aria-labelledby="user-dropdown">
-      <!-- extension points generated here -->
+    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="user-dropdown">
+      <li role="menuitem"><a class="dropdown-item">Log Out</a></li>
+      <li class="divider"></li>
+      <li role="menuitem"><a class="dropdown-item">Manage Account</a></li>
     </ul>
   </li>
 </ul>
+
+<cn-about-modal #aboutModal></cn-about-modal>

@@ -20,7 +20,7 @@ import {
   SortConfig,
   SortField,
   SortEvent
-} from 'patternfly-ng';
+} from 'patternfly-ng/sort';
 
 @Component({
   selector: 'ofs-document-search-toolbar',

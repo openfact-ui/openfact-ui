@@ -1,4 +1,4 @@
-import { NotificationService, NotificationType } from 'patternfly-ng';
+import { NotificationService, NotificationType } from 'patternfly-ng/notification';
 import { Http, Headers } from '@angular/http';
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';

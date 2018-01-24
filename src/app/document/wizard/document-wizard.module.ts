@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { WizardModule } from 'patternfly-ng';
+import { WizardModule } from 'patternfly-ng/wizard';
 import { ModalModule } from 'ngx-bootstrap';
 import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgUploaderModule } from 'ngx-uploader';

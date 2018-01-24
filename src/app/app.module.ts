@@ -19,7 +19,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 // Patternfly
-import { NotificationModule } from 'patternfly-ng';
+import { NotificationModule } from 'patternfly-ng/notification';
 
 // Config
 import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service';
@@ -46,6 +46,9 @@ import { CollaboratorService, Contexts, Spaces, SpaceService } from './ngx-clark
 // Ngx-clarksnut-impl
 import { ContextService } from './ngx-clarksnut-impl/context.service';
 import { SpacesService } from './ngx-clarksnut-impl/spaces.service';
+
+// Custom modules
+import { AboutModalModule } from './layout/about-modal/about-modal.module';
 
 // Shared Services
 import { AboutService } from './shared/about.service';
@@ -85,6 +88,8 @@ import { ErrorService } from './layout/error/error.service';
     // Patternfly
     NotificationModule,
 
+    // Custom modules
+    AboutModalModule,
   ],
   providers: [
     // Keycloak

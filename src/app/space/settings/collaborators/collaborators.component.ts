@@ -5,7 +5,8 @@ import { IModalHost } from '../../wizard/models/modal-host';
 import { Context, CollaboratorService } from '../../../ngx-clarksnut';
 
 import { User } from '../../../ngx-login-client';
-import { ListConfig, EmptyStateConfig } from 'patternfly-ng';
+import { ListConfig } from 'patternfly-ng/list';
+import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
 import { ContextService } from './../../../ngx-clarksnut-impl/context.service';
 import { find } from 'lodash';

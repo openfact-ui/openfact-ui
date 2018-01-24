@@ -6,7 +6,7 @@ import { AreasComponent } from './areas.component';
 import { AreasRoutingModule } from './areas-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { RemainingCharsCountModule } from 'patternfly-ng';
+import { RemainingCharsCountModule } from 'patternfly-ng/remaining-chars-count';
 
 import { FormExtensionsModule } from './../../../util/form-extensions/form-extensions.module';
 

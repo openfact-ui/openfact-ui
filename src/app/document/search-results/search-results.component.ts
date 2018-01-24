@@ -3,13 +3,9 @@ import { UBLDocument, UBLDocumentService } from '../../ngx-clarksnut';
 import { Component, OnDestroy, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import {
-  ListEvent,
-  ListConfig,
-  Action,
-  ActionConfig,
-  EmptyStateConfig,
-} from 'patternfly-ng';
+import { ListEvent, ListConfig, } from 'patternfly-ng/list';
+import { Action, ActionConfig } from 'patternfly-ng/action';
+import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
 import * as FileSaver from 'file-saver';
 

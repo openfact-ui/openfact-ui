@@ -20,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cn",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/patternfly-ng/dist/css/patternfly-ng.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
