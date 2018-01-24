@@ -3,6 +3,8 @@ $font-path: "~patternfly/dist/fonts/";
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $img-path: "~patternfly/dist/img/";
 
+$imagePath: "assets/images";
+
 // PatternFly
 @import "~patternfly/dist/sass/patternfly";
 
@@ -17,7 +19,7 @@ $img-path: "~patternfly/dist/img/";
 @import "_variables";
 @import "_mixins";
 @import "_buttons";
-/*@import "_forms";
+@import "_forms";
 @import "_cards";
 @import "_catalog";
 @import "_component-animations";
@@ -62,4 +64,4 @@ $img-path: "~patternfly/dist/img/";
 @import "_editor";
 @import "_add-config-to-application";
 @import "_instances";
-@import "_set-home-page";*/
+@import "_set-home-page";
