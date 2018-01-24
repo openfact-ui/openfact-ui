@@ -1,0 +1,62 @@
+<div *ngIf="spaces.length === 0; then showBlankState else showSpaces"></div>
+<ng-template #showBlankState>
+  <div class="col-xs-12">
+    <div class="blank-slate-pf">
+      <div class="blank-slate-f8-icon">
+        <span class="pficon pficon-add-circle-o"></span>
+      </div>
+      <h3>Create a Space</h3>
+      <p>Learn how to get started
+        <a href="#" target="_blank">in the documentation</a>
+      </p>
+      <div class="blank-slate-pf-main-action">
+        <button class="btn btn-primary btn-lg" (click)="spaceWizard.open()">Create</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #showSpaces>
+  <h2 class="margin-left-15">{{context?.user?.attributes?.username}}'s spaces</h2>
+  <div class="col-xs-12">
+    <div class="spaces-list-scroll">
+      <ul class="list-group list-view-pf list-view-pf-view">
+        <li class="list-group-item" *ngFor="let space of spaces">
+          <div class="list-view-pf-main-info">
+            <div class="list-view-pf-body">
+              <div class="list-view-pf-description">
+                <div class="list-group-item-text">
+                  <div class="col-xs-10">
+                    <a [routerLink]="['/', space.relationalData.creator.attributes.username, space.attributes.name]">
+                      {{space.attributes.name | spaceName}}
+                    </a>
+                  </div>
+                  <button class="col-xs-2 btn btn-danger ofs-button__delete" (click)="confirmDeleteSpace(space, deleteSpace)">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Create Space modal -->
+<ofs-space-wizard #spaceWizard></ofs-space-wizard>
+
+<!-- Delete Space modal -->
+<ng-template #deleteSpace title="Remove the space">
+  <div class="modal-header">
+    <button class="close" aria-label="Close" type="button" (click)="cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <dt class="modal-title">Remove Space</dt>
+  </div>
+  <div class="modal-body">
+    <h2>Are you sure you want to remove the space</h2>
+    <button class="btn btn-default" (click)="cancel()">Cancel</button>
+    <button class="btn btn-danger" (click)="removeSpace()">Remove</button>
+  </div>
+</ng-template>

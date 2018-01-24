@@ -1,0 +1,47 @@
+<pfng-list [actionTemplate]="actionTemplate" [config]="listConfig" [expandTemplate]="expandTemplate" [items]="items" [itemTemplate]="itemTemplate"
+  (onActionSelect)="handleAction($event, null)" (onClick)="handleClick($event)" (onSelectionChange)="handleSelectionChange($event)">
+  <ng-template #itemTemplate let-item="item" let-index="index">
+
+    <div class="list-pf-left">
+      <div style="cursor: pointer;" (click)="markAsStarred(item)">
+        <span *ngIf="item.attributes.starred" class="fa fa-star list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+        <span *ngIf="!item.attributes.starred" class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+      </div>
+    </div>
+    <div class="list-pf-content-wrapper">
+      <div class="list-pf-main-content">
+        <div class="list-pf-title">
+          {{item.attributes.assignedId}}
+          <small>{{item.attributes.type}}</small>
+        </div>
+        <div class="list-pf-description text-overflow-pf">
+          {{item.attributes.supplierName | uppercase}}
+          <small>{{item.attributes.supplierAssignedId}}</small>
+        </div>
+        <div class="list-pf-description text-overflow-pf">
+          {{item.attributes.customerName | uppercase}}
+          <small>{{item.attributes.customerAssignedId}}</small>
+        </div>
+      </div>
+      <div class="list-pf-additional-content">
+        <div>
+          <strong>{{item.attributes.amount | number}}</strong> {{item.attributes.currency | uppercase}}
+        </div>
+        <div>
+          {{item.attributes.issueDate | date: 'shortDate'}}
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+  <ng-template #actionTemplate let-item="item" let-index="index">
+    <pfng-action class="list-pf-actions" [config]="getActionConfig(item, printButtonTemplate)" (onActionSelect)="handleAction($event, item)">
+      <ng-template #printButtonTemplate let-action="action">
+        <span class="fa fa-print">&nbsp;</span>{{action.title}}
+      </ng-template>
+    </pfng-action>
+  </ng-template>
+  <ng-template #expandTemplate let-item="item" let-index="index">
+    <h1>Basic content</h1>
+  </ng-template>
+</pfng-list>

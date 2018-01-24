@@ -40,6 +40,13 @@ import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
 import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
 import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
+// Ngx-clarksnut
+import { CollaboratorService, Contexts, Spaces, SpaceService } from './ngx-clarksnut';
+
+// Ngx-clarksnut-impl
+import { ContextService } from './ngx-clarksnut-impl/context.service';
+import { SpacesService } from './ngx-clarksnut-impl/spaces.service';
+
 // Shared Services
 import { AboutService } from './shared/about.service';
 
@@ -47,6 +54,8 @@ import { AboutService } from './shared/about.service';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
+import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
+import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
 //import { MenusService } from './layout/header/menus.service';
 
 // Error
@@ -57,7 +66,9 @@ import { ErrorService } from './layout/error/error.service';
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    ContextSelectorComponent
+    ContextSelectorComponent,
+    NavbarUtilityComponent,
+    NotificationCounterComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +112,21 @@ import { ErrorService } from './layout/error/error.service';
     ssoApiUrlProvider,
     authApiUrlProvider,
     realmProvider,
+
+    // Ngx-clarksnut
+    CollaboratorService,
+    ContextService,
+    {
+      provide: Contexts,
+      useExisting: ContextService
+    },
+    SpacesService,
+    {
+      provide: Spaces,
+      useExisting: SpacesService
+    },
+    SpaceService,
+
 
     // Shared Services
     AboutService,

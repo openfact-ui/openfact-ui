@@ -13,12 +13,6 @@ export class LandingPageComponent implements OnInit {
   constructor(
     private broadcaster: Broadcaster,
     private userService: UserService) {
-      console.log("enmtro");
-    this.userService.loggedInUser
-      //.switchMap(user => this.userService.getUserByUserId(user.id))
-      .subscribe((val: User) => {
-        console.log(val);
-      });
   }
 
   ngOnInit() {

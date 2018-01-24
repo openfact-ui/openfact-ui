@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-9 col-md-10 col-sm-push-3 col-md-push-2">
+
+      <ofs-document-search-toolbar
+        [totalResults]="totalResults"
+        [selections]="documentsSelected"
+        (onChange)="onToolbarChange($event)">
+      </ofs-document-search-toolbar>
+
+      <br/>
+      <ofs-space-tabs (onChange)="onTabChange($event)">
+      </ofs-space-tabs>
+      <br/>
+
+      <ofs-search-results [items]="items" (onSelectionChange)="handleSelectionChange($event)"></ofs-search-results>
+
+    </div>
+    <!-- /col -->
+    <div class="col-sm-3 col-md-2 col-sm-pull-9 col-md-pull-10 sidebar-pf sidebar-pf-left">
+      <ofs-document-sidebar></ofs-document-sidebar>
+    </div>
+    <!-- /col -->
+  </div>
+  <!-- /row -->
+</div>

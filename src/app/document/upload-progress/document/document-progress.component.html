@@ -1,0 +1,10 @@
+<div>
+  <div class="progress-description">
+    <strong>File:</strong> {{file?.name}}
+  </div>
+  <div class="progress progress-xs progress-label-top-right">
+    <div class="progress-bar" [ngStyle]="{ 'width.%': file?.progress?.data?.percentage }">
+      <span>{{file?.progress?.data?.percentage}}%</span>
+    </div>
+  </div>
+</div>

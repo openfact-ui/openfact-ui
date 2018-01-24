@@ -1,0 +1,17 @@
+<div *ngIf="isButton; then buttonTemplate else linkTemplate"></div>
+
+<ng-template #buttonTemplate>
+  <label for="file-upload" class="btn btn-{{buttonType}} btn-{{buttonSize}}">
+    <span class="fa fa-cloud-upload"></span> {{label}}
+  </label>
+  <input id="file-upload" type="file"
+    ngFileSelect
+    [options]="uploadOptions"
+    [uploadInput]="uploadDocumentService.input"
+    (uploadOutput)="uploadDocumentService.output($event)"
+    multiple/>
+</ng-template>
+
+<ng-template #linkTemplate>
+  not supported
+</ng-template>

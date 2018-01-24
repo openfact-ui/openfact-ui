@@ -1,0 +1,25 @@
+<ul class="nav nav-tabs">
+  <li [ngClass]="{'active': !selectedSpace}">
+    <a href="javascript:void(0);" (click)="selectSpace(null)">All</a>
+  </li>
+  <li *ngFor="let s of favoriteSpaces" [ngClass]="{'active': selectedSpace?.id === s.id}">
+    <a href="javascript:void(0);" (click)="selectSpace(s)">{{s.attributes.name | spaceName}}</a>
+  </li>
+
+  <li>
+    <a href="javascript:void(0);" (click)="openModal(configFavoriteSpacesModal)">
+      <span></span>
+      <i class="fa fa-plus"></i>
+    </a>
+  </li>
+</ul>
+
+<template #configFavoriteSpacesModal>
+  <add-spaces-dialog
+    [host]="spaceModal"
+    [favoriteSpaces]="favoriteSpaces"
+    [ownedSpaces]="ownedSpaces | async"
+    [collaboratedSpaces]="collaboratedSpaces | async"
+    (onChange)="onFavoriteSpacesChange($event)">
+  </add-spaces-dialog>
+</template>
