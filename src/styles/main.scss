@@ -9,10 +9,10 @@ $imagePath: "assets/images";
 @import "~patternfly/dist/sass/patternfly";
 
 // origin-web-common - after patternfly to gain any overrides
-@import "_origin-web-common-variables";
+@import "web-common/common";
 
 // origin-web-catalog - after patternfly to gain any overrides
-@import "_origin-web-catalog-variables";
+@import "web-catalog/catalog";
 
 /* OpenShift V3
 ------------------------------------------------- */

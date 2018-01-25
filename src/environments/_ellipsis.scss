@@ -116,7 +116,7 @@ $ellipsis-color-light: hsla(200, 0%, 70%, 1); // #b3b3b3
   }
 }
 
-$keyframes anim {
+@keyframes anim {
   0% {
     opacity: .33;
     transform: scale($transform-scale * .66);
