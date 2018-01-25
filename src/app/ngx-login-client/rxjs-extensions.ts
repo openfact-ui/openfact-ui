@@ -4,15 +4,9 @@ import 'rxjs/add/observable/throw';
 
 // Observable operators
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
 import 'rxjs/operators/debounceTime';
 import 'rxjs/operators/distinctUntilChanged';
+import 'rxjs/add/operator/do';
 import 'rxjs/operators/filter';
 import 'rxjs/operators/map';
 import 'rxjs/operators/switchMap';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/publish';
-import 'rxjs/add/operator/publishLast';
-import 'rxjs/add/operator/publishReplay';

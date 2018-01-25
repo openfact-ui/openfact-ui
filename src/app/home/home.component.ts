@@ -16,7 +16,7 @@ import { BrandInformation } from '../models/brand-information';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  loggedInUser: User;
+  /*loggedInUser: User;
   recent: Space[];
   private _context: Context;
   private _defaultContext: Context;
@@ -25,19 +25,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   private _loggedInUserSubscription: Subscription;
   private _contextSubscription: Subscription;
   private _contextDefaultSubscription: Subscription;
-  public brandInformation: BrandInformation;
+  public brandInformation: BrandInformation;*/
 
-  constructor(private userService: UserService,
+  constructor(/*private userService: UserService,
     private spaceService: SpaceService,
     private router: Router,
     private contexts: Contexts,
     private spaces: Spaces,
-    private logger: Logger) {
-    this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
+  private logger: Logger*/) {
+    //this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
   }
 
   public ngOnInit() {
-    this._loggedInUserSubscription = this.userService.loggedInUser.subscribe((val) => this.loggedInUser = val);
+    /*this._loggedInUserSubscription = this.userService.loggedInUser.subscribe((val) => this.loggedInUser = val);
     this._contextSubscription = this.contexts.current.subscribe((val) => {
       this._context = val;
     });
@@ -46,17 +46,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.initSpaces();
     });
 
-    this.brandInformation = new BrandInformation();
+    this.brandInformation = new BrandInformation();*/
   }
 
   public ngOnDestroy() {
-    this._spaceSubscription.unsubscribe();
+    /*this._spaceSubscription.unsubscribe();
     this._loggedInUserSubscription.unsubscribe();
     this._contextSubscription.unsubscribe();
-    this._contextDefaultSubscription.unsubscribe();
+    this._contextDefaultSubscription.unsubscribe();*/
   }
 
-  public initSpaces() {
+  /*public initSpaces() {
     if (this.context && this.context.user) {
       this.spaceService
         .getSpacesByUser(this.context.user.attributes.username, 5)
@@ -74,6 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       return this._context;
     }
-  }
+  }*/
 
 }

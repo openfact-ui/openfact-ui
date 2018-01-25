@@ -16,7 +16,6 @@ import { Context, Contexts } from '../../ngx-clarksnut';
 import { AuthenticationService, UserService, User } from '../../ngx-login-client';
 
 import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
-import { ProviderService } from '../../getting-started/services/provider.service';
 
 import { OfValidators } from '../validators/ofs-validators';
 
@@ -24,7 +23,7 @@ import { OfValidators } from '../validators/ofs-validators';
   selector: 'ofs-update',
   templateUrl: 'update.component.html',
   styleUrls: ['./update.component.scss'],
-  providers: [GettingStartedService, ProviderService]
+  providers: [GettingStartedService]
 })
 export class UpdateComponent implements AfterViewInit, OnInit {
 
@@ -46,7 +45,6 @@ export class UpdateComponent implements AfterViewInit, OnInit {
     private gettingStartedService: GettingStartedService,
     private contexts: Contexts,
     private notifications: Notifications,
-    private providerService: ProviderService,
     private renderer: Renderer2,
     private router: Router,
     private userService: UserService) {
@@ -118,9 +116,6 @@ export class UpdateComponent implements AfterViewInit, OnInit {
    */
   public updateProfile(): void {
     let profile = this.getTransientProfile();
-    if (!profile.contextInformation) {
-      profile.contextInformation = {};
-    }
 
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
       this.setUserProperties(user);

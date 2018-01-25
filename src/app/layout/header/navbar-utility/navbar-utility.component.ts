@@ -5,6 +5,8 @@ import { Subscription, Observable } from 'rxjs';
 import { User } from './../../../ngx-login-client';
 import { UserService } from '../../../ngx-login-client';
 
+import { KeycloakService } from '../../../keycloak-service/keycloak.service';
+
 @Component({
   selector: 'cn-navbar-utility',
   templateUrl: './navbar-utility.component.html',
@@ -15,11 +17,13 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
   user: User;
   private subcriptions: Subscription[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private keycloakService: KeycloakService
+  ) {
     this.subcriptions.push(
       this.userService.loggedInUser.subscribe((val) => {
         this.user = val;
-        console.log(val);
       })
     );
   }
@@ -29,6 +33,14 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subcriptions.forEach(val => val.unsubscribe());
+  }
+
+  manageAccount() {
+    this.keycloakService.manageAccount();
+  }
+
+  logout() {
+    this.keycloakService.logout();
   }
 
 }

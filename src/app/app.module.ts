@@ -16,13 +16,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 // Bootstrap
-import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 // Patternfly
 import { NotificationModule } from 'patternfly-ng/notification';
 
 // Config
 import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service';
+import { ApiLocatorService } from './config/api-locator.service';
 
 // Ngx-base
 import { Broadcaster, Logger, Notifications } from './ngx-base';
@@ -34,7 +35,6 @@ import { NotificationsService } from './ngx-base-impl/notifications.service';
 import { AuthenticationService, UserService } from './ngx-login-client';
 
 // Ngx-login-client-impl
-import { ApiLocatorService } from './ngx-login-client-impl/api-locator.service';
 import { authServiceProvider } from './ngx-login-client-impl/auth-service-keycloak.service';
 import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
 import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
@@ -46,9 +46,13 @@ import { CollaboratorService, Contexts, Spaces, SpaceService } from './ngx-clark
 // Ngx-clarksnut-impl
 import { ContextService } from './ngx-clarksnut-impl/context.service';
 import { SpacesService } from './ngx-clarksnut-impl/spaces.service';
+import { clarksnutApiUrlProvider } from './ngx-clarksnut-impl/clarksnut-api.provider';
 
 // Custom modules
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
+
+// Getting Services
+import { GettingStartedService } from './getting-started/services/getting-started.service';
 
 // Shared Services
 import { AboutService } from './shared/about.service';
@@ -98,6 +102,7 @@ import { ErrorService } from './layout/error/error.service';
 
     // Config
     clarksnutUIConfigProvider,
+    ApiLocatorService,
 
     // Ngx-base
     Broadcaster,
@@ -112,13 +117,13 @@ import { ErrorService } from './layout/error/error.service';
     AuthenticationService,
     UserService,
 
-    ApiLocatorService,
     authServiceProvider,
     ssoApiUrlProvider,
     authApiUrlProvider,
     realmProvider,
 
     // Ngx-clarksnut
+    clarksnutApiUrlProvider,
     CollaboratorService,
     ContextService,
     {
@@ -132,6 +137,8 @@ import { ErrorService } from './layout/error/error.service';
     },
     SpaceService,
 
+    // Getting Services
+    GettingStartedService,
 
     // Shared Services
     AboutService,

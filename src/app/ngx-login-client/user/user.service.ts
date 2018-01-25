@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import { Observable, ConnectableObservable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ConnectableObservable, ReplaySubject, Subject, BehaviorSubject } from 'rxjs';
 
 import { cloneDeep } from 'lodash';
 import { Broadcaster, Logger } from '../../ngx-base';
@@ -23,7 +23,7 @@ export class UserService {
   /**
    * The currently logged in user
    */
-  public loggedInUser: ConnectableObservable<User>;
+  public loggedInUser: Observable<User>;
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private userUrl: string;  // URL to web api
@@ -41,8 +41,10 @@ export class UserService {
     this.loggedInUser = this.http
       .get(this.userUrl, { headers: this.headers })
       .map(response => cloneDeep(response.json().data as User))
-      .multicast(() => new ReplaySubject(1));
-    this.loggedInUser.connect();
+      .publishLast()
+      .refCount();
+      //.multicast(() => new ReplaySubject(1));
+    //this.loggedInUser.connect();
   }
 
   /**

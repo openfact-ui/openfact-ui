@@ -26,6 +26,15 @@ const routes: Routes = [
     }
   },
 
+  // Home
+  {
+    path: '_home',
+    loadChildren: './home/home.module#HomeModule',
+    data: {
+      title: 'Home'
+    }
+  },
+
   // Error Pages
   {
     path: '_error',

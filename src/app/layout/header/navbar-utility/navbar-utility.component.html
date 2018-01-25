@@ -2,10 +2,6 @@
 
   <cn-notification-counter></cn-notification-counter>
 
-  <!-- <li ng-if="launcherApps.length > 0">
-    <pf-application-launcher items="launcherApps" is-list="true"></pf-application-launcher>
-  </li> -->
-
   <li dropdown>
     <a dropdownToggle class="nav-item-iconic" id="help-dropdown">
       <span title="Help" class="fa pficon-help" aria-hidden="true"></span>
@@ -23,9 +19,9 @@
       <span class="caret" aria-hidden="true"></span>
     </a>
     <ul *dropdownMenu class="dropdown-menu" aria-labelledby="user-dropdown">
-      <li role="menuitem"><a class="dropdown-item">Log Out</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="manageAccount()" href="javascript:void(0);">Manage Account</a></li>
       <li class="divider"></li>
-      <li role="menuitem"><a class="dropdown-item">Manage Account</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="logout()" href="javascript:void(0);">Log Out</a></li>
     </ul>
   </li>
 </ul>

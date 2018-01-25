@@ -32,7 +32,7 @@ export class BaseApiLocatorService {
     return this.envVars.get('realm') || 'clarksnut';
   }
 
-  get witApiUrl(): string {
+  get clarksnutApiUrl(): string {
     return this.config.clarksnutApiUrl || this.buildApiUrl('clarksnut');
   }
 

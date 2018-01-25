@@ -32,7 +32,8 @@ export class ProfileService {
   private profileUrl: string;
   private _profile: ConnectableObservable<ExtProfile>;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private broadcaster: Broadcaster,
     private notifications: NotificationService,
     userService: UserService,
@@ -46,7 +47,7 @@ export class ProfileService {
       .map((user) => cloneDeep(user) as ExtUser)
       .do((user) => {
         if (user.attributes) {
-          user.attributes.store = (user as any).attributes.contextInformation || {};
+          user.attributes.store = {};
         } else {
           user.attributes = {
             fullName: '',
@@ -81,7 +82,6 @@ export class ProfileService {
     let clone = cloneDeep(profile) as any;
     delete clone.username;
     // Handle the odd naming of the field on the API
-    clone.contextInformation = clone.store;
     delete clone.store;
     let payload = JSON.stringify({
       data: {

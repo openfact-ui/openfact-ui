@@ -1,22 +1,40 @@
+import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+
 import { User, UserService } from '../ngx-login-client';
-import { Component, OnInit } from '@angular/core';
-import { Broadcaster } from '../ngx-base';
-import { AuthenticationService } from '../ngx-login-client';
+
+import { ExtUser } from './../getting-started/services/getting-started.service';
 
 @Component({
   selector: 'cn-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, OnDestroy {
+
+  private subcriptions: Subscription[] = [];
 
   constructor(
-    private broadcaster: Broadcaster,
+    private router: Router,
     private userService: UserService) {
   }
 
   ngOnInit() {
+    this.subcriptions.push(
+      this.userService.loggedInUser.subscribe((user) => {
+        const registrationCompleted: boolean = (user as ExtUser).attributes.registrationCompleted;
+        if (!registrationCompleted) {
+          this.router.navigateByUrl('/_gettingstarted');
+        } else {
+          this.router.navigateByUrl('/_home');
+        }
+      })
+    );
+  }
 
+  ngOnDestroy() {
+    this.subcriptions.forEach(val => val.unsubscribe());
   }
 
 }

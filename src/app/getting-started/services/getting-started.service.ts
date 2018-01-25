@@ -13,7 +13,6 @@ export class ExtUser extends User {
 }
 
 export class ExtProfile extends Profile {
-  contextInformation: any;
   registrationCompleted: boolean;
   ownedSpaces: string[];
   collaboratedSpaces: string[];
@@ -33,7 +32,7 @@ export class GettingStartedService implements OnDestroy {
     private logger: Logger,
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.usersUrl = apiUrl + 'users';
+    this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
   }
 
   ngOnDestroy(): void {
@@ -48,9 +47,6 @@ export class GettingStartedService implements OnDestroy {
     this.userService.loggedInUser
       .map(user => {
         profile = cloneDeep(user) as ExtUser;
-        if (profile.attributes != undefined) {
-          profile.attributes.contextInformation = (user as ExtUser).attributes.contextInformation || {};
-        }
       })
       .publish().connect();
 
