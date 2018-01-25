@@ -1,0 +1,48 @@
+{
+  "SESSION": {
+    "LOGIN": "Log In"
+  },
+  "BUTTONS": {
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "DELETE": "Delete",
+    "NEXT": "Next",
+    "BACK": "Previous",
+    "CREATE": "Create",
+    "CLOSE": "Close"
+  },
+  "HEADER": {
+    "ABOUT": "About",
+    "MANAGE_ACCOUNT": "Manage Account",
+    "CHANGE_LANGUAGE": "Change Language",
+    "LOGOUT": "Log Out",
+    "RECENT_ITEMS": {
+      "CREATE_SPACE": "Create space",
+      "VIEW_ALL_SPACES": "View all spaces",
+      "ACCOUNT_HOME": "Account home"
+    },
+    "LOGGED_IN_USER": {
+      "PROFILE": "Profile"
+    }
+  },
+  "SPACE_WIZARD": {
+    "TITLE": "Create Space",
+    "SPACE": "Space",
+    "REVIEW": "Review",
+    "TERMS_AND_CONDITIONS": "Terms & conditions",
+    "SUMMARY": "Summary",
+    "CREATE": "Create",
+    "SPACE_CREATED": "Space Created",
+    "SPACE_FORM": {
+      "ASSIGNED_ID": "ID",
+      "ASSIGNED_ID_TOOLTIP": "ID is usually located on <CustomerAssignedAccountID>my_id</CustomerAssignedAccountID>",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
+    },
+    "TERMS_AND_CONDITIONS_FORM": {
+      "TERMS_AND_CONDITIONS": "I swear I am the owner of the current ID that is about to be created. I have all the documents to support me. I'm able to present or send all my documents when this page request it. In case of broken the law I am willing to accept punishment of the current page and from the state where I currently live.",
+      "ACCEPT_CHECK": "Agree with the terms and conditions.",
+      "SUGGESTION": "You must agree with the terms and conditions."
+    }
+  }
+}

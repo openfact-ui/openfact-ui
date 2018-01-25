@@ -18,7 +18,7 @@ export class CollaboratorService {
     private http: Http,
     private logger: Logger,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.spacesUrl = apiUrl + 'spaces';
+    this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
   }
 
   getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<User[]> {

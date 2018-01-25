@@ -15,13 +15,15 @@
             </p>
           </div>
           <div class="wizard-pf-complete blank-slate-pf" *ngIf="!working">
-            <div class="wizard-pf-success-icon">
-              <span class="glyphicon glyphicon-ok-circle"></span>
+            <div *ngIf="creationResult">
+              <div class="wizard-pf-success-icon">
+                <span class="glyphicon glyphicon-ok-circle"></span>
+              </div>
+              <h3 class="blank-slate-pf-main-action">{{ 'SPACE_WIZARD.SPACE_CREATED' | translate }}</h3>
             </div>
-            <h3 class="blank-slate-pf-main-action">Space Created</h3>
-            <p class="blank-slate-pf-secondary-action">Space was created successfully.
-            </p>
-            <button type="button" class="btn btn-lg btn-primary">View Space</button>
+            <div *ngIf="!creationResult">
+              Error
+            </div>
           </div>
         </div>
       </pfng-wizard-substep>
@@ -42,12 +44,16 @@
   <ng-template #stepSpaceInfoReviewTemplate>
     <form class="form">
       <div class="wizard-pf-review-item">
-        <span class="wizard-pf-review-item-label">Space:</span>
-        <span *ngIf="spaceForm" class="wizard-pf-review-item-value">{{spaceForm.space}}</span>
+        <span class="wizard-pf-review-item-label">ID:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.assignedId}}</span>
       </div>
       <div class="wizard-pf-review-item">
-        <span class="wizard-pf-review-item-label">Alias:</span>
-        <span *ngIf="spaceForm" class="wizard-pf-review-item-value">{{spaceForm.alias}}</span>
+        <span class="wizard-pf-review-item-label">Name:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.name}}</span>
+      </div>
+      <div class="wizard-pf-review-item">
+        <span class="wizard-pf-review-item-label">Description:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.description}}</span>
       </div>
     </form>
   </ng-template>

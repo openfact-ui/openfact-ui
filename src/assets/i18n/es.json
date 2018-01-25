@@ -1,0 +1,48 @@
+{
+  "SESSION": {
+    "LOGIN": "Iniciar Sesion"
+  },
+  "BUTTONS": {
+    "SAVE": "Guardar",
+    "CANCEL": "Cancelar",
+    "DELETE": "Eliminar",
+    "NEXT": "Siguiente",
+    "BACK": "Anterior",
+    "CREATE": "Crear",
+    "CLOSE": "Cerrar"
+  },
+  "HEADER": {
+    "ABOUT": "Acerca de",
+    "MANAGE_ACCOUNT": "Administrar Cuenta",
+    "CHANGE_LANGUAGE": "Cambiar Idioma",
+    "LOGOUT": "Cerrar Sesion",
+    "RECENT_ITEMS": {
+      "CREATE_SPACE": "Crear espacio",
+      "VIEW_ALL_SPACES": "Ver todos los espacios",
+      "ACCOUNT_HOME": "Pagina de inicio"
+    },
+    "LOGGED_IN_USER": {
+      "PROFILE": "Mi perfil"
+    }
+  },
+  "SPACE_WIZARD": {
+    "TITLE": "Crear Espacio",
+    "SPACE": "Espacio",
+    "REVIEW": "Revisar",
+    "TERMS_AND_CONDITIONS": "Términos y Condiciones",
+    "SUMMARY": "Resumen",
+    "CREATE": "Crear",
+    "SPACE_CREATED": "Espacio Creado",
+    "SPACE_FORM": {
+      "ASSIGNED_ID": "ID",
+      "ASSIGNED_ID_TOOLTIP": "El ID está ubicado generalmente en el tag <CustomerAssignedAccountID>my_id</CustomerAssignedAccountID>",
+      "NAME": "Nombre",
+      "DESCRIPTION": "Descripción"
+    },
+    "TERMS_AND_CONDITIONS_FORM": {
+      "TERMS_AND_CONDITIONS": "Yo declaro que soy dueño del ID que estoy a punto de crear. Tengo los documentos que acrediten la titularidad del mismo. Estoy dispuesto a presentar los documentos probatorios en cualquier momento en el que esta página me lo solicite. En caso de faltar a la verdad me someto a las sanciones establecidas por la presente página y la ley del estado donde me encuentre.",
+      "ACCEPT_CHECK": "Estoy de acuerdo con los términos y condiciones.",
+      "SUGGESTION": "Es necesario que acepters los términos y condiciones."
+    }
+  }
+}

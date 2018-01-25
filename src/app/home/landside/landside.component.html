@@ -52,7 +52,7 @@
 
 
 
-  <div ng-if="$ctrl.showGetStarted" class="ng-scope">
+  <div *ngIf="showGetStarted">
     <div class="getting-started-panel">
       <!-- ngIf: $ctrl.projects && $ctrl.projects.length > 0 -->
       <h2 class="secondary ng-scope" ng-if="$ctrl.projects &amp;&amp; $ctrl.projects.length > 0">Getting Started</h2>
@@ -68,24 +68,20 @@
     <div class="resources-panel">
       <ul>
         <!-- ngRepeat: resource in $ctrl.resourceLinks -->
-        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+        <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://docs.openshift.com/online/" target="_blank" title="https://docs.openshift.com/online/" class="ng-binding">Documentation</a>
         </li>
         <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
-        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
-          <a href="https://learn.openshift.com/" target="_blank" title="https://learn.openshift.com" class="ng-binding">Interactive Learning Portal</a>
-        </li>
-        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
-        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+        <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://developers.redhat.com/products/cdk/overview/" target="_blank" title="https://developers.redhat.com/products/cdk/overview/"
             class="ng-binding">Container Development Kit</a>
         </li>
         <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
-        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+        <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://www.youtube.com/user/rhopenshift" target="_blank" title="https://www.youtube.com/user/rhopenshift" class="ng-binding">YouTube</a>
         </li>
         <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
-        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+        <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://blog.openshift.com/" target="_blank" title="https://blog.openshift.com" class="ng-binding">Blog</a>
         </li>
         <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
@@ -94,7 +90,7 @@
   </div>
 
 
-  <div ng-if="$ctrl.recentlyViewedItems.length" class="ng-scope">
+  <div *ngIf="recentlyViewedItems && recentlyViewedItems.length">
     <h2 class="secondary">Recently Viewed</h2>
     <div class="services-view">
       <!-- ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->

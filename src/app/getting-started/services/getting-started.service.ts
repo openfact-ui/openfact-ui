@@ -17,6 +17,7 @@ export class ExtProfile extends Profile {
   ownedSpaces: string[];
   collaboratedSpaces: string[];
   favoriteSpaces: string[];
+  defaultLanguage: string;
 }
 
 @Injectable()

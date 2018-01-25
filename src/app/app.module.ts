@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 import './rxjs-extensions';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -73,6 +75,11 @@ import { EventService } from './ngx-clarksnut-impl/event.service';
 // Error
 import { ErrorService } from './layout/error/error.service';
 
+// AoT requires an exported function for factories
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,10 +93,17 @@ import { ErrorService } from './layout/error/error.service';
     BrowserModule,
     AppRoutingModule,
 
+    HttpClientModule,
     HttpModule,
 
     // Translate
-    TranslateModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
 
     // Bootstraop
     BsDropdownModule.forRoot(),

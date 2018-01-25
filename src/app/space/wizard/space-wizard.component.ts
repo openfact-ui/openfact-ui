@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
 import { UserService } from '../../ngx-login-client';
@@ -58,8 +59,9 @@ export class SpaceWizardComponent implements OnInit {
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
   space: Space;
-  termsAndConditions: boolean;
+  termsAndConditions: boolean = false;
   working: boolean = false;
+  creationResult: boolean = false;
 
   // Wizard
   public wizardConfig: WizardConfig;
@@ -69,10 +71,13 @@ export class SpaceWizardComponent implements OnInit {
   public stepSpaceTermsConditionsConfig: WizardStepConfig;
   public stepSpaceInfoConfig: WizardStepConfig;
 
-  // Wizard Step 2
+  // Wizard Step 2A
   public stepClaimConfig: WizardStepConfig;
   public stepClaimReviewConfig: WizardStepConfig;
   public stepClaimResultConfig: WizardStepConfig;
+
+  // Wizard Step 2B
+  public stepRequestAccessConfig: WizardStepConfig;
 
   // Modal
   private modalRef: BsModalRef;
@@ -85,7 +90,8 @@ export class SpaceWizardComponent implements OnInit {
     private spaceService: SpaceService,
     private spacesService: SpacesService,
     private spaceNamePipe: SpaceNamePipe,
-    private notifications: Notifications) { }
+    private notifications: Notifications,
+    private translateService: TranslateService) { }
 
   /**
    * used to add a log entry to the logger
@@ -94,7 +100,9 @@ export class SpaceWizardComponent implements OnInit {
   public log: ILoggerDelegate = () => { };
 
   ngOnInit() {
+    this.creationResult = false;
     this.initWizard();
+    this.translateWizard();
   }
 
   initWizard() {
@@ -110,7 +118,7 @@ export class SpaceWizardComponent implements OnInit {
       expandReviewDetails: true,
       nextEnabled: false,
       priority: 0,
-      title: 'Space Data'
+      title: 'Space Info'
     } as WizardStepConfig;
 
     this.stepSpaceTermsConditionsConfig = {
@@ -121,7 +129,7 @@ export class SpaceWizardComponent implements OnInit {
       title: 'Terms & Conditions'
     } as WizardStepConfig;
 
-    // Step 2
+    // Step 2A
     this.stepClaimConfig = {
       id: 'stepClaim',
       priority: 1,
@@ -142,10 +150,42 @@ export class SpaceWizardComponent implements OnInit {
 
     // Wizard
     this.wizardConfig = {
-      title: 'Claim Space'
+      title: 'Create Space'
     } as WizardConfig;
 
     this.setNavAway(false);
+  }
+
+  translateWizard() {
+    this.translateService.get('SPACE_WIZARD.TITLE').take(1).subscribe((val) => {
+      this.wizardConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.SPACE').take(1).subscribe((val) => {
+      this.stepSpaceConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.REVIEW').take(1).subscribe((val) => {
+      this.stepClaimConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.SPACE').take(1).subscribe((val) => {
+      this.stepSpaceInfoConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.TERMS_AND_CONDITIONS').take(1).subscribe((val) => {
+      this.stepSpaceTermsConditionsConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.SUMMARY').take(1).subscribe((val) => {
+      this.stepClaimReviewConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.CREATE').take(1).subscribe((val) => {
+      this.stepClaimResultConfig.title = val;
+    });
+
+
+    this.translateService.get('BUTTONS.CANCEL').take(1).subscribe((val) => {
+      this.wizardConfig.cancelTitle = val;
+    });
+    this.translateService.get('BUTTONS.BACK').take(1).subscribe((val) => {
+      this.wizardConfig.previousTitle = '< ' + val;
+    });
   }
 
   // Methods
@@ -165,15 +205,30 @@ export class SpaceWizardComponent implements OnInit {
     if ($event.step.config.id === 'stepSpaceInfo') {
       this.stepSpaceInfoConfig.nextEnabled = (this.space !== undefined && this.space !== null);
       this.setNavAway(this.stepSpaceInfoConfig.nextEnabled);
+      this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
+        this.wizardConfig.nextTitle = val + ' >';
+      });
     } else if ($event.step.config.id === 'stepSpaceTermsConditions') {
       this.stepSpaceTermsConditionsConfig.nextEnabled = this.termsAndConditions;
       this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+      this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
+        this.wizardConfig.nextTitle = val + ' >';
+      });
     } else if ($event.step.config.id === 'stepClaimReview') {
-      this.wizardConfig.nextTitle = 'Claim';
+      this.wizardConfig.nextTitle = 'Create';
+      this.translateService.get('BUTTONS.CREATE').take(1).subscribe((val) => {
+        this.wizardConfig.nextTitle = val;
+      });
     } else if ($event.step.config.id === 'stepClaimResult') {
       this.wizardConfig.nextTitle = 'Close';
+      this.translateService.get('BUTTONS.CLOSE').take(1).subscribe((val) => {
+        this.wizardConfig.nextTitle = val;
+      });
     } else {
       this.wizardConfig.nextTitle = 'Next >';
+      this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
+        this.wizardConfig.nextTitle = val + ' >';
+      });
     }
   }
 
@@ -255,23 +310,23 @@ export class SpaceWizardComponent implements OnInit {
           message: `Your new space is created!`,
           type: NotificationType.SUCCESS,
           primaryAction: primaryAction
-        })
-          .filter(action => action.id === primaryAction.id)
-          .subscribe(action => {
-            this.router.navigate([createdSpace.relationalData.creator.attributes.username,
-            createdSpace.attributes.assignedId]);
-            this.finish();
-          });
-        this.router.navigate([createdSpace.relationalData.creator.attributes.username, createdSpace.attributes.assignedId]);
-        this.finish();
+        });
+        this.finish(true);
       },
       (err) => {
         console.log('Error creating space', err);
-        this.notifications.message(<Notification>{
-          message: `Failed to create "${this.space.attributes.name}"`,
-          type: NotificationType.DANGER
-        });
-        this.finish();
+        if (err.status == 409) {
+          this.notifications.message(<Notification>{
+            message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
+            type: NotificationType.DANGER
+          });
+        } else {
+          this.notifications.message(<Notification>{
+            message: `Space could not been created"`,
+            type: NotificationType.DANGER
+          });
+        }
+        this.finish(false);
       });
   }
 
@@ -292,10 +347,13 @@ export class SpaceWizardComponent implements OnInit {
     return space;
   }
 
-  finish() {
+  finish(result: boolean) {
     console.log(`finish ...`);
     this.working = false;
-    this.onSaved.emit({ flow: 'selectFlow', space: this.space.attributes.name });
+    this.creationResult = result;
+    if (result) {
+      this.onSaved.emit({ flow: 'selectFlow', space: this.space.attributes.name });
+    }
   }
 
   // Modal

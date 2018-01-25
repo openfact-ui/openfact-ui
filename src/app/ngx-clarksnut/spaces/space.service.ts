@@ -23,9 +23,9 @@ export class SpaceService {
     private auth: AuthenticationService,
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.spacesUrl = apiUrl + 'spaces';
-    this.namedSpacesUrl = apiUrl + 'namedspaces';
-    this.searchSpacesUrl = apiUrl + 'search/spaces';
+    this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
+    this.namedSpacesUrl = apiUrl.endsWith('/') ? apiUrl + 'namedspaces' : apiUrl + '/namedspaces';
+    this.searchSpacesUrl = apiUrl.endsWith('/') ? apiUrl + 'search/space' : apiUrl + '/search/space';
   }
 
   getSpaces(pageSize: number = 20): Observable<Space[]> {
