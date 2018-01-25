@@ -1,5 +1,5 @@
 .guided-tour-backdrop {
-  z-index: $zindex-modal + 2;
+  z-index: z(index-modal + 2);
 }
 
 // Note: variable used for clarity only, changing will require other changes as well due to hopscotch arrow container sizing

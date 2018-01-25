@@ -7,7 +7,7 @@
   padding: 0 ($grid-gutter-width / 2) ($grid-gutter-width / 2);
   right: 0;
   top: 0;
-  z-index: $zindex-modal;
+  z-index: z(index-modal);
 
   @media(min-width: $screen-sm-min) {
     border: 1px solid $dropdown-border;
@@ -95,5 +95,5 @@
 .origin-modal-popup-backdrop.modal-backdrop {
   background-color: transparent;
   cursor: not-allowed;
-  z-index: $zindex-navbar-fixed + 1;
+  z-index: z(index-navbar-fixed + 1);
 }

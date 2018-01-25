@@ -39,7 +39,7 @@ export class ProfileService {
     userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string,
     private http: Http) {
-    this.profileUrl = apiUrl + 'users';
+    this.profileUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
     this._profile = userService.loggedInUser
       .skipWhile((user) => {
         return !user || !user.attributes;

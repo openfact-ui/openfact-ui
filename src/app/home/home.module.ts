@@ -4,14 +4,19 @@ import { Http } from '@angular/http';
 
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
+import { LandsideComponent } from './landside/landside.component';
+
+import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HomeRoutingModule,
+    SpaceWizardModule
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    LandsideComponent
   ],
   providers: [
   ]

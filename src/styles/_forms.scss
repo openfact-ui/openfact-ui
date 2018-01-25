@@ -110,5 +110,5 @@ copy-to-clipboard .input-group.limit-width {
 }
 
 .ui-select-dropdown {
-  z-index: $zindex-navbar-fixed + 1;
+  z-index: z(index-navbar-fixed + 1);
 }

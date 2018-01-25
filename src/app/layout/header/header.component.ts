@@ -5,6 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { User, UserService } from '../../ngx-login-client';
+import { Space } from '../../ngx-clarksnut';
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
@@ -18,6 +19,7 @@ interface MenuHiddenCallback {
 export class HeaderComponent implements OnInit, OnDestroy {
 
   user: User;
+  space: Space;
   private subcriptions: Subscription[] = [];
 
   constructor(private userService: UserService) {

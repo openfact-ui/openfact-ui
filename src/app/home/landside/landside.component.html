@@ -1,0 +1,148 @@
+<div class="catalog-projects-summary-panel" ng-show="!$ctrl.loading">
+  <button class="create-button btn btn-primary" (click)="spaceWizard.open()">
+    <span class="fa fa-plus"></span>
+    <span class="create-button-text">Create Space</span>
+  </button>
+
+  <h2 class="summary-title secondary" *ngIf="spaces && spaces.length">
+    <a href="projects">My Spaces</a>
+  </h2>
+
+  <div *ngIf="spaces && spaces.length" class="catalog-project-summary-list">
+    <div class="projects-count">
+      <strong>1</strong>
+      of
+      <strong>1</strong>
+      Projects
+      <a href="projects" class="projects-view-all">View All</a>
+    </div>
+    <div id="catalog-projects-summary-list">
+      <div ng-repeat="project in $ctrl.projects track by (project | uid)" class="project-tile tile-click">
+        <div class="dropdown dropdown-kebab-pf" uib-dropdown="">
+          <button class="btn btn-link uib-dropdown-toggle dropdown-toggle" type="button" id="dropdownKebab" aria-haspopup="true" aria-expanded="false"
+            uib-dropdown-toggle="">
+            <span class="fa fa-ellipsis-v"></span>
+          </button>
+          <ul class="uib-dropdown-menu dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
+            <li>
+              <a href="" ng-click="$ctrl.onViewMemebership(project)">View Membership</a>
+            </li>
+            <li>
+              <a href="" ng-click="$ctrl.editProject(project)">Edit Project</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" ng-click="openDeleteModal()" role="button" ng-class="{ 'disabled-link': disableDelete }" label="Delete Project"
+                project="project" type-name-to-confirm="true" stay-on-current-page="true" success="$ctrl.onDeleteProject">Delete Project</a>
+            </li>
+          </ul>
+        </div>
+        <h3 class="project-tile-header">
+          <a href="project/clarksnut-jenkins" class="project-title tile-target">clarksnut-jenkins</a>
+        </h3>
+        <p class="project-date">
+          created
+          <span ng-if="project | annotation : 'openshift.io/requester'">by
+            <span class="word-break" ng-bind-html="project | annotation : 'openshift.io/requester'">carlosthe19916@gmail.com</span>
+          </span>
+          <span am-time-ago="project.metadata.creationTimestamp" title="January 23, 2018 10:00 AM">2 days ago</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div ng-if="$ctrl.showGetStarted" class="ng-scope">
+    <div class="getting-started-panel">
+      <!-- ngIf: $ctrl.projects && $ctrl.projects.length > 0 -->
+      <h2 class="secondary ng-scope" ng-if="$ctrl.projects &amp;&amp; $ctrl.projects.length > 0">Getting Started</h2>
+      <!-- end ngIf: $ctrl.projects && $ctrl.projects.length > 0 -->
+      <!-- ngIf: $ctrl.startTour() -->
+      <button ng-if="$ctrl.startTour()" class="getting-started-button btn btn-default hidden-xs ng-scope with-projects" ng-class="{'with-projects': $ctrl.projects &amp;&amp; $ctrl.projects.length}"
+        ng-click="$ctrl.handleGettingStartedClick()">
+        <span class="fa fa-info-circle fa-2"></span>
+        <span class="getting-started-button-text">Take Home Page Tour</span>
+      </button>
+      <!-- end ngIf: $ctrl.startTour() -->
+    </div>
+    <div class="resources-panel">
+      <ul>
+        <!-- ngRepeat: resource in $ctrl.resourceLinks -->
+        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+          <a href="https://docs.openshift.com/online/" target="_blank" title="https://docs.openshift.com/online/" class="ng-binding">Documentation</a>
+        </li>
+        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
+        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+          <a href="https://learn.openshift.com/" target="_blank" title="https://learn.openshift.com" class="ng-binding">Interactive Learning Portal</a>
+        </li>
+        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
+        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+          <a href="https://developers.redhat.com/products/cdk/overview/" target="_blank" title="https://developers.redhat.com/products/cdk/overview/"
+            class="ng-binding">Container Development Kit</a>
+        </li>
+        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
+        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+          <a href="https://www.youtube.com/user/rhopenshift" target="_blank" title="https://www.youtube.com/user/rhopenshift" class="ng-binding">YouTube</a>
+        </li>
+        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
+        <li ng-repeat="resource in $ctrl.resourceLinks" class="ng-scope">
+          <a href="https://blog.openshift.com/" target="_blank" title="https://blog.openshift.com" class="ng-binding">Blog</a>
+        </li>
+        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
+      </ul>
+    </div>
+  </div>
+
+
+  <div ng-if="$ctrl.recentlyViewedItems.length" class="ng-scope">
+    <h2 class="secondary">Recently Viewed</h2>
+    <div class="services-view">
+      <!-- ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->
+      <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.recentlyViewedItems track by (item.resource | uid)" ng-click="$ctrl.orderService(item)">
+        <!-- ngIf: !item.imageUrl -->
+        <!-- ngIf: item.imageUrl -->
+        <div ng-if="item.imageUrl" class="services-item-icon services-item-img ng-scope">
+          <img ng-src="images/logos/php.svg" src="images/logos/php.svg">
+        </div>
+        <!-- end ngIf: item.imageUrl -->
+        <div class="services-item-name ng-binding" title="CakePHP + MySQL (Persistent)" aria-hidden="true">CakePHP + MySQL (Persistent)</div>
+      </a>
+      <!-- end ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->
+      <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.recentlyViewedItems track by (item.resource | uid)" ng-click="$ctrl.orderService(item)">
+        <!-- ngIf: !item.imageUrl -->
+        <!-- ngIf: item.imageUrl -->
+        <div ng-if="item.imageUrl" class="services-item-icon services-item-img ng-scope">
+          <img ng-src="images/logos/jenkins.svg" src="images/logos/jenkins.svg">
+        </div>
+        <!-- end ngIf: item.imageUrl -->
+        <div class="services-item-name ng-binding" title="Jenkins (Persistent)" aria-hidden="true">Jenkins (Persistent)</div>
+      </a>
+      <!-- end ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->
+      <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.recentlyViewedItems track by (item.resource | uid)" ng-click="$ctrl.orderService(item)">
+        <!-- ngIf: !item.imageUrl -->
+        <!-- ngIf: item.imageUrl -->
+        <div ng-if="item.imageUrl" class="services-item-icon services-item-img ng-scope">
+          <img ng-src="images/logos/postgresql.svg" src="images/logos/postgresql.svg">
+        </div>
+        <!-- end ngIf: item.imageUrl -->
+        <div class="services-item-name ng-binding" title="PostgreSQL (Persistent)" aria-hidden="true">PostgreSQL (Persistent)</div>
+      </a>
+      <!-- end ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->
+      <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.recentlyViewedItems track by (item.resource | uid)" ng-click="$ctrl.orderService(item)">
+        <!-- ngIf: !item.imageUrl -->
+        <!-- ngIf: item.imageUrl -->
+        <div ng-if="item.imageUrl" class="services-item-icon services-item-img ng-scope">
+          <img ng-src="images/logos/wildfly.svg" src="images/logos/wildfly.svg">
+        </div>
+        <!-- end ngIf: item.imageUrl -->
+        <div class="services-item-name ng-binding" title="WildFly" aria-hidden="true">WildFly</div>
+      </a>
+      <!-- end ngRepeat: item in $ctrl.recentlyViewedItems track by (item.resource | uid) -->
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Create Space modal -->
+<ofs-space-wizard #spaceWizard></ofs-space-wizard>

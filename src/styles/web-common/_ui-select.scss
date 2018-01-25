@@ -2,7 +2,7 @@
 
 // ensure ui-select dropdown overlays when appended to body
 body > .ui-select-bootstrap.open {
-  z-index: $zindex-modal;
+  z-index: z(index-modal);
 }
 .ui-select-bootstrap {
   .ui-select-choices-row {

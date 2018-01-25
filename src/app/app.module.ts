@@ -41,7 +41,8 @@ import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
 import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
 
 // Ngx-clarksnut
-import { CollaboratorService, Contexts, Spaces, SpaceService } from './ngx-clarksnut';
+import { ClarksnutModule } from './ngx-clarksnut';
+import { CollaboratorService, Contexts, Spaces, SpaceService, UBLDocumentService } from './ngx-clarksnut';
 
 // Ngx-clarksnut-impl
 import { ContextService } from './ngx-clarksnut-impl/context.service';
@@ -57,13 +58,17 @@ import { GettingStartedService } from './getting-started/services/getting-starte
 // Shared Services
 import { AboutService } from './shared/about.service';
 
+// Component Services
+import { ProfileService } from './profile/profile.service';
+
 // Footer & Header
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
 import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
-//import { MenusService } from './layout/header/menus.service';
+import { MenusService } from './layout/header/menus.service';
+import { EventService } from './ngx-clarksnut-impl/event.service';
 
 // Error
 import { ErrorService } from './layout/error/error.service';
@@ -93,6 +98,7 @@ import { ErrorService } from './layout/error/error.service';
     NotificationModule,
 
     // Custom modules
+    ClarksnutModule,
     AboutModalModule,
   ],
   providers: [
@@ -136,12 +142,20 @@ import { ErrorService } from './layout/error/error.service';
       useExisting: SpacesService
     },
     SpaceService,
+    UBLDocumentService,
 
     // Getting Services
     GettingStartedService,
 
     // Shared Services
     AboutService,
+
+    // Component Services
+    ProfileService,
+
+    // Footer & Header
+    MenusService,
+    EventService,
 
     // Error
     ErrorService,

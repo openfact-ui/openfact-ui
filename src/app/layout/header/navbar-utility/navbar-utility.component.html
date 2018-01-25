@@ -12,7 +12,7 @@
       <li role="menuitem"><a class="dropdown-item" (click)="aboutModal.open()" href="javascript:void(0);">About</a></li>
     </ul>
   </li>
-  <li dropdown *ngIf="user">
+  <li dropdown placement="bottom right" *ngIf="user">
     <a dropdownToggle id="user-dropdown" class="nav-item-iconic">
       <span class="fa pf-icon pficon-user" aria-hidden="true"></span>
       <span class="username truncate">{{user.attributes.fullNam || user.attributes.username}}</span>
