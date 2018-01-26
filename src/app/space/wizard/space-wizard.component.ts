@@ -1,3 +1,5 @@
+import { IRequestAccessForm } from './models/request-access';
+import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
@@ -59,9 +61,10 @@ export class SpaceWizardComponent implements OnInit {
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
   space: Space;
+  previousSpace: Space;
   termsAndConditions: boolean = false;
+  requestAccess: IRequestAccessForm;
   working: boolean = false;
-  creationResult: boolean = false;
 
   // Wizard
   public wizardConfig: WizardConfig;
@@ -71,13 +74,10 @@ export class SpaceWizardComponent implements OnInit {
   public stepSpaceTermsConditionsConfig: WizardStepConfig;
   public stepSpaceInfoConfig: WizardStepConfig;
 
-  // Wizard Step 2A
+  // Wizard Step 2
   public stepClaimConfig: WizardStepConfig;
   public stepClaimReviewConfig: WizardStepConfig;
   public stepClaimResultConfig: WizardStepConfig;
-
-  // Wizard Step 2B
-  public stepRequestAccessConfig: WizardStepConfig;
 
   // Modal
   private modalRef: BsModalRef;
@@ -100,7 +100,6 @@ export class SpaceWizardComponent implements OnInit {
   public log: ILoggerDelegate = () => { };
 
   ngOnInit() {
-    this.creationResult = false;
     this.initWizard();
     this.translateWizard();
   }
@@ -193,6 +192,12 @@ export class SpaceWizardComponent implements OnInit {
     if ($event.step.config.id === 'stepClaimResult') {
       this.close();
     }
+
+    if ($event.step.config.id == 'stepSpaceInfo') {
+      this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((val) => {
+        this.previousSpace = val;
+      });
+    }
   }
 
   public stepChanged($event: WizardEvent, wizard: WizardComponent) {
@@ -282,52 +287,63 @@ export class SpaceWizardComponent implements OnInit {
     this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
   }
 
+  onRequestAccessChange($event: IRequestAccessForm) {
+    this.requestAccess = $event;
+
+    this.stepSpaceTermsConditionsConfig.nextEnabled = $event ? true : false;
+    this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+  }
+
   // Actions
 
   save(): void {
     this.working = true;
     this.wizardConfig.done = true;
 
-    // Saving
-    console.log('Creating space', this.space);
-    this.space.attributes.name = this.space.attributes.name.replace(/ /g, '_');
+    if (this.previousSpace) {
 
-    this.userService.loggedInUser
-      .switchMap((user) => {
-        this.space.relationships['owned-by'].data.id = user.id;
-        return this.spaceService.create(this.space);
-      })
-      .do((createdSpace) => {
-        this.spacesService.addRecent.next(createdSpace);
-      })
-      .subscribe((createdSpace) => {
-        const primaryAction: NotificationAction = {
-          name: `Open Space`,
-          title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
-          id: 'openSpace'
-        };
-        this.notifications.message(<Notification>{
-          message: `Your new space is created!`,
-          type: NotificationType.SUCCESS,
-          primaryAction: primaryAction
+    } else {
+      // Saving
+      console.log('Creating space', this.space);
+      this.space.attributes.name = this.space.attributes.name.replace(/ /g, '_');
+
+      this.userService.loggedInUser
+        .switchMap((user) => {
+          this.space.relationships['owned-by'].data.id = user.id;
+          return this.spaceService.create(this.space);
+        })
+        .do((createdSpace) => {
+          this.spacesService.addRecent.next(createdSpace);
+        })
+        .subscribe((createdSpace) => {
+          const primaryAction: NotificationAction = {
+            name: `Open Space`,
+            title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
+            id: 'openSpace'
+          };
+          this.notifications.message(<Notification>{
+            message: `Your new space is created!`,
+            type: NotificationType.SUCCESS,
+            primaryAction: primaryAction
+          });
+          this.finish(true);
+        },
+        (err) => {
+          console.log('Error creating space', err);
+          if (err.status == 409) {
+            this.notifications.message(<Notification>{
+              message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
+              type: NotificationType.DANGER
+            });
+          } else {
+            this.notifications.message(<Notification>{
+              message: `Space could not been created"`,
+              type: NotificationType.DANGER
+            });
+          }
+          this.finish(false);
         });
-        this.finish(true);
-      },
-      (err) => {
-        console.log('Error creating space', err);
-        if (err.status == 409) {
-          this.notifications.message(<Notification>{
-            message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
-            type: NotificationType.DANGER
-          });
-        } else {
-          this.notifications.message(<Notification>{
-            message: `Space could not been created"`,
-            type: NotificationType.DANGER
-          });
-        }
-        this.finish(false);
-      });
+    }
   }
 
   private createTransientSpace(): Space {
@@ -350,7 +366,6 @@ export class SpaceWizardComponent implements OnInit {
   finish(result: boolean) {
     console.log(`finish ...`);
     this.working = false;
-    this.creationResult = result;
     if (result) {
       this.onSaved.emit({ flow: 'selectFlow', space: this.space.attributes.name });
     }

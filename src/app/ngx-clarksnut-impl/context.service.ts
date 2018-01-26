@@ -411,9 +411,9 @@ export class ContextService implements Contexts {
       });
   }
 
-  private loadSpace(userName: string, spaceName: string): Observable<Space> {
-    if (userName && spaceName) {
-      return this.spaceService.getSpaceByAssignedId(userName, spaceName);
+  private loadSpace(userName: string, spaceAssignedId: string): Observable<Space> {
+    if (userName && spaceAssignedId) {
+      return this.spaceService.getSpaceByAssignedId(spaceAssignedId);
     } else {
       return Observable.of({} as Space);
     }

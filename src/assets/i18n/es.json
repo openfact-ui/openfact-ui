@@ -39,6 +39,11 @@
       "NAME": "Nombre",
       "DESCRIPTION": "Descripción"
     },
+    "REQUEST_ACCESS_FORM": {
+      "TITLE": "Ups! Parece ser que otro usario ya es el propietario del Espacio. Te gustario ponerte en contacto con Él y solicitar acceso al Espacio?",
+      "CURRENT_OWNER": "Actual Propietario",
+      "REQUEST_MESSAGE": "Mensaje"
+    },
     "TERMS_AND_CONDITIONS_FORM": {
       "TERMS_AND_CONDITIONS": "Yo declaro que soy dueño del ID que estoy a punto de crear. Tengo los documentos que acrediten la titularidad del mismo. Estoy dispuesto a presentar los documentos probatorios en cualquier momento en el que esta página me lo solicite. En caso de faltar a la verdad me someto a las sanciones establecidas por la presente página y la ley del estado donde me encuentre.",
       "ACCEPT_CHECK": "Estoy de acuerdo con los términos y condiciones.",

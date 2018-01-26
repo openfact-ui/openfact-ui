@@ -34,7 +34,8 @@
         <ofs-space-form (onChange)="onSpaceFormChange($event)"></ofs-space-form>
       </pfng-wizard-substep>
       <pfng-wizard-substep [config]="stepSpaceTermsConditionsConfig">
-        <ofs-space-terms-conditions (onChange)="onTermsConditionsChange($event)"></ofs-space-terms-conditions>
+        <ofs-space-terms-conditions (onChange)="onTermsConditionsChange($event)" *ngIf="!previousSpace"></ofs-space-terms-conditions>
+        <cn-request-access-form (onChange)="onRequestAccessChange($event)" [space]="previousSpace" *ngIf="previousSpace"></cn-request-access-form>
       </pfng-wizard-substep>
     </pfng-wizard-step>
 

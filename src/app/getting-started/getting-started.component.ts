@@ -16,7 +16,6 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   username: string;
   loggedInUser: User;
   registrationCompleted: boolean = true;
-  googleLinked: boolean;
 
   private subscriptions: Subscription[] = [];
 
@@ -35,10 +34,6 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
         this.loggedInUser = user;
         this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
-      })
-      .switchMap(() => this.auth.getGoogleToken())
-      .map((token) => {
-        this.googleLinked = (token !== undefined && token.length !== 0);
       })
       .publish().connect();
   }

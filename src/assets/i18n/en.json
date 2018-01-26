@@ -39,6 +39,11 @@
       "NAME": "Name",
       "DESCRIPTION": "Description"
     },
+    "REQUEST_ACCESS_FORM": {
+      "TITLE": "Ups! It seems that another user has already claim the Space. Would you like be to request access to the owner?",
+      "CURRENT_OWNER": "Current Owner",
+      "REQUEST_MESSAGE": "Message"
+    },
     "TERMS_AND_CONDITIONS_FORM": {
       "TERMS_AND_CONDITIONS": "I swear I am the owner of the current ID that is about to be created. I have all the documents to support me. I'm able to present or send all my documents when this page request it. In case of broken the law I am willing to accept punishment of the current page and from the state where I currently live.",
       "ACCEPT_CHECK": "Agree with the terms and conditions.",

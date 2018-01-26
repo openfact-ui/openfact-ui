@@ -52,7 +52,7 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
             let ownedSpaces = (loggedInUser as ExtUser).attributes.ownedSpaces || [];
             if (ownedSpaces.length > 0) {
               this.ownedSpaces = Observable.forkJoin((ownedSpaces as string[]).map((assignedId) => {
-                return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
+                return this.spaceService.getSpaceByAssignedId(assignedId);
               }));
             } else {
               this.ownedSpaces = Observable.of([]);
@@ -62,7 +62,7 @@ export class SpaceTabsComponent implements OnInit, OnDestroy {
             let collaboratedSpaces = (loggedInUser as ExtUser).attributes.collaboratedSpaces || [];
             if (collaboratedSpaces.length > 0) {
               this.collaboratedSpaces = Observable.forkJoin((collaboratedSpaces as string[]).map((assignedId) => {
-                return this.spaceService.getSpaceByAssignedId(loggedInUser.attributes.username, assignedId);
+                return this.spaceService.getSpaceByAssignedId(assignedId);
               }));
             } else {
               this.collaboratedSpaces = Observable.of([]);

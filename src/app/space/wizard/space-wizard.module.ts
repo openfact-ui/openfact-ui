@@ -15,6 +15,7 @@ import {
   SpaceTermsConditionsComponent
 } from './components/space-terms-conditions/space-terms-conditions.component';
 import { SpaceFormComponent } from './components/space-form/space-form.component';
+import { RequestAccessFormComponent } from './components/request-access-form/request-access-form.component';
 
 import { TrustHtmlPipe, TrustStylePipe } from './pipes/safe-html.pipe';
 import { VisibleItemsPipe } from './pipes/visible-items.pipe';
@@ -38,6 +39,7 @@ import { LoggerFactory } from './common/logger';
     SpaceWizardComponent,
     SpaceTermsConditionsComponent,
     SpaceFormComponent,
+    RequestAccessFormComponent,
 
     SelectedItemsPipe,
     VisibleItemsPipe,

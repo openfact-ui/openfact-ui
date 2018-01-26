@@ -59,7 +59,7 @@ export function uniqueSpaceAssignedIdValidator(
         .switchMap(user => {
           return spaceService
             // tslint:disable-next-line:max-line-length
-            .getSpaceByAssignedId(user.id, control.value ? control.value.replace(' ', '_') : control.value)
+            .getSpaceByAssignedId(control.value ? control.value.replace(' ', '_') : control.value)
             .map(val => {
               return { unique: { valid: false, existingSpace: val, requestedName: control.value } };
             })

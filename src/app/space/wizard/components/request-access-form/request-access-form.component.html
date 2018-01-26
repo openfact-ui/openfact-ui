@@ -1,0 +1,18 @@
+<form [formGroup]="form" class="form-horizontal">
+  <h3>{{ 'SPACE_WIZARD.REQUEST_ACCESS_FORM.TITLE' | translate }}</h3>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">{{ 'SPACE_WIZARD.REQUEST_ACCESS_FORM.CURRENT_OWNER' | translate }}
+    </label>
+    <div class="col-sm-9">
+      <input formControlName="currentOwner" type="text" class="form-control" readonly/>
+    </div>
+  </div>
+  <div class="form-group" formControlError="requestMessage">
+    <label class="col-sm-3 control-label required-pf">{{ 'SPACE_WIZARD.REQUEST_ACCESS_FORM.REQUEST_MESSAGE' | translate }}
+    </label>
+    <div class="col-sm-9">
+      <textarea formControlName="requestMessage" class="form-control"></textarea>
+      <form-help-block formControlHelp="requestMessage"></form-help-block>
+    </div>
+  </div>
+</form>

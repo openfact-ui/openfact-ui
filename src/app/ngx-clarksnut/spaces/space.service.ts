@@ -41,13 +41,32 @@ export class SpaceService {
     }
   }
 
-  getSpaceByAssignedId(userName: string, spaceAssignedId: string): Observable<Space> {
-    let url = `${this.namedSpacesUrl}/${userName}/${spaceAssignedId}`;
-    return this.http.get(url, { headers: this.headers })
-      .map((response) => {
-        return response.json().data as Space;
+  getSpaceByAssignedId(spaceAssignedId: string): Observable<Space> {
+    let url = this.spacesUrl;
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('assignedId', spaceAssignedId);
+
+    return this.http
+      .get(url, { search: params, headers: this.headers })
+      .map(response => {
+        // Extract data from JSON API response, and assert to an array of spaces.
+        return response.json().data as Space[];
       })
-      .switchMap(val => this.resolveOwner(val))
+      .map(space => {
+        for (let s of space) {
+          if (spaceAssignedId === s.attributes.assignedId) {
+            return s;
+          }
+        }
+        return null;
+      })
+      .switchMap(space => {
+        if (space) {
+          return this.resolveOwner(space);
+        } else {
+          return Observable.of(space);
+        }
+      })
       .catch((error) => {
         return this.handleError(error);
       });
