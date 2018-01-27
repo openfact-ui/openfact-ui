@@ -2,13 +2,132 @@
   <div class="view">
     <div class="middle landing-page">
       <div class="middle-content">
-        <!-- <landing-page base-project-url="project" on-template-selected="templateSelected" class="ng-isolate-scope"> -->
-          <div class="landing">
-            <div class="landing-side-bar" ng-transclude="landingside">
-              <cn-landside></cn-landside>
+        <div class="landing">
+
+          <div class="landing-main-area">
+            <div class="landing-header-area" ng-transclude="landingheader">
+              <div class="build-applications-view">
+              </div>
+            </div>
+            <div class="landing-body-area">
+              <div class="landing-body">
+                <div class="services-view" ng-style="$ctrl.viewStyle" style="min-height: calc(100vh - 113px);">
+                  <!-- ngIf: !$ctrl.loaded -->
+                  <!-- ngIf: $ctrl.loaded -->
+                  <div ng-if="$ctrl.loaded" class="services-view-container mobile-items-view" style="">
+                    <div class="add-methods">
+                      <h1>Browse Catalog</h1>
+                      <!-- ngIf: $ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject -->
+                      <div ng-if="$ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject" class="ng-scope">
+                        <ul class="add-other hidden-md hidden-lg">
+                          <li uib-dropdown="" class="dropdown">
+                            <a uib-dropdown-toggle="" class="dropdown-toggle" id="add-methods-dropdown" href="" aria-haspopup="true" aria-expanded="false">
+                              Custom Add
+                              <span class="caret" aria-hidden="true"></span>
+                            </a>
+                            <ul class="uib-dropdown-menu dropdown-menu pull-right" aria-labelledby="add-methods-dropdown">
+                              <!-- note these are duplicated below -->
+                              <!-- ngIf: $ctrl.onDeployImageSelected -->
+                              <li ng-if="$ctrl.onDeployImageSelected" class="ng-scope">
+                                <a href="" ng-click="$ctrl.onDeployImageSelected()">Deploy Image</a>
+                              </li>
+                              <!-- end ngIf: $ctrl.onDeployImageSelected -->
+                              <!-- ngIf: $ctrl.onFromFileSelected -->
+                              <li ng-if="$ctrl.onFromFileSelected" class="ng-scope">
+                                <a href="" ng-click="$ctrl.onFromFileSelected()">Import YAML / JSON</a>
+                              </li>
+                              <!-- end ngIf: $ctrl.onFromFileSelected -->
+                              <!-- ngIf: $ctrl.onCreateFromProject -->
+                              <li ng-if="$ctrl.onCreateFromProject" class="ng-scope">
+                                <a href="" ng-click="$ctrl.onCreateFromProject()">Select from Project</a>
+                              </li>
+                              <!-- end ngIf: $ctrl.onCreateFromProject -->
+                            </ul>
+                          </li>
+                        </ul>
+                        <ul class="add-other hidden-xs hidden-sm">
+                          <!-- note these are duplicated above -->
+                          <!-- ngIf: $ctrl.onDeployImageSelected -->
+                          <li ng-if="$ctrl.onDeployImageSelected" class="ng-scope">
+                            <a href="" ng-click="$ctrl.onDeployImageSelected()">Deploy Image</a>
+                          </li>
+                          <!-- end ngIf: $ctrl.onDeployImageSelected -->
+                          <!-- ngIf: $ctrl.onFromFileSelected -->
+                          <li ng-if="$ctrl.onFromFileSelected" class="ng-scope">
+                            <a href="" ng-click="$ctrl.onFromFileSelected()">Import YAML / JSON</a>
+                          </li>
+                          <!-- end ngIf: $ctrl.onFromFileSelected -->
+                          <!-- ngIf: $ctrl.onCreateFromProject -->
+                          <li ng-if="$ctrl.onCreateFromProject" class="ng-scope">
+                            <a href="" ng-click="$ctrl.onCreateFromProject()">Select from Project</a>
+                          </li>
+                          <!-- end ngIf: $ctrl.onCreateFromProject -->
+                        </ul>
+                      </div>
+                      <!-- end ngIf: $ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject -->
+                    </div>
+                    <ul class="nav nav-tabs nav-tabs-pf services-categories">
+                      <!-- ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope" style="">
+                        <a href="" id="category-all" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">All</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope active" style="">
+                        <a href="" id="category-languages" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Languages</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope">
+                        <a href="" id="category-databases" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Databases</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope">
+                        <a href="" id="category-middleware" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Middleware</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope">
+                        <a href="" id="category-cicd" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">CI/CD</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                      <!-- ngIf: category.hasItems -->
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
+                        class="ng-scope">
+                        <a href="" id="category-other" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Other</a>
+                        <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
+                      </li>
+                      <!-- end ngIf: category.hasItems -->
+                      <!-- end ngRepeat: category in $ctrl.categories -->
+                    </ul>
+                  </div>
+                  <!-- end ngIf: $ctrl.loaded -->
+                </div>
+              </div>
             </div>
           </div>
-        <!-- </landing-page> -->
+
+          <div class="landing-side-bar" ng-transclude="landingside">
+            <cn-landside></cn-landside>
+          </div>
+        </div>
       </div>
     </div>
   </div>
