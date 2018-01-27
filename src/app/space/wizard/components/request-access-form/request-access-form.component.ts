@@ -33,7 +33,7 @@ export class RequestAccessFormComponent implements OnInit, OnDestroy {
     this.subscription = this.form.statusChanges.subscribe(() => {
       if (this.form.valid) {
         this.onChange.emit({
-          message: this.form.value.message
+          message: this.form.value.requestMessage
         } as IRequestAccessForm);
       } else {
         this.onChange.emit(null);

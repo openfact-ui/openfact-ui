@@ -12,7 +12,9 @@ import {
   SpaceAttributes,
   SpaceService,
   SpaceNamePipe,
-  SpaceRelatedLink
+  SpaceRelatedLink,
+  RequestAccessService,
+  RequestAccessToSpace
 } from '../../ngx-clarksnut';
 
 import {
@@ -91,7 +93,8 @@ export class SpaceWizardComponent implements OnInit {
     private spacesService: SpacesService,
     private spaceNamePipe: SpaceNamePipe,
     private notifications: Notifications,
-    private translateService: TranslateService) { }
+    private translateService: TranslateService,
+    private requestAccessService: RequestAccessService) { }
 
   /**
    * used to add a log entry to the logger
@@ -290,6 +293,8 @@ export class SpaceWizardComponent implements OnInit {
   onRequestAccessChange($event: IRequestAccessForm) {
     this.requestAccess = $event;
 
+    console.log('changing request to ', this.requestAccess);
+
     this.stepSpaceTermsConditionsConfig.nextEnabled = $event ? true : false;
     this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
   }
@@ -301,7 +306,26 @@ export class SpaceWizardComponent implements OnInit {
     this.wizardConfig.done = true;
 
     if (this.previousSpace) {
-
+      let request: RequestAccessToSpace = {
+        attributes: {
+          scope: 'COLLABORATOR_ACCESS',
+          message: this.requestAccess.message
+        }
+      } as RequestAccessToSpace;
+      this.requestAccessService.addRequestAccess(this.previousSpace.id, request).subscribe((createdSpace) => {
+        this.notifications.message(<Notification>{
+          message: `Your request has been sent!`,
+          type: NotificationType.SUCCESS
+        });
+        this.finish(true);
+      },
+        (err) => {
+          this.notifications.message(<Notification>{
+            message: `Error sending request"`,
+            type: NotificationType.DANGER
+          });
+          this.finish(false);
+        });
     } else {
       // Saving
       console.log('Creating space', this.space);
