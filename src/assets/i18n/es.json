@@ -9,7 +9,8 @@
     "NEXT": "Siguiente",
     "BACK": "Anterior",
     "CREATE": "Crear",
-    "CLOSE": "Cerrar"
+    "CLOSE": "Cerrar",
+    "REQUEST_ACCESS": "Solicitar Acceso"
   },
   "HEADER": {
     "ABOUT": "Acerca de",
@@ -29,7 +30,10 @@
     "TITLE": "Crear Espacio",
     "SPACE": "Espacio",
     "REVIEW": "Revisar",
+    "DETAILS": "Detalle",
+    "SETTINGS": "Configuraciones",
     "TERMS_AND_CONDITIONS": "Términos y Condiciones",
+    "REQUEST_ACCESS": "Solicitar Acceso",
     "SUMMARY": "Resumen",
     "CREATE": "Crear",
     "SPACE_CREATED": "Espacio Creado",
@@ -40,7 +44,7 @@
       "DESCRIPTION": "Descripción"
     },
     "REQUEST_ACCESS_FORM": {
-      "TITLE": "Ups! Parece ser que otro usario ya es el propietario del Espacio. Te gustario ponerte en contacto con Él y solicitar acceso al Espacio?",
+      "TITLE": "Ups! Parece ser que otro usario ya es el propietario del Espacio. Te gustaria ponerte en contacto con Él y solicitar acceso al Espacio?",
       "CURRENT_OWNER": "Actual Propietario",
       "REQUEST_MESSAGE": "Mensaje"
     },

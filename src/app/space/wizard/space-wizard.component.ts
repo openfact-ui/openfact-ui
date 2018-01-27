@@ -1,22 +1,3 @@
-import { IRequestAccessForm } from './models/request-access';
-import { Observable } from 'rxjs/Observable';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
-import { UserService } from '../../ngx-login-client';
-import { ILoggerDelegate } from './common/logger';
-import { ISpaceForm } from './models/spaceForm';
-
-import {
-  Space,
-  SpaceAttributes,
-  SpaceService,
-  SpaceNamePipe,
-  SpaceRelatedLink,
-  RequestAccessService,
-  RequestAccessToSpace
-} from '../../ngx-clarksnut';
-
 import {
   Component,
   Input,
@@ -29,13 +10,10 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TranslateService } from '@ngx-translate/core';
 import {
   WizardConfig,
   WizardComponent,
@@ -45,10 +23,23 @@ import {
   WizardStepComponent
 } from 'patternfly-ng/wizard';
 
-import { Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
+import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
+import { UserService } from '../../ngx-login-client';
+import { ILoggerDelegate } from './common/logger';
+import { ISpaceForm } from './models/spaceForm';
+import { IRequestAccessForm } from './models/request-access';
 
-import { TabDirective } from 'ngx-bootstrap/tabs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import {
+  Space,
+  SpaceAttributes,
+  SpaceService,
+  SpaceNamePipe,
+  SpaceRelatedLink,
+  RequestAccessService,
+  RequestAccessToSpace
+} from '../../ngx-clarksnut';
+
+import { Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
 
 @Component({
   selector: 'ofs-space-wizard',
@@ -57,50 +48,47 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class SpaceWizardComponent implements OnInit {
 
-  @Output('onSaved') onSaved = new EventEmitter();
-  @Output('onCancel') onCancel = new EventEmitter();
-
+  @Output('onCreated') onCreated = new EventEmitter();
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
-  space: Space;
-  previousSpace: Space;
+  space: Space; // Space to be created
+  previousSpace: Space; // Previous space
   termsAndConditions: boolean = false;
   requestAccess: IRequestAccessForm;
   working: boolean = false;
+  success: boolean = false;
 
   // Wizard
-  public wizardConfig: WizardConfig;
+  wizardConfig: WizardConfig;
 
   // Wizard Step 1
-  public stepSpaceConfig: WizardStepConfig;
-  public stepSpaceTermsConditionsConfig: WizardStepConfig;
-  public stepSpaceInfoConfig: WizardStepConfig;
+  step1Config: WizardStepConfig;
+  step1aConfig: WizardStepConfig;
+  step1bConfig: WizardStepConfig;
 
   // Wizard Step 2
-  public stepClaimConfig: WizardStepConfig;
-  public stepClaimReviewConfig: WizardStepConfig;
-  public stepClaimResultConfig: WizardStepConfig;
+  step2Config: WizardStepConfig;
+  step2aConfig: WizardStepConfig;
+  step2bConfig: WizardStepConfig;
 
   // Modal
   private modalRef: BsModalRef;
 
   constructor(
-    private router: Router,
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
     private userService: UserService,
     private spaceService: SpaceService,
     private spacesService: SpacesService,
     private spaceNamePipe: SpaceNamePipe,
+    private requestAccessService: RequestAccessService,
     private notifications: Notifications,
-    private translateService: TranslateService,
-    private requestAccessService: RequestAccessService) { }
+    private translateService: TranslateService) { }
 
   /**
    * used to add a log entry to the logger
    * The default one shown here does nothing.
    */
-  public log: ILoggerDelegate = () => { };
+  log: ILoggerDelegate = () => { };
 
   ngOnInit() {
     this.initWizard();
@@ -108,126 +96,151 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   initWizard() {
-    // Step Space
-    this.stepSpaceConfig = {
-      id: 'stepSpace',
+    // Step 1
+    this.step1Config = {
+      id: 'step1',
       priority: 0,
       title: 'Space'
     } as WizardStepConfig;
-
-    this.stepSpaceInfoConfig = {
-      id: 'stepSpaceInfo',
+    this.step1aConfig = {
+      id: 'step1a',
       expandReviewDetails: true,
       nextEnabled: false,
       priority: 0,
-      title: 'Space Info'
+      title: 'Details'
     } as WizardStepConfig;
-
-    this.stepSpaceTermsConditionsConfig = {
-      id: 'stepSpaceTermsConditions',
+    this.step1bConfig = {
+      id: 'step1b',
       expandReviewDetails: true,
       nextEnabled: false,
       priority: 1,
-      title: 'Terms & Conditions'
+      title: 'Settings'
     } as WizardStepConfig;
 
-    // Step 2A
-    this.stepClaimConfig = {
-      id: 'stepClaim',
+    // Step 2
+    this.step2Config = {
+      id: 'step2',
       priority: 1,
       title: 'Review'
     } as WizardStepConfig;
-    this.stepClaimReviewConfig = {
-      id: 'stepClaimReview',
+    this.step2aConfig = {
+      id: 'step2a',
       nextEnabled: false,
       priority: 0,
       title: 'Summary'
     } as WizardStepConfig;
-    this.stepClaimResultConfig = {
-      id: 'stepClaimResult',
+    this.step2bConfig = {
+      id: 'step2b',
       nextEnabled: false,
       priority: 1,
-      title: 'Claim'
+      title: 'Save'
     } as WizardStepConfig;
 
     // Wizard
     this.wizardConfig = {
-      title: 'Create Space'
+      title: 'Create Space',
+      sidebarStyleClass: 'cn-wizard-sidebar',
+      stepStyleClass: 'cn-wizard-step'
     } as WizardConfig;
 
     this.setNavAway(false);
   }
 
   translateWizard() {
+    // Title
     this.translateService.get('SPACE_WIZARD.TITLE').take(1).subscribe((val) => {
       this.wizardConfig.title = val;
     });
-    this.translateService.get('SPACE_WIZARD.SPACE').take(1).subscribe((val) => {
-      this.stepSpaceConfig.title = val;
-    });
-    this.translateService.get('SPACE_WIZARD.REVIEW').take(1).subscribe((val) => {
-      this.stepClaimConfig.title = val;
-    });
-    this.translateService.get('SPACE_WIZARD.SPACE').take(1).subscribe((val) => {
-      this.stepSpaceInfoConfig.title = val;
-    });
-    this.translateService.get('SPACE_WIZARD.TERMS_AND_CONDITIONS').take(1).subscribe((val) => {
-      this.stepSpaceTermsConditionsConfig.title = val;
-    });
-    this.translateService.get('SPACE_WIZARD.SUMMARY').take(1).subscribe((val) => {
-      this.stepClaimReviewConfig.title = val;
-    });
-    this.translateService.get('SPACE_WIZARD.CREATE').take(1).subscribe((val) => {
-      this.stepClaimResultConfig.title = val;
-    });
 
-
+    // Footer buttons
     this.translateService.get('BUTTONS.CANCEL').take(1).subscribe((val) => {
       this.wizardConfig.cancelTitle = val;
     });
     this.translateService.get('BUTTONS.BACK').take(1).subscribe((val) => {
       this.wizardConfig.previousTitle = '< ' + val;
     });
+    this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
+      this.wizardConfig.nextTitle = val + '>';
+    });
+
+    // Step headers
+    this.translateService.get('SPACE_WIZARD.SPACE').take(1).subscribe((val) => {
+      this.step1Config.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.REVIEW').take(1).subscribe((val) => {
+      this.step2Config.title = val;
+    });
+
+    // Step 1
+    this.translateService.get('SPACE_WIZARD.DETAILS').take(1).subscribe((val) => {
+      this.step1aConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.SETTINGS').take(1).subscribe((val) => {
+      this.step1bConfig.title = val;
+    });
+
+    // Step 2
+    this.translateService.get('SPACE_WIZARD.SUMMARY').take(1).subscribe((val) => {
+      this.step2aConfig.title = val;
+    });
+    this.translateService.get('SPACE_WIZARD.CREATE').take(1).subscribe((val) => {
+      this.step2bConfig.title = val;
+    });
   }
 
-  // Methods
+  // Wizard Methods
   nextClicked($event: WizardEvent): void {
-    if ($event.step.config.id === 'stepClaimResult') {
-      this.close();
-    }
-
-    if ($event.step.config.id == 'stepSpaceInfo') {
+    if ($event.step.config.id == 'step1a') {
       this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((val) => {
         this.previousSpace = val;
+
+        if (this.previousSpace) {
+          this.translateService.get('SPACE_WIZARD.REQUEST_ACCESS').take(1).subscribe((val) => {
+            this.step1bConfig.title = val;
+          });
+        } else {
+          this.translateService.get('SPACE_WIZARD.TERMS_AND_CONDITIONS').take(1).subscribe((val) => {
+            this.step1bConfig.title = val;
+          });
+        }
       });
+    }
+    if ($event.step.config.id === 'step2b') {
+      this.close();
     }
   }
 
-  public stepChanged($event: WizardEvent, wizard: WizardComponent) {
+  stepChanged($event: WizardEvent, wizard: WizardComponent) {
     let flatSteps = this.flattenWizardSteps(wizard);
     let currentStep = flatSteps.find(step => step.config.id === $event.step.config.id);
-
     if (currentStep) {
       currentStep.config.nextEnabled = true;
     }
-    if ($event.step.config.id === 'stepSpaceInfo') {
-      this.stepSpaceInfoConfig.nextEnabled = (this.space !== undefined && this.space !== null);
-      this.setNavAway(this.stepSpaceInfoConfig.nextEnabled);
+
+    if ($event.step.config.id === 'step1a') {
+      this.step1aConfig.nextEnabled = (this.space !== undefined && this.space !== null);
+      this.setNavAway(this.step1aConfig.nextEnabled);
       this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
         this.wizardConfig.nextTitle = val + ' >';
       });
-    } else if ($event.step.config.id === 'stepSpaceTermsConditions') {
-      this.stepSpaceTermsConditionsConfig.nextEnabled = this.termsAndConditions;
-      this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+    } else if ($event.step.config.id === 'step1b') {
+      this.step1bConfig.nextEnabled = this.termsAndConditions;
+      this.setNavAway(this.step1bConfig.nextEnabled);
       this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
         this.wizardConfig.nextTitle = val + ' >';
       });
-    } else if ($event.step.config.id === 'stepClaimReview') {
+    } else if ($event.step.config.id === 'step2a') {
       this.wizardConfig.nextTitle = 'Create';
-      this.translateService.get('BUTTONS.CREATE').take(1).subscribe((val) => {
-        this.wizardConfig.nextTitle = val;
-      });
-    } else if ($event.step.config.id === 'stepClaimResult') {
+      if (!this.previousSpace) {
+        this.translateService.get('BUTTONS.CREATE').take(1).subscribe((val) => {
+          this.wizardConfig.nextTitle = val;
+        });
+      } else {
+        this.translateService.get('BUTTONS.REQUEST_ACCESS').take(1).subscribe((val) => {
+          this.wizardConfig.nextTitle = val;
+        });
+      }
+    } else if ($event.step.config.id === 'step2b') {
       this.wizardConfig.nextTitle = 'Close';
       this.translateService.get('BUTTONS.CLOSE').take(1).subscribe((val) => {
         this.wizardConfig.nextTitle = val;
@@ -241,16 +254,16 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   private setNavAway(allow: boolean) {
-    this.stepSpaceInfoConfig.allowNavAway = allow;
-    this.stepClaimReviewConfig.allowNavAway = allow;
+    this.step1aConfig.allowNavAway = allow;
+    this.step2aConfig.allowNavAway = allow;
 
-    this.stepSpaceConfig.allowClickNav = allow;
-    this.stepSpaceInfoConfig.allowClickNav = allow;
-    this.stepSpaceTermsConditionsConfig.allowClickNav = allow;
+    this.step1Config.allowClickNav = allow;
+    this.step1aConfig.allowClickNav = allow;
+    this.step1bConfig.allowClickNav = allow;
 
-    this.stepClaimConfig.allowClickNav = allow;
-    this.stepClaimReviewConfig.allowClickNav = allow;
-    this.stepClaimResultConfig.allowClickNav = allow;
+    this.step2Config.allowClickNav = allow;
+    this.step2aConfig.allowClickNav = allow;
+    this.step2bConfig.allowClickNav = allow;
   }
 
   flattenWizardSteps(wizard: WizardComponent): WizardStep[] {
@@ -267,8 +280,7 @@ export class SpaceWizardComponent implements OnInit {
     return flatWizard;
   }
 
-  //
-
+  // On Steps form change
   onSpaceFormChange($event: ISpaceForm) {
     if ($event) {
       this.space = this.createTransientSpace();
@@ -279,24 +291,22 @@ export class SpaceWizardComponent implements OnInit {
       this.space = null;
     }
 
-    this.stepSpaceInfoConfig.nextEnabled = $event ? true : false;
-    this.setNavAway(this.stepSpaceInfoConfig.nextEnabled);
+    this.step1aConfig.nextEnabled = $event ? true : false;
+    this.setNavAway(this.step1aConfig.nextEnabled);
   }
 
   onTermsConditionsChange($event: boolean) {
     this.termsAndConditions = $event;
 
-    this.stepSpaceTermsConditionsConfig.nextEnabled = $event;
-    this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+    this.step1bConfig.nextEnabled = $event;
+    this.setNavAway(this.step1bConfig.nextEnabled);
   }
 
   onRequestAccessChange($event: IRequestAccessForm) {
     this.requestAccess = $event;
 
-    console.log('changing request to ', this.requestAccess);
-
-    this.stepSpaceTermsConditionsConfig.nextEnabled = $event ? true : false;
-    this.setNavAway(this.stepSpaceTermsConditionsConfig.nextEnabled);
+    this.step1bConfig.nextEnabled = $event ? true : false;
+    this.setNavAway(this.step1bConfig.nextEnabled);
   }
 
   // Actions
@@ -312,13 +322,14 @@ export class SpaceWizardComponent implements OnInit {
           message: this.requestAccess.message
         }
       } as RequestAccessToSpace;
-      this.requestAccessService.addRequestAccess(this.previousSpace.id, request).subscribe((createdSpace) => {
-        this.notifications.message(<Notification>{
-          message: `Your request has been sent!`,
-          type: NotificationType.SUCCESS
-        });
-        this.finish(true);
-      },
+      this.requestAccessService.addRequestAccess(this.previousSpace.id, request).subscribe(
+        (createdSpace) => {
+          this.notifications.message(<Notification>{
+            message: `Your request has been sent!`,
+            type: NotificationType.SUCCESS
+          });
+          this.finish(true);
+        },
         (err) => {
           this.notifications.message(<Notification>{
             message: `Error sending request"`,
@@ -340,17 +351,11 @@ export class SpaceWizardComponent implements OnInit {
           this.spacesService.addRecent.next(createdSpace);
         })
         .subscribe((createdSpace) => {
-          const primaryAction: NotificationAction = {
-            name: `Open Space`,
-            title: `Open ${this.spaceNamePipe.transform(createdSpace.attributes.name)}`,
-            id: 'openSpace'
-          };
           this.notifications.message(<Notification>{
             message: `Your new space is created!`,
-            type: NotificationType.SUCCESS,
-            primaryAction: primaryAction
+            type: NotificationType.SUCCESS
           });
-          this.finish(true);
+          this.finish(true, createdSpace);
         },
         (err) => {
           console.log('Error creating space', err);
@@ -387,11 +392,12 @@ export class SpaceWizardComponent implements OnInit {
     return space;
   }
 
-  finish(result: boolean) {
+  finish(success: boolean, createdSpace?: Space) {
     console.log(`finish ...`);
     this.working = false;
-    if (result) {
-      this.onSaved.emit({ flow: 'selectFlow', space: this.space.attributes.name });
+    this.success = success;
+    if (createdSpace) {
+      this.onCreated.emit(createdSpace);
     }
   }
 
@@ -406,7 +412,6 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   cancel() {
-    this.onCancel.emit({});
     this.close();
   }
 
@@ -415,6 +420,8 @@ export class SpaceWizardComponent implements OnInit {
     this.initWizard();
     this.space = null;
     this.termsAndConditions = false;
+    this.previousSpace = null;
+    this.requestAccess = null;
 
     this.modalRef.hide();
   }

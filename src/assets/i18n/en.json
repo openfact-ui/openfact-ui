@@ -9,7 +9,8 @@
     "NEXT": "Next",
     "BACK": "Previous",
     "CREATE": "Create",
-    "CLOSE": "Close"
+    "CLOSE": "Close",
+    "REQUEST_ACCESS": "Request Access"
   },
   "HEADER": {
     "ABOUT": "About",
@@ -29,7 +30,10 @@
     "TITLE": "Create Space",
     "SPACE": "Space",
     "REVIEW": "Review",
+    "DETAILS": "Details",
+    "SETTINGS": "Settings",
     "TERMS_AND_CONDITIONS": "Terms & conditions",
+    "REQUEST_ACCESS": "Request Access",
     "SUMMARY": "Summary",
     "CREATE": "Create",
     "SPACE_CREATED": "Space Created",
@@ -40,7 +44,7 @@
       "DESCRIPTION": "Description"
     },
     "REQUEST_ACCESS_FORM": {
-      "TITLE": "Ups! It seems that another user has already claim the Space. Would you like be to request access to the owner?",
+      "TITLE": "Ups! It seems that another user has already claimed the Space. Would you like to request access to the owner?",
       "CURRENT_OWNER": "Current Owner",
       "REQUEST_MESSAGE": "Message"
     },
