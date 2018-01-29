@@ -90,7 +90,11 @@ export class SpaceService {
         return newSpaces;
       })
       .switchMap(spaces => {
-        return this.resolveOwners(spaces);
+        if (spaces.length) {
+          return this.resolveOwners(spaces);
+        } else {
+          return Observable.of(spaces);
+        }
       })
       .catch((error) => {
         return this.handleError(error);

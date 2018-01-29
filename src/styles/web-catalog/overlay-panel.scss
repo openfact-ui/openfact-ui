@@ -78,7 +78,7 @@ body.overlay-open {
     }
     @media(min-width: $screen-sm-min) {
       height: $order-service-page-height + $grid-gutter-width;
-      max-height: calc(100vh "-" #{222px}); // 222px =  1px (modal top "margin") + 41px (.modal-header) + 121px (.wizard-stesp) + 58 (.wizard-pf-footer) + 1px (modal bottom "margin")
+      max-height: calc(100vh - #{222px}); // 222px =  1px (modal top "margin") + 41px (.modal-header) + 121px (.wizard-stesp) + 58 (.wizard-pf-footer) + 1px (modal bottom "margin")
       min-height: 200px;
     }
   }

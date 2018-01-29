@@ -7,7 +7,7 @@ notification-drawer-wrapper {
     font-size: $font-size-h4;
   }
   .drawer-pf {
-    height: calc(100vh "-" #{($navbar-os-header-height-mobile + $project-bar-height-mobile)});
+    height: calc(100vh - #{($navbar-os-header-height-mobile + $project-bar-height-mobile)});
     opacity: 1;
     position: fixed;
     right: 0;
@@ -19,7 +19,7 @@ notification-drawer-wrapper {
       width: 100%;
     }
     @media(min-width: $screen-sm-min) {
-      height: calc(100vh "-" #{($navbar-os-header-height-desktop + $project-bar-height-desktop)} "-" 20px); // 20px bottom gutter
+      height: calc(100vh - #{($navbar-os-header-height-desktop + $project-bar-height-desktop)} "-" 20px); // 20px bottom gutter
       top: ($navbar-os-header-height-desktop + $project-bar-height-desktop);
     }
     &.drawer-pf-expanded {
