@@ -44,45 +44,36 @@
     </div>
   </div>
 
-  <div *ngIf="spaces && spaces.length <= 4">
+  <!-- <div *ngIf="spaces && spaces.length <= 4">
     <div class="getting-started-panel">
-      <!-- ngIf: $ctrl.projects && $ctrl.projects.length > 0 -->
       <h2 class="secondary" ng-if="$ctrl.projects &amp;&amp; $ctrl.projects.length > 0">Getting Started</h2>
-      <!-- end ngIf: $ctrl.projects && $ctrl.projects.length > 0 -->
-      <!-- ngIf: $ctrl.startTour() -->
       <button ng-if="$ctrl.startTour()" class="getting-started-button btn btn-default hidden-xs with-projects" ng-class="{'with-projects': $ctrl.projects &amp;&amp; $ctrl.projects.length}"
         ng-click="$ctrl.handleGettingStartedClick()">
         <span class="fa fa-info-circle fa-2"></span>
         <span class="getting-started-button-text">Take Home Page Tour</span>
       </button>
-      <!-- end ngIf: $ctrl.startTour() -->
     </div>
     <div class="resources-panel">
       <ul>
-        <!-- ngRepeat: resource in $ctrl.resourceLinks -->
         <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://docs.openshift.com/online/" target="_blank" title="https://docs.openshift.com/online/" class="ng-binding">Documentation</a>
         </li>
-        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
         <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://developers.redhat.com/products/cdk/overview/" target="_blank" title="https://developers.redhat.com/products/cdk/overview/"
             class="ng-binding">Container Development Kit</a>
         </li>
-        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
         <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://www.youtube.com/user/rhopenshift" target="_blank" title="https://www.youtube.com/user/rhopenshift" class="ng-binding">YouTube</a>
         </li>
-        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
         <li ng-repeat="resource in $ctrl.resourceLinks">
           <a href="https://blog.openshift.com/" target="_blank" title="https://blog.openshift.com" class="ng-binding">Blog</a>
         </li>
-        <!-- end ngRepeat: resource in $ctrl.resourceLinks -->
       </ul>
     </div>
-  </div>
+  </div> -->
 
 
-  <div *ngIf="recentlyViewedItems && recentlyViewedItems.length">
+  <!-- <div *ngIf="recentlyViewedItems && recentlyViewedItems.length">
     <h2 class="secondary">Recently Viewed</h2>
     <div class="services-view">
       <a class="services-item" *ngFor="let item of recentlyViewedItems" (click)="orderService(item)">
@@ -92,7 +83,7 @@
         <div class="services-item-name" title="CakePHP + MySQL (Persistent)" aria-hidden="true">CakePHP + MySQL (Persistent)</div>
       </a>
     </div>
-  </div>
+  </div> -->
 
 </div>
 
