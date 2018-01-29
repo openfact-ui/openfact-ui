@@ -4,34 +4,35 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'ofs-space-terms-conditions',
+  selector: 'cn-space-terms-conditions',
   templateUrl: './space-terms-conditions.component.html',
   styleUrls: ['./space-terms-conditions.component.scss'],
 })
 
 export class SpaceTermsConditionsComponent implements OnInit, OnDestroy {
 
-  @Output()
-  public onChange = new EventEmitter<boolean>(false);
+  @Output() onChange = new EventEmitter<boolean>(false);
 
-  public form: FormGroup;
+  form: FormGroup;
 
-  private subscription: Subscription;
+  private subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.form = this.formBuilder.group({
       agree: [null, Validators.compose([Validators.requiredTrue])]
     });
 
-    this.subscription = this.form.statusChanges.subscribe(() => {
-      this.onChange.emit(this.form.valid);
-    });
+    this.subscriptions.push(
+      this.form.statusChanges.subscribe(() => {
+        this.onChange.emit(this.form.valid);
+      })
+    );
   }
 
-  public ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnDestroy() {
+    this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
 }

@@ -4,10 +4,10 @@
 
     <pfng-wizard-step [config]="step1Config">
       <pfng-wizard-substep [config]="step1aConfig" [reviewTemplate]="stepSpaceInfoReviewTemplate">
-        <ofs-space-form (onChange)="onSpaceFormChange($event)"></ofs-space-form>
+        <cn-space-form (onChange)="onSpaceFormChange($event)"></cn-space-form>
       </pfng-wizard-substep>
       <pfng-wizard-substep [config]="step1bConfig">
-        <ofs-space-terms-conditions (onChange)="onTermsConditionsChange($event)" *ngIf="!previousSpace"></ofs-space-terms-conditions>
+        <cn-space-terms-conditions (onChange)="onTermsConditionsChange($event)" *ngIf="!previousSpace"></cn-space-terms-conditions>
         <cn-request-access-form (onChange)="onRequestAccessChange($event)" [space]="previousSpace" *ngIf="previousSpace"></cn-request-access-form>
       </pfng-wizard-substep>
     </pfng-wizard-step>

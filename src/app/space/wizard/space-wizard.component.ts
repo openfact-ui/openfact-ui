@@ -38,8 +38,7 @@ import {
   RequestAccessService,
   RequestAccessToSpace
 } from '../../ngx-clarksnut';
-
-import { Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
+import { Broadcaster, Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
 
 @Component({
   selector: 'ofs-space-wizard',
@@ -81,6 +80,7 @@ export class SpaceWizardComponent implements OnInit {
     private spacesService: SpacesService,
     private spaceNamePipe: SpaceNamePipe,
     private requestAccessService: RequestAccessService,
+    private broadcaster: Broadcaster,
     private notifications: Notifications,
     private translateService: TranslateService) { }
 
@@ -92,7 +92,7 @@ export class SpaceWizardComponent implements OnInit {
 
   ngOnInit() {
     this.initWizard();
-    this.translateWizard();
+    //this.translateWizard();
   }
 
   initWizard() {
@@ -247,9 +247,6 @@ export class SpaceWizardComponent implements OnInit {
       });
     } else {
       this.wizardConfig.nextTitle = 'Next >';
-      this.translateService.get('BUTTONS.NEXT').take(1).subscribe((val) => {
-        this.wizardConfig.nextTitle = val + ' >';
-      });
     }
   }
 
@@ -356,6 +353,7 @@ export class SpaceWizardComponent implements OnInit {
             type: NotificationType.SUCCESS
           });
           this.finish(true, createdSpace);
+          this.broadcaster.broadcast('spaceCreated', createdSpace);
         },
         (err) => {
           console.log('Error creating space', err);

@@ -1,9 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
-import { UserService } from '../../ngx-login-client';
+import { Broadcaster } from '../../ngx-base';
+import { User, UserService } from '../../ngx-login-client';
 import { Space, SpaceService } from '../../ngx-clarksnut';
 import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
 
@@ -14,22 +16,26 @@ import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
 })
 export class LandsideComponent implements OnInit, OnDestroy {
 
+  user: User;
   spaces: Space[];
-  recentlyViewedItems: Space[];
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
+    private broadcaster: Broadcaster,
     private userService: UserService,
     private spaceService: SpaceService,
     private spacesService: SpacesService) {
-    this.userService.loggedInUser
-      .switchMap((user) => this.spaceService.getSpacesByUser(user.attributes.username))
-      .do((spaces) => {
-        this.spaces = spaces;
-      }).publish().connect();
-
-    this.spacesService.recent.subscribe((val) => {
-      this.recentlyViewedItems = val;
-    });
+    this.subscriptions.push(
+      Observable.merge(
+        this.userService.loggedInUser.do((user) => this.user = user),
+        this.broadcaster.on('spaceCreated')
+      ).subscribe((val) => {
+        this.spaceService.getSpacesByUser(this.user.attributes.username, 5).subscribe((val) => {
+          this.spaces = val;
+        });
+      })
+    );
   }
 
   ngOnInit() {
@@ -37,7 +43,7 @@ export class LandsideComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
 }
