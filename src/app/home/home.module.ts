@@ -13,6 +13,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { LandsideComponent } from './landside/landside.component';
 import { SearchDocumentComponent } from './search-document/search-document.component';
 import { ImportDocumentComponent } from './import-document/import-document.component';
+import { DocumentFilterComponent } from './document-filter/document-filter.component';
 
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 
@@ -31,7 +32,8 @@ import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
     HomeComponent,
     LandsideComponent,
     SearchDocumentComponent,
-    ImportDocumentComponent
+    ImportDocumentComponent,
+    DocumentFilterComponent
   ],
   providers: [
   ]

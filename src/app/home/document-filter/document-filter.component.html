@@ -1,0 +1,47 @@
+<div class="filter-pf">
+  <span class="dropdown primary-action" uib-dropdown="">
+    <button class="btn btn-default dropdown-toggle" uib-dropdown-toggle="" type="button" aria-haspopup="true" aria-expanded="false">Filter
+      <span class="caret"></span>
+    </button>
+    <div ng-transclude="" class="dropdown-menu" ng-click="$event.stopPropagation()">
+      <div class="filter-panel-container ng-scope">
+        <input type="text" ng-model="$ctrl.keywordFilter.value" class="keyword-filter form-control ng-pristine ng-untouched ng-valid ng-empty"
+          placeholder="Filter by Keyword" ng-keypress="$ctrl.onKeywordKeyPress($event)" autocorrect="off" autocapitalize="none"
+          spellcheck="false">
+        <!-- ngRepeat: filter in $ctrl.filterPanelModel -->
+        <!-- ngIf: !$first -->
+        <!-- end ngRepeat: filter in $ctrl.filterPanelModel -->
+        <!-- ngIf: !$first -->
+        <div class="category ng-binding ng-scope" ng-repeat="filter in $ctrl.filterPanelModel" ng-if="!$first">
+          Publisher
+          <span class="pficon pficon-info vendor-info-icon ng-isolate-scope" data-toggle="tooltip" aria-hidden="true" data-original-title="This filter will only apply to items which contain publisher information. Items that do not have a publisher will not be shown in the filter results.">
+          </span>
+          <ul>
+            <!-- ngRepeat: value in filter.values -->
+            <li ng-repeat="value in filter.values" class="ng-scope">
+              <div class="checkbox">
+                <label class="category-option-label ng-binding">
+                  <input type="checkbox" ng-model="value.selected" ng-change="$ctrl.filterChanged()" class="ng-pristine ng-untouched ng-valid ng-empty"> Red Hat, Inc.
+                </label>
+              </div>
+            </li>
+            <!-- end ngRepeat: value in filter.values -->
+          </ul>
+        </div>
+        <!-- end ngIf: !$first -->
+        <!-- end ngRepeat: filter in $ctrl.filterPanelModel -->
+      </div>
+    </div>
+  </span>
+  <!-- <pf-filter-panel-results config="$ctrl.config" class="ng-isolate-scope">
+    <span class="filter-pf">
+      <span class="toolbar-pf-results">
+        <h5 class="ng-binding">28 Items</h5>
+        <ul class="list-inline">
+        </ul>
+        <p>
+        </p>
+      </span>
+    </span>
+  </pf-filter-panel-results> -->
+</div>
