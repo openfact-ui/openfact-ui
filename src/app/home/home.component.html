@@ -2,6 +2,9 @@
   <div class="view">
     <div class="middle landing-page">
       <div class="middle-content">
+        <div class="landing-search-area">
+          <cn-search-document></cn-search-document>
+        </div>
         <div class="landing">
 
           <div class="landing-main-area">
@@ -11,66 +14,39 @@
             </div>
             <div class="landing-body-area">
               <div class="landing-body">
-                <div class="services-view" ng-style="$ctrl.viewStyle" style="min-height: calc(100vh - 113px);">
-                  <!-- ngIf: !$ctrl.loaded -->
-                  <!-- ngIf: $ctrl.loaded -->
-                  <div ng-if="$ctrl.loaded" class="services-view-container mobile-items-view" style="">
-                    <div class="add-methods">
-                      <h1>Browse Catalog</h1>
-                      <!-- ngIf: $ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject -->
-                      <div ng-if="$ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject" class="ng-scope">
+                <div class="services-view">
+                  <div class="services-view-container mobile-items-view">
+
+                    <div>
+                      <h1>Browse Document</h1>
+                      <div>
                         <ul class="add-other hidden-md hidden-lg">
-                          <li uib-dropdown="" class="dropdown">
-                            <a uib-dropdown-toggle="" class="dropdown-toggle" id="add-methods-dropdown" href="" aria-haspopup="true" aria-expanded="false">
-                              Custom Add
+                          <li dropdown class="dropdown" placement="bottom left">
+                            <a dropdownToggle class="dropdown-toggle" id="add-methods-dropdown" aria-haspopup="true" aria-expanded="false">
+                              Custom Document
                               <span class="caret" aria-hidden="true"></span>
                             </a>
-                            <ul class="uib-dropdown-menu dropdown-menu pull-right" aria-labelledby="add-methods-dropdown">
-                              <!-- note these are duplicated below -->
-                              <!-- ngIf: $ctrl.onDeployImageSelected -->
-                              <li ng-if="$ctrl.onDeployImageSelected" class="ng-scope">
-                                <a href="" ng-click="$ctrl.onDeployImageSelected()">Deploy Image</a>
+                            <ul *dropdownMenu class="dropdown-menu dropdown-menu-left pull-left" aria-labelledby="add-methods-dropdown">
+                              <li>
+                                <a href="javascript:void(0)" (click)="importDocument.open()">Import FILE / XML</a>
                               </li>
-                              <!-- end ngIf: $ctrl.onDeployImageSelected -->
-                              <!-- ngIf: $ctrl.onFromFileSelected -->
-                              <li ng-if="$ctrl.onFromFileSelected" class="ng-scope">
-                                <a href="" ng-click="$ctrl.onFromFileSelected()">Import YAML / JSON</a>
-                              </li>
-                              <!-- end ngIf: $ctrl.onFromFileSelected -->
-                              <!-- ngIf: $ctrl.onCreateFromProject -->
-                              <li ng-if="$ctrl.onCreateFromProject" class="ng-scope">
-                                <a href="" ng-click="$ctrl.onCreateFromProject()">Select from Project</a>
-                              </li>
-                              <!-- end ngIf: $ctrl.onCreateFromProject -->
                             </ul>
                           </li>
                         </ul>
                         <ul class="add-other hidden-xs hidden-sm">
-                          <!-- note these are duplicated above -->
-                          <!-- ngIf: $ctrl.onDeployImageSelected -->
-                          <li ng-if="$ctrl.onDeployImageSelected" class="ng-scope">
-                            <a href="" ng-click="$ctrl.onDeployImageSelected()">Deploy Image</a>
+                          <li>
+                            <a href="javascript:void(0)" (click)="importDocument.open()">Import FILE / XML</a>
                           </li>
-                          <!-- end ngIf: $ctrl.onDeployImageSelected -->
-                          <!-- ngIf: $ctrl.onFromFileSelected -->
-                          <li ng-if="$ctrl.onFromFileSelected" class="ng-scope">
-                            <a href="" ng-click="$ctrl.onFromFileSelected()">Import YAML / JSON</a>
-                          </li>
-                          <!-- end ngIf: $ctrl.onFromFileSelected -->
-                          <!-- ngIf: $ctrl.onCreateFromProject -->
-                          <li ng-if="$ctrl.onCreateFromProject" class="ng-scope">
-                            <a href="" ng-click="$ctrl.onCreateFromProject()">Select from Project</a>
-                          </li>
-                          <!-- end ngIf: $ctrl.onCreateFromProject -->
                         </ul>
                       </div>
-                      <!-- end ngIf: $ctrl.onDeployImageSelected || $ctrl.onFromFileSelected || $ctrl.onCreateFromProject -->
                     </div>
+
+
                     <ul class="nav nav-tabs nav-tabs-pf services-categories">
                       <!-- ngRepeat: category in $ctrl.categories -->
                       <!-- ngIf: category.hasItems -->
                       <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
-                        class="ng-scope" style="">
+                        style="">
                         <a href="" id="category-all" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">All</a>
                         <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
                       </li>
@@ -85,38 +61,132 @@
                       <!-- end ngIf: category.hasItems -->
                       <!-- end ngRepeat: category in $ctrl.categories -->
                       <!-- ngIf: category.hasItems -->
-                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
-                        class="ng-scope">
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }">
                         <a href="" id="category-databases" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Databases</a>
                         <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
                       </li>
                       <!-- end ngIf: category.hasItems -->
                       <!-- end ngRepeat: category in $ctrl.categories -->
                       <!-- ngIf: category.hasItems -->
-                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
-                        class="ng-scope">
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }">
                         <a href="" id="category-middleware" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Middleware</a>
                         <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
                       </li>
                       <!-- end ngIf: category.hasItems -->
                       <!-- end ngRepeat: category in $ctrl.categories -->
                       <!-- ngIf: category.hasItems -->
-                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
-                        class="ng-scope">
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }">
                         <a href="" id="category-cicd" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">CI/CD</a>
                         <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
                       </li>
                       <!-- end ngIf: category.hasItems -->
                       <!-- end ngRepeat: category in $ctrl.categories -->
                       <!-- ngIf: category.hasItems -->
-                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }"
-                        class="ng-scope">
+                      <li ng-repeat="category in $ctrl.categories" ng-if="category.hasItems" ng-class="{ active: $ctrl.currentFilter === category.id }">
                         <a href="" id="category-other" class="services-category-heading ng-binding" ng-click="$ctrl.selectCategory(category.id)">Other</a>
                         <a ng-click="$ctrl.mobileView = 'categories'" class="services-back-link" href="">Back</a>
                       </li>
                       <!-- end ngIf: category.hasItems -->
                       <!-- end ngRepeat: category in $ctrl.categories -->
                     </ul>
+
+
+
+
+                    <div class="services-inner-container">
+                      <!-- Do not show sub-category items for 'All' or 'Other' main categories -->
+                      <!-- ngIf: $ctrl.currentFilter !== 'other' && $ctrl.currentFilter !== 'all' -->
+
+                      <!-- Show catalog item for 'All' and 'Other' main categories -->
+                      <!-- ngIf: $ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all' -->
+                      <div ng-if="$ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all'" class="services-no-sub-categories ng-scope">
+                        <div class="services-items">
+                          <!-- ngIf: $ctrl.isEmpty -->
+                          <!-- ngIf: !$ctrl.isEmpty -->
+                          <!-- end ngIf: !$ctrl.isEmpty -->
+                          <!-- ngIf: $ctrl.filterConfig.appliedFilters.length > 0 && $ctrl.filterConfig.resultsCount === 0 -->
+                          <!-- ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/mariadb.svg" alt="" src="images/logos/mariadb.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="MariaDB (Persistent)">
+                              MariaDB (Persistent)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/mongodb.svg" alt="" src="images/logos/mongodb.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="MongoDB (Persistent)">
+                              MongoDB (Persistent)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/mysql-database.svg" alt="" src="images/logos/mysql-database.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="MySQL (Persistent)">
+                              MySQL (Persistent)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/postgresql.svg" alt="" src="images/logos/postgresql.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="PostgreSQL (Persistent)">
+                              PostgreSQL (Persistent)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/redis.svg" alt="" src="images/logos/redis.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="Redis (Ephemeral)">
+                              Redis (Ephemeral)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                          <a href="" class="services-item ng-scope" ng-repeat="item in $ctrl.filteredItems track by item.resource.metadata.uid" ng-click="$ctrl.serviceViewItemClicked(item)">
+                            <!-- ngIf: !item.imageUrl -->
+                            <!-- ngIf: item.imageUrl -->
+                            <div ng-if="item.imageUrl" class="services-item-icon ng-scope">
+                              <img ng-src="images/logos/redis.svg" alt="" src="images/logos/redis.svg">
+                            </div>
+                            <!-- end ngIf: item.imageUrl -->
+                            <div class="services-item-name ng-binding" title="Redis (Persistent)">
+                              Redis (Persistent)
+                            </div>
+                          </a>
+                          <!-- end ngRepeat: item in $ctrl.filteredItems track by item.resource.metadata.uid -->
+                        </div>
+                      </div>
+                      <!-- end ngIf: $ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all' -->
+                    </div>
+
+
+
+
+
                   </div>
                   <!-- end ngIf: $ctrl.loaded -->
                 </div>
@@ -132,3 +202,7 @@
     </div>
   </div>
 </div>
+
+
+<!-- Utils -->
+<cn-import-document #importDocument></cn-import-document>

@@ -8,6 +8,8 @@ import { UserService, User } from '../ngx-login-client';
 
 import { Logger } from '../ngx-base';
 import { BrandInformation } from '../models/brand-information';
+import { UploaderOptions } from 'ngx-uploader';
+import { UploadDocumentService } from '../shared/upload-document.service';
 
 @Component({
   selector: 'home',
@@ -32,7 +34,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     private contexts: Contexts,
     private spaces: Spaces,
-  private logger: Logger*/) {
+  private logger: Logger*/
+  ) {
     //this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
   }
 

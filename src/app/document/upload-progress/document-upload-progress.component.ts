@@ -7,7 +7,7 @@ import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy } from '@angu
 import { UploadDocumentService } from '../../shared/upload-document.service';
 
 @Component({
-  selector: 'ofs-document-upload-progress',
+  selector: 'cn-document-upload-progress',
   templateUrl: './document-upload-progress.component.html',
   styleUrls: ['./document-upload-progress.component.scss'],
 })

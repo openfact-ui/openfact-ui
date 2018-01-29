@@ -25,7 +25,7 @@ export class UBLDocumentService {
     private logger: Logger,
     private spaceService: SpaceService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.documentsUrl = apiUrl + 'documents';
+    this.documentsUrl = apiUrl.endsWith('/') ? apiUrl + 'documents' : apiUrl + '/documents';
     this.namedDocumentsUrl = apiUrl + 'nameddocuments';
     this.searchDocumentsUrl = apiUrl + 'search/documents';
   }

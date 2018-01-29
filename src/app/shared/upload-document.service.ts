@@ -4,6 +4,7 @@ import { AuthenticationService } from '../ngx-login-client';
 import { UploadFile, UploadOutput, UploadInput } from 'ngx-uploader';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { KeycloakService } from '../keycloak-service/keycloak.service';
 
 @Injectable()
 export class UploadDocumentService {
@@ -18,8 +19,9 @@ export class UploadDocumentService {
 
   constructor(
     private auth: AuthenticationService,
+    private keycloakService: KeycloakService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.documentsUrl = apiUrl + 'documents';
+    this.documentsUrl = apiUrl.endsWith('/') ? apiUrl + 'documents' : apiUrl + '/documents';
 
     this._input.subscribe(event => {
       if (event.type === 'removeAll') {
@@ -39,15 +41,22 @@ export class UploadDocumentService {
 
   output(output: UploadOutput): void {
     if (output.type === 'allAddedToQueue') { // when all files added in queue
-      const event: UploadInput = {
-        type: 'uploadAll',
-        url: this.documentsUrl,
-        method: 'POST',
-        headers: {
-          'Authorization': this.headers.get('Authorization')
-        }
-      };
-      this._input.emit(event);
+      const tokenPromise: Promise<string> = this.keycloakService.getToken();
+      const tokenObservable: Observable<string> = Observable.fromPromise(tokenPromise);
+
+      tokenObservable.subscribe(token => {
+        const event: UploadInput = {
+          type: 'uploadAll',
+          url: this.documentsUrl,
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        };
+        this._input.emit(event);
+      });
+
+
     } else if (output.type === 'addedToQueue' && typeof output.file !== 'undefined') {
       this.uploadFiles.push(output.file);
       this._files.next(this.uploadFiles);
