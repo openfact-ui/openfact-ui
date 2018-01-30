@@ -1,5 +1,5 @@
 <div class="catalog-projects-summary-panel" ng-show="!$ctrl.loading">
-  <button class="create-button btn btn-primary" (click)="spaceWizard.open()">
+  <button type="button" class="create-button btn btn-primary" (click)="spaceWizard.open()">
     <span class="fa fa-plus"></span>
     <span class="create-button-text">{{'LANDSCAPE.CREATE_SPACE' | translate}}</span>
   </button>
@@ -17,20 +17,23 @@
       <a routerLink="/_spaces" class="projects-view-all">{{'LANDSCAPE.VIEW_ALL' | translate}}</a>
     </div>
     <div id="catalog-projects-summary-list">
-      <div *ngFor="let space of spaces" class="project-tile tile-click">
-        <div class="dropdown dropdown-kebab-pf" dropdown>
+      <div *ngFor="let space of spaces" class="project-tile tile-click" (click)="editSpace(space)">
+        <div dropdown cnStopPropagation class="dropdown dropdown-kebab-pf">
           <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebab" aria-haspopup="true" aria-expanded="false"
             dropdownToggle>
             <span class="fa fa-ellipsis-v"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
             <li>
-              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Project" project="project">Delete Project</a>
+              <a routerLink="/_spaces/{{space.id}}" role="button" label="Edit Space">Edit Space</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Space">Delete Space</a>
             </li>
           </ul>
         </div>
         <h3 class="project-tile-header">
-          <a href="project/clarksnut-jenkins" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
+          <a routerLink="/_spaces/{{space.id}}" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
         </h3>
         <p class="project-date">
           {{space.attributes.assignedId}} {{space.attributes.description}}. Created

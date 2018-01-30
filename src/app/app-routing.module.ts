@@ -35,6 +35,23 @@ const routes: Routes = [
     }
   },
 
+  // Spaces
+  {
+    path: '_spaces',
+    loadChildren: './space/list/list.module#ListModule',
+    data: {
+      title: 'Spaces'
+    }
+  },
+
+  {
+    path: '_spaces/:space',
+    loadChildren: './space/edit/edit.module#EditModule',
+    data: {
+      title: 'Edit Space'
+    }
+  },
+
   // Error Pages
   {
     path: '_error',

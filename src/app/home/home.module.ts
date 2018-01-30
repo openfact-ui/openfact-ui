@@ -21,6 +21,8 @@ import { ClarksnutModule } from './../ngx-clarksnut';
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 import { SpaceDeleteModule } from '../space/delete/space-delete.module';
 
+import { SharedDirectivesModule } from './../shared-directives/shared-directives.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { SpaceDeleteModule } from '../space/delete/space-delete.module';
     NgUploaderModule,
     SpaceWizardModule,
     SpaceDeleteModule,
-    ClarksnutModule
+    ClarksnutModule,
+    SharedDirectivesModule
   ],
   declarations: [
     HomeComponent,

@@ -22,6 +22,7 @@ export class LandsideComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
+    private router: Router,
     private broadcaster: Broadcaster,
     private userService: UserService,
     private spaceService: SpaceService,
@@ -45,6 +46,10 @@ export class LandsideComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
+  }
+
+  editSpace(space: Space) {
+    this.router.navigate(['/_spaces', space.id]);
   }
 
 }
