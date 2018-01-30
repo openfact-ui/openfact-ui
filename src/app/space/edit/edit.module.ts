@@ -5,12 +5,14 @@ import { CommonModule } from '@angular/common';
 import { OverviewComponent } from './overview/overview.component';
 import { EditRoutingModule } from './edit-routing.module';
 import { EditComponent } from './edit.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown/bs-dropdown.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    EditRoutingModule
+    EditRoutingModule,
+    BsDropdownModule
   ],
   declarations: [
     EditComponent,

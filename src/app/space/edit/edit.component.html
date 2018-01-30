@@ -1,4 +1,73 @@
-<h1>header</h1>
+<div class="project-bar">
+  <div class="toggle-menu">
+    <button type="button" class="navbar-toggle project-action-btn" (click)="toggleNav()">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  <div class="form-group">
+
+    <div dropdown class="btn-group bootstrap-select form-control">
+      <button dropdownToggle type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="carlosthe19916"
+        aria-expanded="false">
+        <span class="filter-option pull-left">carlosthe19916</span>&nbsp;
+        <span class="bs-caret">
+          <span class="caret"></span>
+        </span>
+      </button>
+      <div *dropdownMenu class="dropdown-menu open" role="combobox" style="max-height: 542px; overflow: hidden; min-height: 86px;">
+        <ul class="dropdown-menu inner" role="listbox" aria-expanded="false" style="max-height: 530px; overflow-y: auto; min-height: 74px;">
+          <li data-original-index="0" class="selected">
+            <a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true">
+              <span class="text">carlosthe19916</span>
+              <span class="fa fa-check check-mark"></span>
+            </a>
+          </li>
+          <li class="divider" data-original-index="5"></li>
+          <li data-original-index="6">
+            <a tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="false">
+              <span class="text">View All Projects</span>
+              <span class="fa fa-check check-mark"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <select class="selectpicker form-control" data-selected-text-format="count>3" id="boostrapSelect" title="" tabindex="-98">
+        <option value="carlosthe19916" selected="selected">carlosthe19916</option>
+        <option data-divider="true"></option>
+        <option value="">View All Projects</option>
+      </select>
+    </div>
+  </div>
+
+  <div dropdown class="dropdown add-to-project">
+    <a dropdownToggle class="dropdown-toggle" title="Add to Space" aria-haspopup="true" aria-expanded="false">
+      <i class="fa fa-plus visible-xs-inline-block" aria-hidden="true" title="Add to Space"></i>
+      <span class="hidden-xs">Add to Space</span>
+      <span class="hidden-xs caret" aria-hidden="true" title="Add to Project"></span>
+    </a>
+    <ul *dropdownMenu role="menu" class="dropdown-menu dropdown-menu-right">
+      <!-- ngIf: !catalogLandingPageEnabled -->
+      <!-- ngIf: catalogLandingPageEnabled -->
+      <li ng-if-start="catalogLandingPageEnabled" role="menuitem" class="">
+        <a href="./">Browse Catalog</a>
+      </li>
+      <li role="menuitem" class="">
+        <a href="" ng-click="showOrderingPanel('deployImage')">Deploy Image</a>
+      </li>
+      <li ng-if-end="" role="menuitem" class="">
+        <a href="" ng-click="showOrderingPanel('fromFile')">Import YAML / JSON</a>
+      </li>
+      <!-- end ngIf: catalogLandingPageEnabled -->
+      <li role="menuitem">
+        <a href="" ng-click="showOrderingPanel('fromProject')">Select from Project</a>
+      </li>
+    </ul>
+  </div>
+  <!-- end ngIf: canIAddToProject -->
+</div>
 
 <cn-sidebar></cn-sidebar>
 

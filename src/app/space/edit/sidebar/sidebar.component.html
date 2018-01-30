@@ -1,3 +1,330 @@
-<p>
-  sidebar works!
-</p>
+<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus" ng-class="{
+  collapsed: nav.collapsed &amp;&amp; !isMobile,
+  'hide-mobile-nav': !nav.showMobileNav &amp;&amp; isMobile,
+  'hover-secondary-nav-pf': sidebar.secondaryOpen &amp;&amp; !isMobile,
+  'show-mobile-nav': nav.showMobileNav &amp;&amp; isMobile,
+  'show-mobile-secondary': nav.showMobileNav &amp;&amp; sidebar.showMobileSecondary &amp;&amp; isMobile
+}" on-esc="closeNav()" style="">
+  <!-- ngIf: view.hasProject -->
+  <nav ng-if="view.hasProject" class="nav-vertical-primary ng-scope" style="">
+    <ul class="list-group">
+
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope active">
+        <!-- ngIf: primaryItem.href -->
+        <a ng-if="primaryItem.href" ng-href="project/carlosthe19916/overview" ng-click="itemClicked(primaryItem)" class="ng-scope"
+          href="project/carlosthe19916/overview">
+          <span title="Overview" class="fa fa-dashboard" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Overview</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+      </li>
+
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope secondary-nav-item-pf">
+        <!-- ngIf: primaryItem.href -->
+        <!-- ngIf: !primaryItem.href -->
+        <a ng-if="!primaryItem.href" href="" ng-click="itemClicked(primaryItem)" class="ng-scope">
+          <span title="Applications" class="fa fa-cubes" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Applications</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+        <!-- end ngIf: !primaryItem.href -->
+
+        <!-- ngIf: primaryItem.secondaryNavSections.length -->
+        <div ng-if="primaryItem.secondaryNavSections.length" class="secondary-nav-item-pf ng-scope" ng-class="{
+          'mobile-nav-item-pf': primaryItem.mobileSecondary &amp;&amp; isMobile
+        }">
+          <div class="nav-pf-secondary-nav">
+            <div class="nav-item-pf-header">
+              <a href="" class="secondary-collapse-toggle-pf" ng-click="collapseMobileSecondary(primaryItem, $event)" role="button">
+                <span class="sr-only">Back</span>
+              </a>
+              <span class="ng-binding">Applications</span>
+            </div>
+            <ul class="list-group">
+              <!-- ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+              <!-- ngIf: secondarySection.header -->
+              <!-- ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/deployments" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/deployments">
+                  <span class="list-group-item-value ng-binding">Deployments</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/stateful-sets" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/stateful-sets">
+                  <span class="list-group-item-value ng-binding">Stateful Sets</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/pods" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/pods">
+                  <span class="list-group-item-value ng-binding">Pods</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/services" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/services">
+                  <span class="list-group-item-value ng-binding">Services</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/routes" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/routes">
+                  <span class="list-group-item-value ng-binding">Routes</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <li ng-repeat-end="" style="display:none" class="ng-scope"></li>
+              <!-- end ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+            </ul>
+          </div>
+        </div>
+        <!-- end ngIf: primaryItem.secondaryNavSections.length -->
+      </li>
+      <!-- end ngIf: show(primaryItem) -->
+      <!-- end ngRepeat: primaryItem in navItems -->
+      <!-- ngIf: show(primaryItem) -->
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope secondary-nav-item-pf">
+        <!-- ngIf: primaryItem.href -->
+        <!-- ngIf: !primaryItem.href -->
+        <a ng-if="!primaryItem.href" href="" ng-click="itemClicked(primaryItem)" class="ng-scope">
+          <span title="Builds" class="pficon pficon-build" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Builds</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+        <!-- end ngIf: !primaryItem.href -->
+
+        <!-- ngIf: primaryItem.secondaryNavSections.length -->
+        <div ng-if="primaryItem.secondaryNavSections.length" class="secondary-nav-item-pf ng-scope" ng-class="{
+          'mobile-nav-item-pf': primaryItem.mobileSecondary &amp;&amp; isMobile
+        }">
+          <div class="nav-pf-secondary-nav">
+            <div class="nav-item-pf-header">
+              <a href="" class="secondary-collapse-toggle-pf" ng-click="collapseMobileSecondary(primaryItem, $event)" role="button">
+                <span class="sr-only">Back</span>
+              </a>
+              <span class="ng-binding">Builds</span>
+            </div>
+            <ul class="list-group">
+              <!-- ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+              <!-- ngIf: secondarySection.header -->
+              <!-- ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/builds" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/builds">
+                  <span class="list-group-item-value ng-binding">Builds</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/pipelines" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/pipelines">
+                  <span class="list-group-item-value ng-binding">Pipelines</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/images" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/images">
+                  <span class="list-group-item-value ng-binding">Images</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <li ng-repeat-end="" style="display:none" class="ng-scope"></li>
+              <!-- end ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+            </ul>
+          </div>
+        </div>
+        <!-- end ngIf: primaryItem.secondaryNavSections.length -->
+      </li>
+      <!-- end ngIf: show(primaryItem) -->
+      <!-- end ngRepeat: primaryItem in navItems -->
+      <!-- ngIf: show(primaryItem) -->
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope secondary-nav-item-pf">
+        <!-- ngIf: primaryItem.href -->
+        <!-- ngIf: !primaryItem.href -->
+        <a ng-if="!primaryItem.href" href="" ng-click="itemClicked(primaryItem)" class="ng-scope">
+          <span title="Resources" class="fa fa-files-o" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Resources</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+        <!-- end ngIf: !primaryItem.href -->
+
+        <!-- ngIf: primaryItem.secondaryNavSections.length -->
+        <div ng-if="primaryItem.secondaryNavSections.length" class="secondary-nav-item-pf ng-scope" ng-class="{
+          'mobile-nav-item-pf': primaryItem.mobileSecondary &amp;&amp; isMobile
+        }">
+          <div class="nav-pf-secondary-nav">
+            <div class="nav-item-pf-header">
+              <a href="" class="secondary-collapse-toggle-pf" ng-click="collapseMobileSecondary(primaryItem, $event)" role="button">
+                <span class="sr-only">Back</span>
+              </a>
+              <span class="ng-binding">Resources</span>
+            </div>
+            <ul class="list-group">
+              <!-- ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+              <!-- ngIf: secondarySection.header -->
+              <!-- ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/quota" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/quota">
+                  <span class="list-group-item-value ng-binding">Quota</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/config-maps" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/config-maps">
+                  <span class="list-group-item-value ng-binding">Config Maps</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/secrets" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/secrets">
+                  <span class="list-group-item-value ng-binding">Secrets</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <!-- ngIf: show(secondaryItem) -->
+              <li ng-repeat="secondaryItem in secondarySection.items" ng-class="{ active: secondaryItem === activeSecondary }" ng-if="show(secondaryItem)"
+                class="list-group-item ng-scope">
+                <a ng-href="project/carlosthe19916/browse/other" ng-click="primaryItem.mobileSecondary = false;" href="project/carlosthe19916/browse/other">
+                  <span class="list-group-item-value ng-binding">Other Resources</span>
+                </a>
+              </li>
+              <!-- end ngIf: show(secondaryItem) -->
+              <!-- end ngRepeat: secondaryItem in secondarySection.items -->
+              <li ng-repeat-end="" style="display:none" class="ng-scope"></li>
+              <!-- end ngRepeat: secondarySection in primaryItem.secondaryNavSections -->
+            </ul>
+          </div>
+        </div>
+        <!-- end ngIf: primaryItem.secondaryNavSections.length -->
+      </li>
+      <!-- end ngIf: show(primaryItem) -->
+      <!-- end ngRepeat: primaryItem in navItems -->
+      <!-- ngIf: show(primaryItem) -->
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope">
+        <!-- ngIf: primaryItem.href -->
+        <a ng-if="primaryItem.href" ng-href="project/carlosthe19916/browse/storage" ng-click="itemClicked(primaryItem)" class="ng-scope"
+          href="project/carlosthe19916/browse/storage">
+          <span title="Storage" class="pficon pficon-container-node" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Storage</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+        <!-- end ngIf: primaryItem.href -->
+        <!-- ngIf: !primaryItem.href -->
+
+        <!-- ngIf: primaryItem.secondaryNavSections.length -->
+      </li>
+      <!-- end ngIf: show(primaryItem) -->
+      <!-- end ngRepeat: primaryItem in navItems -->
+      <!-- ngIf: show(primaryItem) -->
+      <li ng-repeat="primaryItem in navItems" ng-class="{
+        active: primaryItem === activePrimary,
+        'is-hover': primaryItem.isHover,
+        'secondary-nav-item-pf': primaryItem.secondaryNavSections.length
+      }" ng-if="show(primaryItem)" ng-mouseenter="onMouseEnter(primaryItem)" ng-mouseleave="onMouseLeave(primaryItem)" class="list-group-item ng-scope">
+        <!-- ngIf: primaryItem.href -->
+        <a ng-if="primaryItem.href" ng-href="project/carlosthe19916/monitoring" ng-click="itemClicked(primaryItem)" class="ng-scope"
+          href="project/carlosthe19916/monitoring">
+          <span title="Monitoring" class="pficon pficon-screen" aria-hidden="true"></span>
+          <span class="list-group-item-value ng-binding">Monitoring</span>
+          <!-- ngIf: nav.collapsed && !isMobile -->
+        </a>
+        <!-- end ngIf: primaryItem.href -->
+        <!-- ngIf: !primaryItem.href -->
+
+        <!-- ngIf: primaryItem.secondaryNavSections.length -->
+      </li>
+      <!-- end ngIf: show(primaryItem) -->
+      <!-- end ngRepeat: primaryItem in navItems -->
+    </ul>
+  </nav>
+  <!-- end ngIf: view.hasProject -->
+
+  <!-- <navbar-utility-mobile>
+    <nav class="nav-vertical-utility visible-xs-block">
+      <ul extension-point="" extension-name="nav-dropdown-mobile" extension-types="dom" extension-args="[user]" class="list-group ng-isolate-scope">
+        <li class="list-group-item ng-scope">
+          <a href="https://docs.openshift.com/online/welcome/index.html">
+            <span class="fa fa-book fa-fw" aria-hidden="true"></span>
+            <span class="list-group-item-value">Documentation</span>
+          </a>
+        </li>
+        <li class="list-group-item ng-scope">
+          <a href="command-line">
+            <span class="fa fa-terminal" aria-hidden="true"></span>
+            <span class="list-group-item-value">Command Line Tools</span>
+          </a>
+        </li>
+        <li class="list-group-item ng-scope">
+          <a href="about">
+            <span class="pficon pficon-info fa-fw" aria-hidden="true"></span>
+            <span class="list-group-item-value">About</span>
+          </a>
+        </li>
+        <li class="list-group-item ng-scope">
+          <a href="logout">
+            <span class="pficon pficon-user fa-fw" aria-hidden="true"></span>
+            <span class="list-group-item-value">Log out
+              <span class="username">carlos feria</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </navbar-utility-mobile> -->
+</div>
