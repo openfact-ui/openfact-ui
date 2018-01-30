@@ -81,7 +81,7 @@
     }
   }
   .landing-search-area & {
-    z-index: z(index-navbar-fixed - 1);
+    z-index: $index-navbar-fixed - 1;
     .search-pf .has-clear .clear {
       height: 28px;
     }
@@ -189,7 +189,7 @@ landingbody,
   background-color: $landing-side-bar-bg;
   color: $color-pf-white;
   // Needs to be less than the navbar so dropdown menus don't open under the sidebar.
-  z-index: z(index-navbar-fixed - 1);
+  z-index: index-navbar-fixed - 1;
   @media(min-width: $screen-sm-min) {
     bottom: 0;
     overflow-y: auto;

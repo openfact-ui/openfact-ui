@@ -1,3 +1,4 @@
+import { UBLDocument } from './../ngx-clarksnut/models/ubl-document';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
@@ -11,6 +12,9 @@ import { BrandInformation } from '../models/brand-information';
 import { UploaderOptions } from 'ngx-uploader';
 import { UploadDocumentService } from '../shared/upload-document.service';
 
+import { ListConfig } from 'patternfly-ng/list/list.module';
+import { EmptyStateConfig } from 'patternfly-ng/empty-state';
+
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
@@ -18,65 +22,33 @@ import { UploadDocumentService } from '../shared/upload-document.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  /*loggedInUser: User;
-  recent: Space[];
-  private _context: Context;
-  private _defaultContext: Context;
-  private _spaces: Space[] = [];
-  private _spaceSubscription: Subscription;
-  private _loggedInUserSubscription: Subscription;
-  private _contextSubscription: Subscription;
-  private _contextDefaultSubscription: Subscription;
-  public brandInformation: BrandInformation;*/
+  listConfig: ListConfig;
+  emptyStateConfig: EmptyStateConfig;
 
-  constructor(/*private userService: UserService,
-    private spaceService: SpaceService,
-    private router: Router,
-    private contexts: Contexts,
-    private spaces: Spaces,
-  private logger: Logger*/
+  documents: UBLDocument[] = [];
+
+  constructor(
   ) {
-    //this._spaceSubscription = spaces.recent.subscribe((val) => this.recent = val);
   }
 
-  public ngOnInit() {
-    /*this._loggedInUserSubscription = this.userService.loggedInUser.subscribe((val) => this.loggedInUser = val);
-    this._contextSubscription = this.contexts.current.subscribe((val) => {
-      this._context = val;
-    });
-    this._contextDefaultSubscription = this.contexts.default.subscribe((val) => {
-      this._defaultContext = val;
-      this.initSpaces();
-    });
+  ngOnInit() {
+    this.emptyStateConfig = {
+      iconStyleClass: 'pficon-info',
+      title: 'No results match',
+    } as EmptyStateConfig;
 
-    this.brandInformation = new BrandInformation();*/
+    this.listConfig = {
+      dblClick: false,
+      emptyStateConfig: this.emptyStateConfig,
+      multiSelect: false,
+      selectItems: false,
+      showCheckbox: false,
+      useExpandItems: false
+    } as ListConfig;
   }
 
-  public ngOnDestroy() {
-    /*this._spaceSubscription.unsubscribe();
-    this._loggedInUserSubscription.unsubscribe();
-    this._contextSubscription.unsubscribe();
-    this._contextDefaultSubscription.unsubscribe();*/
-  }
+  ngOnDestroy() {
 
-  /*public initSpaces() {
-    if (this.context && this.context.user) {
-      this.spaceService
-        .getSpacesByUser(this.context.user.attributes.username, 5)
-        .subscribe((spaces) => {
-          this._spaces = spaces;
-        });
-    } else {
-      this.logger.error('Failed to retrieve list of spaces owned by user');
-    }
   }
-
-  get context(): Context {
-    if (this.router.url === '/_home') {
-      return this._defaultContext;
-    } else {
-      return this._context;
-    }
-  }*/
 
 }

@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   space: Space;
   private subcriptions: Subscription[] = [];
 
+  private isMobileMenuShow: boolean = false;
+
   constructor(private userService: UserService) {
     this.subcriptions.push(
       this.userService.loggedInUser.subscribe((val) => {
@@ -35,6 +37,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subcriptions.forEach(val => val.unsubscribe());
+  }
+
+  toggleMobileNav() {
+    this.isMobileMenuShow = !this.isMobileMenuShow;
   }
 
 }

@@ -49,423 +49,54 @@
                       </li>
                     </ul>
 
-
-
-
                     <div class="services-inner-container">
-                      <!-- Do not show sub-category items for 'All' or 'Other' main categories -->
-                      <!-- ngIf: $ctrl.currentFilter !== 'other' && $ctrl.currentFilter !== 'all' -->
-
-                      <!-- Show catalog item for 'All' and 'Other' main categories -->
-                      <!-- ngIf: $ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all' -->
-                      <div ng-if="$ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all'" class="services-no-sub-categories ng-scope">
+                      <div class="services-no-sub-categories">
                         <div class="services-items">
-
                           <cn-document-filter class="services-items-filter"></cn-document-filter>
-
-
-
-
-                          <div class="container-fluid">
-                            <div class="list-group list-view-pf list-view-pf-view">
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
+                          <pfng-list [config]="listConfig" [actionTemplate]="actionTemplate" [items]="documents" [itemTemplate]="itemTemplate">
+                            <ng-template #itemTemplate let-item="item" let-index="index">
+                              <div class="list-pf-left">
+                                <div style="cursor: pointer;" (click)="markAsStarred(item)">
+                                  <span *ngIf="item.attributes.starred" class="fa fa-star list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
+                                  <span *ngIf="!item.attributes.starred" class="fa fa-file-code-o list-pf-icon list-pf-icon-bordered list-pf-icon-small"></span>
                                 </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight9" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight9">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
+                              </div>
+                              <div class="list-pf-content-wrapper">
+                                <div class="list-pf-main-content">
+                                  <div class="list-pf-title">
+                                    {{item.attributes.assignedId}}
+                                    <small>{{item.attributes.type}}</small>
                                   </div>
-
+                                  <div class="list-pf-description text-overflow-pf">
+                                    {{item.attributes.supplierName | uppercase}}
+                                    <small>{{item.attributes.supplierAssignedId}}</small>
+                                  </div>
+                                  <div class="list-pf-description text-overflow-pf">
+                                    {{item.attributes.customerName | uppercase}}
+                                    <small>{{item.attributes.customerAssignedId}}</small>
+                                  </div>
                                 </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-plane list-view-pf-icon-sm"></span>
+                                <div class="list-pf-additional-content">
+                                  <div>
+                                    <strong>{{item.attributes.amount | number}}</strong> {{item.attributes.currency | uppercase}}
                                   </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event One
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>8</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>6</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>10</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>8</strong> Images
-                                      </div>
-                                    </div>
+                                  <div>
+                                    {{item.attributes.issueDate | date: 'shortDate'}}
                                   </div>
                                 </div>
                               </div>
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
-                                </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight10" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight10">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-magic list-view-pf-icon-sm"></span>
-                                  </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event Two
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>4</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>2</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>11</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>6</strong> Images
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
-                                </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight11" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight11">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-gamepad list-view-pf-icon-sm"></span>
-                                  </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event Three
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>4</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>2</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>10</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>6</strong> Images
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
-                                </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight12" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight12">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-linux list-view-pf-icon-sm"></span>
-                                  </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event Four
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>4</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>2</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>10</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>6</strong> Images
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
-                                </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight13" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight13">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-briefcase list-view-pf-icon-sm"></span>
-                                  </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event Five
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>4</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>2</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>10</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>6</strong> Images
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="list-group-item">
-                                <div class="list-view-pf-checkbox">
-                                  <input type="checkbox">
-                                </div>
-                                <div class="list-view-pf-actions">
-                                  <button class="btn btn-default">Action</button>
-                                  <div class="dropdown pull-right dropdown-kebab-pf">
-                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight14" data-toggle="dropdown" aria-haspopup="true"
-                                      aria-expanded="true">
-                                      <span class="fa fa-ellipsis-v"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight14">
-                                      <li>
-                                        <a href="#">Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Another Action</a>
-                                      </li>
-                                      <li>
-                                        <a href="#">Something Else Here</a>
-                                      </li>
-                                      <li role="separator" class="divider"></li>
-                                      <li>
-                                        <a href="#">Separated Link</a>
-                                      </li>
-                                    </ul>
-                                  </div>
-
-                                </div>
-                                <div class="list-view-pf-main-info">
-                                  <div class="list-view-pf-left">
-                                    <span class="fa fa-coffee list-view-pf-icon-sm"></span>
-                                  </div>
-                                  <div class="list-view-pf-body">
-                                    <div class="list-view-pf-description">
-                                      <div class="list-group-item-heading">
-                                        Event Six
-                                      </div>
-                                      <div class="list-group-item-text">
-                                        The following snippet of text is
-                                        <a href="#">rendered as link text</a>.
-                                      </div>
-                                    </div>
-                                    <div class="list-view-pf-additional-info">
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-screen"></span>
-                                        <strong>4</strong> Hosts
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-cluster"></span>
-                                        <strong>2</strong> Clusters
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-container-node"></span>
-                                        <strong>10</strong> Nodes
-                                      </div>
-                                      <div class="list-view-pf-additional-info-item">
-                                        <span class="pficon pficon-image"></span>
-                                        <strong>6</strong> Images
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-
-
-
+                            </ng-template>
+                            <ng-template #actionTemplate let-item="item" let-index="index">
+                              <pfng-action class="list-pf-actions" [config]="getActionConfig(item, printButtonTemplate)" (onActionSelect)="handleAction($event, item)">
+                                <ng-template #printButtonTemplate let-action="action">
+                                  <span class="fa fa-print">&nbsp;</span>{{action.title}}
+                                </ng-template>
+                              </pfng-action>
+                            </ng-template>
+                          </pfng-list>
                         </div>
                       </div>
-                      <!-- end ngIf: $ctrl.currentFilter === 'other' || $ctrl.currentFilter === 'all' -->
                     </div>
-
-
-
-
 
                   </div>
                   <!-- end ngIf: $ctrl.loaded -->

@@ -23,6 +23,10 @@ import { SpaceDeleteModule } from '../space/delete/space-delete.module';
 
 import { SharedDirectivesModule } from './../shared-directives/shared-directives.module';
 
+import { ListModule } from 'patternfly-ng/list/list.module';
+import { EmptyStateModule } from 'patternfly-ng/empty-state/empty-state.module';
+import { ActionModule } from 'patternfly-ng/action/action.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +39,11 @@ import { SharedDirectivesModule } from './../shared-directives/shared-directives
     SpaceWizardModule,
     SpaceDeleteModule,
     ClarksnutModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+
+    ListModule,
+    EmptyStateModule,
+    ActionModule
   ],
   declarations: [
     HomeComponent,

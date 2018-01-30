@@ -78,6 +78,7 @@ import { DocumentUploadProgressModule } from './document/upload-progress/documen
 
 // Error
 import { ErrorService } from './layout/error/error.service';
+import { SidebarComponent } from './layout/header/sidebar/sidebar.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -91,7 +92,8 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent,
     ContextSelectorComponent,
     NavbarUtilityComponent,
-    NotificationCounterComponent
+    NotificationCounterComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

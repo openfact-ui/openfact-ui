@@ -13,7 +13,7 @@ notification-drawer-wrapper {
     right: 0;
     top: ($navbar-os-header-height-mobile + $project-bar-height-mobile);
     transition: top 150ms ease-in-out, opacity 150ms;
-    z-index: z(index-navbar-fixed - 2); // two less than navbar, one less than project-bar
+    z-index: $index-navbar-fixed - 2; // two less than navbar, one less than project-bar
     @media(max-width: 350px) {
       left: 0;
       width: 100%;

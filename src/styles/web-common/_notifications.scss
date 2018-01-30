@@ -26,7 +26,7 @@
   }
   top: 28px;
   @include word-break();
-  z-index: z(index-modal + 5);  // Override Patternfly's z-index to keep toasts above modals but below popovers
+  z-index: $index-modal + 5;  // Override Patternfly's z-index to keep toasts above modals but below popovers
 
   > div {
     &.ng-enter {

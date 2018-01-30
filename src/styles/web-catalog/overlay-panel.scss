@@ -150,7 +150,7 @@ body.overlay-open {
   position: fixed;
   right: 0;
   top: 0;
-  z-index: z(index-modal);
+  z-index: $index-modal;
   &.ng-enter {
     animation: modalSlideDown 0.3s ease-out forwards;
   }
