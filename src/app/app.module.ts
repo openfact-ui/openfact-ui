@@ -66,7 +66,6 @@ import { ProfileService } from './profile/profile.service';
 // Footer & Header
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
-import { ContextSelectorComponent } from './layout/header/context-selector/context-selector.component';
 import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
 import { MenusService } from './layout/header/menus.service';
@@ -90,7 +89,6 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     FooterComponent,
     HeaderComponent,
-    ContextSelectorComponent,
     NavbarUtilityComponent,
     NotificationCounterComponent,
     SidebarComponent

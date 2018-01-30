@@ -12,7 +12,6 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { LandsideComponent } from './landside/landside.component';
 import { SearchDocumentComponent } from './search-document/search-document.component';
-import { ImportDocumentComponent } from './import-document/import-document.component';
 import { DocumentFilterComponent } from './document-filter/document-filter.component';
 
 import { DateFromMilisPipe } from './pipes/date-from-milis';
@@ -49,7 +48,6 @@ import { ActionModule } from 'patternfly-ng/action/action.module';
     HomeComponent,
     LandsideComponent,
     SearchDocumentComponent,
-    ImportDocumentComponent,
     DocumentFilterComponent,
 
     DateFromMilisPipe,
