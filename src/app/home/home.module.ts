@@ -15,6 +15,8 @@ import { SearchDocumentComponent } from './search-document/search-document.compo
 import { ImportDocumentComponent } from './import-document/import-document.component';
 import { DocumentFilterComponent } from './document-filter/document-filter.component';
 
+import { DateFromMilisPipe } from './pipes/date-from-milis';
+
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 
 @NgModule({
@@ -33,7 +35,9 @@ import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
     LandsideComponent,
     SearchDocumentComponent,
     ImportDocumentComponent,
-    DocumentFilterComponent
+    DocumentFilterComponent,
+
+    DateFromMilisPipe,
   ],
   providers: [
   ]

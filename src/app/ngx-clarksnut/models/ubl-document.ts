@@ -19,7 +19,7 @@ export class UBLDocumentLink {
 }
 
 export class UBLDocumentRelationships {
-    'owned-by': {
+    ownedBy: {
         data: {
             id: string;
             type: string;
@@ -41,8 +41,8 @@ export class UBLDocumentAttributes {
     provider: string;
     starred: boolean; //
     tags: string[];
-    'updated-at': string;
-    'created-at': string;
+    updatedAt: string;
+    createdAt: string;
 }
 
 export class UBLDocumentRelationalData {

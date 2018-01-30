@@ -228,7 +228,10 @@ export class ContextService implements Contexts {
           return this
             .loadSpace(val.user, val.space)
             .map(space => {
-              return { user: space.relationalData.creator, space: space } as RawContext;
+              return {
+                //user: space.relationalData.creator,
+                space: space
+              } as RawContext;
             })
             .catch((err, caught) => {
               this.notifications.message({

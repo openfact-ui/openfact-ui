@@ -341,7 +341,7 @@ export class SpaceWizardComponent implements OnInit {
 
       this.userService.loggedInUser
         .switchMap((user) => {
-          this.space.relationships['owned-by'].data.id = user.id;
+          this.space.relationships.ownedBy[0].data.id = user.id;
           return this.spaceService.create(this.space);
         })
         .do((createdSpace) => {
@@ -380,12 +380,14 @@ export class SpaceWizardComponent implements OnInit {
     space.type = 'spaces';
     space.relationships = {
       collaborators: {} as SpaceRelatedLink,
-      ['owned-by']: {
-        data: {
-          id: '',
-          type: 'identities'
+      ownedBy: [
+        {
+          data: {
+            id: '',
+            type: 'identities'
+          }
         }
-      }
+      ]
     };
     return space;
   }

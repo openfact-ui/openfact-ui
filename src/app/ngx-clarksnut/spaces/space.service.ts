@@ -200,16 +200,18 @@ export class SpaceService {
   private resolveOwner(space: Space): Observable<Space> {
     space.relationalData = space.relationalData || {};
 
-    if (!space.relationships['owned-by'] || !space.relationships['owned-by'].data) {
-      space.relationalData.creator = null;
+    if (!space.relationships.ownedBy || space.relationships.ownedBy.length === 0) {
+      space.relationalData.owners = [];
       return;
     }
-    return this.userService
-      .getUserByUserId(space.relationships['owned-by'].data.id)
-      .map(owner => {
-        space.relationalData.creator = owner;
-        return space;
-      });
+
+    return Observable.forkJoin(
+      Observable.from(space.relationships.ownedBy)
+        .switchMap((val) => this.userService.getUserByUserId(val.data.id))
+    ).map((owners) => {
+      space.relationalData.owners = owners;
+      return space;
+    });
   }
 
   private resolveOwners(spaces: Space[]): Observable<Space[]> {
@@ -217,23 +219,36 @@ export class SpaceService {
       // Get a stream of spaces
       .from(spaces)
       // Map to a stream of owner Ids of these spaces
-      .map(space => space.relationships['owned-by'].data.id)
+      .map(space => {
+        let ownerIds: string[] = space.relationships.ownedBy.map((val) => val.data.id);
+        return [].concat.apply([], ownerIds)
+      })
       // Get only the unique owners in this stream of owner Ids
       .distinct()
       // Get the users from the server based on the owner Ids
       // and flatten the resulting stream , observables are returned
-      .flatMap(ownerId => this.userService.getUserByUserId(ownerId).catch(err => {
-        console.log('Error fetching user', ownerId, err);
-        return Observable.empty<User>();
-      }))
+      .flatMap(ownerId => {
+        return this.userService.getUserByUserId(ownerId).catch(err => {
+          console.log('Error fetching user', ownerId, err);
+          return Observable.empty<User>();
+        })
+      })
       // map the user objects back to the spaces to return a stream of spaces
-      .map(owner => {
-        if (owner) {
+      .map(owner1 => {
+        if (owner1) {
           for (let space of spaces) {
             space.relationalData = space.relationalData || {};
-            if (owner.id === space.relationships['owned-by'].data.id) {
-              space.relationalData.creator = owner;
+
+            let ownedBy = space.relationships.ownedBy;
+            for (let owner2 of ownedBy) {
+              if (owner1.id === owner2.data.id) {
+                if (!space.relationalData.owners) {
+                  space.relationalData.owners = [];
+                }
+                space.relationalData.owners.push(owner1);
+              }
             }
+
           }
         }
         return spaces;

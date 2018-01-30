@@ -29,7 +29,9 @@
   "LANDSCAPE": {
     "CREATE_SPACE": "Crear Espacio",
     "MY_SPACES": "Mis Espacios",
-    "VIEW_ALL": "Ver Todos"
+    "VIEW_ALL": "Ver Todos",
+    "OF": "de",
+    "SPACES": "Espacios"
   },
   "SPACE_WIZARD": {
     "TITLE": "Crear Espacio",

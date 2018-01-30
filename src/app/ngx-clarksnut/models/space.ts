@@ -24,11 +24,13 @@ export class SpaceLink {
 
 export class SpaceRelationships {
   collaborators: SpaceRelatedLink;
-  'owned-by': {
-    data: {
-      id: string;
-      type: string;
-    };
+  ownedBy: SpaceOwner[];
+}
+
+export class SpaceOwner {
+  data: {
+    id: string;
+    type: string;
   };
 }
 
@@ -42,11 +44,11 @@ export class SpaceAttributes {
   assignedId: string;
   name: string;
   description: string;
-  'updated-at': string;
-  'created-at': string;
+  updatedAt: string;
+  createdAt: string;
   version: number;
 }
 
 export class RelationalData {
-  creator?: User;
+  owners?: User[];
 }
