@@ -25,15 +25,15 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
             <li>
-              <a href="javascript:void(0)" ng-click="openDeleteModal()" role="button" label="Delete Project" project="project">Delete Project</a>
+              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Project" project="project">Delete Project</a>
             </li>
           </ul>
         </div>
         <h3 class="project-tile-header">
-          <a href="project/clarksnut-jenkins" class="project-title tile-target">{{space.attributes.name}}</a>
+          <a href="project/clarksnut-jenkins" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
         </h3>
         <p class="project-date">
-          Created
+          {{space.attributes.assignedId}} {{space.attributes.description}}. Created
           <span title="{{space.attributes.createdAt | date}}">{{space.attributes.createdAt | dateFromMilis | amTimeAgo}}</span>
         </p>
       </div>
@@ -80,4 +80,5 @@
 
 
 <!-- Create Space modal -->
-<ofs-space-wizard #spaceWizard></ofs-space-wizard>
+<cn-space-wizard #spaceWizard></cn-space-wizard>
+<cn-space-delete #deleteSpaceModal></cn-space-delete>

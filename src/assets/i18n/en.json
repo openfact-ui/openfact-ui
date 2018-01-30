@@ -10,7 +10,8 @@
     "BACK": "Previous",
     "CREATE": "Create",
     "CLOSE": "Close",
-    "REQUEST_ACCESS": "Request Access"
+    "REQUEST_ACCESS": "Request Access",
+    "DELETE_SPACE": "Delete this Space"
   },
   "HEADER": {
     "ABOUT": "About",
@@ -60,5 +61,9 @@
       "ACCEPT_CHECK": "Agree with the terms and conditions.",
       "SUGGESTION": "You must agree with the terms and conditions."
     }
+  },
+  "SPACE_DELETE_MODAL": {
+    "QUESTION": "Are you sure you want to delete the space",
+    "MESSAGE_WARNING": "This will <strong>delete all resources</strong> associated with the space {{space}} and <strong>cannont be undone</strong>. Make sure this is something you really want to do!"
   }
 }

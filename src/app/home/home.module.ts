@@ -17,7 +17,9 @@ import { DocumentFilterComponent } from './document-filter/document-filter.compo
 
 import { DateFromMilisPipe } from './pipes/date-from-milis';
 
+import { ClarksnutModule } from './../ngx-clarksnut';
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
+import { SpaceDeleteModule } from '../space/delete/space-delete.module';
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
     TranslateModule,
     MomentModule,
     NgUploaderModule,
-    SpaceWizardModule
+    SpaceWizardModule,
+    SpaceDeleteModule,
+    ClarksnutModule
   ],
   declarations: [
     HomeComponent,

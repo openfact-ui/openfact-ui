@@ -41,7 +41,7 @@ import {
 import { Broadcaster, Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
 
 @Component({
-  selector: 'ofs-space-wizard',
+  selector: 'cn-space-wizard',
   templateUrl: './space-wizard.component.html',
   styleUrls: ['./space-wizard.component.scss'],
 })

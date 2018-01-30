@@ -1,0 +1,14 @@
+<ng-template #modalTemplate>
+
+  <div class="modal-project-delete">
+    <div class="modal-body">
+      <h1>{{'SPACE_DELETE_MODAL.QUESTION' | translate}} '<strong>{{space?.attributes?.name}}</strong>'?</h1>
+      <p [innerHTML]="'SPACE_DELETE_MODAL.MESSAGE_WARNING' | translate:{space:space?.attributes?.name}"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-lg btn-danger" type="button" (click)="delete();">{{'BUTTONS.DELETE_SPACE' | translate}}</button>
+      <button class="btn btn-lg btn-default" type="button" (click)="cancel();">{{'BUTTONS.CANCEL' | translate}}</button>
+    </div>
+  </div>
+
+</ng-template>

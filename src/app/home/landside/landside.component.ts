@@ -29,7 +29,8 @@ export class LandsideComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       Observable.merge(
         this.userService.loggedInUser.do((user) => this.user = user),
-        this.broadcaster.on('spaceCreated')
+        this.broadcaster.on('spaceCreated'),
+        this.broadcaster.on('spaceDeleted')
       ).subscribe((val) => {
         this.spaceService.getSpacesByUser(this.user.attributes.username, 5).subscribe((val) => {
           this.spaces = val;

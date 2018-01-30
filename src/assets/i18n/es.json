@@ -10,7 +10,8 @@
     "BACK": "Anterior",
     "CREATE": "Crear",
     "CLOSE": "Cerrar",
-    "REQUEST_ACCESS": "Solicitar Acceso"
+    "REQUEST_ACCESS": "Solicitar Acceso",
+    "DELETE_SPACE": "Eliminar este Espacio"
   },
   "HEADER": {
     "ABOUT": "Acerca de",
@@ -60,5 +61,9 @@
       "ACCEPT_CHECK": "Estoy de acuerdo con los términos y condiciones.",
       "SUGGESTION": "Es necesario que acepters los términos y condiciones."
     }
+  },
+  "SPACE_DELETE_MODAL": {
+    "QUESTION": "¿Estas seguro de querer eliminar el espacio",
+    "MESSAGE_WARNING": "Esta acción <strong>eliminará todos los recursos</strong> asociados con el espacio {{space}} y <strong>no puede ser revertido</strong>. Asegurate de estar seguro de que esto es algo que quieras hacer!"
   }
 }
