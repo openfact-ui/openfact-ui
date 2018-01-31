@@ -2,7 +2,7 @@ import { ExtProfile, ProfileService } from './../profile/profile.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
-import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx-base';
+import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx/ngx-base';
 import { User, UserService, Entity } from '../ngx-login-client';
 import {
   Space,

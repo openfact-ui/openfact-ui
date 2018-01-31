@@ -1,16 +1,14 @@
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams, Response } from '@angular/http';
 import { cloneDeep } from 'lodash';
-import { Logger } from '../../ngx-base';
+import { Logger } from '../../ngx/ngx-base';
 import { AuthenticationService, User } from '../../ngx-login-client';
 import { Observable } from 'rxjs';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 
-import { RequestAccessToSpace } from '../models/request-access-to-space';
-
 @Injectable()
-export class RequestAccessService {
+export class CollaboratorService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private spacesUrl: string;
@@ -23,8 +21,8 @@ export class RequestAccessService {
     this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
   }
 
-  getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<RequestAccessToSpace[]> {
-    let url = this.spacesUrl + '/' + spaceId + '/request-access' + '?page[limit]=' + pageSize;
+  getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<User[]> {
+    let url = this.spacesUrl + '/' + spaceId + '/collaborators' + '?page[limit]=' + pageSize;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
@@ -36,15 +34,15 @@ export class RequestAccessService {
           this.nextLink = null;
         }
 
-        let requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
-        return requests;
+        let collaborators: User[] = response.json().data as User[];
+        return collaborators;
       })
       .catch((error) => {
         return this.handleError(error);
       });
   }
 
-  getNextRequests(): Observable<RequestAccessToSpace[]> {
+  getNextCollaborators(): Observable<User[]> {
     if (this.nextLink) {
       return this.http
         .get(this.nextLink, { headers: this.headers })
@@ -56,22 +54,31 @@ export class RequestAccessService {
             this.nextLink = null;
           }
 
-          let requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
-          return requests;
+          let collaborators: User[] = response.json().data as User[];
+          return collaborators;
         })
         .catch((error) => {
           return this.handleError(error);
         });
     } else {
-      return Observable.throw('No more requests found');
+      return Observable.throw('No more collaborators found');
     }
   }
 
-  addRequestAccess(spaceId: string, request: RequestAccessToSpace): Observable<Response> {
-    let url = this.spacesUrl + '/' + spaceId + '/request-access';
-    let payload = JSON.stringify({ data: request });
+  addCollaborators(spaceId: string, users: User[]): Observable<Response> {
+    let url = this.spacesUrl + '/' + spaceId + '/collaborators';
+    let payload = JSON.stringify({ data: users });
     return this.http
       .post(url, payload, { headers: this.headers })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  removeCollaborator(spaceId: string, collaboratorId: string): Observable<void> {
+    let url = this.spacesUrl + '/' + spaceId + '/collaborators/' + collaboratorId;
+    return this.http
+      .delete(url, { headers: this.headers })
       .catch((error) => {
         return this.handleError(error);
       });

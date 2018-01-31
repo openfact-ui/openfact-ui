@@ -4,7 +4,7 @@ import { Headers, Http } from '@angular/http';
 import { Observable, ConnectableObservable, ReplaySubject, Subject, BehaviorSubject } from 'rxjs';
 
 import { cloneDeep } from 'lodash';
-import { Broadcaster, Logger } from '../../ngx-base';
+import { Broadcaster, Logger } from '../../ngx/ngx-base';
 
 import { AUTH_API_URL } from '../shared/auth-api';
 import { User } from './user';

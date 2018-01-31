@@ -1,5 +1,5 @@
 import { ProfileService, ExtProfile } from '../profile/profile.service';
-import { Broadcaster } from '../ngx-base';
+import { Broadcaster } from '../ngx/ngx-base';
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable } from '@angular/core';
