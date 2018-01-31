@@ -3,7 +3,7 @@
     <div class="middle landing-page">
       <div class="middle-content">
         <div class="landing-search-area">
-          <cn-search-document></cn-search-document>
+          <cn-search-document (onKeywordChange)="onKeywordChange($event)"></cn-search-document>
         </div>
         <div class="landing">
 
@@ -105,7 +105,7 @@
 
                       <div class="services-no-sub-categories">
                         <div class="services-items">
-                          <cn-filter-document class="services-items-filter"></cn-filter-document>
+                          <cn-filter-document [keyword]="searchKeyword" class="services-items-filter"></cn-filter-document>
                           <!-- <div class="pf-empty-state " ng-if="$ctrl.filterConfig.appliedFilters.length > 0 &amp;&amp; $ctrl.filterConfig.resultsCount === 0"
                             style="">
                             <pf-empty-state config="$ctrl.emptyFilterConfig" class="ng-isolate-scope">

@@ -6,6 +6,7 @@ import { StopPropagationDirective } from './directives/stop-propagation.directiv
 
 // Pipes
 import { DateFromMilisPipe } from './pipes/date-from-milis';
+import { MapValuesPipe } from './pipes/map-values.pipe';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { DateFromMilisPipe } from './pipes/date-from-milis';
 
     // Pipes
     DateFromMilisPipe,
+    MapValuesPipe,
   ],
   exports: [
     // Directives
@@ -24,6 +26,7 @@ import { DateFromMilisPipe } from './pipes/date-from-milis';
 
     // Pipes
     DateFromMilisPipe,
+    MapValuesPipe,
   ]
 })
 export class UtilModule { }

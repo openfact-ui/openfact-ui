@@ -9,16 +9,14 @@
         <div class="filter-panel-container ">
           <input type="text" class="keyword-filter form-control" placeholder="Filter by Keyword" autocorrect="off" autocapitalize="none"
             spellcheck="false">
-          <div class="category" ng-repeat="filter in $ctrl.filterPanelModel">
-            Publisher
-            <span class="pficon pficon-info vendor-info-icon " data-toggle="tooltip" aria-hidden="true" data-original-title="This filter will only apply to items which contain publisher information. Items that do not have a publisher will not be shown in the filter results.">
-            </span>
+          <div class="category">
+            Space
+            <span class="pficon pficon-info vendor-info-icon" aria-hidden="true" tooltip="This filter will only apply to items which contain publisher information. Items that do not have a publisher will not be shown in the filter results."></span>
             <ul>
-              <li ng-repeat="value in filter.values" class="">
+              <li *ngFor="let space of spaces">
                 <div class="checkbox">
-                  <label class="category-option-label ng-binding">
-                    <input type="checkbox" ng-model="value.selected" ng-change="$ctrl.filterChanged()" class="ng-valid ng-dirty ng-touched ng-not-empty ng-valid-parse"
-                      style=""> Red Hat, Inc.
+                  <label class="category-option-label" cnStopPropagation>
+                    <input type="checkbox"> {{space.attributes.name | spaceName}}
                   </label>
                 </div>
               </li>
@@ -27,33 +25,24 @@
         </div>
       </div>
     </span>
-
     <span class="filter-pf">
       <span class="toolbar-pf-results">
-        <h5 class="ng-binding">0
-          <span ng-if="$ctrl.config.appliedFilters.length" class="ng-binding " style="">of 32</span>
-          Items</h5>
-        <p ng-if="$ctrl.config.appliedFilters.length" class="" style="">Active filters:</p>
+        <h5>0
+          <span>of 32</span>Items
+        </h5>
+        <p *ngIf="appliedFilters.size > 0">Active filters:</p>
         <ul class="list-inline">
-          <li ng-repeat="filter in $ctrl.config.appliedFilters" class="" style="">
-            <span ng-if="filter.values.length === 1" class="active-filter label label-info single-label ng-binding ">
-              <span class="pf-filter-label-category ng-binding">Keyword:</span> java
+          <li *ngFor="let key of toArray(appliedFilters.keys())">
+            <span class="active-filter label label-info single-label">
+              <span class="pf-filter-label-category"></span> {{key}}: {{appliedFilters.get(key).name}}
               <a>
-                <span ng-click="$ctrl.clearFilter(filter, filter.values[0])" class="pficon pficon-close"></span>
-              </a>
-            </span>
-          </li>
-          <li ng-repeat="filter in $ctrl.config.appliedFilters" class="">
-            <span ng-if="filter.values.length === 1" class="active-filter label label-info single-label ng-binding ">
-              <span class="pf-filter-label-category ng-binding">Publisher:</span> Red Hat, Inc.
-              <a>
-                <span ng-click="$ctrl.clearFilter(filter, filter.values[0])" class="pficon pficon-close"></span>
+                <span (click)="clearFilter(filter)" class="pficon pficon-close"></span>
               </a>
             </span>
           </li>
         </ul>
         <p>
-          <a class="clear-filters " ng-click="$ctrl.clearAllFilters()" ng-if="$ctrl.config.appliedFilters.length > 0" style="">Clear All Filters</a>
+          <a class="clear-filters" *ngIf="appliedFilters.size > 0" (click)="clearAllFilters()">Clear All Filters</a>
         </p>
       </span>
     </span>

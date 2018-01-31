@@ -27,6 +27,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   documents: UBLDocument[] = [];
 
+  // Search
+  searchKeyword: string;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2) {
@@ -51,6 +54,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
+  }
+
+  onKeywordChange(keyword: string) {
+    this.searchKeyword = keyword;
   }
 
 }
