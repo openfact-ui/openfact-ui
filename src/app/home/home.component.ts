@@ -11,7 +11,6 @@ import { UserService, User } from '../ngx/ngx-login-client';
 import { Logger } from '../ngx/ngx-base';
 import { BrandInformation } from '../models/brand-information';
 import { UploaderOptions } from 'ngx-uploader';
-import { UploadDocumentService } from '../shared/upload-document.service';
 
 import { ListConfig } from 'patternfly-ng/list/list.module';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';

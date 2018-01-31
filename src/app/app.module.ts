@@ -71,10 +71,6 @@ import { NotificationCounterComponent } from './layout/header/notification-count
 import { MenusService } from './layout/header/menus.service';
 import { EventService } from './ngx-impl/ngx-clarksnut-impl/event.service';
 
-// Upload
-import { UploadDocumentService } from './shared/upload-document.service';
-import { DocumentUploadProgressModule } from './document/upload-progress/document-upload-progress.module';
-
 // Error
 import { ErrorService } from './layout/error/error.service';
 import { SidebarComponent } from './layout/header/sidebar/sidebar.component';
@@ -118,7 +114,6 @@ export function createTranslateLoader(http: HttpClient) {
     // Custom modules
     ClarksnutModule,
     AboutModalModule,
-    DocumentUploadProgressModule,
   ],
   providers: [
     // Keycloak
@@ -176,9 +171,6 @@ export function createTranslateLoader(http: HttpClient) {
     // Footer & Header
     MenusService,
     EventService,
-
-    // Upload
-    UploadDocumentService,
 
     // Error
     ErrorService,

@@ -9,17 +9,13 @@ import { AnalyzeOverviewComponent } from './analyze-overview.component';
 import { AnalyzeOverviewRoutingModule } from './analyze-overview-routing.module';
 import { SpaceWizardModule } from '../../wizard/space-wizard.module';
 
-import { EditSpaceDescriptionWidgetModule } from './../../../dashboard-widgets/edit-space-description-widget/edit-space-description-widget.module';
-
 @NgModule({
   imports: [
     CommonModule,
     AnalyzeOverviewRoutingModule,
     ModalModule,
     FormsModule,
-    SpaceWizardModule,
-
-    EditSpaceDescriptionWidgetModule
+    SpaceWizardModule
   ],
   declarations: [AnalyzeOverviewComponent]
 })
