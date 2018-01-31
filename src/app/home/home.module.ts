@@ -17,7 +17,10 @@ import { DocumentFilterComponent } from './document-filter/document-filter.compo
 import { DateFromMilisPipe } from './pipes/date-from-milis';
 
 import { ClarksnutModule } from './../ngx-clarksnut';
+
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
+import { ImportDocumentModule } from '../document/import-document/import-document.module';
+
 import { SpaceDeleteModule } from '../space/delete/space-delete.module';
 
 import { SharedDirectivesModule } from './../shared-directives/shared-directives.module';
@@ -35,7 +38,10 @@ import { ActionModule } from 'patternfly-ng/action/action.module';
     TranslateModule,
     MomentModule,
     NgUploaderModule,
+
     SpaceWizardModule,
+    ImportDocumentModule,
+
     SpaceDeleteModule,
     ClarksnutModule,
     SharedDirectivesModule,

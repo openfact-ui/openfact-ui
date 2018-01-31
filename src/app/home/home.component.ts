@@ -1,6 +1,7 @@
 import { UBLDocument } from './../ngx-clarksnut/models/ubl-document';
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser'
 
 import { Subscription } from 'rxjs';
 
@@ -28,7 +29,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   documents: UBLDocument[] = [];
 
   constructor(
-  ) {
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2) {
+    this.renderer.removeClass(document.body, 'has-project-bar');
   }
 
   ngOnInit() {

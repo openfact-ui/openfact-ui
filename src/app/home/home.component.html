@@ -22,20 +22,20 @@
                       <div>
                         <ul class="add-other hidden-md hidden-lg">
                           <li dropdown class="dropdown" placement="bottom left">
-                            <a dropdownToggle class="dropdown-toggle" id="add-methods-dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a dropdownToggle href="javascript:void(0)" class="dropdown-toggle" id="add-methods-dropdown" aria-haspopup="true" aria-expanded="false">
                               Custom Document
                               <span class="caret" aria-hidden="true"></span>
                             </a>
                             <ul *dropdownMenu class="dropdown-menu dropdown-menu-left pull-left" aria-labelledby="add-methods-dropdown">
                               <li>
-                                <a href="javascript:void(0)">Import FILE / XML</a>
+                                <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
                               </li>
                             </ul>
                           </li>
                         </ul>
                         <ul class="add-other hidden-xs hidden-sm">
                           <li>
-                            <a href="javascript:void(0)">Import FILE / XML</a>
+                            <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
                           </li>
                         </ul>
                       </div>
@@ -116,3 +116,4 @@
 
 
 <!-- Utils -->
+<cn-import-document #importDocumentWizard></cn-import-document>
