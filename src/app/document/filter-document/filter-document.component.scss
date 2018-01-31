@@ -1,0 +1,32 @@
+.pf-filter-panel .toolbar-pf-results {
+  border-top: none;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.pf-filter-panel .dropdown>.dropdown-menu, .pf-filter-panel .input-group-btn>.dropdown-menu {
+  margin-top: 5px;
+}
+
+.pf-filter-panel .filter-panel-container {
+  padding: 10px;
+}
+
+.pf-filter-panel .filter-panel-container .keyword-filter {
+  margin-bottom: 10px;
+}
+
+.pf-filter-panel .filter-panel-container ul {
+  list-style-type: none;
+  padding-left: 16px;
+}
+
+.pf-filter-panel .filter-panel-container .category {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.pf-filter-panel .filter-panel-container .category .category-option-label {
+  font-size: 12px;
+  vertical-align: text-bottom;
+}

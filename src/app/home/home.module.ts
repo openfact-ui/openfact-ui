@@ -1,3 +1,4 @@
+import { FilterDocumentModule } from './../document/filter-document/filter-document.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -48,7 +49,9 @@ import { ActionModule } from 'patternfly-ng/action/action.module';
 
     ListModule,
     EmptyStateModule,
-    ActionModule
+    ActionModule,
+
+    FilterDocumentModule
   ],
   declarations: [
     HomeComponent,
