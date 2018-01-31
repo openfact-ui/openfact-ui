@@ -8,7 +8,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown/bs-dropdown.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'angular2-moment';
-import { ClarksnutModule } from './../../ngx-clarksnut';
+import { ClarksnutModule } from '../../ngx/ngx-clarksnut';
 import { SpaceWizardModule } from './../wizard/space-wizard.module';
 import { SharedPipesModule } from './../../shared-pipes/shared-pipes.module';
 import { SharedDirectivesModule } from './../../shared-directives/shared-directives.module';

@@ -1,5 +1,5 @@
-import { UBLDocumentService } from '../../ngx-clarksnut';
-import { UBLDocument } from '../../ngx-clarksnut';
+import { UBLDocumentService } from '../../ngx/ngx-clarksnut';
+import { UBLDocument } from '../../ngx/ngx-clarksnut';
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 import { Subject, Subscription } from 'rxjs';
 import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy, Output } from '@angular/core';

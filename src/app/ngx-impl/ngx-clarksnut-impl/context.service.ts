@@ -1,9 +1,9 @@
-import { ExtProfile, ProfileService } from './../profile/profile.service';
+import { ExtProfile, ProfileService } from '../../profile/profile.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { cloneDeep } from 'lodash';
-import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx/ngx-base';
-import { User, UserService, Entity } from '../ngx-login-client';
+import { Broadcaster, Notifications, Notification, NotificationType } from '../../ngx/ngx-base';
+import { User, UserService, Entity } from '../../ngx/ngx-login-client';
 import {
   Space,
   Context,
@@ -11,19 +11,19 @@ import {
   ContextTypes,
   SpaceService,
   SpaceNamePipe
-} from '../ngx-clarksnut';
+} from '../../ngx/ngx-clarksnut';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { Observable } from 'rxjs';
 
-import { Navigation } from '../models/navigation';
-import { MenusService } from '../layout/header/menus.service';
+import { Navigation } from '../../models/navigation';
+import { MenusService } from '../../layout/header/menus.service';
 
 import { EventService } from "./event.service";
 
-import { UBLDocumentService, UBLDocument } from "../ngx-clarksnut";
+import { UBLDocumentService, UBLDocument } from "../../ngx/ngx-clarksnut";
 
 interface RawContext {
   user: any;

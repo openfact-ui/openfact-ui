@@ -3,11 +3,11 @@ import { Injectable, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx-base';
-import { AuthenticationService, UserService } from '../ngx-login-client';
-import { CLARKSNUT_API_URL } from '../ngx-clarksnut';
+import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx/ngx-base';
+import { AuthenticationService, UserService } from '../ngx/ngx-login-client';
+import { CLARKSNUT_API_URL } from '../ngx/ngx-clarksnut';
 
-import { ContextService } from './../ngx-clarksnut-impl/context.service';
+import { ContextService } from '../ngx-impl/ngx-clarksnut-impl/context.service';
 import { Navigation } from './../models/navigation';
 import { ErrorService } from '../layout/error/error.service';
 

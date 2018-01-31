@@ -1,5 +1,5 @@
-import { CLARKSNUT_API_URL } from '../ngx-clarksnut';
-import { ApiLocatorService } from '../config/api-locator.service';
+import { CLARKSNUT_API_URL } from '../../ngx/ngx-clarksnut';
+import { ApiLocatorService } from '../../config/api-locator.service';
 
 export function clarksnutApiUrlFactory(api: ApiLocatorService) {
   return api.clarksnutApiUrl;

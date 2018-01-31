@@ -1,15 +1,15 @@
-import { SearchResult } from './../models/search-result';
-import { Space } from './../models/space';
-import { SpaceService } from './../spaces/space.service';
+import { SearchResult } from '../models/search-result';
+import { Space } from '../models/space';
+import { SpaceService } from '../spaces/space.service';
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams, RequestOptions, ResponseContentType } from '@angular/http';
 import { cloneDeep } from 'lodash';
-import { Logger } from '../../ngx/ngx-base';
+import { Logger } from '../../ngx-base';
 import { Observable } from 'rxjs';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 import { UBLDocument } from '../models/ubl-document';
-import { FileWrapper } from './../models/file-wrapper';
+import { FileWrapper } from '../models/file-wrapper';
 
 @Injectable()
 export class UBLDocumentService {

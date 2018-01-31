@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Modal } from 'ngx-modal';
-import { Context, CollaboratorService } from '../../../../ngx-clarksnut';
-import { User, UserService } from '../../../../ngx-login-client';
-import { ContextService } from './../../../../ngx-clarksnut-impl/context.service';
+import { Context, CollaboratorService } from '../../../../ngx/ngx-clarksnut';
+import { User, UserService } from '../../../../ngx/ngx-login-client';
+import { ContextService } from '../../../../ngx-impl/ngx-clarksnut-impl/context.service';
 import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 
 @Component({

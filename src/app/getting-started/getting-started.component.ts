@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Logger, Notification, NotificationType, Notifications } from '../ngx-base';
-import { User, UserService, AuthenticationService } from '../ngx-login-client';
+import { Logger, Notification, NotificationType, Notifications } from '../ngx/ngx-base';
+import { User, UserService, AuthenticationService } from '../ngx/ngx-login-client';
 import { ExtUser, GettingStartedService } from './services/getting-started.service';
 
 @Component({

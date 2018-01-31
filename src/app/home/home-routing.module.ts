@@ -1,4 +1,4 @@
-import { ContextResolver } from './../ngx-clarksnut-impl/context-resolver.service';
+import { ContextResolver } from '../ngx-impl/ngx-clarksnut-impl/context-resolver.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 

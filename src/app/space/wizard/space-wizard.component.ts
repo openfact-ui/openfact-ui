@@ -23,8 +23,8 @@ import {
   WizardStepComponent
 } from 'patternfly-ng/wizard';
 
-import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
-import { UserService } from '../../ngx-login-client';
+import { SpacesService } from '../../ngx-impl/ngx-clarksnut-impl/spaces.service';
+import { UserService } from '../../ngx/ngx-login-client';
 import { ILoggerDelegate } from './common/logger';
 import { ISpaceForm } from './models/spaceForm';
 import { IRequestAccessForm } from './models/request-access';
@@ -37,8 +37,8 @@ import {
   SpaceRelatedLink,
   RequestAccessService,
   RequestAccessToSpace
-} from '../../ngx-clarksnut';
-import { Broadcaster, Notification, NotificationAction, Notifications, NotificationType } from '../../ngx-base';
+} from '../../ngx/ngx-clarksnut';
+import { Broadcaster, Notification, NotificationAction, Notifications, NotificationType } from '../../ngx/ngx-base';
 
 @Component({
   selector: 'cn-space-wizard',

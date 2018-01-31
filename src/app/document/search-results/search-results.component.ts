@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { UBLDocument, UBLDocumentService } from '../../ngx-clarksnut';
+import { UBLDocument, UBLDocumentService } from '../../ngx/ngx-clarksnut';
 import { Component, OnDestroy, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 

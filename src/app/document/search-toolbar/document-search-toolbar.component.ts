@@ -1,5 +1,5 @@
-import { UBLDocumentService } from '../../ngx-clarksnut';
-import { UBLDocument } from '../../ngx-clarksnut';
+import { UBLDocumentService } from '../../ngx/ngx-clarksnut';
+import { UBLDocument } from '../../ngx/ngx-clarksnut';
 import { RoleFilterEvent } from './role-filter/role-filter-event';
 import { RoleFilterConfig } from './role-filter/role-filter-config';
 import { DocumentSearchToolbarInfo } from './document-search-toolbar-info';

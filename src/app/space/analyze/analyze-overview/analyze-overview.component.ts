@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IModalHost } from '../../wizard/models/modal-host';
-import { Context, Contexts, Space } from '../../../ngx-clarksnut';
+import { Context, Contexts, Space } from '../../../ngx/ngx-clarksnut';
 
 import { Subscription } from 'rxjs';
 

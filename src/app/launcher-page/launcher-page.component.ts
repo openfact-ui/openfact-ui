@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Broadcaster } from '../ngx-base';
+import { Broadcaster } from '../ngx/ngx-base';
 
 @Component({
   selector: 'cn-launcher-page',

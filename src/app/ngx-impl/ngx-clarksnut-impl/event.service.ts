@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Space } from '../ngx-clarksnut';
+import { Space } from '../../ngx/ngx-clarksnut';
 import { Injectable, Inject } from '@angular/core';
 
 @Injectable()

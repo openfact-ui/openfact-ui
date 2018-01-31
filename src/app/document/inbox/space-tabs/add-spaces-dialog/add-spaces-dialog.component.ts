@@ -10,9 +10,9 @@ import {
 import { Subscription, Observable } from 'rxjs';
 
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { User, UserService, Profile } from '../../../../ngx-login-client';
-import { Space, Context, SpaceService } from '../../../../ngx-clarksnut';
-import { Notifications, Notification, NotificationType } from '../../../../ngx-base';
+import { User, UserService, Profile } from '../../../../ngx/ngx-login-client';
+import { Space, Context, SpaceService } from '../../../../ngx/ngx-clarksnut';
+import { Notifications, Notification, NotificationType } from '../../../../ngx/ngx-base';
 
 @Component({
   selector: 'add-spaces-dialog',

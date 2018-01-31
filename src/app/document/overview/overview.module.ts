@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Http } from '@angular/http';
 
 import { MomentModule } from 'angular2-moment';
-import { ClarksnutModule } from '../../ngx-clarksnut';
+import { ClarksnutModule } from '../../ngx/ngx-clarksnut';
 
 import { SidebarModule } from './../sidebar/sidebar.module';
 import { DocumentSearchToolbarModule } from './../search-toolbar/document-search-toolbar.module';

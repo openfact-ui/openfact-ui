@@ -9,8 +9,8 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { Logger } from '../ngx-base';
-import { AuthenticationService } from '../ngx-login-client';
+import { Logger } from '../ngx/ngx-base';
+import { AuthenticationService } from '../ngx/ngx-login-client';
 import { LoginService } from './login.service';
 //import {OpenfactRuntimeConsoleService} from './runtime-console/openfact-runtime-console.service';
 

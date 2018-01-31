@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { User, UserService } from '../../../ngx-login-client';
+import { User, UserService } from '../../../ngx/ngx-login-client';
 import { KeycloakService } from '../../../keycloak-service/keycloak.service';
 
 @Component({

@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { IRequestAccessForm } from '../../models/request-access';
-import { Space } from '../../../../ngx-clarksnut';
+import { Space } from '../../../../ngx/ngx-clarksnut';
 
 @Component({
   selector: 'cn-request-access-form',

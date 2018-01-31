@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from './../ngx-login-client/token/auth-service';
-import { KeycloakService } from '../keycloak-service/keycloak.service';
+import { AuthService } from '../../ngx/ngx-login-client/token/auth-service';
+import { KeycloakService } from '../../keycloak-service/keycloak.service';
 
 @Injectable()
 export class AuthKeycloakService extends AuthService {

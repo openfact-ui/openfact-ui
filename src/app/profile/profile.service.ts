@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { Observable, ConnectableObservable } from 'rxjs';
 import { cloneDeep } from 'lodash';
 
-import { Broadcaster } from '../ngx-base';
-import { Profile, User, UserService } from '../ngx-login-client';
-import { CLARKSNUT_API_URL } from '../ngx-clarksnut';
+import { Broadcaster } from '../ngx/ngx-base';
+import { Profile, User, UserService } from '../ngx/ngx-login-client';
+import { CLARKSNUT_API_URL } from '../ngx/ngx-clarksnut';
 
 export class ExtUser extends User {
   public attributes: ExtProfile;

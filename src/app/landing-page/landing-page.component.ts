@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 
-import { User, UserService } from '../ngx-login-client';
+import { User, UserService } from '../ngx/ngx-login-client';
 
 import { ExtUser } from './../getting-started/services/getting-started.service';
 

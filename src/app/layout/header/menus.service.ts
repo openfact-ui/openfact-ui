@@ -1,7 +1,7 @@
 import { MenuedContextType } from './menued-context-type';
 import { Injectable } from '@angular/core';
 import { MenuItem } from '../../models/menu-item';
-import { ContextType, Contexts, ContextTypes, Context } from '../../ngx-clarksnut';
+import { ContextType, Contexts, ContextTypes, Context } from '../../ngx/ngx-clarksnut';
 import { cloneDeep } from 'lodash';
 
 @Injectable()

@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 
-import { Broadcaster } from '../../ngx-base';
-import { Contexts, SpaceService, Space, Spaces } from '../../ngx-clarksnut';
-import { UserService, User } from '../../ngx-login-client';
+import { Broadcaster } from '../../ngx/ngx-base';
+import { Contexts, SpaceService, Space, Spaces } from '../../ngx/ngx-clarksnut';
+import { UserService, User } from '../../ngx/ngx-login-client';
 
 @Component({
   selector: 'ofs-edit-space-description-widget',

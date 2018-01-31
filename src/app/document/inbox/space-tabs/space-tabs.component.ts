@@ -10,9 +10,9 @@ import { Subscription, Observable } from 'rxjs';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { User, UserService } from '../../../ngx-login-client';
-import { Space, Context, SpaceService } from '../../../ngx-clarksnut';
-import { Notifications, Notification, NotificationType } from '../../../ngx-base';
+import { User, UserService } from '../../../ngx/ngx-login-client';
+import { Space, Context, SpaceService } from '../../../ngx/ngx-clarksnut';
+import { Notifications, Notification, NotificationType } from '../../../ngx/ngx-base';
 
 import { ExtUser, GettingStartedService } from './../../../getting-started/services/getting-started.service';
 

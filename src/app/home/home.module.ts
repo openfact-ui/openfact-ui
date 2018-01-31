@@ -17,7 +17,7 @@ import { DocumentFilterComponent } from './document-filter/document-filter.compo
 
 import { DateFromMilisPipe } from './pipes/date-from-milis';
 
-import { ClarksnutModule } from './../ngx-clarksnut';
+import { ClarksnutModule } from '../ngx/ngx-clarksnut';
 
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 import { ImportDocumentModule } from '../document/import-document/import-document.module';

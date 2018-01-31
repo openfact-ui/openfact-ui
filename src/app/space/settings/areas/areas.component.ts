@@ -1,7 +1,7 @@
-import { Notifications, Notification, NotificationType } from '../../../ngx-base';
+import { Notifications, Notification, NotificationType } from '../../../ngx/ngx-base';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ContextService } from './../../../ngx-clarksnut-impl/context.service';
-import { Context, SpaceService, Space } from '../../../ngx-clarksnut';
+import { ContextService } from '../../../ngx-impl/ngx-clarksnut-impl/context.service';
+import { Context, SpaceService, Space } from '../../../ngx/ngx-clarksnut';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';

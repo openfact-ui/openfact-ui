@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { ClarksnutModule } from '../../ngx-clarksnut';
+import { ClarksnutModule } from '../../ngx/ngx-clarksnut';
 import { EditSpaceDescriptionWidgetComponent } from './edit-space-description-widget.component';
 
 

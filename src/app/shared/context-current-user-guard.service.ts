@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
-import { Notification, Notifications, NotificationType } from '../ngx-base';
-import { Contexts } from '../ngx-clarksnut';
-import { UserService } from '../ngx-login-client';
+import { Notification, Notifications, NotificationType } from '../ngx/ngx-base';
+import { Contexts } from '../ngx/ngx-clarksnut';
+import { UserService } from '../ngx/ngx-login-client';
 import { Injectable } from '@angular/core';
 import {
   Resolve,

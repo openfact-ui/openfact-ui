@@ -1,6 +1,6 @@
 import { Headers } from '@angular/http';
-import { CLARKSNUT_API_URL } from '../ngx-clarksnut';
-import { AuthenticationService } from '../ngx-login-client';
+import { CLARKSNUT_API_URL } from '../ngx/ngx-clarksnut';
+import { AuthenticationService } from '../ngx/ngx-login-client';
 import { UploadFile, UploadOutput, UploadInput } from 'ngx-uploader';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';

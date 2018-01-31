@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Context, Contexts } from '../../../ngx-clarksnut';
-import { Logger } from '../../../ngx-base';
-import { Space, SpaceService } from '../../../ngx-clarksnut';
-import { UserService, User } from '../../../ngx-login-client';
+import { Context, Contexts } from '../../../ngx/ngx-clarksnut';
+import { Logger } from '../../../ngx/ngx-base';
+import { Space, SpaceService } from '../../../ngx/ngx-clarksnut';
+import { UserService, User } from '../../../ngx/ngx-login-client';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({

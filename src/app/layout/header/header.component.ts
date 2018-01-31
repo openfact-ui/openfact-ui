@@ -4,8 +4,8 @@ import { Subscription, Observable } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { User, UserService } from '../../ngx-login-client';
-import { Space } from '../../ngx-clarksnut';
+import { User, UserService } from '../../ngx/ngx-login-client';
+import { Space } from '../../ngx/ngx-clarksnut';
 
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;

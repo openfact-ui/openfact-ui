@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@ang
 import { Subscription } from 'rxjs';
 import { IModalHost } from '../../wizard/models/modal-host';
 
-import { Context, CollaboratorService } from '../../../ngx-clarksnut';
+import { Context, CollaboratorService } from '../../../ngx/ngx-clarksnut';
 
-import { User } from '../../../ngx-login-client';
+import { User } from '../../../ngx/ngx-login-client';
 import { ListConfig } from 'patternfly-ng/list';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
-import { ContextService } from './../../../ngx-clarksnut-impl/context.service';
+import { ContextService } from '../../../ngx-impl/ngx-clarksnut-impl/context.service';
 import { find } from 'lodash';
 
 @Component({

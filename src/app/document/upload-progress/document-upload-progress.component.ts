@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { UploadFile, UploadStatus } from 'ngx-uploader';
-import { AuthenticationService } from '../../ngx-login-client';
-import { CLARKSNUT_API_URL } from '../../ngx-clarksnut';
+import { AuthenticationService } from '../../ngx/ngx-login-client';
+import { CLARKSNUT_API_URL } from '../../ngx/ngx-clarksnut';
 import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy } from '@angular/core';
 import { UploadDocumentService } from '../../shared/upload-document.service';
 

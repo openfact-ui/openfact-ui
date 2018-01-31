@@ -1,4 +1,4 @@
-import { ClarksnutModule } from '../../../ngx-clarksnut';
+import { ClarksnutModule } from '../../../ngx/ngx-clarksnut';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Http } from '@angular/http';

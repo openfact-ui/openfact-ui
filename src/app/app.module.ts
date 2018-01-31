@@ -28,28 +28,28 @@ import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service'
 import { ApiLocatorService } from './config/api-locator.service';
 
 // Ngx-base
-import { Broadcaster, Logger, Notifications } from './ngx-base';
+import { Broadcaster, Logger, Notifications } from './ngx/ngx-base';
 
 // Ngx-base implementations
-import { NotificationsService } from './ngx-base-impl/notifications.service';
+import { NotificationsService } from './ngx-impl/ngx-base-impl/notifications.service';
 
 // Ngx-login-client
-import { AuthenticationService, UserService } from './ngx-login-client';
+import { AuthenticationService, UserService } from './ngx/ngx-login-client';
 
 // Ngx-login-client-impl
-import { authServiceProvider } from './ngx-login-client-impl/auth-service-keycloak.service';
-import { ssoApiUrlProvider } from './ngx-login-client-impl/sso-api.provider';
-import { authApiUrlProvider } from './ngx-login-client-impl/auth-api.provider';
-import { realmProvider } from './ngx-login-client-impl/realm-token.provider';
+import { authServiceProvider } from './ngx-impl/ngx-login-client-impl/auth-service-keycloak.service';
+import { ssoApiUrlProvider } from './ngx-impl/ngx-login-client-impl/sso-api.provider';
+import { authApiUrlProvider } from './ngx-impl/ngx-login-client-impl/auth-api.provider';
+import { realmProvider } from './ngx-impl/ngx-login-client-impl/realm-token.provider';
 
 // Ngx-clarksnut
-import { ClarksnutModule } from './ngx-clarksnut';
-import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceService, UBLDocumentService } from './ngx-clarksnut';
+import { ClarksnutModule } from './ngx/ngx-clarksnut';
+import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceService, UBLDocumentService } from './ngx/ngx-clarksnut';
 
 // Ngx-clarksnut-impl
-import { ContextService } from './ngx-clarksnut-impl/context.service';
-import { SpacesService } from './ngx-clarksnut-impl/spaces.service';
-import { clarksnutApiUrlProvider } from './ngx-clarksnut-impl/clarksnut-api.provider';
+import { ContextService } from './ngx-impl/ngx-clarksnut-impl/context.service';
+import { SpacesService } from './ngx-impl/ngx-clarksnut-impl/spaces.service';
+import { clarksnutApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-api.provider';
 
 // Custom modules
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
@@ -69,7 +69,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
 import { MenusService } from './layout/header/menus.service';
-import { EventService } from './ngx-clarksnut-impl/event.service';
+import { EventService } from './ngx-impl/ngx-clarksnut-impl/event.service';
 
 // Upload
 import { UploadDocumentService } from './shared/upload-document.service';

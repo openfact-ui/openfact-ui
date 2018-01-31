@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { UBLDocumentService, UBLDocument, Space } from '../../ngx-clarksnut';
+import { UBLDocumentService, UBLDocument, Space } from '../../ngx/ngx-clarksnut';
 
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 

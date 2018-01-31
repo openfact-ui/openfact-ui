@@ -4,8 +4,8 @@ import { Subscription, Observable } from 'rxjs';
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
-import { User } from './../../../ngx-login-client';
-import { UserService } from '../../../ngx-login-client';
+import { User } from '../../../ngx/ngx-login-client';
+import { UserService } from '../../../ngx/ngx-login-client';
 
 import { KeycloakService } from '../../../keycloak-service/keycloak.service';
 import { GettingStartedService } from './../../../getting-started/services/getting-started.service';

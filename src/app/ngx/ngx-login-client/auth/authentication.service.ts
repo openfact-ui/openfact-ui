@@ -1,9 +1,9 @@
-import { AuthService } from './../token/auth-service';
+import { AuthService } from '../token/auth-service';
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs } from '@angular/http';
 
 import { Observable, Subject } from 'rxjs';
-import { Broadcaster } from '../../ngx/ngx-base';
+import { Broadcaster } from '../../ngx-base';
 
 import { AUTH_API_URL } from '../shared/auth-api';
 import { SSO_API_URL } from '../shared/sso-api';

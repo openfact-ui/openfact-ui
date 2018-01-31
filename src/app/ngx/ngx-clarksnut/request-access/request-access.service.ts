@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams, Response } from '@angular/http';
 import { cloneDeep } from 'lodash';
-import { Logger } from '../../ngx/ngx-base';
+import { Logger } from '../../ngx-base';
 import { AuthenticationService, User } from '../../ngx-login-client';
 import { Observable } from 'rxjs';
 

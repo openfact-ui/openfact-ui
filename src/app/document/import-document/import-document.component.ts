@@ -1,4 +1,4 @@
-import { CLARKSNUT_API_URL } from './../../ngx-clarksnut';
+import { CLARKSNUT_API_URL } from '../../ngx/ngx-clarksnut';
 import { KeycloakService } from './../../keycloak-service/keycloak.service';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, EventEmitter, Output, ViewChild, TemplateRef, Inject } from '@angular/core';
@@ -23,7 +23,7 @@ import {
   humanizeBytes
 } from 'ngx-uploader';
 
-import { Notifications } from './../../ngx-base';
+import { Notifications } from '../../ngx/ngx-base';
 
 @Component({
   selector: 'cn-import-document',

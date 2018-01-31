@@ -4,10 +4,10 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Broadcaster } from '../../ngx-base';
-import { User, UserService } from '../../ngx-login-client';
-import { Space, SpaceService } from '../../ngx-clarksnut';
-import { SpacesService } from '../../ngx-clarksnut-impl/spaces.service';
+import { Broadcaster } from '../../ngx/ngx-base';
+import { User, UserService } from '../../ngx/ngx-login-client';
+import { Space, SpaceService } from '../../ngx/ngx-clarksnut';
+import { SpacesService } from '../../ngx-impl/ngx-clarksnut-impl/spaces.service';
 
 @Component({
   selector: 'cn-landside',

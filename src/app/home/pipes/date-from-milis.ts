@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Space } from './../../ngx-clarksnut';
+import { Space } from '../../ngx/ngx-clarksnut';
 
 @Pipe({
   name: 'dateFromMilis',

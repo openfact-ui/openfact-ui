@@ -4,8 +4,8 @@ import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Context, UBLDocumentService, UBLDocument } from '../../ngx-clarksnut';
-import { ContextService } from './../../ngx-clarksnut-impl/context.service';
+import { Context, UBLDocumentService, UBLDocument } from '../../ngx/ngx-clarksnut';
+import { ContextService } from '../../ngx-impl/ngx-clarksnut-impl/context.service';
 
 import * as FileSaver from 'file-saver';
 

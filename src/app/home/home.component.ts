@@ -1,14 +1,14 @@
-import { UBLDocument } from './../ngx-clarksnut/models/ubl-document';
+import { UBLDocument } from '../ngx/ngx-clarksnut/models/ubl-document';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser'
 
 import { Subscription } from 'rxjs';
 
-import { Space, Spaces, SpaceService, Context, Contexts } from '../ngx-clarksnut';
-import { UserService, User } from '../ngx-login-client';
+import { Space, Spaces, SpaceService, Context, Contexts } from '../ngx/ngx-clarksnut';
+import { UserService, User } from '../ngx/ngx-login-client';
 
-import { Logger } from '../ngx-base';
+import { Logger } from '../ngx/ngx-base';
 import { BrandInformation } from '../models/brand-information';
 import { UploaderOptions } from 'ngx-uploader';
 import { UploadDocumentService } from '../shared/upload-document.service';

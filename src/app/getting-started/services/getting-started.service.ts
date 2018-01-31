@@ -2,9 +2,9 @@ import { Injectable, Inject, OnDestroy } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Observable, Subscription } from 'rxjs';
 
-import { Logger } from '../../ngx-base';
-import { AuthenticationService, Profile, User, UserService } from '../../ngx-login-client';
-import { CLARKSNUT_API_URL } from '../../ngx-clarksnut';
+import { Logger } from '../../ngx/ngx-base';
+import { AuthenticationService, Profile, User, UserService } from '../../ngx/ngx-login-client';
+import { CLARKSNUT_API_URL } from '../../ngx/ngx-clarksnut';
 
 import { cloneDeep } from 'lodash';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { Space, SpaceService } from './../../ngx-clarksnut';
-import { Broadcaster } from '../../ngx-base';
+import { Space, SpaceService } from '../../ngx/ngx-clarksnut';
+import { Broadcaster } from '../../ngx/ngx-base';
 
 @Component({
   selector: 'cn-space-delete',

@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-import { Broadcaster } from '../../../ngx-base';
-import { User, UserService } from './../../../ngx-login-client';
-import { Space, SpaceService } from './../../../ngx-clarksnut';
+import { Broadcaster } from '../../../ngx/ngx-base';
+import { User, UserService } from '../../../ngx/ngx-login-client';
+import { Space, SpaceService } from '../../../ngx/ngx-clarksnut';
 
 @Component({
   selector: 'cn-overview',

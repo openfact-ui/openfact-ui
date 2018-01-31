@@ -1,11 +1,11 @@
-import { ProfileService, ExtProfile } from '../profile/profile.service';
-import { Broadcaster } from '../ngx/ngx-base';
+import { ProfileService, ExtProfile } from '../../profile/profile.service';
+import { Broadcaster } from '../../ngx/ngx-base';
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable } from '@angular/core';
 
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { Spaces, Contexts, Space, SpaceService } from '../ngx-clarksnut';
+import { Spaces, Contexts, Space, SpaceService } from '../../ngx/ngx-clarksnut';
 
 @Injectable()
 export class SpacesService implements Spaces {

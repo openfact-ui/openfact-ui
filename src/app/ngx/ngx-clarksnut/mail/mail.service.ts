@@ -1,8 +1,8 @@
-import { Mail } from './../models/mail';
+import { Mail } from '../models/mail';
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams, RequestOptions, ResponseContentType, Response } from '@angular/http';
 import { cloneDeep } from 'lodash';
-import { Logger } from '../../ngx/ngx-base';
+import { Logger } from '../../ngx-base';
 import { Observable } from 'rxjs';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';

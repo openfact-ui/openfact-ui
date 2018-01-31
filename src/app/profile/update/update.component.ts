@@ -11,9 +11,9 @@ import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Notification, NotificationType, Notifications } from '../../ngx-base';
-import { Context, Contexts } from '../../ngx-clarksnut';
-import { AuthenticationService, UserService, User } from '../../ngx-login-client';
+import { Notification, NotificationType, Notifications } from '../../ngx/ngx-base';
+import { Context, Contexts } from '../../ngx/ngx-clarksnut';
+import { AuthenticationService, UserService, User } from '../../ngx/ngx-login-client';
 
 import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
 

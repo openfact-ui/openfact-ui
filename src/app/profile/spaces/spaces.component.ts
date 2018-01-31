@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { Logger } from '../../ngx-base';
-import { Space, SpaceService, Context, Contexts } from '../../ngx-clarksnut';
+import { Logger } from '../../ngx/ngx-base';
+import { Space, SpaceService, Context, Contexts } from '../../ngx/ngx-clarksnut';
 import { IModalHost } from '../../space/wizard/models/modal-host';
-import { EventService } from './../../ngx-clarksnut-impl/event.service';
+import { EventService } from '../../ngx-impl/ngx-clarksnut-impl/event.service';
 
 @Component({
   selector: 'ofs-spaces',
