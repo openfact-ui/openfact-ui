@@ -13,9 +13,6 @@ import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { LandsideComponent } from './landside/landside.component';
 import { SearchDocumentComponent } from './search-document/search-document.component';
-import { DocumentFilterComponent } from './document-filter/document-filter.component';
-
-import { DateFromMilisPipe } from './pipes/date-from-milis';
 
 import { ClarksnutModule } from '../ngx/ngx-clarksnut';
 
@@ -24,11 +21,10 @@ import { ImportDocumentModule } from '../document/import-document/import-documen
 
 import { SpaceDeleteModule } from '../space/delete/space-delete.module';
 
-import { SharedDirectivesModule } from './../shared-directives/shared-directives.module';
-
 import { ListModule } from 'patternfly-ng/list/list.module';
 import { EmptyStateModule } from 'patternfly-ng/empty-state/empty-state.module';
 import { ActionModule } from 'patternfly-ng/action/action.module';
+import { UtilModule } from '../util/util.module';
 
 @NgModule({
   imports: [
@@ -45,7 +41,7 @@ import { ActionModule } from 'patternfly-ng/action/action.module';
 
     SpaceDeleteModule,
     ClarksnutModule,
-    SharedDirectivesModule,
+    UtilModule,
 
     ListModule,
     EmptyStateModule,
@@ -57,9 +53,6 @@ import { ActionModule } from 'patternfly-ng/action/action.module';
     HomeComponent,
     LandsideComponent,
     SearchDocumentComponent,
-    DocumentFilterComponent,
-
-    DateFromMilisPipe,
   ],
   providers: [
   ]

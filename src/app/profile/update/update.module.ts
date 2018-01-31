@@ -8,7 +8,7 @@ import { RemainingCharsCountModule } from 'patternfly-ng/remaining-chars-count';
 import { UpdateComponent } from './update.component';
 import { UpdateRoutingModule } from './update-routing.module';
 
-import { FormExtensionsModule } from './../../util/form-extensions/form-extensions.module';
+import { FormExtensionsModule } from '../../form-extensions/form-extensions.module';
 
 @NgModule({
   imports: [

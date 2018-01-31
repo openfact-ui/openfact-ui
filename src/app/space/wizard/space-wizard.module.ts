@@ -8,7 +8,7 @@ import { TooltipConfig, TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverConfig, PopoverModule } from 'ngx-bootstrap/popover';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FormExtensionsModule } from './../../util/form-extensions/form-extensions.module';
+import { FormExtensionsModule } from '../../form-extensions/form-extensions.module';
 
 import { SpaceWizardComponent } from './space-wizard.component';
 import { SpaceTermsConditionsComponent } from './components/space-terms-conditions/space-terms-conditions.component';

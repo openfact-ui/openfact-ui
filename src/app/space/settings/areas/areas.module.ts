@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { RemainingCharsCountModule } from 'patternfly-ng/remaining-chars-count';
 
-import { FormExtensionsModule } from './../../../util/form-extensions/form-extensions.module';
+import { FormExtensionsModule } from '../../../form-extensions/form-extensions.module';
 
 @NgModule({
   imports: [

@@ -10,9 +10,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'angular2-moment';
 import { ClarksnutModule } from '../../ngx/ngx-clarksnut';
 import { SpaceWizardModule } from './../wizard/space-wizard.module';
-import { SharedPipesModule } from './../../shared-pipes/shared-pipes.module';
-import { SharedDirectivesModule } from './../../shared-directives/shared-directives.module';
 import { SpaceDeleteModule } from '../delete/space-delete.module';
+import { UtilModule } from '../../util/util.module';
 
 @NgModule({
   imports: [
@@ -23,10 +22,9 @@ import { SpaceDeleteModule } from '../delete/space-delete.module';
     MomentModule,
     TranslateModule,
     ClarksnutModule,
-    SharedPipesModule,
     SpaceWizardModule,
     SpaceDeleteModule,
-    SharedDirectivesModule,
+    UtilModule,
   ],
   declarations: [
     ListComponent,
