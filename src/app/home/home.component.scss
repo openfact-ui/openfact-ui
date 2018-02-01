@@ -1,0 +1,30 @@
+
+
+$screen-md:                  992px !default;
+$screen-md-min:              $screen-md !default;
+
+@media (min-width: $screen-md-min) {
+  .list-view-pf {
+    .list-group-item-heading {
+      flex: 1 0 auto;
+      margin: 0;
+      padding: 0 20px 0 0;
+      width: 85%;
+    }
+    list-group-item-text {
+      flex: 1 0 auto;
+      margin: 0;
+      padding: 0 20px 0 0;
+      width: 85%;
+    }
+  }
+  .list-view-pf-additional-info {
+    width: 25%;
+  }
+  .list-view-pf-description-15 {
+    width: 15%;
+  }
+  .list-view-pf-description-30 {
+    width: 30%;
+  }
+}

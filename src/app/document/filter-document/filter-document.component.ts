@@ -17,7 +17,7 @@ export class Filter {
 })
 export class FilterDocumentComponent implements OnInit, OnDestroy {
 
-  @Output() onchange: EventEmitter<string> = new EventEmitter();
+  @Output() onChange: EventEmitter<string> = new EventEmitter();
 
   private _keyword: string;
 

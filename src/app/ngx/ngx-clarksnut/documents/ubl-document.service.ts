@@ -17,7 +17,6 @@ export class UBLDocumentService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private documentsUrl: string;
   private namedDocumentsUrl: string;
-  private searchDocumentsUrl: string;
   private nextLink: string = null;
 
   constructor(
@@ -27,7 +26,6 @@ export class UBLDocumentService {
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.documentsUrl = apiUrl.endsWith('/') ? apiUrl + 'documents' : apiUrl + '/documents';
     this.namedDocumentsUrl = apiUrl + 'nameddocuments';
-    this.searchDocumentsUrl = apiUrl + 'search/documents';
   }
 
   /**
@@ -149,7 +147,7 @@ export class UBLDocumentService {
    * Filter documents. If empty then searchText becomes '*'
    */
   search(searchText: string): Observable<SearchResult<UBLDocument>> {
-    let url = this.searchDocumentsUrl;
+    let url = this.documentsUrl;
     let params: URLSearchParams = new URLSearchParams();
     if (searchText === '') {
       searchText = '*';

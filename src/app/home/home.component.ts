@@ -1,19 +1,19 @@
-import { UBLDocument } from '../ngx/ngx-clarksnut/models/ubl-document';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser'
 
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
-import { Space, Spaces, SpaceService, Context, Contexts } from '../ngx/ngx-clarksnut';
-import { UserService, User } from '../ngx/ngx-login-client';
-
-import { Logger } from '../ngx/ngx-base';
-import { BrandInformation } from '../models/brand-information';
 import { UploaderOptions } from 'ngx-uploader';
-
 import { ListConfig } from 'patternfly-ng/list/list.module';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
+
+import { Space, Spaces, SpaceService, Context, Contexts } from '../ngx/ngx-clarksnut';
+import { UBLDocument, UBLDocumentService } from '../ngx/ngx-clarksnut';
+import { UserService, User } from '../ngx/ngx-login-client';
+import { Logger } from '../ngx/ngx-base';
+
+import { DocumentQuery, DocumentQueryBuilder } from './../models/document-quey';
 
 @Component({
   selector: 'home',
@@ -30,7 +30,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Search
   searchKeyword: string;
 
+  // Query
+  private queryBuilder: DocumentQueryBuilder;
+
   constructor(
+    private documentService: UBLDocumentService,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2) {
     this.renderer.removeClass(document.body, 'has-project-bar');
@@ -58,6 +62,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onKeywordChange(keyword: string) {
     this.searchKeyword = keyword;
+    this.search();
+  }
+
+  onFilterChange() {
+
+  }
+
+  search() {
+    if (!this.queryBuilder) {
+      this.queryBuilder = DocumentQuery.builder();
+    }
+    this.queryBuilder.filterText(this.searchKeyword);
+    this.queryBuilder.spaces([]);
+    this.queryBuilder.limit(10);
+
+    this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
+      this.documents = searchResult.data;
+    });
   }
 
 }
