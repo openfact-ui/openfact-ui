@@ -55,10 +55,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       title: 'No results match.'
     } as EmptyStateConfig;
+
+    this.search();
   }
 
   ngOnDestroy() {
-
   }
 
   onKeywordChange(keyword: string) {
@@ -67,7 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onFilterChange() {
-
   }
 
   search() {
