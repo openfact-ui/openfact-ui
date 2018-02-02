@@ -1,6 +1,7 @@
-import { OnInit, Component, Input, EventEmitter, Inject, OnDestroy, Output } from '@angular/core';
+import { OnInit, Component, Input, Inject, OnDestroy, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
+import { SearchEventService } from './../../shared/search-event.service';
 
 @Component({
   selector: 'cn-search-document',
@@ -9,11 +10,9 @@ import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-que
 })
 export class SearchDocumentComponent implements OnInit, OnDestroy {
 
-  @Output() onKeywordChange: EventEmitter<string> = new EventEmitter<string>();
-
   filterText: string;
 
-  constructor() { }
+  constructor(private searchEventService: SearchEventService) { }
 
   ngOnInit() {
   }
@@ -23,7 +22,9 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   searchInputKeyPress($event: KeyboardEvent): void {
     if ($event.which === 13) {
-      this.onKeywordChange.emit(this.filterText);
+      this.searchEventService.emitEvent({
+        keyword: this.filterText
+      });
     }
   }
 

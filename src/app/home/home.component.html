@@ -3,7 +3,7 @@
     <div class="middle landing-page">
       <div class="middle-content">
         <div class="landing-search-area">
-          <cn-search-document (onKeywordChange)="onKeywordChange($event)"></cn-search-document>
+          <cn-search-document></cn-search-document>
         </div>
         <div class="landing">
           <div class="landing-main-area">
@@ -49,77 +49,11 @@
                     <div class="services-inner-container">
                       <div class="services-no-sub-categories">
                         <div class="services-items">
-                          <cn-filter-document [keyword]="searchKeyword" [currentNumberOfItems]="currentNumberOfItems" [totalNumberOfItems]="totalNumberOfItems"
-                            (onChange)="onFilterChange($event)" class="services-items-filter"></cn-filter-document>
-                          <div class="list-group list-view-pf" style="flex: 1 1 100%; border-top:0px; margin-bottom: 0px;">
-                            <div *ngFor="let document of documents" class="list-group-item list-view-pf-stacked" style="border-top:0px;">
-                              <div class="list-view-pf-actions">
-                                <button (click)="downloadPdf(document)" class="btn btn-default">
-                                  <span class="pficon pficon-print"></span> Print
-                                </button>
-                                <button class="btn btn-default">Edit</button>
-                                <div dropdown class="dropdown pull-right dropdown-kebab-pf">
-                                  <button dropdownToggle class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight15" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="true">
-                                    <span class="fa fa-ellipsis-v"></span>
-                                  </button>
-                                  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight15">
-                                    <li>
-                                      <a href="javascript:void(0)" (click)="downloadXml(document)">
-                                        <span class="fa fa-file-code-o"></span> Xml
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                              <div class="list-view-pf-main-info">
-                                <div class="list-view-pf-left">
-                                  <span class="fa fa-file-code-o list-view-pf-icon-lg"></span>
-                                </div>
-                                <div class="list-view-pf-body">
-                                  <div class="list-view-pf-description-15">
-                                    <div class="list-group-item-heading">
-                                      {{document.attributes.assignedId}}
-                                      <small>{{document.attributes.issueDate | date}}</small>
-                                    </div>
-                                    <div class="list-group-item-text">
-                                      {{document.attributes.type}}
-                                    </div>
-                                  </div>
-                                  <div class="list-view-pf-description-30">
-                                    <div class="list-group-item-heading">
-                                      {{document.attributes.supplierName}}
-                                      <small>Supplier</small>
-                                    </div>
-                                    <div class="list-group-item-text">
-                                      {{document.attributes.supplierAssignedId}}
-                                    </div>
-                                  </div>
-                                  <div class="list-view-pf-description-30">
-                                    <div class="list-group-item-heading">
-                                      {{document.attributes.customerName}}
-                                      <small>Customer</small>
-                                    </div>
-                                    <div class="list-group-item-text">
-                                      {{document.attributes.customerAssignedId}}
-                                    </div>
-                                  </div>
-                                  <div class="list-view-pf-additional-info1">
-                                    <div class="list-view-pf-additional-info-item">
-                                      <span class="fa fa-money"></span>
-                                      <strong>{{document.attributes.amount | number}}</strong> {{document.attributes.currency}}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="pf-empty-state" *ngIf="documents.length === 0">
-                            <pfng-empty-state [config]="emptyStateConfig"></pfng-empty-state>
-                          </div>
+                          <router-outlet></router-outlet>
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>

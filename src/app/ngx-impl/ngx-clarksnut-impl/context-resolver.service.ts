@@ -31,7 +31,7 @@ export class ContextResolver implements Resolve<Context> {
       .subscribe((val) => this._lastRoute = val);
   }
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Context> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Context> {
     // Resolve the context
     return this.contextService
       .changeContext(Observable.of({

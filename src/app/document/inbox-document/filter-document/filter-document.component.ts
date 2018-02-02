@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { Broadcaster } from '../../ngx/ngx-base';
-import { User, UserService } from '../../ngx/ngx-login-client';
-import { Space, SpaceService } from './../../ngx/ngx-clarksnut';
+import { Broadcaster } from '../../../ngx/ngx-base';
+import { User, UserService } from '../../../ngx/ngx-login-client';
+import { Space, SpaceService } from './../../../ngx/ngx-clarksnut';
+import { SearchEventService } from '../../../shared/search-event.service';
 
 export class Filter {
   name: string;
@@ -19,9 +20,8 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
 
   @Input() currentNumberOfItems: number;
   @Input() totalNumberOfItems: number;
-  @Output() onChange: EventEmitter<string> = new EventEmitter();
 
-  private _keyword: string;
+  keyword: string;
 
   user: User;
   spaces: Space[];
@@ -34,6 +34,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     private broadcaster: Broadcaster,
     private userService: UserService,
     private spaceService: SpaceService,
+    private searchEventService: SearchEventService,
   ) {
     this.subscriptions.push(
       Observable.merge(
@@ -44,6 +45,18 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
         this.spaceService.getSpacesByUser(this.user.attributes.username, 5).subscribe((val) => {
           this.spaces = val;
         });
+      })
+    );
+
+    this.subscriptions.push(
+      this.searchEventService.eventListener.subscribe((event) => {
+        this.appliedFilters.delete('keyword');
+        if (event && event.keyword) {
+          this.appliedFilters.set('keyword', {
+            name: event.keyword,
+            value: event.keyword
+          });
+        }
       })
     );
   }
@@ -65,22 +78,6 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
 
   clearAllFilters() {
     this.appliedFilters.clear();
-  }
-
-  get keyword() {
-    return this._keyword;
-  };
-
-  @Input()
-  set keyword(value: string) {
-    this._keyword = value;
-    this.appliedFilters.delete('keyword');
-    if (this._keyword) {
-      this.appliedFilters.set('keyword', {
-        name: this._keyword,
-        value: this._keyword
-      });
-    }
   }
 
 }

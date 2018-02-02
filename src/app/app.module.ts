@@ -50,6 +50,7 @@ import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceServi
 import { ContextService } from './ngx-impl/ngx-clarksnut-impl/context.service';
 import { SpacesService } from './ngx-impl/ngx-clarksnut-impl/spaces.service';
 import { clarksnutApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-api.provider';
+import { ContextResolver } from './ngx-impl/ngx-clarksnut-impl/context-resolver.service';
 
 // Custom modules
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
@@ -70,6 +71,9 @@ import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-ut
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
 import { MenusService } from './layout/header/menus.service';
 import { EventService } from './ngx-impl/ngx-clarksnut-impl/event.service';
+
+// Search
+import { SearchEventService } from './shared/search-event.service';
 
 // Error
 import { ErrorService } from './layout/error/error.service';
@@ -145,6 +149,7 @@ export function createTranslateLoader(http: HttpClient) {
     // Ngx-clarksnut
     clarksnutApiUrlProvider,
     CollaboratorService,
+    ContextResolver,
     ContextService,
     {
       provide: Contexts,
@@ -171,6 +176,9 @@ export function createTranslateLoader(http: HttpClient) {
     // Footer & Header
     MenusService,
     EventService,
+
+    // Search
+    SearchEventService,
 
     // Error
     ErrorService,
