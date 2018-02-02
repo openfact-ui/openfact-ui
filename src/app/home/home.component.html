@@ -54,11 +54,8 @@
                           <div class="list-group list-view-pf" style="flex: 1 1 100%; border-top:0px; margin-bottom: 0px;">
                             <div *ngFor="let document of documents" class="list-group-item list-view-pf-stacked" style="border-top:0px;">
                               <div class="list-view-pf-actions">
-                                <button (click)="downloadXml(document)" type="button" class="btn btn-default">
-                                  <span class="fa fa-file-code-o"></span> Xml
-                                </button>
                                 <button (click)="downloadPdf(document)" class="btn btn-default">
-                                  <span class="fa fa-file-pdf-o"></span> Pdf
+                                  <span class="pficon pficon-print"></span> Print
                                 </button>
                                 <button class="btn btn-default">Edit</button>
                                 <div dropdown class="dropdown pull-right dropdown-kebab-pf">
@@ -68,17 +65,9 @@
                                   </button>
                                   <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight15">
                                     <li>
-                                      <a href="#">Action</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">Another Action</a>
-                                    </li>
-                                    <li>
-                                      <a href="#">Something Else Here</a>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li>
-                                      <a href="#">Separated Link</a>
+                                      <a href="javascript:void(0)" (click)="downloadXml(document)">
+                                        <span class="fa fa-file-code-o"></span> Xml
+                                      </a>
                                     </li>
                                   </ul>
                                 </div>
