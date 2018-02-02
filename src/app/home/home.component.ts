@@ -1,3 +1,4 @@
+import { SearchResult } from './../ngx/ngx-clarksnut/models/search-result';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser'
@@ -15,6 +16,8 @@ import { Logger } from '../ngx/ngx-base';
 
 import { DocumentQuery, DocumentQueryBuilder } from './../models/document-quey';
 
+import * as FileSaver from 'file-saver';
+
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
@@ -26,6 +29,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   emptyStateConfig: EmptyStateConfig;
 
   documents: UBLDocument[] = [];
+
+  currentNumberOfItems: number;
+  totalNumberOfItems: number;
 
   // Search
   searchKeyword: string;
@@ -42,18 +48,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.emptyStateConfig = {
-      iconStyleClass: 'pficon-info',
-      title: 'No results match',
+      info: 'The active filters are hiding all documents items.',
+      helpLink: {
+        hypertext: 'Clear Filters',
+        url: '#/emptystate'
+      },
+      title: 'No results match.'
     } as EmptyStateConfig;
-
-    this.listConfig = {
-      dblClick: false,
-      emptyStateConfig: this.emptyStateConfig,
-      multiSelect: false,
-      selectItems: false,
-      showCheckbox: false,
-      useExpandItems: false
-    } as ListConfig;
   }
 
   ngOnDestroy() {
@@ -79,6 +80,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
       this.documents = searchResult.data;
+      this.currentNumberOfItems = searchResult.data.length;
+      this.totalNumberOfItems = searchResult.totalResults;
+    });
+  }
+
+  downloadXml(document: UBLDocument) {
+    this.documentService.downloadDocumentById(document.id).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `${document.attributes.assignedId}.xml`);
+    });
+  }
+
+  downloadPdf(document: UBLDocument) {
+    this.documentService.printDocumentById(document.id).subscribe(val => {
+      FileSaver.saveAs(val.file, val.filename || `${document.attributes.assignedId}.pdf`);
     });
   }
 

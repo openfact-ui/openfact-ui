@@ -27,8 +27,8 @@
     </span>
     <span class="filter-pf">
       <span class="toolbar-pf-results">
-        <h5>0
-          <span>of 32</span>Items
+        <h5 *ngIf="currentNumberOfItems && totalNumberOfItems">{{currentNumberOfItems}}
+          <span>of {{totalNumberOfItems}}</span> Items
         </h5>
         <p *ngIf="appliedFilters.size > 0">Active filters:</p>
         <ul class="list-inline">
@@ -36,7 +36,7 @@
             <span class="active-filter label label-info single-label">
               <span class="pf-filter-label-category"></span> {{key}}: {{appliedFilters.get(key).name}}
               <a>
-                <span (click)="clearFilter(filter)" class="pficon pficon-close"></span>
+                <span (click)="clearFilter(key)" class="pficon pficon-close"></span>
               </a>
             </span>
           </li>

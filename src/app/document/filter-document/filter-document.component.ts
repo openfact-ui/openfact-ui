@@ -17,6 +17,8 @@ export class Filter {
 })
 export class FilterDocumentComponent implements OnInit, OnDestroy {
 
+  @Input() currentNumberOfItems: number;
+  @Input() totalNumberOfItems: number;
   @Output() onChange: EventEmitter<string> = new EventEmitter();
 
   private _keyword: string;
@@ -53,12 +55,16 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
-  clearFilter() {
-
-  }
-
   toArray(value: any) {
     return Array.from(value);
+  }
+
+  clearFilter(filter: string) {
+    this.appliedFilters.delete(filter);
+  }
+
+  clearAllFilters() {
+    this.appliedFilters.clear();
   }
 
   get keyword() {
