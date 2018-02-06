@@ -36,6 +36,10 @@ export class BaseApiLocatorService {
     return this.config.clarksnutApiUrl || this.buildApiUrl('clarksnut');
   }
 
+  get clarksnutMailCollectorApiUrl(): string {
+    return this.config.clarksnutMailCollectorApiUrl || this.buildApiUrl('clarksnut-mail-collector');
+  }
+
   get ssoApiUrl(): string {
     return this.config.ssoApiUrl || this.buildApiUrl('sso');
   }

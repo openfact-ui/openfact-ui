@@ -50,6 +50,7 @@ import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceServi
 import { ContextService } from './ngx-impl/ngx-clarksnut-impl/context.service';
 import { SpacesService } from './ngx-impl/ngx-clarksnut-impl/spaces.service';
 import { clarksnutApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-api.provider';
+import { clarksnutMailCollectorApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-mail-collector-api.provider';
 import { ContextResolver } from './ngx-impl/ngx-clarksnut-impl/context-resolver.service';
 
 // Custom modules
@@ -148,6 +149,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Ngx-clarksnut
     clarksnutApiUrlProvider,
+    clarksnutMailCollectorApiUrlProvider,
     CollaboratorService,
     ContextResolver,
     ContextService,
