@@ -107,7 +107,7 @@ objects:
     creationTimestamp: null
     labels:
       service: clarksnut-ui
-    name: clarksnut-ui-pp
+    name: clarksnut-ui
   spec:
     host: ''
     port:
