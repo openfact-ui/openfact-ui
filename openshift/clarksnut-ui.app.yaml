@@ -37,6 +37,11 @@ objects:
           - containerPort: 80
             protocol: TCP
           env:
+            - name: PROXY_PASS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: clarksnut-ui
+                  key: proxy.pass.url
             - name: CLARKSNUT_SSO_API_URL
               valueFrom:
                 configMapKeyRef:
