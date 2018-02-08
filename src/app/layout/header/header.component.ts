@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   space: Space;
   private subcriptions: Subscription[] = [];
 
-  private isMobileMenuShow: boolean = false;
+  isMobileMenuShow: boolean = false;
 
   constructor(private userService: UserService) {
     this.subcriptions.push(
