@@ -4,6 +4,7 @@ metadata:
   name: clarksnut-ui
 type: Opaque
 data:
+  proxy.pass.url: ""
   clarksnut.sso.api.url: ""
   clarksnut.api.url: ""
   clarksnut.mail.collector.api.url: ""
