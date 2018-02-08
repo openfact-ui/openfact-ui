@@ -9,7 +9,14 @@ const routes: Routes = [
     path: '',
     component: EditComponent,
     children: [
-      { path: '', component: OverviewComponent }
+      {
+        path: '',
+        component: OverviewComponent
+      },
+      {
+        path: '_settings',
+        loadChildren: './settings/settings.module#SettingsModule'
+      }
     ]
   }
 ];

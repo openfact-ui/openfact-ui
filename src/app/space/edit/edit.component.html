@@ -1,14 +1,14 @@
 <div class="project-bar">
   <div class="toggle-menu">
-    <button type="button" class="navbar-toggle project-action-btn" (click)="toggleNav()">
+    <button type="button" class="navbar-toggle project-action-btn">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
   </div>
-  <div class="form-group">
 
+  <!-- <div class="form-group">
     <div dropdown class="btn-group bootstrap-select form-control">
       <button dropdownToggle type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" title="carlosthe19916"
         aria-expanded="false">
@@ -40,17 +40,15 @@
         <option value="">View All Projects</option>
       </select>
     </div>
-  </div>
+  </div> -->
 
-  <div dropdown class="dropdown add-to-project">
+  <!-- <div dropdown class="dropdown add-to-project">
     <a dropdownToggle class="dropdown-toggle" title="Add to Space" aria-haspopup="true" aria-expanded="false">
       <i class="fa fa-plus visible-xs-inline-block" aria-hidden="true" title="Add to Space"></i>
       <span class="hidden-xs">Add to Space</span>
       <span class="hidden-xs caret" aria-hidden="true" title="Add to Project"></span>
     </a>
     <ul *dropdownMenu role="menu" class="dropdown-menu dropdown-menu-right">
-      <!-- ngIf: !catalogLandingPageEnabled -->
-      <!-- ngIf: catalogLandingPageEnabled -->
       <li ng-if-start="catalogLandingPageEnabled" role="menuitem" class="">
         <a href="./">Browse Catalog</a>
       </li>
@@ -60,13 +58,12 @@
       <li ng-if-end="" role="menuitem" class="">
         <a href="" ng-click="showOrderingPanel('fromFile')">Import YAML / JSON</a>
       </li>
-      <!-- end ngIf: catalogLandingPageEnabled -->
       <li role="menuitem">
         <a href="" ng-click="showOrderingPanel('fromProject')">Select from Project</a>
       </li>
     </ul>
-  </div>
-  <!-- end ngIf: canIAddToProject -->
+  </div> -->
+
 </div>
 
 <cn-sidebar></cn-sidebar>

@@ -5,7 +5,7 @@
 .nav-pf-vertical {
   background-color: $nav-pf-vertical-bg-color;
   top: $navbar-os-header-height-mobile;
-  z-index: 1030;
+  z-index: 990;
   @media(min-width: $screen-sm-min) {
     // Hide at wider screen widths unless there is a project.
     display: none;

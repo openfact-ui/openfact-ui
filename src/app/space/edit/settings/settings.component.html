@@ -5,10 +5,10 @@
         <div class="container-fluid">
           <div class="page-header page-header-bleed-right page-header-bleed-left">
             <h1>
-              Overview
+              Settings
               <span class="page-header-link">
                 <a>
-                  Learn More
+                  Edit Space
                   <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a>
               </span>
@@ -20,7 +20,9 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <div ng-if="(pvcs | hashSize) === 0" class="">
+
+
+              <div>
                 <div ng-if="pvcsLoaded" class="empty-state-message text-center">
                   <div ng-if="!filterWithZeroResults" class="">
                     <h2>No Information.</h2>
@@ -33,6 +35,8 @@
                   </div>
                 </div>
               </div>
+
+
             </div>
           </div>
         </div>
