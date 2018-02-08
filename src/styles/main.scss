@@ -1,0 +1,72 @@
+$fa-font-path: "~font-awesome-sass/assets/fonts/font-awesome/";
+$font-path: "~patternfly/dist/fonts/";
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$img-path: "~patternfly/dist/img/";
+
+$imagePath: "assets/images";
+
+// Carlos Variables
+// Carlos Variables
+$index-navbar-fixed: 1030;
+$index-modal: 1045;
+
+// PatternFly
+@import "~patternfly/dist/sass/patternfly";
+
+// origin-web-common - after patternfly to gain any overrides
+@import "web-common/common";
+
+// origin-web-catalog - after patternfly to gain any overrides
+@import "web-catalog/catalog";
+
+/* OpenShift V3
+------------------------------------------------- */
+@import "_variables";
+@import "_mixins";
+@import "_buttons";
+@import "_forms";
+@import "_cards";
+@import "_catalog";
+@import "_component-animations";
+@import "_components";
+@import "_core";
+@import "_data-toolbar";
+@import "_ellipsis";
+@import "_layouts";
+@import "_list-pf";
+@import "_list-view";
+@import "_monitoring";
+@import "_navbar-vertical";
+@import "_overlay-forms";
+@import "_overview";
+@import "_pipeline";
+@import "_project-bar";
+@import "_responsive-utilities";
+@import "_scrollbars";
+@import "_scroll-shadows-horizontal";
+@import "_secrets";
+@import "_sidebar-right";
+@import "_system-status";
+@import "_tables";
+@import "_tile";
+@import "_tooltip";
+@import "_typography";
+@import "_spacers";
+@import "_log";
+@import "_settings";
+@import "_utils";
+@import "_vertical-nav";
+@import "_patternfly-additions";
+@import "_projects";
+@import "_container-terminal";
+@import "_kve";
+@import "_membership";
+@import "_notifications";
+@import "_action-chip";
+@import "_application-launcher";
+@import "_wizard";
+@import "_builds";
+@import "_editor";
+@import "_add-config-to-application";
+@import "_instances";
+@import "_set-home-page";

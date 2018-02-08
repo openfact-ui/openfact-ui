@@ -1,0 +1,73 @@
+<div class="container-pf-nav-pf-vertical">
+  <div class="view">
+    <div class="middle landing-page">
+      <div class="middle-content">
+        <div class="landing-search-area">
+          <cn-search-document></cn-search-document>
+        </div>
+        <div class="landing">
+          <div class="landing-main-area">
+            <div class="landing-header-area" ng-transclude="landingheader">
+              <div class="build-applications-view">
+              </div>
+            </div>
+            <div class="landing-body-area">
+              <div class="landing-body">
+                <div class="services-view">
+                  <div class="services-view-container mobile-items-view">
+                    <div class="add-methods">
+                      <h1>Browse Document</h1>
+                      <div>
+                        <ul class="add-other hidden-md hidden-lg">
+                          <li dropdown class="dropdown" placement="bottom left">
+                            <a dropdownToggle href="javascript:void(0)" class="dropdown-toggle" id="add-methods-dropdown" aria-haspopup="true" aria-expanded="false">
+                              Custom Document
+                              <span class="caret" aria-hidden="true"></span>
+                            </a>
+                            <ul *dropdownMenu class="dropdown-menu dropdown-menu-left pull-left" aria-labelledby="add-methods-dropdown">
+                              <li>
+                                <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                        <ul class="add-other hidden-xs hidden-sm">
+                          <li>
+                            <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <ul class="nav nav-tabs nav-tabs-pf services-categories">
+                      <li class="active">
+                        <a class="services-category-heading">All</a>
+                        <a class="services-back-link" href="">Back</a>
+                      </li>
+                    </ul>
+
+                    <div class="services-inner-container">
+                      <div class="services-no-sub-categories">
+                        <div class="services-items">
+                          <router-outlet></router-outlet>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="landing-side-bar" ng-transclude="landingside">
+            <cn-landside></cn-landside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Utils -->
+<cn-import-document #importDocumentWizard></cn-import-document>

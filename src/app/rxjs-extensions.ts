@@ -10,3 +10,17 @@ import 'rxjs/operators/distinctUntilChanged';
 import 'rxjs/operators/filter';
 import 'rxjs/operators/map';
 import 'rxjs/operators/switchMap';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/publish';
+import 'rxjs/add/operator/publishLast';
+import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/skipWhile';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/take';
+
+import 'rxjs/add/observable/merge';
+
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/take';

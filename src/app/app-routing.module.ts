@@ -11,7 +11,7 @@ const routes: Routes = [
   // Launcher
   {
     path: '_launcher',
-    loadChildren: './launcher/launcher.module#LauncherPageModule',
+    loadChildren: './launcher-page/launcher-page.module#LauncherPageModule',
     data: {
       title: 'Launcher'
     }
@@ -23,6 +23,32 @@ const routes: Routes = [
     loadChildren: './getting-started/getting-started.module#GettingStartedModule',
     data: {
       title: 'Getting Started'
+    }
+  },
+
+  // Home
+  {
+    path: '_home',
+    loadChildren: './home/home.module#HomeModule',
+    data: {
+      title: 'Home'
+    }
+  },
+
+  // Spaces
+  {
+    path: '_spaces',
+    loadChildren: './space/list/list.module#ListModule',
+    data: {
+      title: 'Spaces'
+    }
+  },
+
+  {
+    path: '_spaces/:space',
+    loadChildren: './space/edit/edit.module#EditModule',
+    data: {
+      title: 'Edit Space'
     }
   },
 

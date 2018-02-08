@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 import { ErrorService } from './error.service';
 
-import { UserService, AuthenticationService } from '../../ngx-login-client';
+import { UserService, AuthenticationService } from '../../ngx/ngx-login-client';
 
 @Component({
   selector: 'cn-error',

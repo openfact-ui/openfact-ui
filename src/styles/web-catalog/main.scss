@@ -1,0 +1,11 @@
+// origin-web-catalog
+
+@import "~font-awesome/less/variables";
+@import '~bootstrap/less/variables';
+@import '~patternfly/dist/less/color-variables';
+@import '~patternfly/dist/less/variables';
+@import '~origin-web-common/dist/less/_variables';
+@import '~origin-web-common/dist/less/_mixins';
+
+// add partials to catalog
+@import './catalog';

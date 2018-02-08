@@ -9,8 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "config",
-        "favicon.ico"
+        "favicon.ico",
+        "config"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -20,15 +20,21 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cn",
       "styles": [
-        "../node_modules/patternfly/dist/css/patternfly.min.css",
-        "../node_modules/patternfly/dist/css/patternfly-additions.min.css",
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/patternfly-ng/dist/css/patternfly-ng.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
+      },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../node_modules/bootstrap-sass/assets/stylesheets",
+          "../node_modules/font-awesome-sass/assets/stylesheets",
+          "styles"
+        ]
       }
     }
   ],

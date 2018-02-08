@@ -67,6 +67,10 @@ export class KeycloakService {
     return KeycloakService.keycloakAuth.realm;
   }
 
+  manageAccount(): void {
+    KeycloakService.keycloakAuth.accountManagement();
+  }
+
   getToken(): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       if (KeycloakService.keycloakAuth.token) {

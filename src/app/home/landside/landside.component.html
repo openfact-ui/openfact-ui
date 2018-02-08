@@ -1,0 +1,87 @@
+<div class="catalog-projects-summary-panel" ng-show="!$ctrl.loading">
+  <button type="button" class="create-button btn btn-primary" (click)="spaceWizard.open()">
+    <span class="fa fa-plus"></span>
+    <span class="create-button-text">{{'LANDSCAPE.CREATE_SPACE' | translate}}</span>
+  </button>
+
+  <h2 class="summary-title secondary" *ngIf="spaces && spaces.length">
+    <a routerLink="/_spaces">{{'LANDSCAPE.MY_SPACES' | translate}}</a>
+  </h2>
+
+  <div *ngIf="spaces && spaces.length" class="catalog-project-summary-list">
+    <div class="projects-count">
+      <strong>{{spaces.length}}</strong>
+      {{'LANDSCAPE.OF' | translate}}
+      <strong>{{spaces.length}}</strong>
+      {{'LANDSCAPE.SPACES' | translate}}
+      <a routerLink="/_spaces" class="projects-view-all">{{'LANDSCAPE.VIEW_ALL' | translate}}</a>
+    </div>
+    <div id="catalog-projects-summary-list">
+      <div *ngFor="let space of spaces" class="project-tile tile-click" (click)="editSpace(space)">
+        <div dropdown cnStopPropagation class="dropdown dropdown-kebab-pf">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebab" aria-haspopup="true" aria-expanded="false"
+            dropdownToggle>
+            <span class="fa fa-ellipsis-v"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
+            <li>
+              <a routerLink="/_spaces/{{space.id}}" role="button" label="Edit Space">Edit Space</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Space">Delete Space</a>
+            </li>
+          </ul>
+        </div>
+        <h3 class="project-tile-header">
+          <a routerLink="/_spaces/{{space.id}}" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
+        </h3>
+        <p class="project-date">
+          {{space.attributes.assignedId}} {{space.attributes.description}}. Created
+          <span title="{{space.attributes.createdAt | date}}">{{space.attributes.createdAt | dateFromMilis | amTimeAgo}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="spaces && spaces.length < 4">
+    <div class="getting-started-panel">
+      <h2 class="secondary">Getting Started</h2>
+      <button class="getting-started-button btn btn-default hidden-xs with-projects">
+        <span class="fa fa-info-circle fa-2"></span>
+        <span class="getting-started-button-text">Take Home Page Tour</span>
+      </button>
+    </div>
+    <div class="resources-panel">
+      <ul>
+        <li>
+          <a href="https://clarksnut.gitbooks.io/getting-started-guide" target="_blank" title="Documentation">Documentation</a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/channel/UC8NMtL-E4VR-GdG72cn0Wuw?view_as=subscriber" target="_blank" title="Youtube" class="ng-binding">YouTube</a>
+        </li>
+        <li>
+          <a href="https://clarksnut.wordpress.com" target="_blank" title="Blog" class="ng-binding">Blog</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- <div *ngIf="recentlyViewedItems && recentlyViewedItems.length">
+    <h2 class="secondary">Recently Viewed</h2>
+    <div class="services-view">
+      <a class="services-item" *ngFor="let item of recentlyViewedItems" (click)="orderService(item)">
+        <div ng-if="item.imageUrl" class="services-item-icon services-item-img">
+          <img ng-src="images/logos/php.svg" src="images/logos/php.svg">
+        </div>
+        <div class="services-item-name" title="CakePHP + MySQL (Persistent)" aria-hidden="true">CakePHP + MySQL (Persistent)</div>
+      </a>
+    </div>
+  </div> -->
+
+</div>
+
+
+<!-- Create Space modal -->
+<cn-space-wizard #spaceWizard></cn-space-wizard>
+<cn-space-delete #deleteSpaceModal></cn-space-delete>

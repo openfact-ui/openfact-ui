@@ -1,0 +1,65 @@
+<ng-template #wizardTemplate>
+
+  <pfng-wizard #wizard [config]="wizardConfig" (onCancel)="cancel($event)" (onNext)="nextClicked($event)" (onStepChange)="stepChanged($event, wizard)">
+
+    <pfng-wizard-step [config]="step1Config">
+      <pfng-wizard-substep [config]="step1aConfig" [reviewTemplate]="stepSpaceInfoReviewTemplate">
+        <cn-space-form (onChange)="onSpaceFormChange($event)"></cn-space-form>
+      </pfng-wizard-substep>
+      <pfng-wizard-substep [config]="step1bConfig">
+        <cn-space-terms-conditions (onChange)="onTermsConditionsChange($event)" *ngIf="!previousSpace"></cn-space-terms-conditions>
+        <cn-request-access-form (onChange)="onRequestAccessChange($event)" [space]="previousSpace" *ngIf="previousSpace"></cn-request-access-form>
+      </pfng-wizard-substep>
+    </pfng-wizard-step>
+
+    <pfng-wizard-step [config]="step2Config">
+      <pfng-wizard-substep [config]="step2aConfig">
+        <pfng-wizard-review></pfng-wizard-review>
+      </pfng-wizard-substep>
+      <pfng-wizard-substep [config]="step2bConfig" (onShow)="save()">
+        <div class="wizard-pf-contents">
+          <div class="wizard-pf-process blank-slate-pf" *ngIf="working">
+            <div class="spinner spinner-lg blank-slate-pf-icon"></div>
+            <h3 class="blank-slate-pf-main-action">Creating in process</h3>
+            <p class="blank-slate-pf-secondary-action">Please wait.
+            </p>
+          </div>
+          <div class="wizard-pf-complete blank-slate-pf" *ngIf="!working">
+            <div *ngIf="success">
+              <div class="wizard-pf-success-icon">
+                <span class="glyphicon glyphicon-ok-circle"></span>
+              </div>
+              <h3 class="blank-slate-pf-main-action">{{ 'SPACE_WIZARD.SPACE_CREATED' | translate }}</h3>
+            </div>
+            <div *ngIf="!success">
+              <div class="wizard-pf-success-icon">
+                <span class="pficon pficon-error-circle-o"></span>
+              </div>
+              <h3 class="blank-slate-pf-main-action">Ups! Something happened. Please try again.</h3>
+            </div>
+          </div>
+        </div>
+      </pfng-wizard-substep>
+    </pfng-wizard-step>
+
+  </pfng-wizard>
+
+  <!-- Step 1B: Settings -->
+  <ng-template #stepSpaceInfoReviewTemplate>
+    <form class="form">
+      <div class="wizard-pf-review-item">
+        <span class="wizard-pf-review-item-label">ID:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.assignedId}}</span>
+      </div>
+      <div class="wizard-pf-review-item">
+        <span class="wizard-pf-review-item-label">Name:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.name}}</span>
+      </div>
+      <div class="wizard-pf-review-item">
+        <span class="wizard-pf-review-item-label">Description:</span>
+        <span class="wizard-pf-review-item-value">{{space?.attributes?.description}}</span>
+      </div>
+    </form>
+  </ng-template>
+
+</ng-template>

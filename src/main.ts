@@ -14,4 +14,3 @@ KeycloakService.init({ onLoad: 'login-required' }).then(() => {
 }).catch((err: any) => {
   console.log('Error in bootstrap: ' + JSON.stringify(err));
 });
-

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NotificationsService } from './ngx-base-impl/notifications.service';
+import { NotificationsService } from './ngx-impl/ngx-base-impl/notifications.service';
 
 @Component({
   selector: 'cn-root',

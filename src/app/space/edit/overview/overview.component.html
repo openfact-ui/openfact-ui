@@ -1,0 +1,42 @@
+<div class="container-pf-nav-pf-vertical" ng-class="{ 'collapsed-nav': nav.collapsed }">
+  <div ng-view="" class="view">
+    <div class="middle">
+      <div class="middle-header header-toolbar">
+        <div class="container-fluid">
+          <div class="page-header page-header-bleed-right page-header-bleed-left">
+            <h1>
+              Overview
+              <span class="page-header-link">
+                <a>
+                  Learn More
+                  <i class="fa fa-external-link" aria-hidden="true"></i>
+                </a>
+              </span>
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div class="middle-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div ng-if="(pvcs | hashSize) === 0" class="">
+                <div ng-if="pvcsLoaded" class="empty-state-message text-center">
+                  <div ng-if="!filterWithZeroResults" class="">
+                    <h2>No Information.</h2>
+                    <p>
+                      There is no information to show you at this time. Please wait next version.
+                    </p>
+                    <p>
+                      <a routerLink="/_home" class="btn btn-primary" href="Home">Go Home</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

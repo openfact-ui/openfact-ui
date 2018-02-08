@@ -1,0 +1,50 @@
+<ul class="nav navbar-nav navbar-right navbar-iconic">
+
+  <!-- <li>
+    <a class="nav-item-iconic system-status project-action-btn ng-scope">
+      <span title="System Status" class="fa status-icon pficon-warning-triangle-o"></span>
+      <span class="status-issue">1 open issue</span>
+    </a>
+  </li> -->
+
+  <cn-notification-counter></cn-notification-counter>
+
+  <li dropdown>
+    <a dropdownToggle class="nav-item-iconic" id="help-dropdown">
+      <span title="Help" class="fa pficon-help" aria-hidden="true"></span>
+      <span class="sr-only">Help</span>
+      <span class="caret" aria-hidden="true"></span>
+    </a>
+    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="help-dropdown">
+      <li role="menuitem">
+        <a class="dropdown-item" (click)="aboutModal.open()" href="javascript:void(0);">{{ 'HEADER.ABOUT' | translate }}</a>
+      </li>
+    </ul>
+  </li>
+  <li dropdown *ngIf="user">
+    <a dropdownToggle id="user-dropdown" class="nav-item-iconic">
+      <span class="fa pf-icon pficon-user" aria-hidden="true"></span>
+      <span class="username truncate">{{user.attributes.fullNam || user.attributes.username}}</span>
+      <span class="caret" aria-hidden="true"></span>
+    </a>
+    <ul *dropdownMenu class="dropdown-menu" aria-labelledby="user-dropdown">
+      <li role="menuitem">
+        <a class="dropdown-item" (click)="manageAccount()" href="javascript:void(0);">{{ 'HEADER.MANAGE_ACCOUNT' | translate }}</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a tabindex="-1" href="javascript:void(0);">{{ 'HEADER.CHANGE_LANGUAGE' | translate }}</a>
+        <ul class="dropdown-menu" style="left: auto !important; right: 100%;">
+          <li *ngFor="let lang of languages" [ngClass]="{'active': currentLanguage.id == lang.id}">
+            <a (click)="selectLanguage(lang)" style="cursor: pointer;">{{lang.name}}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="divider"></li>
+      <li role="menuitem">
+        <a class="dropdown-item" (click)="logout()" href="javascript:void(0);">{{ 'HEADER.LOGOUT' | translate }}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<cn-about-modal #aboutModal></cn-about-modal>

@@ -1,0 +1,136 @@
+<cn-toolbar></cn-toolbar>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <fieldset>
+        <legend>
+          <h3>
+            <button type="button" class="btn btn-link">
+              <i class="fa" [ngClass]="starred ? 'fa-star': 'fa-star-o'" style="font-size: 20px;"></i>
+            </button>
+            {{document?.attributes?.type}} {{document?.attributes?.assignedId}}
+            <small>Created
+              <span>{{document?.attributes?.issueDate | amTimeAgo}}</span>
+            </small>
+          </h3>
+
+          <!-- <tag-input [(ngModel)]="tags" (onSelect)="onTagsChange($event)" [modelAsStrings]="true" [theme]="'bootstrap'">
+            </tag-input> -->
+        </legend>
+      </fieldset>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <fieldset>
+            <legend>
+              <h3>General information</h3>
+            </legend>
+          </fieldset>
+          <dl class="dl-horizontal left">
+            <dt>
+              ID:
+              <span tooltip="Assigned ID." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.assignedId">{{document?.attributes?.assignedId | uppercase}}</dd>
+            <dd *ngIf="!document?.attributes?.assignedId">
+              <em>Not registered</em>
+            </dd>
+            <dt>
+              Currency:
+              <span tooltip="Currency Code." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.currency">{{document?.attributes?.currency | uppercase}}</dd>
+            <dd *ngIf="!document?.attributes?.currency">
+              <em>Not registered</em>
+            </dd>
+            <dt>
+              Type:
+              <span tooltip="Document type." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.type">{{document?.attributes?.type}}</dd>
+            <dd *ngIf="!document?.attributes?.type">
+              <em>Not registered</em>
+            </dd>
+            <dt>
+              Issue date:
+              <span tooltip="Issue Date." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.issueDate">{{document?.attributes?.issueDate | date: 'short'}}</dd>
+            <dd *ngIf="!document?.attributes?.issueDate">
+              <em>Not registered</em>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-6">
+          <fieldset>
+            <legend>
+              <h3>Legal monetary total</h3>
+            </legend>
+          </fieldset>
+          <dl class="dl-horizontal left">
+            <dt>
+              Payable amount:
+              <span tooltip="Legal Monetary Total / Payable Amount." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.amount">{{document?.attributes?.amount | number:'1.2-3'}}</dd>
+            <dd *ngIf="!document?.attributes?.amount">
+              <em>Not registered</em>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-6">
+          <fieldset>
+            <legend>
+              <h3>Supplier</h3>
+            </legend>
+          </fieldset>
+          <dl class="dl-horizontal left">
+            <dt>
+              Assigned id:
+              <span tooltip="Supplier assigned id" placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.supplierAssignedId">{{document?.attributes?.supplierAssignedId}}</dd>
+            <dd *ngIf="!document?.attributes?.supplierAssignedId">
+              <em>Not registered</em>
+            </dd>
+            <dt>
+              Assigned name:
+              <span tooltip="Supplier name" placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.supplierName">{{document?.attributes?.supplierName}}</dd>
+            <dd *ngIf="!document?.attributes?.supplierName">
+              <em>Not registered</em>
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-6">
+          <fieldset>
+            <legend>
+              <h3>Customer</h3>
+            </legend>
+          </fieldset>
+          <dl class="dl-horizontal left">
+            <dt>
+              Assigned id:
+              <span tooltip="Customer assigned id" placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.customerAssignedId">{{document?.attributes?.customerAssignedId}}</dd>
+            <dd *ngIf="!document?.attributes?.customerAssignedId">
+              <em>Not registered</em>
+            </dd>
+            <dt>
+              Assigned name:
+              <span tooltip="Customer name" placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.customerName">{{document?.attributes?.customerName}}</dd>
+            <dd *ngIf="!document?.attributes?.customerName">
+              <em>Not registered</em>
+            </dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -4,6 +4,9 @@ import { Subscription, Observable } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
+import { User, UserService } from '../../ngx/ngx-login-client';
+import { Space } from '../../ngx/ngx-clarksnut';
+
 interface MenuHiddenCallback {
   (headerComponent: HeaderComponent): Observable<boolean>;
 }
@@ -15,13 +18,29 @@ interface MenuHiddenCallback {
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor() {
+  user: User;
+  space: Space;
+  private subcriptions: Subscription[] = [];
+
+  private isMobileMenuShow: boolean = false;
+
+  constructor(private userService: UserService) {
+    this.subcriptions.push(
+      this.userService.loggedInUser.subscribe((val) => {
+        this.user = val;
+      })
+    );
   }
 
   ngOnInit() {
   }
 
   ngOnDestroy() {
+    this.subcriptions.forEach(val => val.unsubscribe());
+  }
+
+  toggleMobileNav() {
+    this.isMobileMenuShow = !this.isMobileMenuShow;
   }
 
 }

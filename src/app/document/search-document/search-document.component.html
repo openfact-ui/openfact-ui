@@ -1,0 +1,40 @@
+<div class="catalog-search" style="height: 52px;">
+    <form role="form" class="landing-search-form search-pf has-button">
+      <div class="form-group has-clear">
+        <div class="search-pf-input-group">
+          <label for="search-input" class="sr-only">Search Document</label>
+          <span class="fa fa-search catalog-search-icon" aria-hidden="true"></span>
+
+          <input  id="search-input"
+                  name="filterText"
+                  [(ngModel)]="filterText"
+                  (keypress)="searchInputKeyPress($event)"
+                  type="search"
+                  autocomplete="off"
+                  class="form-control catalog-search-input"
+                  placeholder="Search Document"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                  aria-autocomplete="list"
+                  aria-expanded="false">
+
+          <!-- <ul class="dropdown-menu"
+              ng-show="isOpen() &amp;&amp; !moveInProgress"
+              ng-style="{top: position().top+'px', left: position().left+'px'}"
+              style="display: block;"
+              role="listbox"
+              aria-hidden="true" id="typeahead-32-5184"
+              matches="matches"
+              active="activeIdx"
+              select="select(activeIdx)"
+              move-in-progress="moveInProgress"
+              query="query"
+              position="position"
+              template-url="catalog-search/catalog-search-result.html">
+          </ul> -->
+
+        </div>
+      </div>
+    </form>
+  </div>

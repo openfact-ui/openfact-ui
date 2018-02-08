@@ -1,0 +1,14 @@
+$table-condensed-cell-padding:  5px !default;
+
+.table-condensed {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        padding: $table-condensed-cell-padding;
+      }
+    }
+  }
+}

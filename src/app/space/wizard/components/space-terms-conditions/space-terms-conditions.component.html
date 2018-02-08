@@ -1,0 +1,20 @@
+<form [formGroup]="form" class="form-horizontal">
+
+  <div class="form-group">
+    <div class="col-xs-12">
+      <div style="border: 1px solid #e5e5e5; height: 140px; overflow: auto; padding: 10px;">
+        {{ 'SPACE_WIZARD.TERMS_AND_CONDITIONS_FORM.TERMS_AND_CONDITIONS' | translate }}
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group has-feedback" [ngClass]="{'has-success': form.valid}">
+    <div class="col-xs-12">
+      <div class="checkbox">
+        <label><input formControlName="agree" type="checkbox"> {{ 'SPACE_WIZARD.TERMS_AND_CONDITIONS_FORM.ACCEPT_CHECK' | translate }}</label>
+      </div>
+      <i *ngIf="form.valid" class="form-control-feedback fa fa-check"></i>
+      <small class="help-block">{{ 'SPACE_WIZARD.TERMS_AND_CONDITIONS_FORM.SUGGESTION' | translate }}</small></div>
+  </div>
+
+</form>
