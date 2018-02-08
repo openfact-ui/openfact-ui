@@ -38,13 +38,25 @@ objects:
             protocol: TCP
           env:
             - name: CLARKSNUT_SSO_API_URL
-              value: http://localhost:8180/api
+              valueFrom:
+                configMapKeyRef:
+                  name: clarksnut-ui
+                  key: clarksnut.sso.api.url
             - name: CLARKSNUT_API_URL
-              value: http://localhost:8080/api
+              valueFrom:
+                configMapKeyRef:
+                  name: clarksnut-ui
+                  key: clarksnut.api.url
             - name: CLARKSNUT_MAIL_COLLECTOR_API_URL
-              value: http://localhost:8081/api
+              valueFrom:
+                configMapKeyRef:
+                  name: clarksnut-ui
+                  key: clarksnut.mail.collector.api.url
             - name: CLARKSNUT_AUTH_API_URL
-              value: http://localhost:8080/api
+              valueFrom:
+                configMapKeyRef:
+                  name: clarksnut-ui
+                  key: clarksnut.auth.api.url
           resources: {}
           terminationMessagePath: /dev/termination-log
           readinessProbe:
