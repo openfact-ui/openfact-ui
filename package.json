@@ -31,7 +31,6 @@
     "file-saver": "^1.3.3",
     "font-awesome-sass": "^4.7.0",
     "jwt-decode": "^2.2.0",
-    "mydaterangepicker": "^4.2.0",
     "ng2-currency-mask": "^4.4.1",
     "ng2-file-upload": "^1.3.0",
     "ng2-vs-checklist": "0.0.1",
