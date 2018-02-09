@@ -68,7 +68,7 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     }
 
     this.queryBuilder.filterText(this.searchEvent.keyword);
-    this.queryBuilder.spaces([]);
+    this.queryBuilder.spaces(this.searchEvent.spaces || []);
 
     this.queryBuilder.offset(this.searchEvent.offset || 0);
     this.queryBuilder.limit(this.searchEvent.limit || 10);

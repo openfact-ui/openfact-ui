@@ -16,7 +16,7 @@
               <li *ngFor="let space of spaces">
                 <div class="checkbox">
                   <label class="category-option-label" cnStopPropagation>
-                    <input type="checkbox"> {{space.attributes.name | spaceName}}
+                    <input type="checkbox" name="spaces" value="{{space.id}}" [(ngModel)]="space.checked" (change)="checkedSpacesChanged()"> {{space.attributes.name | spaceName}}
                   </label>
                 </div>
               </li>

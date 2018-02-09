@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { ListModule } from 'patternfly-ng/list';
 import { EmptyStateModule } from 'patternfly-ng/empty-state';
@@ -19,6 +20,7 @@ import { FilterDocumentComponent } from './filter-document/filter-document.compo
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
 
     ListModule,
     EmptyStateModule,

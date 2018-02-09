@@ -12,7 +12,17 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   filterText: string;
 
-  constructor(private searchEventService: SearchEventService) { }
+  private subscriptions: Subscription[] = [];
+
+  constructor(private searchEventService: SearchEventService) {
+    this.subscriptions.push(
+      this.searchEventService.eventListener.subscribe((event) => {
+        if (event) {
+          this.filterText = event.keyword;
+        }
+      })
+    );
+  }
 
   ngOnInit() {
   }

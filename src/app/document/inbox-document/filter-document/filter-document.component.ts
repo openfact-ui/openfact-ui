@@ -80,6 +80,13 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
 
   clearAllFilters() {
     this.appliedFilters.clear();
+
+    const current = this.searchEventService.current || {};
+    this.searchEventService.emitEvent(Object.assign(current, {
+      keyword: null,
+      offset: 0,
+      limit: this.limit
+    }));
   }
 
   previousPage() {
@@ -100,7 +107,18 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     const current = this.searchEventService.current || {};
     this.searchEventService.emitEvent(Object.assign(current, {
       offset: this.offset,
-      limit: this.limit
+      limit: this.limit,
+      spaces: this.selectedSpaces
     }));
+  }
+
+  get selectedSpaces() { // right now: ['1','3']
+    return this.spaces
+      .filter(space => (<any>space).checked)
+      .map(opt => opt.id)
+  }
+
+  checkedSpacesChanged() {
+    this.search();
   }
 }
