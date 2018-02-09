@@ -22,6 +22,8 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   @Input() totalNumberOfItems: number;
 
   keyword: string;
+  offset: number = 0;
+  limit: number = 10;
 
   user: User;
   spaces: Space[];
@@ -80,4 +82,25 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.appliedFilters.clear();
   }
 
+  previousPage() {
+    this.offset = this.offset - this.limit;
+    if (this.offset < 0) {
+      this.offset = 0;
+    }
+    this.search();
+  }
+
+  nextPage() {
+    let factor = this.offset === 0 ? 1 : 0;
+    this.offset = this.offset + this.limit - factor;
+    this.search();
+  }
+
+  search() {
+    const current = this.searchEventService.current || {};
+    this.searchEventService.emitEvent(Object.assign(current, {
+      offset: this.offset,
+      limit: this.limit
+    }));
+  }
 }
