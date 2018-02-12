@@ -1,23 +1,23 @@
 <div class="container">
   <div class="page-header text-center">
-    <h1>Collect from
+    <h1>{{'GETTING_STARTED.COLLECT_FROM' | translate}}
       <strong>Email?</strong>
     </h1>
   </div>
 </div>
 
-<div class="main container">
+<div class="main container" *ngIf="!authorized">
   <div class="container-cards-pf">
     <div class="row row-cards-pf">
       <div class="col-sm-6 col-lg-4 col-lg-offset-2">
         <div class="card-pf text-center" style="height: 263px;">
           <div class="card-pf-heading-no-bottom">
             <h2 class="card-pf-title">
-              <span class="pficon pficon-topology"></span> Collect (Gmail)
+              <span class="pficon pficon-topology"></span> {{'GETTING_STARTED.COLLECT' | translate}}
             </h2>
-            <span class="card-pf-subtitle">For active mail collect batchs.</span>
+            <span class="card-pf-subtitle">{{'GETTING_STARTED.COLLECT_PURPOSE' | translate}}</span>
             <div class="card-pf-body" style="height: 64px;">
-              <a class="btn btn-lg btn-primary btn-block open-web-console" title="Collect" (click)="accept()">Start Collecting from Mail</a>
+              <a class="btn btn-lg btn-primary btn-block open-web-console" title="Collect" (click)="accept()">{{'GETTING_STARTED.COLLECT_BUTTON' | translate}}</a>
             </div>
             <div class="card-pf-footer plan-customizations">
               <div class="row">
@@ -50,11 +50,11 @@
         <div class="card-pf text-center" style="height: 263px;">
           <div class="card-pf-heading-no-bottom">
             <h2 class="card-pf-title">
-              <span class="pficon pficon-middleware"></span> Do not Collect
+              <span class="pficon pficon-middleware"></span> {{'GETTING_STARTED.DONT_COLLECT' | translate}}
             </h2>
-            <span class="card-pf-subtitle">For individual experimenting.</span>
+            <span class="card-pf-subtitle">{{'GETTING_STARTED.DONT_COLLECT_PURPOSE' | translate}}</span>
             <div class="card-pf-body" style="height: 64px;">
-              <a class="btn btn-lg btn-default btn-block open-web-console" title="Don't collect" (click)="reject()">Start using Clarksnut</a>
+              <a class="btn btn-lg btn-default btn-block open-web-console" title="Don't collect" (click)="reject()">{{'GETTING_STARTED.DONT_COLLECT_BUTTON' | translate}}</a>
             </div>
             <div class="card-pf-footer plan-customizations">
               <div class="row">
@@ -81,6 +81,25 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main container" *ngIf="authorized">
+  <div class="container-cards-pf">
+    <div class="blank-slate-pf">
+      <div class="blank-slate-pf-icon">
+        <span class="pficon pficon-ok"></span>
+      </div>
+      <h1>
+        {{'GETTING_STARTED.READY_TITLE' | translate}}
+      </h1>
+      <p>
+        {{'GETTING_STARTED.READY_MESSAGE' | translate}}
+      </p>
+      <div class="blank-slate-pf-main-action">
+        <button type="button" routerLink="/_home" class="btn btn-primary btn-lg"> {{'GETTING_STARTED.READY_BUTTON' | translate}} </button>
       </div>
     </div>
   </div>

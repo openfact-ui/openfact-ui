@@ -65,5 +65,17 @@
   "SPACE_DELETE_MODAL": {
     "QUESTION": "Are you sure you want to delete the space",
     "MESSAGE_WARNING": "This will <strong>delete all resources</strong> associated with the space {{space}} and <strong>cannont be undone</strong>. Make sure this is something you really want to do!"
+  },
+  "GETTING_STARTED": {
+    "COLLECT_FROM": "Collect from",
+    "COLLECT": "Collect",
+    "COLLECT_PURPOSE": "For active mail collect batchs.",
+    "COLLECT_BUTTON": "Collect from mail",
+    "DONT_COLLECT": "Do not Collect",
+    "DONT_COLLECT_PURPOSE": "For individual experimenting.",
+    "DONT_COLLECT_BUTTON": "Do not Collect from mail",
+    "READY_TITLE": "Congratulations!",
+    "READY_MESSAGE": "You are ready to start using Clarksnut. To getting start please clic on the next button.",
+    "READY_BUTTON": "Gettign Start"
   }
 }

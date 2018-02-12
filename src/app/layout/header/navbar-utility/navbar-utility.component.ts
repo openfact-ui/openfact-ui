@@ -32,7 +32,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
     { id: 'en', name: 'English' },
     { id: 'es', name: 'Español' }
   ];
-  private defaultLanguage: string = 'en';
+  private defaultLanguage: string = 'es';
 
   constructor(
     private userService: UserService,
