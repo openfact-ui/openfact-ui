@@ -77,5 +77,20 @@
     "READY_TITLE": "Felicitaciones!",
     "READY_MESSAGE": "Ahora estas listo para empezar a usar Clarksnut. Para empezar haga clic en el siguiente boton.",
     "READY_BUTTON": "Empezar a usar"
+  },
+  "SEARCH_DOCUMENT": {
+    "SEARCH_DOCUMENT": "Buscar Documento"
+  },
+  "HOME": {
+    "BROWSE_DOCUMENT": "Vista de Documentos",
+    "CUSTOM_DOCUMENT": "Customizar documento",
+    "IMPORT_FILE": "Importar Archivo",
+    "ALL": "Todos",
+    "BACK": "Atráz",
+    "LANDSIDE": {
+      "GETTING_STARTED": "Empezar a Usar",
+      "TOUR_BUTTON": "Tomar un Tour",
+      "DOCUMENTATION": "Documentación"
+    }
   }
 }

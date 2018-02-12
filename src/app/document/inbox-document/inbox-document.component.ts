@@ -50,10 +50,10 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.emptyStateConfig = {
       info: 'The active filters are hiding all documents items.',
-      helpLink: {
+      /*helpLink: {
         hypertext: 'Clear Filters',
         url: '#/emptystate'
-      },
+      },*/
       title: 'No results match.'
     } as EmptyStateConfig;
   }

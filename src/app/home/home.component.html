@@ -16,24 +16,24 @@
                 <div class="services-view">
                   <div class="services-view-container mobile-items-view">
                     <div class="add-methods">
-                      <h1>Browse Document</h1>
+                      <h1>{{'HOME.BROWSE_DOCUMENT' | translate}}</h1>
                       <div>
                         <ul class="add-other hidden-md hidden-lg">
                           <li dropdown class="dropdown" placement="bottom left">
                             <a dropdownToggle href="javascript:void(0)" class="dropdown-toggle" id="add-methods-dropdown" aria-haspopup="true" aria-expanded="false">
-                              Custom Document
+                              {{'HOME.CUSTOM_DOCUMENT' | translate}}
                               <span class="caret" aria-hidden="true"></span>
                             </a>
                             <ul *dropdownMenu class="dropdown-menu dropdown-menu-left pull-left" aria-labelledby="add-methods-dropdown">
                               <li>
-                                <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
+                                <a href="javascript:void(0)" (click)="importDocumentWizard.open()">{{'HOME.IMPORT_FILE' | translate}}</a>
                               </li>
                             </ul>
                           </li>
                         </ul>
                         <ul class="add-other hidden-xs hidden-sm">
                           <li>
-                            <a href="javascript:void(0)" (click)="importDocumentWizard.open()">Import File</a>
+                            <a href="javascript:void(0)" (click)="importDocumentWizard.open()">{{'HOME.IMPORT_FILE' | translate}}</a>
                           </li>
                         </ul>
                       </div>
@@ -41,8 +41,8 @@
 
                     <ul class="nav nav-tabs nav-tabs-pf services-categories">
                       <li class="active">
-                        <a class="services-category-heading">All</a>
-                        <a class="services-back-link" href="">Back</a>
+                        <a class="services-category-heading">{{'HOME.ALL' | translate}}</a>
+                        <a class="services-back-link" href="">{{'HOME.BACK' | translate}}</a>
                       </li>
                     </ul>
 
