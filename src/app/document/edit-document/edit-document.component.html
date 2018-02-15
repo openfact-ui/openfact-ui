@@ -78,6 +78,14 @@
             <dd *ngIf="!document?.attributes?.amount">
               <em>Not registered</em>
             </dd>
+            <dt>
+                Tax:
+                <span tooltip="Tax Total." placement="right" class="pficon pficon-help text-muted small"></span>
+              </dt>
+              <dd *ngIf="document?.attributes?.tax">{{document?.attributes?.tax | number:'1.2-3'}}</dd>
+              <dd *ngIf="!document?.attributes?.tax">
+                <em>Not registered</em>
+              </dd>
           </dl>
         </div>
         <div class="col-lg-6">
