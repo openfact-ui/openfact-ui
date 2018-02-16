@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, ElementRef, AfterViewInit, Renderer2, EventEmitter, AfterViewChecked } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { UserService } from '../../../ngx/ngx-login-client';
 
 import { KeycloakService } from '../../../keycloak-service/keycloak.service';
 import { GettingStartedService } from './../../../getting-started/services/getting-started.service';
+import { WindowRef } from './../../../shared/windows-ref.service';
 
 interface Language {
   id: string;
@@ -21,7 +22,7 @@ interface Language {
   templateUrl: './navbar-utility.component.html',
   styleUrls: ['./navbar-utility.component.scss']
 })
-export class NavbarUtilityComponent implements OnInit, OnDestroy {
+export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   user: User;
   private subcriptions: Subscription[] = [];
@@ -38,11 +39,16 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
   // Launcher
   navigationItems: NavigationItemConfig[];
 
+  // Jira
+  @ViewChild('myCustomTrigger') el: ElementRef;
+
   constructor(
     private userService: UserService,
     private keycloakService: KeycloakService,
     private translateService: TranslateService,
-    private gettingStartedService: GettingStartedService) {
+    private gettingStartedService: GettingStartedService,
+    private renderer: Renderer2,
+    private windowsRef: WindowRef, ) {
 
     // Language
     this.translateService.setDefaultLang('en');
@@ -81,6 +87,18 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  ngAfterViewChecked() {
+    // Jira
+    this.windowsRef.nativeWindow.ATL_JQ_PAGE_PROPS = {
+      "triggerFunction": function (showCollectorDialog) {
+        document.getElementById("jiraBugsButton").onclick = function () {
+          event.preventDefault();
+          showCollectorDialog();
+        }
+      }
+    };
+  }
+
   ngOnDestroy() {
     this.subcriptions.forEach(val => val.unsubscribe());
   }
@@ -105,4 +123,8 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  test() {
+    console.log(window);
+  }
 }

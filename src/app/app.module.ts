@@ -68,6 +68,7 @@ import { GettingStartedService } from './getting-started/services/getting-starte
 
 // Shared Services
 import { AboutService } from './shared/about.service';
+import { WindowRef } from './shared/windows-ref.service';
 
 // Component Services
 import { ProfileService } from './profile/profile.service';
@@ -183,6 +184,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Shared Services
     AboutService,
+    WindowRef,
 
     // Component Services
     ProfileService,

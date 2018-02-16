@@ -33,6 +33,7 @@ export class UBLDocumentAttributes {
     type: string;
     currency: string;
     amount: number;
+    tax: number;
     issueDate: Date;
     supplierName: string;
     supplierAssignedId: string;
