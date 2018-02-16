@@ -26,6 +26,15 @@ const routes: Routes = [
     }
   },
 
+  // Mail Collector Settings
+  {
+    path: '_mailcollectorsettings',
+    loadChildren: './mail-collector-settings/mail-collector-settings.module#MailCollectorSettingsModule',
+    data: {
+      title: 'Mail Collector'
+    }
+  },
+
   // Home
   {
     path: '_home',

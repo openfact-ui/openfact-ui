@@ -22,6 +22,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 // Patternfly
 import { NotificationModule } from 'patternfly-ng/notification';
+import { NavigationModule } from 'patternfly-ng/navigation';
 
 // Config
 import { clarksnutUIConfigProvider } from './config/clarksnut-ui-config.service';
@@ -50,8 +51,14 @@ import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceServi
 import { ContextService } from './ngx-impl/ngx-clarksnut-impl/context.service';
 import { SpacesService } from './ngx-impl/ngx-clarksnut-impl/spaces.service';
 import { clarksnutApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-api.provider';
-import { clarksnutMailCollectorApiUrlProvider } from './ngx-impl/ngx-clarksnut-impl/clarksnut-mail-collector-api.provider';
 import { ContextResolver } from './ngx-impl/ngx-clarksnut-impl/context-resolver.service';
+
+// Ngx-clarksnut-mail-collector
+import { LinkService } from './ngx/ngx-clarksnut-mail-collector';
+import { UserService as UserMailCollectorService } from './ngx/ngx-clarksnut-mail-collector';
+
+// Ngx-clarksnut-mail-collector-impl
+import { clarksnutMailCollectorApiUrlProvider } from './ngx-impl/ngx-clarksnut-mail-collector-impl/clarksnut-mail-collector-api.provider';
 
 // Custom modules
 import { AboutModalModule } from './layout/about-modal/about-modal.module';
@@ -115,6 +122,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Patternfly
     NotificationModule,
+    NavigationModule,
 
     // Custom modules
     ClarksnutModule,
@@ -149,7 +157,6 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Ngx-clarksnut
     clarksnutApiUrlProvider,
-    clarksnutMailCollectorApiUrlProvider,
     CollaboratorService,
     ContextResolver,
     ContextService,
@@ -165,6 +172,11 @@ export function createTranslateLoader(http: HttpClient) {
     SpaceService,
     UBLDocumentService,
     RequestAccessService,
+
+    // Ngx-clarksnut-mail-collector
+    LinkService,
+    UserMailCollectorService,
+    clarksnutMailCollectorApiUrlProvider,
 
     // Getting Services
     GettingStartedService,

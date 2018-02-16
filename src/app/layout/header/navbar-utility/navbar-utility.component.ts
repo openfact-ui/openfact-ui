@@ -3,6 +3,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { NavigationItemConfig } from 'patternfly-ng/navigation';
 
 import { User } from '../../../ngx/ngx-login-client';
 import { UserService } from '../../../ngx/ngx-login-client';
@@ -25,7 +26,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
   user: User;
   private subcriptions: Subscription[] = [];
 
-
+  // Languge
   currentLanguage: Language = { id: null, name: 'Browser Default' };
   languages: Language[] = [
     { id: null, name: 'Browser Default' },
@@ -33,6 +34,9 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
     { id: 'es', name: 'Español' }
   ];
   private defaultLanguage: string = 'es';
+
+  // Launcher
+  navigationItems: NavigationItemConfig[];
 
   constructor(
     private userService: UserService,
@@ -53,6 +57,25 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy {
         this.translateService.use((<any>val.attributes).defaultLanguage || this.defaultLanguage);
       })
     );
+
+    // Launcher
+    this.navigationItems = [{
+      title: 'Collector',
+      url: '/_mailcollectorsettings',
+      iconStyleClass: 'pficon-settings',
+      badges: [{
+        count: 1,
+        tooltip: 'Configure Mail Collector'
+      }]
+    }, {
+      title: 'Home',
+      url: '/',
+      iconStyleClass: 'pficon-home',
+      badges: [{
+        count: 4,
+        tooltip: 'Launch Home'
+      }]
+    }];
   }
 
   ngOnInit() {

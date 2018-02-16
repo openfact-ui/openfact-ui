@@ -8,7 +8,6 @@ export { ContextTypes } from './contexts/context-types';
 
 // API
 export { CLARKSNUT_API_URL } from './api/clarksnut-api';
-export { CLARKSNUT_MAIL_COLLECTOR_API_URL } from './api/clarksnut-mail-collector-api';
 
 // Spaces
 export {

@@ -1,0 +1,103 @@
+<div class="container-pf-nav-pf-vertical">
+
+  <div class="view">
+    <div class="middle surface-shaded">
+
+      <div class="middle-content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div>
+                <div>
+                  <div class="projects-header">
+                    <div class="projects-bar">
+                      <h1>My Collectors</h1>
+                      <div class="projects-options">
+                        <div class="projects-add">
+                          <button class="btn btn-default" type="button" routerLink="/_home">
+                            <span class="pficon pficon-home" style="font-weight: 600;"> Go Home</span>
+                          </button>
+                          <button (click)="createCollector()" class="btn btn-primary">
+                            <span class="fa fa-plus" aria-hidden="true"></span>
+                            <span class="icon-button-text">Create Collector</span>
+                          </button>
+                        </div>
+                        <div class="projects-search">
+                          <!-- <form role="form" class="search-pf has-button"> -->
+                          <div class="form-group has-clear">
+                            <div class="search-pf-input-group">
+                              <label for="search-projects" class="sr-only">Filter by keyword</label>
+                              <input type="search" class="form-control" placeholder="Filter by keyword" id="search-projects">
+                            </div>
+                          </div>
+                          <!-- </form> -->
+
+                          <!-- <span class="vertical-divider"></span> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="list-group list-view-pf projects-list" *ngIf="userMailCollector">
+                    <div *ngFor="let collector of userMailCollector.attributes.brokers" class="list-group-item project-info tile-click">
+                      <div class="list-view-pf-main-info">
+                        <div class="list-view-pf-description project-names">
+                          <div class="list-group-item-heading project-name-item">
+                            <h2 class="h1">
+                              <a class="tile-target" title="{{collector.attributes.email}}" href="javascript:void(0)">
+                                <span>{{collector.attributes.email}}</span>
+                              </a>
+                            </h2>
+                            <small>
+                              created
+                              <span title="{{collector.attributes.createdAt | date}}">{{collector.attributes.createdAt | dateFromMilis | amTimeAgo}}</span>
+                            </small>
+                          </div>
+                          <div *ngIf="collector.attributes.description" class="list-view-pf-additional-info project-additional-info">
+                            <span class="list-group-item-text project-description">
+                              {{collector.attributes.description | truncate:265}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="list-view-pf-actions list-pf-actions">
+                        <div dropdown class="dropdown">
+                          <a dropdownToggle class="actions-dropdown-kebab dropdown-toggle" aria-haspopup="true" aria-expanded="false" style="font-size: 18px; margin-right: 5px;">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            <span class="sr-only">Actions</span>
+                          </a>
+                          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li role="menuitem">
+                              <a ng-href="project/carlosthe19916/membership" href="project/carlosthe19916/membership">
+                                View Membership
+                              </a>
+                            </li>
+                            <li role="menuitem">
+                              <a href="" ng-click="editProject(project)">
+                                Edit Project
+                              </a>
+                            </li>
+                            <li role="menuitem">
+                              <a href="javascript:void(0)" ng-click="openDeleteModal()" role="button" ng-class="{ 'disabled-link': disableDelete }" label="Delete Project"
+                                project="project" type-name-to-confirm="true" stay-on-current-page="true" success="onDeleteProject"
+                                class=" ">Delete Project</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div> -->
+
+                      <!-- <origin-modal-popup shown="editProjectPanelShown &amp;&amp; editingProject === project" ng-class="{'with-description': (project | description | size)}"
+                        modal-title="Edit Project" on-close="closeEditProjectPanel" class="">
+                      </origin-modal-popup> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
