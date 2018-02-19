@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ContextResolver } from './ngx-impl/ngx-clarksnut-impl/context-resolver.service';
 
 const routes: Routes = [
   {
@@ -58,6 +59,9 @@ const routes: Routes = [
     loadChildren: './space/edit/edit.module#EditModule',
     data: {
       title: 'Edit Space'
+    },
+    resolve: {
+      context: ContextResolver
     }
   },
 

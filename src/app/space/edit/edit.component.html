@@ -68,4 +68,8 @@
 
 <cn-sidebar></cn-sidebar>
 
-<router-outlet></router-outlet>
+<div class="container-pf-nav-pf-vertical" ng-class="{ 'collapsed-nav': nav.collapsed }">
+  <div class="view">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -78,7 +78,6 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
-import { MenusService } from './layout/header/menus.service';
 import { EventService } from './ngx-impl/ngx-clarksnut-impl/event.service';
 
 // Search
@@ -190,7 +189,6 @@ export function createTranslateLoader(http: HttpClient) {
     ProfileService,
 
     // Footer & Header
-    MenusService,
     EventService,
 
     // Search

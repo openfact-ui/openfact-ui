@@ -1,0 +1,69 @@
+<div class="middle membership">
+  <div class="middle-header">
+    <div class="container-fluid">
+      <div class="page-header page-header-bleed-right page-header-bleed-left">
+        <h1>
+          <a (click)="addCollaboratorDialog.open()" href="javascript:void(0)" class="pull-right btn btn-default">
+            <span>Add Collaborator</span>
+          </a>
+          Membership
+          <span class="page-header-link">
+            <a target="_blank" href="javascript:void(0)">
+              Learn More
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>
+          </span>
+        </h1>
+      </div>
+    </div>
+  </div>
+  <div class="middle-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+
+      <div>
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a>Users&nbsp;({{collaborators.length}})</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active">
+            <div class="content-pane content-user">
+              <div class="col-heading item-row">
+                <div class="col-name half-width">
+                  <h3>Name</h3>
+                </div>
+                <div class="col-roles">
+                  <h3>Actions</h3>
+                </div>
+              </div>
+              <div *ngFor="let collaborator of collaborators" class="item-row highlight-hover" style="flex-direction: row; display: flex;">
+                <div class="col-name half-width">
+                  <span>
+                    <strong>{{collaborator.attributes.fullname || collaborator.attributes.email}}</strong>
+                  </span>
+                </div>
+                <div class="action-set">
+                  <div class="col-roles">
+                    <div>
+                      <button (click)="deleteCollaboratorDialog.open(context.space, collaborator)" type="button" class="btn btn-danger">Remove</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<add-collaborators-dialog #addCollaboratorDialog [space]="context.space"></add-collaborators-dialog>
+<cn-delete-collaborator-dialog #deleteCollaboratorDialog></cn-delete-collaborator-dialog>

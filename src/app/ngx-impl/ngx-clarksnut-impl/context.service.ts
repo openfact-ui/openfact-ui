@@ -19,7 +19,6 @@ import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { Observable } from 'rxjs';
 
 import { Navigation } from '../../models/navigation';
-import { MenusService } from '../../layout/header/menus.service';
 
 import { EventService } from "./event.service";
 
@@ -51,7 +50,6 @@ export class ContextService implements Contexts {
   constructor(
     private router: Router,
     private broadcaster: Broadcaster,
-    private menus: MenusService,
     private spaceService: SpaceService,
     private userService: UserService,
     private notifications: Notifications,
@@ -63,6 +61,7 @@ export class ContextService implements Contexts {
 
     this._addRecent = new Subject<Context>();
     this._deleteFromRecent = new Subject<Context>();
+
     // subscribe to delete space event
     this.eventService.deleteSpaceSubject
       .map(val => {
@@ -82,6 +81,7 @@ export class ContextService implements Contexts {
       .subscribe(val => {
         this._deleteFromRecent.next(val);
       });
+
     // Initialize the default context when the logged in user changes
     this._default = this.userService.loggedInUser
       // First use map to convert the broadcast event to just a username
@@ -117,11 +117,6 @@ export class ContextService implements Contexts {
         }
       })
       // Ensure the menus are built
-      .do(val => {
-        if (val.type) {
-          this.menus.attach(val);
-        }
-      })
       .do(val => {
         if (val.type) {
           console.log('Default Context Changed to', val);
@@ -226,7 +221,7 @@ export class ContextService implements Contexts {
         if (val.space) {
           // If it's a space that's been requested then load the space creator as the owner
           return this
-            .loadSpace(val.user, val.space)
+            .loadSpace(val.space)
             .map(space => {
               return {
                 //user: space.relationalData.creator,
@@ -280,10 +275,6 @@ export class ContextService implements Contexts {
       .map(val => this.buildContext(val))
       .distinctUntilKeyChanged('path')
       // Broadcast the spaceChanged event
-      // Ensure the menus are built
-      .do(val => {
-        if (val) this.menus.attach(val);
-      })
       .do(val => {
         if (val) {
           console.log('Context Changed to', val);
@@ -326,7 +317,7 @@ export class ContextService implements Contexts {
         'path': null
       } as Context;
       c.type = ContextTypes.BUILTIN.get('space');
-      c.path = '/' + c.user.attributes.username + '/' + c.space.attributes.assignedId;
+      c.path = '/' + c.space.id;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
     } else if (val.document) {
       c = {
@@ -354,8 +345,8 @@ export class ContextService implements Contexts {
       c.path = '/' + c.user.attributes.username;
       c.name = c.user.attributes.username;
     } // TODO add type detection for organization and team
+
     if (c.type != null) {
-      this.menus.attach(c);
       return c;
     }
   }
@@ -414,9 +405,9 @@ export class ContextService implements Contexts {
       });
   }
 
-  private loadSpace(userName: string, spaceAssignedId: string): Observable<Space> {
-    if (userName && spaceAssignedId) {
-      return this.spaceService.getSpaceByAssignedId(spaceAssignedId);
+  private loadSpace(spaceId: string): Observable<Space> {
+    if (spaceId) {
+      return this.spaceService.getSpaceById(spaceId);
     } else {
       return Observable.of({} as Space);
     }
@@ -446,8 +437,7 @@ export class ContextService implements Contexts {
           .map(raw => {
             if (raw.space) {
               return this.spaceService.getSpaceById(raw.space)
-                .map(val => this
-                  .buildContext({ space: val } as RawContext));
+                .map(val => this.buildContext({ space: val } as RawContext));
             } else if (raw.document) {
               return this.documentService.getDocumentById(raw.document)
                 .catch(err => {
