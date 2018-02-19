@@ -184,7 +184,6 @@ export class SpaceService {
     const url = `${this.spacesUrl}/${spaceId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
-        console.log("getting space ", spaceId);
         return response.json().data as Space;
       })
       .switchMap(val => this.resolveOwner(val))
