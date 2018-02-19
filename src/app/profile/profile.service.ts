@@ -79,11 +79,11 @@ export class ProfileService {
   }
 
   public silentSave(profile: Profile) {
-    let clone = cloneDeep(profile) as any;
+    const clone = cloneDeep(profile) as any;
     delete clone.username;
     // Handle the odd naming of the field on the API
     delete clone.store;
-    let payload = JSON.stringify({
+    const payload = JSON.stringify({
       data: {
         attributes: clone,
         type: 'identities'

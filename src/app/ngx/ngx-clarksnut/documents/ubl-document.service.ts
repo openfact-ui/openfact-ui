@@ -32,7 +32,7 @@ export class UBLDocumentService {
    * Get All documents
    */
   getDocuments(pageSize: number = 20): Observable<UBLDocument[]> {
-    let url = this.documentsUrl + '?page[limit]=' + pageSize;
+    const url = this.documentsUrl + '?page[limit]=' + pageSize;
     return this.getDocumentsDelegate(url, true);
   }
 
@@ -53,7 +53,7 @@ export class UBLDocumentService {
    * @param documentAssignedId
    */
   getDocumentByAssignedId(spaceAssignedId: string, documentAssignedId: string): Observable<UBLDocument> {
-    let url = `${this.namedDocumentsUrl}/${spaceAssignedId}/${documentAssignedId}`;
+    const url = `${this.namedDocumentsUrl}/${spaceAssignedId}/${documentAssignedId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
         return response.json().data as UBLDocument;
@@ -70,14 +70,14 @@ export class UBLDocumentService {
         // Extract links from JSON API response.
         // and set the nextLink, if server indicates more resources
         // in paginated collection through a 'next' link.
-        let links = response.json().links;
+        const links = response.json().links;
         if (links.hasOwnProperty('next')) {
           this.nextLink = links.next;
         } else {
           this.nextLink = null;
         }
         // Extract data from JSON API response, and assert to an array of documents.
-        let newDocuments: UBLDocument[] = response.json().data as UBLDocument[];
+        const newDocuments: UBLDocument[] = response.json().data as UBLDocument[];
         return newDocuments;
       })
       .catch((error) => {
@@ -89,8 +89,8 @@ export class UBLDocumentService {
    *
    */
   create(document: UBLDocument): Observable<UBLDocument> {
-    let url = this.documentsUrl;
-    let payload = JSON.stringify({ data: document });
+    const url = this.documentsUrl;
+    const payload = JSON.stringify({ data: document });
     return this.http
       .post(url, payload, { headers: this.headers })
       .map(response => {
@@ -105,8 +105,8 @@ export class UBLDocumentService {
    * Update UBLDocument
    */
   update(document: UBLDocument): Observable<UBLDocument> {
-    let url = `${this.documentsUrl}/${document.id}`;
-    let payload = JSON.stringify({ data: document });
+    const url = `${this.documentsUrl}/${document.id}`;
+    const payload = JSON.stringify({ data: document });
     return this.http
       .patch(url, payload, { headers: this.headers })
       .map(response => {
@@ -121,8 +121,8 @@ export class UBLDocumentService {
    * Update UBLDocument
    */
   updateMassive(documents: UBLDocument[]): Observable<UBLDocument> {
-    let url = `${this.documentsUrl}/massive`;
-    let payload = JSON.stringify({ data: documents });
+    const url = `${this.documentsUrl}/massive`;
+    const payload = JSON.stringify({ data: documents });
     return this.http
       .patch(url, payload, { headers: this.headers })
       .catch((error) => {
@@ -134,7 +134,7 @@ export class UBLDocumentService {
    * Delete document using id
    */
   deleteDocument(document: UBLDocument): Observable<UBLDocument> {
-    let url = `${this.documentsUrl}/${document.id}`;
+    const url = `${this.documentsUrl}/${document.id}`;
     return this.http
       .delete(url, { headers: this.headers })
       .map(() => { })
@@ -147,8 +147,8 @@ export class UBLDocumentService {
    * Filter documents. If empty then searchText becomes '*'
    */
   search(searchText: string): Observable<SearchResult<UBLDocument>> {
-    let url = this.documentsUrl;
-    let params: URLSearchParams = new URLSearchParams();
+    const url = this.documentsUrl;
+    const params: URLSearchParams = new URLSearchParams();
     if (searchText === '') {
       searchText = '*';
     }
@@ -158,7 +158,7 @@ export class UBLDocumentService {
       .get(url, { search: params, headers: this.headers })
       .map(response => {
         // Extract data from JSON API response, and assert to an array of documents.
-        let json = response.json();
+        const json = response.json();
         return {
           totalResults: json.meta.totalCount,
           data: json.data as UBLDocument[]
@@ -175,8 +175,8 @@ export class UBLDocumentService {
    * @param pageSize
    */
   getDocumentsByUser(userName: string, pageSize: number = 20): Observable<UBLDocument[]> {
-    let url = `${this.namedDocumentsUrl}/${userName}` + '?page[limit]=' + pageSize;
-    let isAll = false;
+    const url = `${this.namedDocumentsUrl}/${userName}` + '?page[limit]=' + pageSize;
+    const isAll = false;
     return this.getDocumentsDelegate(url, isAll);
   }
 
@@ -192,7 +192,7 @@ export class UBLDocumentService {
    * Get document by id
    */
   getDocumentById(documentId: string): Observable<UBLDocument> {
-    let url = `${this.documentsUrl}/${documentId}`;
+    const url = `${this.documentsUrl}/${documentId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
         return response.json().data as UBLDocument;
@@ -203,25 +203,25 @@ export class UBLDocumentService {
   }
 
   downloadDocumentById(documentId: string): Observable<FileWrapper> {
-    let url = `${this.documentsUrl}/${documentId}/download`;
+    const url = `${this.documentsUrl}/${documentId}/download`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob
     })
       .map((response) => {
         let filename;
-        let headers = response.headers;
-        let disposition = headers.get('Content-Disposition');
+        const headers = response.headers;
+        const disposition = headers.get('Content-Disposition');
         if (disposition && disposition.indexOf('attachment') !== -1) {
-          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-          var matches = filenameRegex.exec(disposition);
+          const filenameRegex = /filename[^;=\n]*=((['']).*?\2|[^;\n]*)/;
+          const matches = filenameRegex.exec(disposition);
           if (matches != null && matches[1]) {
-            filename = matches[1].replace(/['"]/g, '');
+            filename = matches[1].replace(/['']/g, '');
           }
         }
 
-        let file = response.blob();
-        let blob = new Blob([file]);
+        const file = response.blob();
+        const blob = new Blob([file]);
         return {
           filename: filename,
           file: blob
@@ -233,11 +233,11 @@ export class UBLDocumentService {
   }
 
   printDocumentById(documentId: string, theme?: string, format?: string): Observable<FileWrapper> {
-    let params = new URLSearchParams();
-    if (theme) params.append('theme', theme);
-    if (format) params.append('format', format);
+    const params = new URLSearchParams();
+    if (theme) { params.append('theme', theme); }
+    if (format) { params.append('format', format); }
 
-    let url = `${this.documentsUrl}/${documentId}/print`;
+    const url = `${this.documentsUrl}/${documentId}/print`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob,
@@ -245,18 +245,18 @@ export class UBLDocumentService {
     })
       .map((response) => {
         let filename;
-        let headers = response.headers;
-        let disposition = headers.get('Content-Disposition');
+        const headers = response.headers;
+        const disposition = headers.get('Content-Disposition');
         if (disposition && disposition.indexOf('attachment') !== -1) {
-          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-          var matches = filenameRegex.exec(disposition);
+          const filenameRegex = /filename[^;=\n]*=((['']).*?\2|[^;\n]*)/;
+          const matches = filenameRegex.exec(disposition);
           if (matches != null && matches[1]) {
-            filename = matches[1].replace(/['"]/g, '');
+            filename = matches[1].replace(/['']/g, '');
           }
         }
 
-        let file = response.blob();
-        let blob = new Blob([file]);
+        const file = response.blob();
+        const blob = new Blob([file]);
 
         return {
           filename: filename,
@@ -269,10 +269,10 @@ export class UBLDocumentService {
   }
 
   downloadDocumentsMassive(documents: string[]): Observable<FileWrapper> {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     documents.forEach(d => params.append('documents', d));
 
-    let url = `${this.documentsUrl}/massive/download`;
+    const url = `${this.documentsUrl}/massive/download`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob,
@@ -280,18 +280,18 @@ export class UBLDocumentService {
     })
       .map((response) => {
         let filename;
-        let headers = response.headers;
-        let disposition = headers.get('Content-Disposition');
+        const headers = response.headers;
+        const disposition = headers.get('Content-Disposition');
         if (disposition && disposition.indexOf('attachment') !== -1) {
-          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-          var matches = filenameRegex.exec(disposition);
+          const filenameRegex = /filename[^;=\n]*=((['']).*?\2|[^;\n]*)/;
+          const matches = filenameRegex.exec(disposition);
           if (matches != null && matches[1]) {
-            filename = matches[1].replace(/['"]/g, '');
+            filename = matches[1].replace(/['']/g, '');
           }
         }
 
-        let file = response.blob();
-        let blob = new Blob([file]);
+        const file = response.blob();
+        const blob = new Blob([file]);
         return {
           filename: filename,
           file: blob
@@ -303,12 +303,12 @@ export class UBLDocumentService {
   }
 
   printDocumentsMassive(documents: string[], theme?: string, format?: string): Observable<FileWrapper> {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     documents.forEach(d => params.append('documents', d));
-    if (theme) params.append('theme', theme);
-    if (format) params.append('format', format);
+    if (theme) { params.append('theme', theme); }
+    if (format) { params.append('format', format); }
 
-    let url = `${this.documentsUrl}/massive/print`;
+    const url = `${this.documentsUrl}/massive/print`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob,
@@ -316,18 +316,18 @@ export class UBLDocumentService {
     })
       .map((response) => {
         let filename;
-        let headers = response.headers;
-        let disposition = headers.get('Content-Disposition');
+        const headers = response.headers;
+        const disposition = headers.get('Content-Disposition');
         if (disposition && disposition.indexOf('attachment') !== -1) {
-          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-          var matches = filenameRegex.exec(disposition);
+          const filenameRegex = /filename[^;=\n]*=((['']).*?\2|[^;\n]*)/;
+          const matches = filenameRegex.exec(disposition);
           if (matches != null && matches[1]) {
-            filename = matches[1].replace(/['"]/g, '');
+            filename = matches[1].replace(/['']/g, '');
           }
         }
 
-        let file = response.blob();
-        let blob = new Blob([file]);
+        const file = response.blob();
+        const blob = new Blob([file]);
 
         return {
           filename: filename,

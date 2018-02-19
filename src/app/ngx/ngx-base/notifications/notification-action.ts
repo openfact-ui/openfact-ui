@@ -9,8 +9,8 @@
  */
 export class NotificationAction {
   id?: string;
-  isDisabled?: boolean = false;
-  isSeparator?: boolean = false;
+  isDisabled = false;
+  isSeparator = false;
   name: string;
   title?: string;
 }

@@ -21,7 +21,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
 
   username: string;
   loggedInUser: User;
-  registrationCompleted: boolean = true;
+  registrationCompleted = true;
 
   userMailCollector: UserMailCollector;
 
@@ -55,7 +55,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
         .publish().connect()
     );
 
-    let linked = this.getRequestParam('linked');
+    const linked = this.getRequestParam('linked');
     if (linked) {
       this.notifications.message({
         message: 'Broker successfully linked',
@@ -66,7 +66,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
       this.router.navigate(['_mailcollectorsettings'], { queryParams: {} });
     }
 
-    let error = this.getRequestParam('error');
+    const error = this.getRequestParam('error');
     if (error) {
       let message = `Could not process your request due to (${error}).`;
       let primaryAction: NotificationAction;
@@ -76,7 +76,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
           id: 'google',
           name: 'My Account',
           title: 'My Google Account'
-        };
+        } as NotificationAction;
       }
 
       this.notifications.message({
@@ -103,7 +103,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
   }
 
   saveUser() {
-    let profile = this.gettingStartedService.createTransientProfile();
+    const profile = this.gettingStartedService.createTransientProfile();
     profile.username = this.username;
     profile.registrationCompleted = true;
 
@@ -130,7 +130,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
    * @returns {any} The request parameter value or null
    */
   private getRequestParam(name: string): string {
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+    const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
     if (param != undefined) {
       return decodeURIComponent(param[1]);
     }

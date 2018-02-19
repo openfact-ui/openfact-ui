@@ -30,7 +30,7 @@ export class ValidSpaceNameValidatorDirective implements Validator, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let change = changes['validSpaceName'];
+    const change = changes['validSpaceName'];
     if (change) {
       this.valFn = validSpaceNameValidator();
     } else {
@@ -46,8 +46,8 @@ export class ValidSpaceNameValidatorDirective implements Validator, OnChanges {
 
 export function validSpaceNameValidator(): AsyncValidatorFn {
 
-  let changed$ = new Subject<any>();
-  let ALLOWED_SPACE_NAMES = /^[a-z\d][a-z\d\s-_]*[a-z\d]$/i;
+  const changed$ = new Subject<any>();
+  const ALLOWED_SPACE_NAMES = /^[a-z\d][a-z\d\s-_]*[a-z\d]$/i;
 
   return (control: AbstractControl): Observable<{ [key: string]: any }> => {
     changed$.next();
@@ -65,7 +65,7 @@ export function validSpaceNameValidator(): AsyncValidatorFn {
             }
           };
         }
-        let strVal: string = control.value.toString();
+        const strVal: string = control.value.toString();
         if (strVal.length < ValidSpaceNameValidatorDirective.MIN_SPACE_NAME_LENGTH) {
           return {
             minLength: {

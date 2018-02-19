@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser'
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'cn-edit',

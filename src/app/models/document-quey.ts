@@ -106,9 +106,9 @@ export class DocumentQueryBuilder {
   }
 
   query(q: string): DocumentQueryBuilder {
-    let result: any = {};
+    const result: any = {};
     q.split(', ').forEach(function (x) {
-      let arr = x.split(':');
+      const arr = x.split(':');
       arr[1] && (result[arr[0]] = arr[1]);
     });
 

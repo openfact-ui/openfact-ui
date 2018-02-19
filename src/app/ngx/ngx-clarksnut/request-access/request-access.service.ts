@@ -24,19 +24,19 @@ export class RequestAccessService {
   }
 
   getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<RequestAccessToSpace[]> {
-    let url = this.spacesUrl + '/' + spaceId + '/request-access' + '?page[limit]=' + pageSize;
+    const url = this.spacesUrl + '/' + spaceId + '/request-access' + '?page[limit]=' + pageSize;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
 
-        let links = response.json().links;
+        const links = response.json().links;
         if (links.hasOwnProperty('next')) {
           this.nextLink = links.next;
         } else {
           this.nextLink = null;
         }
 
-        let requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
+        const requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
         return requests;
       })
       .catch((error) => {
@@ -49,14 +49,14 @@ export class RequestAccessService {
       return this.http
         .get(this.nextLink, { headers: this.headers })
         .map(response => {
-          let links = response.json().links;
+          const links = response.json().links;
           if (links.hasOwnProperty('next')) {
             this.nextLink = links.next;
           } else {
             this.nextLink = null;
           }
 
-          let requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
+          const requests: RequestAccessToSpace[] = response.json().data as RequestAccessToSpace[];
           return requests;
         })
         .catch((error) => {
@@ -68,8 +68,8 @@ export class RequestAccessService {
   }
 
   addRequestAccess(spaceId: string, request: RequestAccessToSpace): Observable<Response> {
-    let url = this.spacesUrl + '/' + spaceId + '/request-access';
-    let payload = JSON.stringify({ data: request });
+    const url = this.spacesUrl + '/' + spaceId + '/request-access';
+    const payload = JSON.stringify({ data: request });
     return this.http
       .post(url, payload, { headers: this.headers })
       .catch((error) => {

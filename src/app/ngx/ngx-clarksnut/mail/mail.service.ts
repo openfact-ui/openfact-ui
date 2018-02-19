@@ -21,8 +21,8 @@ export class MailService {
   }
 
   sendMail(mail: Mail): Observable<Response> {
-    let url = this.mailUrl;
-    let payload = JSON.stringify({ data: mail });
+    const url = this.mailUrl;
+    const payload = JSON.stringify({ data: mail });
     return this.http
       .post(url, payload, { headers: this.headers })
       .catch((error) => {

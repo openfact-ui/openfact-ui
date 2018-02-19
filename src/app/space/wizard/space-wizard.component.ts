@@ -52,10 +52,10 @@ export class SpaceWizardComponent implements OnInit {
 
   space: Space; // Space to be created
   previousSpace: Space; // Previous space
-  termsAndConditions: boolean = false;
+  termsAndConditions = false;
   requestAccess: IRequestAccessForm;
-  working: boolean = false;
-  success: boolean = false;
+  working = false;
+  success = false;
 
   // Wizard
   wizardConfig: WizardConfig;
@@ -211,8 +211,8 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   stepChanged($event: WizardEvent, wizard: WizardComponent) {
-    let flatSteps = this.flattenWizardSteps(wizard);
-    let currentStep = flatSteps.find(step => step.config.id === $event.step.config.id);
+    const flatSteps = this.flattenWizardSteps(wizard);
+    const currentStep = flatSteps.find(step => step.config.id === $event.step.config.id);
     if (currentStep) {
       currentStep.config.nextEnabled = true;
     }
@@ -264,7 +264,7 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   flattenWizardSteps(wizard: WizardComponent): WizardStep[] {
-    let flatWizard: WizardStep[] = [];
+    const flatWizard: WizardStep[] = [];
     wizard.steps.forEach((step: WizardStepComponent) => {
       if (step.hasSubsteps) {
         step.steps.forEach(substep => {
@@ -313,7 +313,7 @@ export class SpaceWizardComponent implements OnInit {
     this.wizardConfig.done = true;
 
     if (this.previousSpace) {
-      let request: RequestAccessToSpace = {
+      const request: RequestAccessToSpace = {
         attributes: {
           scope: 'COLLABORATOR_ACCESS',
           message: this.requestAccess.message
@@ -329,7 +329,7 @@ export class SpaceWizardComponent implements OnInit {
         },
         (err) => {
           this.notifications.message(<Notification>{
-            message: `Error sending request"`,
+            message: `Error sending request'`,
             type: NotificationType.DANGER
           });
           this.finish(false);
@@ -364,7 +364,7 @@ export class SpaceWizardComponent implements OnInit {
             });
           } else {
             this.notifications.message(<Notification>{
-              message: `Space could not been created"`,
+              message: `Space could not been created'`,
               type: NotificationType.DANGER
             });
           }
@@ -374,7 +374,7 @@ export class SpaceWizardComponent implements OnInit {
   }
 
   private createTransientSpace(): Space {
-    let space = {} as Space;
+    const space = {} as Space;
     space.attributes = new SpaceAttributes();
     space.attributes.name = space.name;
     space.type = 'spaces';

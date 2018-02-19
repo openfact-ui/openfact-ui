@@ -5,9 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ValWrapper } from './val-wrapper';
 
-export interface LoadCallback<T> {
-  (json: any): T;
-}
+export type LoadCallback<T> = (json: any) => T;
 
 @Injectable()
 export class ConfigStore {
@@ -23,7 +21,7 @@ export class ConfigStore {
       return this._cache
         .get(name);
     } else {
-      let res = this.http
+      const res = this.http
         .get(`/_config/${name}.config.json`)
         .map(resp => resp.json())
         .map(json => {

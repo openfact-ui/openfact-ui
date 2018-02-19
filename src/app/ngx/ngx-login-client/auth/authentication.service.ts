@@ -10,9 +10,7 @@ import { SSO_API_URL } from '../shared/sso-api';
 import { REALM } from '../shared/realm-token';
 import { Token } from '../user/token';
 
-export interface ProcessTokenResponse {
-  (response: Response): Token;
-}
+export type ProcessTokenResponse = (response: Response) => Token;
 
 @Injectable()
 export class AuthenticationService {
@@ -52,10 +50,10 @@ export class AuthenticationService {
   }
 
   private createFederatedToken(broker: string, processToken: ProcessTokenResponse): Observable<string> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let tokenUrl = `${this.ssoUrl}/realms/${this.realm}/broker/${broker}/token`;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const tokenUrl = `${this.ssoUrl}/realms/${this.realm}/broker/${broker}/token`;
     headers.set('Authorization', `Bearer ${this.authService.getToken()}`);
-    let options = new RequestOptions({ headers: headers });
+    const options = new RequestOptions({ headers: headers });
     return this.http.get(tokenUrl, options)
       .map(response => processToken(response))
       .catch(response => {

@@ -22,19 +22,19 @@ export class CollaboratorService {
   }
 
   getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<User[]> {
-    let url = this.spacesUrl + '/' + spaceId + '/collaborators' + '?page[limit]=' + pageSize;
+    const url = this.spacesUrl + '/' + spaceId + '/collaborators' + '?page[limit]=' + pageSize;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
 
-        let links = response.json().links;
+        const links = response.json().links;
         if (links.hasOwnProperty('next')) {
           this.nextLink = links.next;
         } else {
           this.nextLink = null;
         }
 
-        let collaborators: User[] = response.json().data as User[];
+        const collaborators: User[] = response.json().data as User[];
         return collaborators;
       })
       .catch((error) => {
@@ -47,14 +47,14 @@ export class CollaboratorService {
       return this.http
         .get(this.nextLink, { headers: this.headers })
         .map(response => {
-          let links = response.json().links;
+          const links = response.json().links;
           if (links.hasOwnProperty('next')) {
             this.nextLink = links.next;
           } else {
             this.nextLink = null;
           }
 
-          let collaborators: User[] = response.json().data as User[];
+          const collaborators: User[] = response.json().data as User[];
           return collaborators;
         })
         .catch((error) => {
@@ -66,8 +66,8 @@ export class CollaboratorService {
   }
 
   addCollaborators(spaceId: string, users: User[]): Observable<Response> {
-    let url = this.spacesUrl + '/' + spaceId + '/collaborators';
-    let payload = JSON.stringify({ data: users });
+    const url = this.spacesUrl + '/' + spaceId + '/collaborators';
+    const payload = JSON.stringify({ data: users });
     return this.http
       .post(url, payload, { headers: this.headers })
       .catch((error) => {
@@ -76,7 +76,7 @@ export class CollaboratorService {
   }
 
   removeCollaborator(spaceId: string, collaboratorId: string): Observable<void> {
-    let url = this.spacesUrl + '/' + spaceId + '/collaborators/' + collaboratorId;
+    const url = this.spacesUrl + '/' + spaceId + '/collaborators/' + collaboratorId;
     return this.http
       .delete(url, { headers: this.headers })
       .catch((error) => {

@@ -61,7 +61,7 @@ export class GettingStartedService implements OnDestroy {
    * @returns {Observable<ExtUser>}
    */
   getExtProfile(id: string): Observable<ExtUser> {
-    let url = `${this.usersUrl}/${id}`;
+    const url = `${this.usersUrl}/${id}`;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
@@ -79,7 +79,7 @@ export class GettingStartedService implements OnDestroy {
    * @returns {Observable<User>}
    */
   update(profile: ExtProfile): Observable<ExtUser> {
-    let payload = JSON.stringify({
+    const payload = JSON.stringify({
       data: {
         attributes: profile,
         type: 'identities'

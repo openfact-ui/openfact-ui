@@ -29,7 +29,7 @@ export class SpaceService {
   }
 
   getSpaces(pageSize: number = 20): Observable<Space[]> {
-    let url = this.spacesUrl + '?page[limit]=' + pageSize;
+    const url = this.spacesUrl + '?page[limit]=' + pageSize;
     return this.getSpacesDelegate(url, true);
   }
 
@@ -42,8 +42,8 @@ export class SpaceService {
   }
 
   getSpaceByAssignedId(spaceAssignedId: string): Observable<Space> {
-    let url = this.spacesUrl;
-    let params: URLSearchParams = new URLSearchParams();
+    const url = this.spacesUrl;
+    const params: URLSearchParams = new URLSearchParams();
     params.set('assignedId', spaceAssignedId);
 
     return this.http
@@ -53,7 +53,7 @@ export class SpaceService {
         return response.json().data as Space[];
       })
       .map(space => {
-        for (let s of space) {
+        for (const s of space) {
           if (spaceAssignedId === s.attributes.assignedId) {
             return s;
           }
@@ -79,14 +79,14 @@ export class SpaceService {
         // Extract links from JSON API response.
         // and set the nextLink, if server indicates more resources
         // in paginated collection through a 'next' link.
-        let links = response.json().links;
+        const links = response.json().links;
         if (links.hasOwnProperty('next')) {
           this.nextLink = links.next;
         } else {
           this.nextLink = null;
         }
         // Extract data from JSON API response, and assert to an array of spaces.
-        let newSpaces: Space[] = response.json().data as Space[];
+        const newSpaces: Space[] = response.json().data as Space[];
         return newSpaces;
       })
       .switchMap(spaces => {
@@ -102,8 +102,8 @@ export class SpaceService {
   }
 
   create(space: Space): Observable<Space> {
-    let url = this.spacesUrl;
-    let payload = JSON.stringify({ data: space });
+    const url = this.spacesUrl;
+    const payload = JSON.stringify({ data: space });
     return this.http
       .post(url, payload, { headers: this.headers })
       .map(response => {
@@ -118,8 +118,8 @@ export class SpaceService {
   }
 
   update(space: Space): Observable<Space> {
-    let url = `${this.spacesUrl}/${space.id}`;
-    let payload = JSON.stringify({ data: space });
+    const url = `${this.spacesUrl}/${space.id}`;
+    const payload = JSON.stringify({ data: space });
     return this.http
       .patch(url, payload, { headers: this.headers })
       .map(response => {
@@ -134,7 +134,7 @@ export class SpaceService {
   }
 
   deleteSpace(space: Space): Observable<Space> {
-    let url = `${this.spacesUrl}/${space.id}`;
+    const url = `${this.spacesUrl}/${space.id}`;
     return this.http
       .delete(url, { headers: this.headers })
       .map(() => { })
@@ -144,8 +144,8 @@ export class SpaceService {
   }
 
   search(searchText: string): Observable<Space[]> {
-    let url = this.searchSpacesUrl;
-    let params: URLSearchParams = new URLSearchParams();
+    const url = this.searchSpacesUrl;
+    const params: URLSearchParams = new URLSearchParams();
     if (searchText === '') {
       searchText = '*';
     }
@@ -167,8 +167,8 @@ export class SpaceService {
 
   // Currently serves to fetch the list of all spaces owned by a user.
   getSpacesByUser(userName: string, pageSize: number = 20): Observable<Space[]> {
-    let url = `${this.namedSpacesUrl}/${userName}` + '?page[limit]=' + pageSize;
-    let isAll = false;
+    const url = `${this.namedSpacesUrl}/${userName}` + '?page[limit]=' + pageSize;
+    const isAll = false;
     return this.getSpacesDelegate(url, isAll);
   }
 
@@ -181,7 +181,7 @@ export class SpaceService {
   }
 
   getSpaceById(spaceId: string): Observable<Space> {
-    let url = `${this.spacesUrl}/${spaceId}`;
+    const url = `${this.spacesUrl}/${spaceId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
         return response.json().data as Space;
@@ -220,8 +220,8 @@ export class SpaceService {
       .from(spaces)
       // Map to a stream of owner Ids of these spaces
       .map(space => {
-        let ownerIds: string[] = space.relationships.ownedBy.map((val) => val.data.id);
-        return [].concat.apply([], ownerIds)
+        const ownerIds: string[] = space.relationships.ownedBy.map((val) => val.data.id);
+        return [].concat.apply([], ownerIds);
       })
       // Get only the unique owners in this stream of owner Ids
       .distinct()
@@ -231,16 +231,16 @@ export class SpaceService {
         return this.userService.getUserByUserId(ownerId).catch(err => {
           console.log('Error fetching user', ownerId, err);
           return Observable.empty<User>();
-        })
+        });
       })
       // map the user objects back to the spaces to return a stream of spaces
       .map(owner1 => {
         if (owner1) {
-          for (let space of spaces) {
+          for (const space of spaces) {
             space.relationalData = space.relationalData || {};
 
-            let ownedBy = space.relationships.ownedBy;
-            for (let owner2 of ownedBy) {
+            const ownedBy = space.relationships.ownedBy;
+            for (const owner2 of ownedBy) {
               if (owner1.id === owner2.data.id) {
                 if (!space.relationalData.owners) {
                   space.relationalData.owners = [];

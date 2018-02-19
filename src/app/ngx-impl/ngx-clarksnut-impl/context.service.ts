@@ -20,9 +20,9 @@ import { Observable } from 'rxjs';
 
 import { Navigation } from '../../models/navigation';
 
-import { EventService } from "./event.service";
+import { EventService } from './event.service';
 
-import { UBLDocumentService, UBLDocument } from "../../ngx/ngx-clarksnut";
+import { UBLDocumentService, UBLDocument } from '../../ngx/ngx-clarksnut';
 
 interface RawContext {
   user: any;
@@ -96,7 +96,7 @@ export class ContextService implements Contexts {
             type: NotificationType.DANGER
           } as Notification);
           console.log('No username attached to user', val);
-          throw 'Unknown user';
+          throw new Error('Unknown user');
         }
       })
       .distinctUntilChanged()
@@ -155,8 +155,8 @@ export class ContextService implements Contexts {
     this._recent.connect();
     this.loadRecent().subscribe(
       val => {
-        var toto = val;
-        val.forEach(space => this._addRecent.next(space))
+        const toto = val;
+        val.forEach(space => this._addRecent.next(space));
       }
     );
   }
@@ -175,9 +175,9 @@ export class ContextService implements Contexts {
 
   updateRecentSpaceList(contextList: Context[], ctx: Context): Context[] {
     if (ctx.space && ctx.space.id && ctx.name == 'TO_DELETE') { // a space deletion
-      let indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id == ctx.space.id);
+      const indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id == ctx.space.id);
       if (indexForSpaceToDelete > -1) { // the space deleted is in the recently visited array
-        let copyContext = cloneDeep(contextList);
+        const copyContext = cloneDeep(contextList);
         const deleted = copyContext.splice(indexForSpaceToDelete, 1);
         contextList = copyContext;
       }
@@ -192,11 +192,11 @@ export class ContextService implements Contexts {
       // Then add this context to the top of the list
       contextList.unshift(ctx);
     }
-    return contextList
+    return contextList;
   }
 
   changeContext(navigation: Observable<Navigation>): Observable<Context> {
-    let res = navigation
+    const res = navigation
       // Process the navigation only if it is safe
       .filter(val => {
         if (this.checkForReservedWords(val.user)) {
@@ -295,7 +295,7 @@ export class ContextService implements Contexts {
       })
       // Subscribe the current context to the revent space collector
       .do(val => {
-        if (val) this._addRecent.next(val);
+        if (val) { this._addRecent.next(val); }
       })
       .do(val => {
         this._current.next(val);
@@ -352,7 +352,7 @@ export class ContextService implements Contexts {
   }
 
   private extractUser(): string {
-    let params = this.getRouteParams();
+    const params = this.getRouteParams();
     if (params && params['entity']) {
       return decodeURIComponent(params['entity']);
     }
@@ -373,7 +373,7 @@ export class ContextService implements Contexts {
   }
 
   public extractSpace(): string {
-    let params = this.getRouteParams();
+    const params = this.getRouteParams();
     if (params && params['space']) {
       return decodeURIComponent(params['space']);
     }
@@ -419,7 +419,7 @@ export class ContextService implements Contexts {
       if (arg.startsWith('_')) {
         return true;
       }
-      for (let r of this.RESERVED_WORDS) {
+      for (const r of this.RESERVED_WORDS) {
         if (arg === r) {
           return true;
         }
@@ -445,7 +445,7 @@ export class ContextService implements Contexts {
                   return Observable.empty<Context>();
                 })
                 .map(val => {
-                  return this.buildContext({ document: val } as RawContext)
+                  return this.buildContext({ document: val } as RawContext);
                 });
             } else {
               return this.userService.getUserByUserId(raw.user)
@@ -454,7 +454,7 @@ export class ContextService implements Contexts {
                   return Observable.empty<Context>();
                 })
                 .map(val => {
-                  return this.buildContext({ user: val } as RawContext)
+                  return this.buildContext({ user: val } as RawContext);
                 });
             }
           }));
@@ -465,7 +465,7 @@ export class ContextService implements Contexts {
   }
 
   private saveRecent(recent: Context[]) {
-    let patch = {
+    const patch = {
       store: {
         recentContexts: recent.map(ctx => ({
           user: (ctx.user ? ctx.user.id : null),

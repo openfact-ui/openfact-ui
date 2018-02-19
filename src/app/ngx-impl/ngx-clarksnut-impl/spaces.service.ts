@@ -90,7 +90,7 @@ export class SpacesService implements Spaces {
   }
 
   private saveRecent(recent: Space[]) {
-    let patch = {
+    const patch = {
       store: {
         recentSpaces: recent.map(val => val.id)
       }

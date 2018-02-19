@@ -19,7 +19,7 @@ export class KeycloakHttp extends Http {
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    if (!this._keycloakService.authenticated()) return super.request(url, options);
+    if (!this._keycloakService.authenticated()) { return super.request(url, options); }
 
     const tokenPromise: Promise<string> = this._keycloakService.getToken();
     const tokenObservable: Observable<string> = Observable.fromPromise(tokenPromise);

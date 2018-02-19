@@ -65,7 +65,7 @@ export class UserService {
    */
   getUserByUsername(username: string): Observable<User> {
     return this.filterUsersByUsername(username).map(val => {
-      for (let u of val) {
+      for (const u of val) {
         if (username === u.attributes.username) {
           return u;
         }
@@ -78,7 +78,7 @@ export class UserService {
    * Get users by a search string
    */
   getUsersBySearchString(search: string): Observable<User[]> {
-    if (search && search !== "") {
+    if (search && search !== '') {
       return this.http
         .get(this.searchUrl + '/users?q=' + search, { headers: this.headers })
         .map(response => {

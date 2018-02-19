@@ -17,7 +17,7 @@ export class SpacesComponent implements OnDestroy, OnInit {
 
   context: Context;
   loggedInUser: User;
-  pageSize: number = 20;
+  pageSize = 20;
   subscriptions: Subscription[] = [];
   spaceToDelete: Space;
   spaces: Space[] = [];
@@ -73,10 +73,10 @@ export class SpacesComponent implements OnDestroy, OnInit {
 
   public removeSpace(): void {
     if (this.context && this.context.user && this.spaceToDelete) {
-      let space = this.spaceToDelete;
+      const space = this.spaceToDelete;
       this.subscriptions.push(this.spaceService.deleteSpace(space)
         .subscribe((spaces) => {
-          let index = this.spaces.indexOf(space);
+          const index = this.spaces.indexOf(space);
           this.spaces.splice(index, 1);
           this.spaceToDelete = undefined;
           this.modalRef.hide();

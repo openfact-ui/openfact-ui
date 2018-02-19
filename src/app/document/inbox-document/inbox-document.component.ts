@@ -17,7 +17,7 @@ import * as FileSaver from 'file-saver';
 })
 export class InboxDocumentComponent implements OnInit, OnDestroy {
 
-  @HostBinding('class') classList: string = 'services-items-filter';
+  @HostBinding('class') classList = 'services-items-filter';
 
   documents: UBLDocument[] = [];
   currentNumberOfItems: number;

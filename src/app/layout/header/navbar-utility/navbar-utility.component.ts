@@ -34,7 +34,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
     { id: 'en', name: 'English' },
     { id: 'es', name: 'Español' }
   ];
-  private defaultLanguage: string = 'es';
+  private defaultLanguage = 'es';
 
   // Launcher
   navigationItems: NavigationItemConfig[];
@@ -90,11 +90,11 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
   ngAfterViewChecked() {
     // Jira
     this.windowsRef.nativeWindow.ATL_JQ_PAGE_PROPS = {
-      "triggerFunction": function (showCollectorDialog) {
-        document.getElementById("jiraBugsButton").onclick = function () {
+      'triggerFunction': function (showCollectorDialog) {
+        document.getElementById('jiraBugsButton').onclick = function () {
           event.preventDefault();
           showCollectorDialog();
-        }
+        };
       }
     };
   }
@@ -115,7 +115,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
     const languageId = lang.id || this.defaultLanguage;
     this.translateService.use(languageId);
 
-    let profile = this.gettingStartedService.createTransientProfile();
+    const profile = this.gettingStartedService.createTransientProfile();
     profile.defaultLanguage = languageId;
 
     this.gettingStartedService.update(profile).subscribe(() => { }, error => {

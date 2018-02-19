@@ -29,7 +29,7 @@ export class UniqueSpaceAssignedIdValidatorDirective implements Validator, OnCha
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let change = changes['uniqueSpaceAssignedId'];
+    const change = changes['uniqueSpaceAssignedId'];
     if (change) {
       this.valFn = uniqueSpaceAssignedIdValidator(this.spaceService, this.userService);
     } else {
@@ -47,7 +47,7 @@ export function uniqueSpaceAssignedIdValidator(
   spaceService: SpaceService,
   userService: UserService): AsyncValidatorFn {
 
-  let changed$ = new Subject<any>();
+  const changed$ = new Subject<any>();
 
   return (control: AbstractControl): Observable<{ [key: string]: any }> => {
     changed$.next();

@@ -10,7 +10,7 @@ if (environment.production) {
 }
 
 KeycloakService.init({ onLoad: 'login-required' }).then(() => {
-  platformBrowserDynamic().bootstrapModule(AppModule)
+  platformBrowserDynamic().bootstrapModule(AppModule);
 }).catch((err: any) => {
   console.log('Error in bootstrap: ' + JSON.stringify(err));
 });

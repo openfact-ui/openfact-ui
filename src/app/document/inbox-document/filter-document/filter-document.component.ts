@@ -22,8 +22,8 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   @Input() totalNumberOfItems: number;
 
   keyword: string;
-  offset: number = 0;
-  limit: number = 10;
+  offset = 0;
+  limit = 10;
 
   user: User;
   spaces: Space[];
@@ -98,7 +98,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   nextPage() {
-    let factor = this.offset === 0 ? 1 : 0;
+    const factor = this.offset === 0 ? 1 : 0;
     this.offset = this.offset + this.limit - factor;
     this.search();
   }
@@ -115,7 +115,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   get selectedSpaces() { // right now: ['1','3']
     return this.spaces
       .filter(space => (<any>space).checked)
-      .map(opt => opt.id)
+      .map(opt => opt.id);
   }
 
   checkedSpacesChanged() {

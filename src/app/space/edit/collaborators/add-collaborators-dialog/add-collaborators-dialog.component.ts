@@ -30,7 +30,7 @@ import { Notifications, Notification, NotificationType } from '../../../../ngx/n
 export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
 
   modalRef: BsModalRef;
-  @ViewChild("modalTemplate") modal: TemplateRef<any>;
+  @ViewChild('modalTemplate') modal: TemplateRef<any>;
 
   @Input() space: Space;
   @Input() collaborators: User[];
@@ -106,7 +106,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
           id: user,
           name: user.attributes.fullName
         });
-      })
+      });
     });
   }
 

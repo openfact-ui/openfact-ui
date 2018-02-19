@@ -49,7 +49,7 @@ export class SpaceDeleteComponent implements OnInit {
         this.close();
       },
       (err) => {
-        console.log("Error removing space");
+        console.log('Error removing space');
       });
   }
 

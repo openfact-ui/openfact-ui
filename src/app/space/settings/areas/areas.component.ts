@@ -57,7 +57,7 @@ export class AreasComponent implements OnInit, OnDestroy {
   }
 
   updateSpace() {
-    let patch = {
+    const patch = {
       attributes: this.form.value,
       type: 'spaces',
       id: this.space.id

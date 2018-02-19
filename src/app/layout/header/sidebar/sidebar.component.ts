@@ -10,7 +10,7 @@ import { KeycloakService } from '../../../keycloak-service/keycloak.service';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  @Input() shown: boolean = false;
+  @Input() shown = false;
 
   user: User;
   private subcriptions: Subscription[] = [];

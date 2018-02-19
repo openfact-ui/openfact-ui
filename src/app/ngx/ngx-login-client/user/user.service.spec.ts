@@ -27,7 +27,7 @@ describe('Service: User service', () => {
         },
         {
           provide: AUTH_API_URL,
-          useValue: "http://example.com"
+          useValue: 'http://example.com'
         },
         Broadcaster,
         Logger
@@ -44,26 +44,26 @@ describe('Service: User service', () => {
     }
   ));
 
-  let testUser = {
-    "attributes": {
-      "fullName": "name",
-      "imageURL": "",
-      "username": "myUser"
+  const testUser = {
+    'attributes': {
+      'fullName': 'name',
+      'imageURL': '',
+      'username': 'myUser'
     },
-    "id": "userId",
-    "type": "userType"
+    'id': 'userId',
+    'type': 'userType'
   };
 
-  let testUsers = [
+  const testUsers = [
     testUser,
     {
-      "attributes": {
-        "fullName": "secondUser",
-        "imageURL": "",
-        "username": "secondUser"
+      'attributes': {
+        'fullName': 'secondUser',
+        'imageURL': '',
+        'username': 'secondUser'
       },
-      "id": "secondUserId",
-      "type": "userType"
+      'id': 'secondUserId',
+      'type': 'userType'
     }
   ];
 

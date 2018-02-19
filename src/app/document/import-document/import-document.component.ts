@@ -142,8 +142,8 @@ export class ImportDocumentComponent implements OnInit {
   }
 
   stepChanged($event: WizardEvent, wizard: WizardComponent) {
-    let flatSteps = this.flattenWizardSteps(wizard);
-    let currentStep = flatSteps.filter(step => step.config.id === $event.step.config.id);
+    const flatSteps = this.flattenWizardSteps(wizard);
+    const currentStep = flatSteps.filter(step => step.config.id === $event.step.config.id);
     if (currentStep && currentStep.length > 0) {
       currentStep[0].config.nextEnabled = true;
     }
@@ -166,7 +166,7 @@ export class ImportDocumentComponent implements OnInit {
   }
 
   private flattenWizardSteps(wizard: WizardComponent): WizardStep[] {
-    let flatWizard: WizardStep[] = [];
+    const flatWizard: WizardStep[] = [];
     wizard.steps.forEach((step: WizardStepComponent) => {
       if (step.hasSubsteps) {
         step.steps.forEach(substep => {

@@ -30,7 +30,7 @@ export class ValidSpaceAssignedIdValidatorDirective implements Validator, OnChan
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let change = changes['validSpaceAssignedId'];
+    const change = changes['validSpaceAssignedId'];
     if (change) {
       this.valFn = validSpaceAssignedIdValidator();
     } else {
@@ -46,8 +46,8 @@ export class ValidSpaceAssignedIdValidatorDirective implements Validator, OnChan
 
 export function validSpaceAssignedIdValidator(): AsyncValidatorFn {
 
-  let changed$ = new Subject<any>();
-  let ALLOWED_SPACE_NAMES = /^[a-z\d][a-z\d\s-_]*[a-z\d]$/i;
+  const changed$ = new Subject<any>();
+  const ALLOWED_SPACE_NAMES = /^[a-z\d][a-z\d\s-_]*[a-z\d]$/i;
 
   return (control: AbstractControl): Observable<{ [key: string]: any }> => {
     changed$.next();
@@ -65,7 +65,7 @@ export function validSpaceAssignedIdValidator(): AsyncValidatorFn {
             }
           };
         }
-        let strVal: string = control.value.toString();
+        const strVal: string = control.value.toString();
         if (strVal.length < ValidSpaceAssignedIdValidatorDirective.MIN_SPACE_NAME_LENGTH) {
           return {
             minLength: {

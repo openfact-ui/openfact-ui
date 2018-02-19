@@ -17,9 +17,9 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
 
   username: string;
   loggedInUser: User;
-  registrationCompleted: boolean = true;
+  registrationCompleted = true;
 
-  showGettingStarted: boolean = false;
+  showGettingStarted = false;
 
   private subscriptions: Subscription[] = [];
 
@@ -68,7 +68,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
   }
 
   saveUser() {
-    let profile = this.gettingStartedService.createTransientProfile();
+    const profile = this.gettingStartedService.createTransientProfile();
     profile.username = this.username;
     profile.registrationCompleted = true;
 

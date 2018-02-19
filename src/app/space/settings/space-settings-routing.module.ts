@@ -25,13 +25,13 @@ const routes: Routes = [
       //     title: 'Areas'
       //   }
       // },
-      {
+      /*{
         path: 'collaborators',
         loadChildren: './collaborators/collaborators.module#CollaboratorsModule',
         data: {
           title: 'Collaborators'
         }
-      }
+      }*/
     ]
   }
 ];

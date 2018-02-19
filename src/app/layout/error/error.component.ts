@@ -19,7 +19,7 @@ import { UserService, AuthenticationService } from '../../ngx/ngx-login-client';
 })
 export class ErrorComponent implements OnDestroy {
 
-  message: string = '';
+  message = '';
   subscription: Subscription;
   hideBanner: boolean;
   spaceLink: string;

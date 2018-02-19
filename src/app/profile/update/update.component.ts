@@ -115,7 +115,7 @@ export class UpdateComponent implements AfterViewInit, OnInit {
    * Update user profile
    */
   public updateProfile(): void {
-    let profile = this.getTransientProfile();
+    const profile = this.getTransientProfile();
 
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe((user) => {
       this.setUserProperties(user);
@@ -143,7 +143,7 @@ export class UpdateComponent implements AfterViewInit, OnInit {
    */
   private getRequestParam(name: string): string {
     // tslint:disable-next-line:max-line-length
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+    const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
     if (param != null) {
       return decodeURIComponent(param[1]);
     }
@@ -156,7 +156,7 @@ export class UpdateComponent implements AfterViewInit, OnInit {
    * @returns {ExtProfile} The updated transient profile
    */
   private getTransientProfile(): ExtProfile {
-    let profile = this.gettingStartedService.createTransientProfile();
+    const profile = this.gettingStartedService.createTransientProfile();
     delete profile.username;
     return Object.assign(profile, this.form.value);
   }

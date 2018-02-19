@@ -7,9 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { User, UserService } from '../../ngx/ngx-login-client';
 import { Space } from '../../ngx/ngx-clarksnut';
 
-interface MenuHiddenCallback {
-  (headerComponent: HeaderComponent): Observable<boolean>;
-}
+type MenuHiddenCallback = (headerComponent: HeaderComponent) => Observable<boolean>;
 
 @Component({
   selector: 'cn-header',
@@ -22,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   space: Space;
   private subcriptions: Subscription[] = [];
 
-  isMobileMenuShow: boolean = false;
+  isMobileMenuShow = false;
 
   constructor(private userService: UserService) {
     this.subcriptions.push(

@@ -2,7 +2,7 @@ import { REALM } from '../../ngx/ngx-login-client';
 
 import { ApiLocatorService } from '../../config/api-locator.service';
 
-let realmFactory = (api: ApiLocatorService) => {
+const realmFactory = (api: ApiLocatorService) => {
   return api.realm;
 };
 
