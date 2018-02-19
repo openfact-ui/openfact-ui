@@ -91,7 +91,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
     // Jira
     this.windowsRef.nativeWindow.ATL_JQ_PAGE_PROPS = {
       'triggerFunction': function (showCollectorDialog) {
-        document.getElementById('jiraBugsButton').onclick = function () {
+        document.getElementById('jiraBugsButton').onclick = function (event) {
           event.preventDefault();
           showCollectorDialog();
         };
@@ -123,8 +123,4 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
     });
   }
 
-
-  test() {
-    console.log(window);
-  }
 }

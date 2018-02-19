@@ -92,7 +92,7 @@ export class SpaceWizardComponent implements OnInit {
 
   ngOnInit() {
     this.initWizard();
-    //this.translateWizard();
+    // this.translateWizard();
   }
 
   initWizard() {
@@ -190,9 +190,9 @@ export class SpaceWizardComponent implements OnInit {
 
   // Wizard Methods
   nextClicked($event: WizardEvent): void {
-    if ($event.step.config.id == 'step1a') {
-      this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((val) => {
-        this.previousSpace = val;
+    if ($event.step.config.id === 'step1a') {
+      this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((space) => {
+        this.previousSpace = space;
 
         if (this.previousSpace) {
           this.translateService.get('SPACE_WIZARD.REQUEST_ACCESS').take(1).subscribe((val) => {
@@ -357,7 +357,7 @@ export class SpaceWizardComponent implements OnInit {
         },
         (err) => {
           console.log('Error creating space', err);
-          if (err.status == 409) {
+          if (err.status === 409) {
             this.notifications.message(<Notification>{
               message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
               type: NotificationType.DANGER
