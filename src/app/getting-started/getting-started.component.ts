@@ -64,7 +64,6 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
 
   reject() {
     this.saveUser();
-    this.router.navigate(['/_home']);
   }
 
   saveUser() {
@@ -76,6 +75,8 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
       (user) => {
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
         this.loggedInUser = user;
+
+        this.router.navigate(['/_home']);
       },
       (error) => {
         if (error.status === 403) {

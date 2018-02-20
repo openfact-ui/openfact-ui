@@ -315,11 +315,12 @@ export class SpaceWizardComponent implements OnInit {
     if (this.previousSpace) {
       const request: RequestAccessToSpace = {
         attributes: {
+          space: this.previousSpace.id,
           scope: 'COLLABORATOR_ACCESS',
           message: this.requestAccess.message
         }
       } as RequestAccessToSpace;
-      this.requestAccessService.addRequestAccess(this.previousSpace.id, request).subscribe(
+      this.requestAccessService.addRequestAccess(request).subscribe(
         (createdSpace) => {
           this.notifications.message(<Notification>{
             message: `Your request has been sent!`,
