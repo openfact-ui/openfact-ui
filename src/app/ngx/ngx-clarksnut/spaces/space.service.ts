@@ -200,18 +200,17 @@ export class SpaceService {
   private resolveOwner(space: Space): Observable<Space> {
     space.relationalData = space.relationalData || {};
 
-    if (!space.relationships.ownedBy || space.relationships.ownedBy.length === 0) {
-      space.relationalData.owners = [];
+    if (!space.relationships.ownedBy) {
+      space.relationalData.owner = {} as User;
       return Observable.of(space);
     }
 
-    return Observable.forkJoin(
-      Observable.from(space.relationships.ownedBy)
-        .switchMap((val) => this.userService.getUserByUserId(val.data.id))
-    ).map((owners) => {
-      space.relationalData.owners = owners;
-      return space;
-    });
+    return this.userService
+      .getUserByUserId(space.relationships.ownedBy.data.id)
+      .map(owner => {
+        space.relationalData.owner = owner;
+        return space;
+      });
   }
 
   private resolveOwners(spaces: Space[]): Observable<Space[]> {
@@ -219,10 +218,7 @@ export class SpaceService {
       // Get a stream of spaces
       .from(spaces)
       // Map to a stream of owner Ids of these spaces
-      .map(space => {
-        const ownerIds: string[] = space.relationships.ownedBy.map((val) => val.data.id);
-        return [].concat.apply([], ownerIds);
-      })
+      .map(space => space.relationships.ownedBy.data.id)
       // Get only the unique owners in this stream of owner Ids
       .distinct()
       // Get the users from the server based on the owner Ids
@@ -234,21 +230,13 @@ export class SpaceService {
         });
       })
       // map the user objects back to the spaces to return a stream of spaces
-      .map(owner1 => {
-        if (owner1) {
-          for (const space of spaces) {
+      .map(owner => {
+        if (owner) {
+          for (let space of spaces) {
             space.relationalData = space.relationalData || {};
-
-            const ownedBy = space.relationships.ownedBy;
-            for (const owner2 of ownedBy) {
-              if (owner1.id === owner2.data.id) {
-                if (!space.relationalData.owners) {
-                  space.relationalData.owners = [];
-                }
-                space.relationalData.owners.push(owner1);
-              }
+            if (owner.id === space.relationships.ownedBy.data.id) {
+              space.relationalData.owner = owner;
             }
-
           }
         }
         return spaces;

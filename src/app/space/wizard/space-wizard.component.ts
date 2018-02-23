@@ -194,12 +194,7 @@ export class SpaceWizardComponent implements OnInit {
       this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((space) => {
         this.previousSpace = space;
 
-        if (
-          this.previousSpace &&
-          this.previousSpace.relationships &&
-          this.previousSpace.relationships.ownedBy &&
-          this.previousSpace.relationships.ownedBy.length > 0
-        ) {
+        if (this.previousSpace) {
           this.translateService.get('SPACE_WIZARD.REQUEST_ACCESS').take(1).subscribe((val) => {
             this.step1bConfig.title = val;
           });
@@ -236,12 +231,7 @@ export class SpaceWizardComponent implements OnInit {
       });
     } else if ($event.step.config.id === 'step2a') {
       this.wizardConfig.nextTitle = 'Create';
-      if (
-        this.previousSpace &&
-        this.previousSpace.relationships &&
-        this.previousSpace.relationships.ownedBy &&
-        this.previousSpace.relationships.ownedBy.length > 0
-      ) {
+      if (this.previousSpace) {
         this.translateService.get('BUTTONS.REQUEST_ACCESS').take(1).subscribe((val) => {
           this.wizardConfig.nextTitle = val;
         });
@@ -322,16 +312,11 @@ export class SpaceWizardComponent implements OnInit {
     this.working = true;
     this.wizardConfig.done = true;
 
-    if (
-      this.previousSpace &&
-      this.previousSpace.relationships &&
-      this.previousSpace.relationships.ownedBy &&
-      this.previousSpace.relationships.ownedBy.length > 0
-    ) {
+    if (this.previousSpace) {
       const request: RequestAccessToSpace = {
         attributes: {
           space: this.previousSpace.id,
-          scope: 'COLLABORATOR_ACCESS',
+          scope: 'COLLABORATOR',
           message: this.requestAccess.message
         }
       } as RequestAccessToSpace;
@@ -357,7 +342,7 @@ export class SpaceWizardComponent implements OnInit {
 
       this.userService.loggedInUser
         .switchMap((user) => {
-          this.space.relationships.ownedBy[0].data.id = user.id;
+          this.space.relationships.ownedBy.data.id = user.id;
           return this.spaceService.create(this.space);
         })
         .do((createdSpace) => {
@@ -396,14 +381,12 @@ export class SpaceWizardComponent implements OnInit {
     space.type = 'spaces';
     space.relationships = {
       collaborators: {} as SpaceRelatedLink,
-      ownedBy: [
-        {
-          data: {
-            id: '',
-            type: 'identities'
-          }
+      ownedBy: {
+        data: {
+          id: '',
+          type: 'identities'
         }
-      ]
+      }
     };
     return space;
   }

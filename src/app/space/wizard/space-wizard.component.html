@@ -7,7 +7,7 @@
         <cn-space-form (onChange)="onSpaceFormChange($event)"></cn-space-form>
       </pfng-wizard-substep>
       <pfng-wizard-substep [config]="step1bConfig">
-        <div *ngIf="!previousSpace || !previousSpace.relationships || !previousSpace.relationships.ownedBy || previousSpace.relationships.ownedBy.length === 0;then termsAndConditions else requestAccess">
+        <div *ngIf="!previousSpace;then termsAndConditions else requestAccess">
         </div>
         <ng-template #termsAndConditions>
           <cn-space-terms-conditions (onChange)="onTermsConditionsChange($event)"></cn-space-terms-conditions>

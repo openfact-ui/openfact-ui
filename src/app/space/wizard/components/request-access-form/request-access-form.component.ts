@@ -25,11 +25,11 @@ export class RequestAccessFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    const owners: any[] = (<any>this.space).relationalData.owners;
-    const spaceOwner = owners.map((owner) => owner.attributes.username);
+    const owner: any = (<any>this.space).relationalData.owner;
+    const spaceOwner = owner.attributes.username;
 
     this.form = this.formBuilder.group({
-      currentOwner: [spaceOwner, Validators.compose([Validators.required, Validators.maxLength(20)])],
+      currentOwner: [spaceOwner, Validators.compose([Validators.required, Validators.maxLength(120)])],
       requestMessage: [null, Validators.compose([Validators.required, Validators.maxLength(250)])]
     });
 
