@@ -1,0 +1,30 @@
+<div class="btn-group" dropdown>
+  <button dropdownToggle type="button" class="btn btn-default dropdown-toggle">
+    Date
+    <span class="caret"></span>
+  </button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li role="menuitem">
+      <a (click)="lastMonth()" class="dropdown-item" href="javascript:void(0)">Last Month</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a style="cursor: pointer;">Month</a>
+      <ul class="dropdown-menu">
+        <li>
+          <a (click)="january()" style="cursor: pointer;">January</a>
+          <a (click)="february()" style="cursor: pointer;">February</a>
+          <a (click)="march()" style="cursor: pointer;">March</a>
+          <a (click)="april()" style="cursor: pointer;">April</a>
+          <a (click)="may()" style="cursor: pointer;">May</a>
+          <a (click)="june()" style="cursor: pointer;">June</a>
+          <a (click)="july()" style="cursor: pointer;">July</a>
+          <a (click)="august()" style="cursor: pointer;">August</a>
+          <a (click)="september()" style="cursor: pointer;">September</a>
+          <a (click)="october()" style="cursor: pointer;">October</a>
+          <a (click)="november()" style="cursor: pointer;">November</a>
+          <a (click)="december()" style="cursor: pointer;">December</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

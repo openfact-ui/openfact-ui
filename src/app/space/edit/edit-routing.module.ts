@@ -14,6 +14,10 @@ const routes: Routes = [
         component: OverviewComponent
       },
       {
+        path: '_reports',
+        loadChildren: './reports/reports.module#ReportsModule'
+      },
+      {
         path: '_collaborators',
         loadChildren: './collaborators/collaborators.module#CollaboratorsModule'
       },

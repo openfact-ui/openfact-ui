@@ -4,6 +4,7 @@ import { Subscription, Observable } from 'rxjs';
 
 import { Notification, Notifications, NotificationType, NotificationAction } from '../../../ngx/ngx-base';
 import { RequestAccessService, RequestAccessToSpace } from './../../../ngx/ngx-clarksnut';
+import { UserService, User } from './../../../ngx/ngx-login-client';
 
 @Component({
   selector: 'cn-notification-counter',
@@ -11,6 +12,8 @@ import { RequestAccessService, RequestAccessToSpace } from './../../../ngx/ngx-c
   styleUrls: ['./notification-counter.component.scss']
 })
 export class NotificationCounterComponent implements OnInit, OnDestroy {
+
+  loggedInUser: User;
 
   showNotifications = false;
   expanded = false;
@@ -21,12 +24,20 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
+    private userService: UserService,
     private requestAccessService: RequestAccessService,
     private notifications: Notifications) {
   }
 
   ngOnInit() {
-    this.refreshPendingRequests();
+    this.userService.loggedInUser
+      .map((user) => {
+        this.loggedInUser = user;
+      })
+      .do(() => {
+        this.refreshPendingRequests();
+      })
+      .publish().connect();
   }
 
   ngOnDestroy() {

@@ -25,7 +25,7 @@ $data-toolbar-filter-max-width:   ($screen-md-min - ($sidebar-left-width-md + $m
     }
   }
   .data-toolbar-filter {
-    project-filter {
+    .project-filter {
       display: flex;
       flex-direction: column;
     }

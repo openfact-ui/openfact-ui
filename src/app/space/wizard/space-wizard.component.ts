@@ -194,7 +194,12 @@ export class SpaceWizardComponent implements OnInit {
       this.spaceService.getSpaceByAssignedId(this.space.attributes.assignedId).subscribe((space) => {
         this.previousSpace = space;
 
-        if (this.previousSpace) {
+        if (
+          this.previousSpace &&
+          this.previousSpace.relationships &&
+          this.previousSpace.relationships.ownedBy &&
+          this.previousSpace.relationships.ownedBy.length > 0
+        ) {
           this.translateService.get('SPACE_WIZARD.REQUEST_ACCESS').take(1).subscribe((val) => {
             this.step1bConfig.title = val;
           });
@@ -231,12 +236,17 @@ export class SpaceWizardComponent implements OnInit {
       });
     } else if ($event.step.config.id === 'step2a') {
       this.wizardConfig.nextTitle = 'Create';
-      if (!this.previousSpace) {
-        this.translateService.get('BUTTONS.CREATE').take(1).subscribe((val) => {
+      if (
+        this.previousSpace &&
+        this.previousSpace.relationships &&
+        this.previousSpace.relationships.ownedBy &&
+        this.previousSpace.relationships.ownedBy.length > 0
+      ) {
+        this.translateService.get('BUTTONS.REQUEST_ACCESS').take(1).subscribe((val) => {
           this.wizardConfig.nextTitle = val;
         });
       } else {
-        this.translateService.get('BUTTONS.REQUEST_ACCESS').take(1).subscribe((val) => {
+        this.translateService.get('BUTTONS.CREATE').take(1).subscribe((val) => {
           this.wizardConfig.nextTitle = val;
         });
       }
@@ -312,7 +322,12 @@ export class SpaceWizardComponent implements OnInit {
     this.working = true;
     this.wizardConfig.done = true;
 
-    if (this.previousSpace) {
+    if (
+      this.previousSpace &&
+      this.previousSpace.relationships &&
+      this.previousSpace.relationships.ownedBy &&
+      this.previousSpace.relationships.ownedBy.length > 0
+    ) {
       const request: RequestAccessToSpace = {
         attributes: {
           space: this.previousSpace.id,
@@ -356,21 +371,21 @@ export class SpaceWizardComponent implements OnInit {
           this.finish(true, createdSpace);
           this.broadcaster.broadcast('spaceCreated', createdSpace);
         },
-        (err) => {
-          console.log('Error creating space', err);
-          if (err.status === 409) {
-            this.notifications.message(<Notification>{
-              message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
-              type: NotificationType.DANGER
-            });
-          } else {
-            this.notifications.message(<Notification>{
-              message: `Space could not been created'`,
-              type: NotificationType.DANGER
-            });
-          }
-          this.finish(false);
-        });
+          (err) => {
+            console.log('Error creating space', err);
+            if (err.status === 409) {
+              this.notifications.message(<Notification>{
+                message: `Space ${this.space.attributes.assignedId} has already been registered by another user`,
+                type: NotificationType.DANGER
+              });
+            } else {
+              this.notifications.message(<Notification>{
+                message: `Space could not been created'`,
+                type: NotificationType.DANGER
+              });
+            }
+            this.finish(false);
+          });
     }
   }
 

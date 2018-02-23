@@ -6,8 +6,6 @@ import { Logger, Notification, NotificationType, Notifications } from '../ngx/ng
 import { User, UserService } from '../ngx/ngx-login-client';
 import { ExtUser, GettingStartedService } from './services/getting-started.service';
 
-import * as jwt_decode from 'jwt-decode';
-
 @Component({
   selector: 'cn-getting-started',
   templateUrl: './getting-started.component.html',

@@ -202,7 +202,7 @@ export class SpaceService {
 
     if (!space.relationships.ownedBy || space.relationships.ownedBy.length === 0) {
       space.relationalData.owners = [];
-      return;
+      return Observable.of(space);
     }
 
     return Observable.forkJoin(

@@ -24,7 +24,7 @@ export class SpaceLink {
 
 export class SpaceRelationships {
   collaborators: SpaceRelatedLink;
-  ownedBy: SpaceOwner[];
+  ownedBy?: SpaceOwner[];
 }
 
 export class SpaceOwner {
