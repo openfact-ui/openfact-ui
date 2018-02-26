@@ -1,40 +1,34 @@
 <div class="catalog-search" style="height: 52px;">
-    <form role="form" class="landing-search-form search-pf has-button">
-      <div class="form-group has-clear">
-        <div class="search-pf-input-group">
-          <label for="search-input" class="sr-only">{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}</label>
-          <span class="fa fa-search catalog-search-icon" aria-hidden="true"></span>
+  <form [formGroup]="form" role="form" class="landing-search-form search-pf has-button">
+    <div class="form-group has-clear">
+      <div class="search-pf-input-group">
+        <label for="search-input" class="sr-only">{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}</label>
+        <span class="fa fa-search catalog-search-icon" aria-hidden="true"></span>
 
-          <input  id="search-input"
-                  name="filterText"
-                  [(ngModel)]="filterText"
-                  (keypress)="searchInputKeyPress($event)"
-                  type="search"
-                  autocomplete="off"
-                  class="form-control catalog-search-input"
-                  placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  spellcheck="false"
-                  aria-autocomplete="list"
-                  aria-expanded="false">
+        <input formControlName="filterText" (keypress)="searchInputKeyPress($event)" type="search" autocomplete="off" class="form-control catalog-search-input" placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
+          autocorrect="off" autocapitalize="off" spellcheck="false" aria-autocomplete="list" aria-expanded="false">
 
-          <!-- <ul class="dropdown-menu"
-              ng-show="isOpen() &amp;&amp; !moveInProgress"
-              ng-style="{top: position().top+'px', left: position().left+'px'}"
-              style="display: block;"
-              role="listbox"
-              aria-hidden="true" id="typeahead-32-5184"
-              matches="matches"
-              active="activeIdx"
-              select="select(activeIdx)"
-              move-in-progress="moveInProgress"
-              query="query"
-              position="position"
-              template-url="catalog-search/catalog-search-result.html">
-          </ul> -->
+        <ul class="dropdown-menu" style="top: 30px;left: 0px;" [style.display]="parties.length>0 ? 'block' : ''">
+          <li *ngFor="let party of parties" role="option">
+            <a (click)="selectParty(party)" href="javascript:void(0)" class="catalog-search-match ">
+              <span class="catalog-search-match-icon">
+                <span class="pficon pficon-user"></span>
+              </span>
+              <div class="catalog-search-match-info">
+                <div class="catalog-search-match-label">
+                  {{party.attributes.name}}
+                </div>
+                <div class="catalog-search-match-description">
+                  <span class="tag small text-muted ">
+                    {{party.attributes.assignedId}}
+                  </span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
 
-        </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
