@@ -28,3 +28,12 @@ $screen-md-min:              $screen-md !default;
     width: 30%;
   }
 }
+
+.list-view-pf {
+  .list-group-item-heading.viewed {
+    font-weight: 350;
+  }
+  .list-group-item-text.viewed {
+    font-weight: 350;
+  }
+}

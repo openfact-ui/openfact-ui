@@ -1,8 +1,14 @@
 <cn-filter-document [currentNumberOfItems]="currentNumberOfItems" [totalNumberOfItems]="totalNumberOfItems"></cn-filter-document>
 
 <div class="list-group list-view-pf" style="flex: 1 1 100%; border-top:0px; margin-bottom: 0px;">
-  <div *ngFor="let document of documents" class="list-group-item list-view-pf-stacked" style="border-top:0px;">
+  <div *ngFor="let document of documents; let i=index;" class="list-group-item list-view-pf-stacked" style="border-top:0px;">
     <div class="list-view-pf-actions">
+      <button *ngIf="document.attributes.checked" (click)="uncheckDocument(document, i)" class="btn btn-default">
+        <span class="pficon pficon-ok"></span> Uncheck
+      </button>
+      <button *ngIf="!document.attributes.checked" (click)="checkDocument(document, i)" class="btn btn-default">
+        <span class="fa fa-check"></span> Check
+      </button>
       <button (click)="downloadPdf(document)" class="btn btn-default">
         <span class="pficon pficon-print"></span> Print
       </button>
@@ -23,40 +29,42 @@
     </div>
     <div class="list-view-pf-main-info">
       <div class="list-view-pf-left">
-        <span class="fa fa-file-code-o list-view-pf-icon-lg"></span>
+        <span (click)="changeStar(document, i)" [ngClass]="document.attributes.starred ? 'fa-star': 'fa-star-o'" class="fa list-view-pf-icon-lg"></span>
       </div>
       <div class="list-view-pf-body">
         <div class="list-view-pf-description-15">
-          <div class="list-group-item-heading">
+          <div class="list-group-item-heading" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.assignedId}}
             <small>{{document.attributes.issueDate | date}}</small>
           </div>
-          <div class="list-group-item-text">
+          <div class="list-group-item-text" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.type}}
           </div>
         </div>
         <div class="list-view-pf-description-30">
-          <div class="list-group-item-heading">
+          <div class="list-group-item-heading" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.supplierName}}
             <small>Supplier</small>
           </div>
-          <div class="list-group-item-text">
+          <div class="list-group-item-text" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.supplierAssignedId}}
           </div>
         </div>
         <div class="list-view-pf-description-30">
-          <div class="list-group-item-heading">
+          <div class="list-group-item-heading" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.customerName}}
             <small>Customer</small>
           </div>
-          <div class="list-group-item-text">
+          <div class="list-group-item-text" [ngClass]="{'viewed': document.attributes.viewed}">
             {{document.attributes.customerAssignedId}}
           </div>
         </div>
         <div class="list-view-pf-additional-info1">
           <div class="list-view-pf-additional-info-item">
             <span class="fa fa-money"></span>
-            <strong>{{document.attributes.amount | number}}</strong> {{document.attributes.currency}}
+            <span *ngIf="document.attributes.viewed">{{document.attributes.amount | number}}</span>
+            <strong *ngIf="!document.attributes.viewed">{{document.attributes.amount | number}}</strong>
+            {{document.attributes.currency}}
           </div>
         </div>
       </div>

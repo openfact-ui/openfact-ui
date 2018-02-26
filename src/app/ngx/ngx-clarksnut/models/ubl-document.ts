@@ -41,6 +41,8 @@ export class UBLDocumentAttributes {
     customerAssignedId: string;
     provider: string;
     starred: boolean; //
+    viewed: boolean;
+    checked: boolean;
     tags: string[];
     updatedAt: string;
     createdAt: string;

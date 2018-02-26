@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SearchEventService } from '../../shared/search-event.service';
-import { Context, UBLDocument } from '../../ngx/ngx-clarksnut';
+import { Context, UBLDocument, UBLDocumentService } from '../../ngx/ngx-clarksnut';
 import { ContextService } from './../../ngx-impl/ngx-clarksnut-impl/context.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private router: Router,
     private searchEventService: SearchEventService,
     private contexts: ContextService,
+    private documentService: UBLDocumentService
   ) {
     this.subscriptions.push(
       this.searchEventService.eventListener.skip(1).subscribe((event) => {
@@ -29,6 +30,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.contexts.current.subscribe(val => {
         this.context = val;
+        this.updateDocument();
       })
     );
   }
@@ -42,6 +44,15 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
 
   get document(): UBLDocument {
     return this.context.document;
+  }
+
+  private updateDocument() {
+    const documentToUpdate: UBLDocument = this.document;
+    documentToUpdate.attributes.viewed = true;
+
+    this.documentService.update(documentToUpdate).subscribe((val) => {
+      this.context.document = val;
+    });
   }
 
 }

@@ -8,6 +8,7 @@ import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-que
 import { SearchEventService } from '../../shared/search-event.service';
 import { SearchEvent } from './../../models/search-event';
 
+import { cloneDeep } from 'lodash';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -95,4 +96,29 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   edit(document: UBLDocument) {
     this.router.navigate([document.id], { relativeTo: this.activatedRoute });
   }
+
+  checkDocument(document: UBLDocument, index: number) {
+    const copyDocument = cloneDeep(document);
+    copyDocument.attributes.checked = true;
+    this.updateDocument(copyDocument, index);
+  }
+
+  uncheckDocument(document: UBLDocument, index: number) {
+    const copyDocument = cloneDeep(document);
+    copyDocument.attributes.checked = false;
+    this.updateDocument(copyDocument, index);
+  }
+
+  changeStar(document: UBLDocument, index: number) {
+    const copyDocument = cloneDeep(document);
+    copyDocument.attributes.starred = !copyDocument.attributes.starred;
+    this.updateDocument(copyDocument, index);
+  }
+
+  private updateDocument(document: UBLDocument, index: number) {
+    this.documentService.update(document).subscribe((val) => {
+      this.documents[index] = val;
+    });
+  }
+
 }
