@@ -1,217 +1,279 @@
-<div class="middle">
-  <div class="middle-header header-toolbar">
-    <div class="container-fluid">
-      <div class="page-header page-header-bleed-right page-header-bleed-left">
-        <h1>
-          <a href="javascript:void(0)" class="pull-right btn btn-default">
-            <span>
-              <i class="pficon pficon-print"></i> Print
-            </span>
-          </a>
-          Reports
-          <span class="page-header-link">
-            <a target="_blank" href="javascript:void(0)">
-              Learn More
-              <i class="fa fa-external-link" aria-hidden="true"></i>
+<div class="monitoring-page show-sidebar-right">
+
+  <div class="middle sidebar-open">
+    <div class="middle-header header-toolbar">
+      <div class="container-fluid">
+        <div class="page-header page-header-bleed-right page-header-bleed-left">
+          <h1>
+            <a href="javascript:void(0)" class="pull-right btn btn-default">
+              <span>
+                <i class="pficon pficon-print"></i> Print
+              </span>
             </a>
-          </span>
-        </h1>
-      </div>
-
-      <br/>
-      <div class="data-toolbar">
-        <cn-document-period-picker></cn-document-period-picker>
-        <div class="vertical-divider"></div>
-        <div class="btn-group" dropdown style="margin-right: 5px;">
-          <button dropdownToggle type="button" class="btn btn-default dropdown-toggle">
-            Type
-            <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Invoice</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Credit Note</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Debit Note</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Voided Document</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Summary Document</a>
-            </li>
-          </ul>
-        </div>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default">PEN</button>
-          <button type="button" class="btn btn-default">USR</button>
+            Reports
+            <span class="page-header-link">
+              <a target="_blank" href="javascript:void(0)">
+                Learn More
+                <i class="fa fa-external-link" aria-hidden="true"></i>
+              </a>
+            </span>
+          </h1>
         </div>
 
-        <div class="vertical-divider"></div>
-        <div class="data-toolbar-filter">
-          <form role="form" class="search-pf has-button">
-            <div class="form-group filter-controls has-clear">
-              <div class="search-pf-input-group input-group">
-                <label for="name-filter" class="sr-only">Filter by name</label>
-                <input type="search" placeholder="Filter by name" class="form-control" id="name-filter" ng-model="filters.text" autocorrect="off"
-                  autocapitalize="none" spellcheck="false">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Search</button>
-                </span>
+        <br/>
+        <div class="data-toolbar">
+          <div class="data-toolbar-filter">
+            <div role="form" class="search-pf has-button">
+              <div class="form-group filter-controls has-clear">
+                <cn-party-filter [space]="space"></cn-party-filter>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="checkbox nowrap">
-          <label>
-            <input type="checkbox" ng-model="filters.hideOlderResources" class="ng-pristine ng-untouched  ng-not-empty">Hide older resources
-          </label>
-        </div>
-      </div>
-
-
-
-      <br/>
-      <br/>
-
-      <div class="data-toolbar row toolbar-pf-results" style="margin-top: -21px;padding:  0;">
-        <div class="col-sm-12">
-          <h5>40 Results</h5>
-          <p>Active filters:</p>
-          <ul class="list-inline">
-            <li>
-              <span class="label label-info">
-                Name: nameofthething
-                <a href="#">
-                  <span class="pficon pficon-close"></span>
-                </a>
-              </span>
-            </li>
-            <li>
-              <span class="label label-info">
-                Name: nameofthething
-                <a href="#">
-                  <span class="pficon pficon-close"></span>
-                </a>
-              </span>
-            </li>
-            <li>
-              <span class="label label-info">
-                Name: nameofthething
-                <a href="#">
-                  <span class="pficon pficon-close"></span>
-                </a>
-              </span>
-            </li>
-          </ul>
-          <p>
-            <a href="#">Clear All Filters</a>
-          </p>
-        </div>
-        <!-- /col -->
-      </div>
-
-    </div>
-  </div>
-
-  <br/>
-
-  <div class="middle-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-        </div>
-      </div>
-      <div>
-        <ul class="nav nav-tabs">
-          <li class="active">
-            <a>Sold</a>
-          </li>
-          <li>
-            <a>Bought</a>
-          </li>
-        </ul>
-
-
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered table-mobile table-layout-fixed">
-              <colgroup>
-                <col class="col-sm-3">
-                <col class="col-sm-3">
-                <col class="col-sm-2">
-                <col class="col-sm-2">
-                <col class="col-sm-2">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Hostname</th>
-
-                  <th>Service</th>
-                  <th>Target Port</th>
-                  <th>TLS Termination</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td data-title="Name">
-                    Name
-                  </td>
-                  <td data-title="Hostname">
-                    <span ng-if="(route | isWebRoute)">
-                      <a href="https://content-repository-carlosthe19916-jenkins.8a09.starter-us-east-2.openshiftapps.com/" target="_blank">
-                        https://content-repository-carlosthe19916-jenkins.8a09.starter-us-east-2.openshiftapps.com
-                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                      </a>
-                    </span>
-                  </td>
-                  <td data-title="Service">
-                    <span ng-if="route.spec.to.kind === 'Service'">
-                      <a ng-href="project/carlosthe19916-jenkins/browse/services/content-repository" href="project/carlosthe19916-jenkins/browse/services/content-repository">content-repository</a>
-                    </span>
-                  </td>
-                  <td data-title="Target Port">
-                    <span ng-if="!route.spec.port.targetPort">&nbsp;</span>
-                  </td>
-                  <td data-title="Termination">
-                    Edge
-                  </td>
-                </tr>
-                <tr>
-                  <td data-title="Name">
-                    <a href="project/carlosthe19916-jenkins/browse/routes/jenkins">jenkins</a>
-                  </td>
-                  <td data-title="Hostname">
-                    <span ng-if="(route | isWebRoute)">
-                      <a href="https://jenkins-carlosthe19916-jenkins.8a09.starter-us-east-2.openshiftapps.com/" target="_blank">
-                        https://jenkins-carlosthe19916-jenkins.8a09.starter-us-east-2.openshiftapps.com
-                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                      </a>
-                    </span>
-                  </td>
-                  <td data-title="Service">
-                    <span ng-if="route.spec.to.kind === 'Service'">
-                      <a ng-href="project/carlosthe19916-jenkins/browse/services/jenkins" href="project/carlosthe19916-jenkins/browse/services/jenkins">jenkins</a>
-                    </span>
-                  </td>
-                  <td data-title="Target Port">
-                    <span ng-if="!route.spec.port.targetPort">&nbsp;</span>
-                  </td>
-                  <td data-title="Termination">
-                    Edge
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          </div>
+          <div class="checkbox nowrap">
+            <label>
+              <input type="checkbox">Hide older resources
+            </label>
           </div>
         </div>
 
 
+
+        <br/>
+        <br/>
+
+        <div class="data-toolbar row toolbar-pf-results" style="margin-top: -21px;padding:  0;">
+          <div class="col-sm-12">
+            <h5>40 Results</h5>
+            <p>Active filters:</p>
+            <ul class="list-inline">
+              <li>
+                <span class="label label-info">
+                  Name: nameofthething
+                  <a href="#">
+                    <span class="pficon pficon-close"></span>
+                  </a>
+                </span>
+              </li>
+              <li>
+                <span class="label label-info">
+                  Name: nameofthething
+                  <a href="#">
+                    <span class="pficon pficon-close"></span>
+                  </a>
+                </span>
+              </li>
+              <li>
+                <span class="label label-info">
+                  Name: nameofthething
+                  <a href="#">
+                    <span class="pficon pficon-close"></span>
+                  </a>
+                </span>
+              </li>
+            </ul>
+            <p>
+              <a href="#">Clear All Filters</a>
+            </p>
+          </div>
+          <!-- /col -->
+        </div>
+
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="middle-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+          </div>
+        </div>
+        <div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered table-mobile table-layout-fixed">
+                <colgroup>
+                  <col class="col-sm-2">
+                  <col class="col-sm-3">
+                  <col class="col-sm-3">
+                  <col class="col-sm-2">
+                  <col class="col-sm-2">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>Document</th>
+                    <th>Supplier</th>
+                    <th>Customer</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let document of items">
+                    <td data-title="Name">{{document.attributes.assignedId}}</td>
+                    <td data-title="Hostname">{{document.attributes.supplierName}}</td>
+                    <td data-title="Service">{{document.attributes.customerName}}</td>
+                    <td data-title="Target Port">{{document.attributes.type}}</td>
+                    <td data-title="Termination">{{document.attributes.amount | number}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <ul class="pager">
+                <li class="previous">
+                  <a href="#">
+                    <span class="i fa fa-angle-left"></span>
+                    Previous
+                  </a>
+                </li>
+                <li class="next">
+                  <a href="#">
+                    Next
+                    <span class="i fa fa-angle-right"></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+        </div>
       </div>
     </div>
   </div>
+
+
+  <div class="sidebar-right sidebar-pf sidebar-pf-right">
+    <div class="right-section">
+      <div class="events-sidebar">
+        <div class="right-container events-sidebar">
+          <div class="sidebar-header right-header">
+            <div>
+              <h2>
+                <span class="events-sidebar-collapse">
+                  <a href="" class="fa fa-arrow-circle-o-right" title="Collapse event sidebar">
+                    <span class="sr-only">Collapse event sidebar</span>
+                  </a>
+                </span> Events
+              </h2>
+            </div>
+          </div>
+          <div class="right-content">
+
+            <table *ngIf="facets.get('type')" class="table table-bordered table-mobile" style="border-top:0;border-left:0;margin-bottom:0;">
+              <colgroup>
+                <col class="col-sm-2">
+                <col class="col-sm-5">
+                <col class="col-sm-5">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Type</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let facet of facets.get('type')">
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                  <td>{{facet.value}}</td>
+                  <td>{{facet.count | number}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table *ngIf="facets.get('amount')" class="table table-bordered table-mobile" style="border-top:0;border-left:0;margin-bottom:0;">
+              <colgroup>
+                <col class="col-sm-2">
+                <col class="col-sm-5">
+                <col class="col-sm-5">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Amount</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let facet of facets.get('amount')">
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                  <td>{{facet.value}}</td>
+                  <td>{{facet.count | number}}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-default btn-xs">
+                      <span class="fa fa-angle-double-left" aria-hidden="true"></span>
+                    </button>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <span class="input-group-addon">From</span>
+                      <input class="form-control" placeholder="0">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <span class="input-group-addon">To</span>
+                      <input class="form-control" placeholder="100">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table *ngIf="facets.get('issueDate')" class="table table-bordered table-mobile" style="border-top:0;border-left:0;margin-bottom:0;">
+              <colgroup>
+                <col class="col-sm-2">
+                <col class="col-sm-5">
+                <col class="col-sm-5">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Amount</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let facet of facets.get('issueDate')">
+                  <td>
+                    <input type="checkbox">
+                  </td>
+                  <td>{{facet.value}}</td>
+                  <td>{{facet.count | number}}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-default btn-xs">
+                      <span class="fa fa-angle-double-left" aria-hidden="true"></span>
+                    </button>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <span class="input-group-addon">From</span>
+                      <input class="form-control" placeholder="0">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group">
+                      <span class="input-group-addon">To</span>
+                      <input class="form-control" placeholder="100">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

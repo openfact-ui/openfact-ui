@@ -45,7 +45,15 @@ import { realmProvider } from './ngx-impl/ngx-login-client-impl/realm-token.prov
 
 // Ngx-clarksnut
 import { ClarksnutModule } from './ngx/ngx-clarksnut';
-import { CollaboratorService, RequestAccessService, Contexts, Spaces, SpaceService, UBLDocumentService } from './ngx/ngx-clarksnut';
+import {
+  CollaboratorService,
+  RequestAccessService,
+  Contexts,
+  Spaces,
+  SpaceService,
+  UBLDocumentService,
+  PartyService
+} from './ngx/ngx-clarksnut';
 
 // Ngx-clarksnut-impl
 import { ContextService } from './ngx-impl/ngx-clarksnut-impl/context.service';
@@ -172,6 +180,7 @@ export function createTranslateLoader(http: HttpClient) {
     SpaceService,
     UBLDocumentService,
     RequestAccessService,
+    PartyService,
 
     // Ngx-clarksnut-mail-collector
     LinkService,

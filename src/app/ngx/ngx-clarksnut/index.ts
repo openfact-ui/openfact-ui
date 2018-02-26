@@ -56,3 +56,7 @@ export { MailService } from './mail/mail.service';
 // Request Access
 export { RequestAccessService} from './request-access/request-access.service';
 export { RequestAccessToSpace } from './models/request-access-to-space';
+
+// Parties
+export { Party } from './models/party';
+export { PartyService } from './parties/party.service';

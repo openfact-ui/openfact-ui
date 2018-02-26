@@ -159,9 +159,19 @@ export class UBLDocumentService {
       .map(response => {
         // Extract data from JSON API response, and assert to an array of documents.
         const json = response.json();
+
+        const map = new Map();
+        const facets = json.meta.facets;
+        if (facets) {
+          Object.keys(facets).forEach(key => {
+            map.set(key, facets[key]);
+          });
+        }
+
         return {
           totalResults: json.meta.totalCount,
-          data: json.data as UBLDocument[]
+          data: json.data as UBLDocument[],
+          facets: map
         } as SearchResult<UBLDocument>;
       })
       .catch((error) => {

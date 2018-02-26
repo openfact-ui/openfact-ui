@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <div class="dropdown" [ngClass]="{'open': parties.length>0}">
+    <div class="search-pf-input-group input-group dropdown-toggle">
+      <label class="sr-only">Party name</label>
+      <input formControlName="filterText" type="search" placeholder="Party name" class="form-control" autocorrect="off" autocapitalize="none"
+        spellcheck="false">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Search</button>
+      </span>
+    </div>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      <li *ngFor="let party of parties">
+        <a>{{party.attributes.name}} {{party.attributes.assignedId}}</a>
+      </li>
+    </ul>
+  </div>
+</form>
