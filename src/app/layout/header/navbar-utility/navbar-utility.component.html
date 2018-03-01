@@ -30,10 +30,10 @@
       </li>
     </ul>
   </li>
-  <li dropdown *ngIf="user">
+  <li dropdown *ngIf="loggedInUser">
     <a dropdownToggle id="user-dropdown" class="nav-item-iconic">
       <span class="fa pf-icon pficon-user" aria-hidden="true"></span>
-      <span class="username truncate">{{user.attributes.fullNam || user.attributes.username}}</span>
+      <span class="username truncate">{{loggedInUser.attributes.fullNam || loggedInUser.attributes.username}}</span>
       <span class="caret" aria-hidden="true"></span>
     </a>
     <ul *dropdownMenu class="dropdown-menu" aria-labelledby="user-dropdown">

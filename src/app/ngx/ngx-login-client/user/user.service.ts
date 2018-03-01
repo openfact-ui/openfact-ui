@@ -26,25 +26,21 @@ export class UserService {
   public loggedInUser: Observable<User>;
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private userUrl: string;  // URL to web api
-  private usersUrl: string;  // URL to web api
-  private searchUrl: string;
+  private profileUrl: string;
+  private usersUrl: string;
 
   constructor(
     private http: Http,
     private logger: Logger,
     broadcaster: Broadcaster,
     @Inject(AUTH_API_URL) apiUrl: string) {
-    this.userUrl = apiUrl + '/user';
+    this.profileUrl = apiUrl + '/profile';
     this.usersUrl = apiUrl + '/users';
-    this.searchUrl = apiUrl + '/search';
     this.loggedInUser = this.http
-      .get(this.userUrl, { headers: this.headers })
+      .get(this.profileUrl, { headers: this.headers })
       .map(response => cloneDeep(response.json().data as User))
       .publishLast()
       .refCount();
-      //.multicast(() => new ReplaySubject(1));
-    //this.loggedInUser.connect();
   }
 
   /**
@@ -80,7 +76,7 @@ export class UserService {
   getUsersBySearchString(search: string): Observable<User[]> {
     if (search && search !== '') {
       return this.http
-        .get(this.searchUrl + '/users?q=' + search, { headers: this.headers })
+        .get(this.usersUrl + '/users?filterText=' + search, { headers: this.headers })
         .map(response => {
           return response.json().data as User[];
         });
@@ -96,7 +92,7 @@ export class UserService {
    */
   filterUsersByUsername(username: string): Observable<User[]> {
     return this.http
-      .get(`${this.usersUrl}?filter[username]=${username}`, { headers: this.headers })
+      .get(`${this.usersUrl}?username=${username}`, { headers: this.headers })
       .map(response => {
         return response.json().data as User[];
       });

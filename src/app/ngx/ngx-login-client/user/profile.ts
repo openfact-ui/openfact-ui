@@ -1,5 +1,3 @@
-// import { Email } from './email';
-
 export class Profile {
   company?: string;
   fullName: string;
@@ -8,4 +6,5 @@ export class Profile {
   bio?: string;
   url?: string;
   email?: string;
+  defaultLanguage?: string;
 }

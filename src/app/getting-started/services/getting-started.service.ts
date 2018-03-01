@@ -25,7 +25,7 @@ export class GettingStartedService implements OnDestroy {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private loggedInUser: User;
   subscriptions: Subscription[] = [];
-  private usersUrl: string;
+  private profileUrl: string;
 
   constructor(
     private auth: AuthenticationService,
@@ -33,7 +33,7 @@ export class GettingStartedService implements OnDestroy {
     private logger: Logger,
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
-    this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
+    this.profileUrl = apiUrl.endsWith('/') ? apiUrl + 'profile' : apiUrl + '/profile';
   }
 
   ngOnDestroy(): void {
@@ -61,7 +61,7 @@ export class GettingStartedService implements OnDestroy {
    * @returns {Observable<ExtUser>}
    */
   getExtProfile(id: string): Observable<ExtUser> {
-    const url = `${this.usersUrl}/${id}`;
+    const url = `${this.profileUrl}/${id}`;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
@@ -86,7 +86,7 @@ export class GettingStartedService implements OnDestroy {
       }
     });
     return this.http
-      .patch(this.usersUrl, payload, { headers: this.headers })
+      .put(this.profileUrl, payload, { headers: this.headers })
       .map(response => {
         return response.json().data as ExtUser;
       })

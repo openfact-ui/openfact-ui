@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from './ngx-impl/ngx-base-impl/notifications.service';
 
 @Component({
@@ -8,9 +9,12 @@ import { NotificationsService } from './ngx-impl/ngx-base-impl/notifications.ser
 })
 export class AppComponent {
 
-  title = 'cn';
+  title = 'Clarksnut';
 
-  constructor(public notifications: NotificationsService) {
+  constructor(
+    private translateService: TranslateService,
+    public notifications: NotificationsService) {
+    this.translateService.setDefaultLang('es');
   }
 
   handleAction($event: any): void {

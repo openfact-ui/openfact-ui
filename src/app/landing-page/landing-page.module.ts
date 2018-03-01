@@ -6,8 +6,13 @@ import { LandingPageComponent } from './landing-page.component';
 import { LandingPageRoutingModule } from './landing-page-routing.module';
 
 @NgModule({
-  imports: [CommonModule, LandingPageRoutingModule],
-  declarations: [LandingPageComponent]
+  imports: [
+    CommonModule,
+    LandingPageRoutingModule
+  ],
+  declarations: [
+    LandingPageComponent
+  ]
 })
 export class LandingPageModule {
   constructor() { }

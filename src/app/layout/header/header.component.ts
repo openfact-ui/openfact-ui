@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { User, UserService } from '../../ngx/ngx-login-client';
-import { Space } from '../../ngx/ngx-clarksnut';
+import { Contexts, Context, Space } from '../../ngx/ngx-clarksnut';
 
 type MenuHiddenCallback = (headerComponent: HeaderComponent) => Observable<boolean>;
 
@@ -16,17 +16,18 @@ type MenuHiddenCallback = (headerComponent: HeaderComponent) => Observable<boole
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  user: User;
-  space: Space;
+  loggedInUser: User;
+  private _context: Context;
   private subcriptions: Subscription[] = [];
 
   isMobileMenuShow = false;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private contexts: Contexts) {
     this.subcriptions.push(
-      this.userService.loggedInUser.subscribe((val) => {
-        this.user = val;
-      })
+      userService.loggedInUser.subscribe((val) => this.loggedInUser = val),
+      contexts.current.subscribe((val) => this._context = val)
     );
   }
 
@@ -34,7 +35,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subcriptions.forEach(val => val.unsubscribe());
+    this.subcriptions.forEach((val) => val.unsubscribe());
+  }
+
+  get context(): Context {
+    return this._context;
   }
 
   toggleMobileNav() {

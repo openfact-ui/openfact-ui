@@ -87,13 +87,14 @@ import { HeaderComponent } from './layout/header/header.component';
 import { NavbarUtilityComponent } from './layout/header/navbar-utility/navbar-utility.component';
 import { NotificationCounterComponent } from './layout/header/notification-counter/notification-counter.component';
 import { EventService } from './ngx-impl/ngx-clarksnut-impl/event.service';
+import { SidebarComponent } from './layout/header/sidebar/sidebar.component';
+import { SpaceSidebarComponent } from './layout/header/space-sidebar/space-sidebar.component';
 
 // Search
 import { SearchEventService } from './shared/search-event.service';
 
 // Error
 import { ErrorService } from './layout/error/error.service';
-import { SidebarComponent } from './layout/header/sidebar/sidebar.component';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -107,7 +108,8 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent,
     NavbarUtilityComponent,
     NotificationCounterComponent,
-    SidebarComponent
+    SidebarComponent,
+    SpaceSidebarComponent
   ],
   imports: [
     BrowserModule,
