@@ -11,15 +11,16 @@
                 <div>
                   <div class="projects-header">
                     <div class="projects-bar">
-                      <h1>My Collectors</h1>
+                      <h1>Mis Colectores</h1>
                       <div class="projects-options">
                         <div class="projects-add">
-                          <button class="btn btn-default" type="button" routerLink="/_home">
-                            <span class="pficon pficon-home" style="font-weight: 600;"> Go Home</span>
+                          <button (click)="goHome()" type="button" class="btn btn-default">
+                            <span class="pficon pficon-home"></span>
+                            <span class="icon-button-text">Ir a Home</span>
                           </button>
                           <button (click)="createCollector()" class="btn btn-primary">
                             <span class="fa fa-plus" aria-hidden="true"></span>
-                            <span class="icon-button-text">Create Collector</span>
+                            <span class="icon-button-text">Crear Colector</span>
                           </button>
                         </div>
                         <div class="projects-search">
@@ -37,6 +38,8 @@
                       </div>
                     </div>
                   </div>
+
+
 
                   <div class="list-group list-view-pf projects-list" *ngIf="userMailCollector">
                     <div *ngFor="let collector of userMailCollector.attributes.brokers" class="list-group-item project-info tile-click">
@@ -91,7 +94,52 @@
                         modal-title="Edit Project" on-close="closeEditProjectPanel" class="">
                       </origin-modal-popup> -->
                     </div>
+
+                    <div *ngIf="userMailCollector.attributes.brokers.length === 0" class="blank-slate-pf">
+                      <div class="blank-slate-pf-icon">
+                        <span class="fa fa-envelope"></span>
+                      </div>
+                      <h1>Collectores</h1>
+                      <p>
+                        Un Collector es una tarea programada para buscar comprobantes electrónicos en tus correos electrónicos asociados. Usted puede
+                        tener uno o más colectores. Por el momento sólo podrá asociar GMAIL como su colector por defecto
+                        pero pronto podrá añadir mas proveedores. Tenga en cuenta que los Colectores solamente leerá correos
+                        con comprobantes de pago electrónicos, por lo que su seguridad y confidencialidad está asegurada.
+                      </p>
+                      <p>
+                        Leer más acerca de esto.
+                        <a href="https://clarksnut.gitbooks.io/getting-started-guide/content/" target="_blank">en la documentación.</a>.
+                      </p>
+                      <div class="blank-slate-pf-main-action">
+                        <button (click)="createCollector()" type="button" class="btn btn-primary btn-lg">
+                          <span aria-hidden="true" class="fa fa-plus"></span> Crear Colector
+                        </button>
+                      </div>
+                      <div class="blank-slate-pf-secondary-action">
+                        <button (click)="goHome()" type="button" class="btn btn-default">
+                          <span class="pficon pficon-home"></span> Ir a Home
+                        </button>
+                      </div>
+                    </div>
                   </div>
+
+                  <div *ngIf="!userMailCollector" class="blank-slate-pf">
+                    <div class="blank-slate-pf-icon">
+                      <span class="pficon pficon-warning-triangle-o"></span>
+                    </div>
+                    <h1>Ups! Algo va mal con nuestros colectores!</h1>
+                    <p>
+                      Vuelva a intentarlo más tarde por favor.
+                    </p>
+                    <div class="blank-slate-pf-main-action">
+                      <button routerLink="/_home" type="button" class="btn btn-default btn-lg">
+                        <span class="pficon pficon-home"></span> Ir a Home
+                      </button>
+                    </div>
+                  </div>
+
+
+
                 </div>
               </div>
             </div>

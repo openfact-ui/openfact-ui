@@ -102,6 +102,11 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
     this.linkService.addManualBroker('google', redirect);
   }
 
+  goHome() {
+    this.saveUser();
+    this.router.navigate(['/_home']);
+  }
+
   saveUser() {
     const profile = this.gettingStartedService.createTransientProfile();
     profile.username = this.username;
