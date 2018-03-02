@@ -44,7 +44,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
         this.broadcaster.on('spaceCreated'),
         this.broadcaster.on('spaceDeleted')
       ).subscribe((val) => {
-        this.spaceService.getSpacesByUser(this.user.attributes.username, 5).subscribe((val) => {
+        this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
           this.spaces = val;
         });
       })

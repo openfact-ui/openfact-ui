@@ -48,7 +48,7 @@ export class SpacesComponent implements OnDestroy, OnInit {
     this.pageSize = event.pageSize;
     if (this.context && this.context.user) {
       this.subscriptions.push(this.spaceService
-        .getSpacesByUser(this.context.user.attributes.username, this.pageSize)
+        .getSpacesByUserId(this.context.user.id, 'owner', this.pageSize)
         .subscribe((spaces) => {
           this.spaces = spaces;
         }));
@@ -63,9 +63,9 @@ export class SpacesComponent implements OnDestroy, OnInit {
         .subscribe((spaces) => {
           this.spaces = this.spaces.concat(spaces);
         },
-        (err) => {
-          this.logger.error(err);
-        }));
+          (err) => {
+            this.logger.error(err);
+          }));
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }
@@ -81,11 +81,11 @@ export class SpacesComponent implements OnDestroy, OnInit {
           this.spaceToDelete = undefined;
           this.modalRef.hide();
         },
-        (err) => {
-          this.logger.error(err);
-          this.spaceToDelete = undefined;
-          this.modalRef.hide();
-        }));
+          (err) => {
+            this.logger.error(err);
+            this.spaceToDelete = undefined;
+            this.modalRef.hide();
+          }));
     } else {
       this.logger.error('Failed to retrieve list of spaces owned by user');
     }

@@ -27,7 +27,7 @@ export class OverviewComponent implements OnDestroy, OnInit {
     this.subscriptions.push(userService.loggedInUser.subscribe((user) => {
       this.loggedInUser = user;
       if (user.attributes) {
-        this.subscriptions.push(spaceService.getSpacesByUser(user.attributes.username, 10).subscribe((spaces) => {
+        this.subscriptions.push(spaceService.getSpacesByUserId(user.id).subscribe((spaces) => {
           this.spaces = spaces;
         }));
       }
