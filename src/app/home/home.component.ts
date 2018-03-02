@@ -12,9 +12,9 @@ import { Subscription } from 'rxjs/Subscription';
 export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2) {
-    this.renderer.removeClass(document.body, 'has-project-bar');
+    renderer: Renderer2,
+    @Inject(DOCUMENT) document: Document) {
+    renderer.removeClass(document.body, 'has-project-bar');
   }
 
   ngOnInit() {
