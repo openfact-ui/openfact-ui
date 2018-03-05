@@ -29,7 +29,7 @@ export class UBLDocumentService {
     this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
   }
 
-  getDocumentById(userId:string, documentId: string): Observable<UBLDocument> {
+  getDocumentById(userId: string, documentId: string): Observable<UBLDocument> {
     const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
@@ -114,7 +114,7 @@ export class UBLDocumentService {
       });
   }
 
-  downloadDocumentById(userId:string, documentId: string): Observable<FileWrapper> {
+  downloadDocumentById(userId: string, documentId: string): Observable<FileWrapper> {
     const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, {
       headers: this.headers,

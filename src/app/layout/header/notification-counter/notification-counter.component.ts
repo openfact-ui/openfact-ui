@@ -65,7 +65,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
     this.requestAccessService.getByCurrentUser().subscribe((requests) => {
       this.pendingRequests = requests;
       this.loadingPendingRequests = false;
-    })
+    });
   }
 
   acceptRequest(request: RequestAccessToSpace, index: number) {

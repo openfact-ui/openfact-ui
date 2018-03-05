@@ -298,7 +298,7 @@ export class SpaceService {
       // map the user objects back to the spaces to return a stream of spaces
       .map(owner => {
         if (owner) {
-          for (let space of spaces) {
+          for (const space of spaces) {
             space.relationalData = space.relationalData || {};
             if (owner.id === space.relationships.ownedBy.data.id) {
               space.relationalData.owner = owner;

@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
-import { SearchEvent } from './../../models/search-event';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OnInit, Component, Input, Inject, OnDestroy, Output } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 
 import { Space, Party, PartyService, UBLDocumentService, UBLDocument } from './../../ngx/ngx-clarksnut';
+import { SearchEvent } from './../../models/search-event';
 import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
 import { SearchEventService } from './../../shared/search-event.service';
 
@@ -59,7 +59,6 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         }
       })
     );
-
   }
 
   ngOnInit() {

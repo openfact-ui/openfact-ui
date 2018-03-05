@@ -105,7 +105,7 @@ export class RequestAccessService {
       }))
       .map(space => {
         if (space) {
-          for (let request of requests) {
+          for (const request of requests) {
             request.relationalData = request.relationalData || {};
             if (request.attributes.space === space.id) {
               request.relationalData.spaceRequested = space;
@@ -131,7 +131,7 @@ export class RequestAccessService {
       }))
       .map(user => {
         if (user) {
-          for (let request of requests) {
+          for (const request of requests) {
             request.relationalData = request.relationalData || {};
             if (request.attributes.user === user.id) {
               request.relationalData.createdBy = user;

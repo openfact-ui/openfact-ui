@@ -9,7 +9,7 @@
           placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="false"
           aria-autocomplete="list" aria-expanded="false">
 
-        <ul class="dropdown-menu" style="top: 30px;left: 0px;" [style.display]="parties.length>0 ? 'block' : ''">
+        <ul class="dropdown-menu" style="top: 30px;left: 0px;" [style.display]="parties.length>0 || documents.length>0 ? 'block' : ''">
           <!-- Parties -->
           <li *ngFor="let party of parties">
             <a (click)="selectParty(party)" class="catalog-search-match" href="javascript:void(0)">

@@ -50,17 +50,17 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     //   })
     // );
 
-    // this.subscriptions.push(
-    //   this.searchEventService.eventListener.subscribe((event) => {
-    //     this.appliedFilters.delete('keyword');
-    //     if (event && event.keyword) {
-    //       this.appliedFilters.set('keyword', {
-    //         name: event.keyword,
-    //         value: event.keyword
-    //       });
-    //     }
-    //   })
-    // );
+    this.subscriptions.push(
+      this.searchEventService.eventListener.subscribe((event) => {
+        this.appliedFilters.delete('keyword');
+        if (event && event.keyword) {
+          this.appliedFilters.set('keyword', {
+            name: event.keyword,
+            value: event.keyword
+          });
+        }
+      })
+    );
   }
 
   ngOnInit() {
@@ -79,14 +79,14 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   clearAllFilters() {
-    // this.appliedFilters.clear();
+    this.appliedFilters.clear();
 
-    // const current = this.searchEventService.current || {};
-    // this.searchEventService.emitEvent(Object.assign(current, {
-    //   keyword: null,
-    //   offset: 0,
-    //   limit: this.limit
-    // }));
+    const current = this.searchEventService.current || {};
+    this.searchEventService.emitEvent(Object.assign(current, {
+      keyword: null,
+      offset: 0,
+      limit: this.limit
+    }));
   }
 
   previousPage() {
@@ -104,12 +104,12 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    // const current = this.searchEventService.current || {};
-    // this.searchEventService.emitEvent(Object.assign(current, {
-    //   offset: this.offset,
-    //   limit: this.limit,
-    //   spaces: this.selectedSpaces
-    // }));
+    const current = this.searchEventService.current || {};
+    this.searchEventService.emitEvent(Object.assign(current, {
+      offset: this.offset,
+      limit: this.limit,
+      spaces: this.selectedSpaces
+    }));
   }
 
   get selectedSpaces() { // right now: ['1','3']
