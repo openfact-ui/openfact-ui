@@ -45,50 +45,50 @@ export class SpacesComponent implements OnDestroy, OnInit {
   // Actions
 
   public initSpaces(event: any): void {
-    this.pageSize = event.pageSize;
-    if (this.context && this.context.user) {
-      this.subscriptions.push(this.spaceService
-        .getSpacesByUserId(this.context.user.id, 'owner', this.pageSize)
-        .subscribe((spaces) => {
-          this.spaces = spaces;
-        }));
-    } else {
-      this.logger.error('Failed to retrieve list of spaces owned by user');
-    }
+    // this.pageSize = event.pageSize;
+    // if (this.context && this.context.user) {
+    //   this.subscriptions.push(this.spaceService
+    //     .getSpacesByUserId(this.context.user.id, 'owner', this.pageSize)
+    //     .subscribe((spaces) => {
+    //       this.spaces = spaces;
+    //     }));
+    // } else {
+    //   this.logger.error('Failed to retrieve list of spaces owned by user');
+    // }
   }
 
   public fetchMoreSpaces($event): void {
-    if (this.context && this.context.user) {
-      this.subscriptions.push(this.spaceService.getMoreSpacesByUser()
-        .subscribe((spaces) => {
-          this.spaces = this.spaces.concat(spaces);
-        },
-          (err) => {
-            this.logger.error(err);
-          }));
-    } else {
-      this.logger.error('Failed to retrieve list of spaces owned by user');
-    }
+    // if (this.context && this.context.user) {
+    //   this.subscriptions.push(this.spaceService.getMoreSpacesByUserId()
+    //     .subscribe((spaces) => {
+    //       this.spaces = this.spaces.concat(spaces);
+    //     },
+    //       (err) => {
+    //         this.logger.error(err);
+    //       }));
+    // } else {
+    //   this.logger.error('Failed to retrieve list of spaces owned by user');
+    // }
   }
 
   public removeSpace(): void {
-    if (this.context && this.context.user && this.spaceToDelete) {
-      const space = this.spaceToDelete;
-      this.subscriptions.push(this.spaceService.deleteSpace(space)
-        .subscribe((spaces) => {
-          const index = this.spaces.indexOf(space);
-          this.spaces.splice(index, 1);
-          this.spaceToDelete = undefined;
-          this.modalRef.hide();
-        },
-          (err) => {
-            this.logger.error(err);
-            this.spaceToDelete = undefined;
-            this.modalRef.hide();
-          }));
-    } else {
-      this.logger.error('Failed to retrieve list of spaces owned by user');
-    }
+    // if (this.context && this.context.user && this.spaceToDelete) {
+    //   const space = this.spaceToDelete;
+    //   this.subscriptions.push(this.spaceService.deleteSpace(space)
+    //     .subscribe((spaces) => {
+    //       const index = this.spaces.indexOf(space);
+    //       this.spaces.splice(index, 1);
+    //       this.spaceToDelete = undefined;
+    //       this.modalRef.hide();
+    //     },
+    //       (err) => {
+    //         this.logger.error(err);
+    //         this.spaceToDelete = undefined;
+    //         this.modalRef.hide();
+    //       }));
+    // } else {
+    //   this.logger.error('Failed to retrieve list of spaces owned by user');
+    // }
   }
 
   public confirmDeleteSpace(space: Space, deleteSpace: TemplateRef<any>): void {

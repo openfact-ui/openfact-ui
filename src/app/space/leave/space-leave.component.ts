@@ -5,10 +5,10 @@ import { Space, SpaceService } from '../../ngx/ngx-clarksnut';
 import { Broadcaster } from '../../ngx/ngx-base';
 
 @Component({
-  selector: 'cn-space-delete',
-  templateUrl: 'space-delete.component.html'
+  selector: 'cn-space-leave',
+  templateUrl: 'space-leave.component.html'
 })
-export class SpaceDeleteComponent implements OnInit {
+export class SpaceLeaveComponent implements OnInit {
 
   @ViewChild('modalTemplate') wizardTemplate: TemplateRef<any>;
 
@@ -42,7 +42,7 @@ export class SpaceDeleteComponent implements OnInit {
 
   // Actions
 
-  delete() {
+  abandon() {
     // this.spaceService.deleteSpace(this.space)
     //   .subscribe((spaces) => {
     //     this.broadcaster.broadcast('spaceDeleted', this.space);

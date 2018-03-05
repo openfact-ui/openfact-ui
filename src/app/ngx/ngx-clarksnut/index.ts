@@ -49,10 +49,6 @@ export { UBLDocuments } from './documents/ubl-documents';
 export { FileWrapper } from './models/file-wrapper';
 export { SearchResult } from './models/search-result';
 
-// Mail
-export { Mail } from './models/mail';
-export { MailService } from './mail/mail.service';
-
 // Request Access
 export { RequestAccessService} from './request-access/request-access.service';
 export { RequestAccessToSpace } from './models/request-access-to-space';

@@ -38,29 +38,29 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     private spaceService: SpaceService,
     private searchEventService: SearchEventService,
   ) {
-    this.subscriptions.push(
-      Observable.merge(
-        this.userService.loggedInUser.do((user) => this.user = user),
-        this.broadcaster.on('spaceCreated'),
-        this.broadcaster.on('spaceDeleted')
-      ).subscribe((val) => {
-        this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
-          this.spaces = val;
-        });
-      })
-    );
+    // this.subscriptions.push(
+    //   Observable.merge(
+    //     this.userService.loggedInUser.do((user) => this.user = user),
+    //     this.broadcaster.on('spaceCreated'),
+    //     this.broadcaster.on('spaceDeleted')
+    //   ).subscribe((val) => {
+    //     this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
+    //       this.spaces = val;
+    //     });
+    //   })
+    // );
 
-    this.subscriptions.push(
-      this.searchEventService.eventListener.subscribe((event) => {
-        this.appliedFilters.delete('keyword');
-        if (event && event.keyword) {
-          this.appliedFilters.set('keyword', {
-            name: event.keyword,
-            value: event.keyword
-          });
-        }
-      })
-    );
+    // this.subscriptions.push(
+    //   this.searchEventService.eventListener.subscribe((event) => {
+    //     this.appliedFilters.delete('keyword');
+    //     if (event && event.keyword) {
+    //       this.appliedFilters.set('keyword', {
+    //         name: event.keyword,
+    //         value: event.keyword
+    //       });
+    //     }
+    //   })
+    // );
   }
 
   ngOnInit() {
@@ -79,14 +79,14 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   clearAllFilters() {
-    this.appliedFilters.clear();
+    // this.appliedFilters.clear();
 
-    const current = this.searchEventService.current || {};
-    this.searchEventService.emitEvent(Object.assign(current, {
-      keyword: null,
-      offset: 0,
-      limit: this.limit
-    }));
+    // const current = this.searchEventService.current || {};
+    // this.searchEventService.emitEvent(Object.assign(current, {
+    //   keyword: null,
+    //   offset: 0,
+    //   limit: this.limit
+    // }));
   }
 
   previousPage() {
@@ -104,12 +104,12 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    const current = this.searchEventService.current || {};
-    this.searchEventService.emitEvent(Object.assign(current, {
-      offset: this.offset,
-      limit: this.limit,
-      spaces: this.selectedSpaces
-    }));
+    // const current = this.searchEventService.current || {};
+    // this.searchEventService.emitEvent(Object.assign(current, {
+    //   offset: this.offset,
+    //   limit: this.limit,
+    //   spaces: this.selectedSpaces
+    // }));
   }
 
   get selectedSpaces() { // right now: ['1','3']

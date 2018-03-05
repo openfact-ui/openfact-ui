@@ -4,20 +4,20 @@
     <span class="create-button-text">{{'LANDSCAPE.CREATE_SPACE' | translate}}</span>
   </button>
 
-  <h2 class="summary-title secondary" *ngIf="spaces && spaces.length">
+  <h2 class="summary-title secondary" *ngIf="ownedSpaces.length > 0 || collaboratedSpaces.length > 0">
     <a routerLink="/_spaces">{{'LANDSCAPE.MY_SPACES' | translate}}</a>
   </h2>
 
-  <div *ngIf="spaces && spaces.length" class="catalog-project-summary-list">
+  <!-- Owned spaces -->
+  <div *ngIf="ownedSpaces.length > 0" class="catalog-project-summary-list">
     <div class="projects-count">
-      <strong>{{spaces.length}}</strong>
-      {{'LANDSCAPE.OF' | translate}}
-      <strong>{{spaces.length}}</strong>
-      {{'LANDSCAPE.SPACES' | translate}}
+      <span class="pficon pficon-private"></span>&nbsp;
+      <strong>{{ownedSpaces.length}}</strong> {{'LANDSCAPE.OF' | translate}}
+      <strong>{{ownedSpaces.length}}</strong> {{'LANDSCAPE.SPACES' | translate}} Privados
       <a routerLink="/_spaces" class="projects-view-all">{{'LANDSCAPE.VIEW_ALL' | translate}}</a>
     </div>
-    <div id="catalog-projects-summary-list">
-      <div *ngFor="let space of spaces" class="project-tile tile-click" (click)="editSpace(space)">
+    <div>
+      <div *ngFor="let space of ownedSpaces" class="project-tile tile-click" (click)="editSpace(space)">
         <div dropdown cnStopPropagation class="dropdown dropdown-kebab-pf">
           <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebab" aria-haspopup="true" aria-expanded="false"
             dropdownToggle>
@@ -25,10 +25,10 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
             <li>
-              <a routerLink="/_spaces/{{space.id}}" role="button" label="Edit Space">Edit Space</a>
+              <a routerLink="/_spaces/{{space.id}}" role="button" label="Edit Space">Editar Espacio</a>
             </li>
             <li>
-              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Space">Delete Space</a>
+              <a href="javascript:void(0)" (click)="deleteSpaceModal.open(space)" role="button" label="Delete Space">Eliminar Espacio</a>
             </li>
           </ul>
         </div>
@@ -36,12 +36,49 @@
           <a routerLink="/_spaces/{{space.id}}" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
         </h3>
         <p class="project-date">
-          {{space.attributes.assignedId}} {{space.attributes.description}}. Created
-          <span title="{{space.attributes.createdAt | date}}">{{space.attributes.createdAt | dateFromMilis | amTimeAgo}}</span>
+          {{space.attributes.assignedId}} {{space.attributes.description}}
         </p>
       </div>
     </div>
   </div>
+  <!-- End owned spaces -->
+
+  <!-- collaborated spaces -->
+  <div *ngIf="collaboratedSpaces.length > 0" class="catalog-project-summary-list">
+    <div class="projects-count">
+      <span class="pficon pficon-users"></span>&nbsp;
+      <strong>{{ownedSpaces.length}}</strong> {{'LANDSCAPE.OF' | translate}}
+      <strong>{{ownedSpaces.length}}</strong> {{'LANDSCAPE.SPACES' | translate}} Collaborativos
+      <a routerLink="/_spaces" class="projects-view-all">{{'LANDSCAPE.VIEW_ALL' | translate}}</a>
+    </div>
+    <div>
+      <div *ngFor="let space of collaboratedSpaces" class="project-tile tile-click" (click)="editSpace(space)">
+        <div dropdown cnStopPropagation class="dropdown dropdown-kebab-pf">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownKebab" aria-haspopup="true" aria-expanded="false"
+            dropdownToggle>
+            <span class="fa fa-ellipsis-v"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu-right dropdown-menu" aria-labelledby="dropdownKebab">
+            <li>
+              <a routerLink="/_spaces/{{space.id}}" role="button" label="Edit Space">Editar Espacio</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="leaveSpaceModal.open(space)" role="button" label="Delete Space">Abandonar Espacio</a>
+            </li>
+          </ul>
+        </div>
+        <h3 class="project-tile-header">
+          <a routerLink="/_spaces/{{space.id}}" class="project-title tile-target">{{space.attributes.name | spaceName}}</a>
+        </h3>
+        <p class="project-date">
+          {{space.attributes.assignedId}} {{space.attributes.description}}
+        </p>
+      </div>
+      <!-- End collaborated spaces -->
+    </div>
+  </div>
+  <!-- End Collaborated Spaces -->
+
 
   <div *ngIf="spaces && spaces.length < 4">
     <div class="getting-started-panel">
@@ -85,3 +122,4 @@
 <!-- Create Space modal -->
 <cn-space-wizard #spaceWizard></cn-space-wizard>
 <cn-space-delete #deleteSpaceModal></cn-space-delete>
+<cn-space-leave #leaveSpaceModal></cn-space-leave>

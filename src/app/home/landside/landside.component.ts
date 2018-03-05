@@ -16,8 +16,10 @@ import { SpacesService } from '../../ngx-impl/ngx-clarksnut-impl/spaces.service'
 })
 export class LandsideComponent implements OnInit, OnDestroy {
 
-  user: User;
-  spaces: Space[];
+  loggedInUser: User;
+
+  ownedSpaces: Space[] = [];
+  collaboratedSpaces: Space[] = [];
 
   private subscriptions: Subscription[] = [];
 
@@ -27,15 +29,24 @@ export class LandsideComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private spaceService: SpaceService,
     private spacesService: SpacesService) {
+
+    this.subscriptions.push(
+      userService.loggedInUser
+        .do((user) => {
+          this.loggedInUser = user;
+          this.initOwnedSpaces();
+          this.initCollaboratedSpaces();
+        })
+        .publish().connect()
+    );
+
     this.subscriptions.push(
       Observable.merge(
-        this.userService.loggedInUser.do((user) => this.user = user),
         this.broadcaster.on('spaceCreated'),
         this.broadcaster.on('spaceDeleted')
       ).subscribe((val) => {
-        this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
-          this.spaces = val;
-        });
+        this.initOwnedSpaces();
+        this.initCollaboratedSpaces();
       })
     );
   }
@@ -46,6 +57,34 @@ export class LandsideComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
+  }
+
+  initOwnedSpaces() {
+    this.spaceService.getOwnedSpacesByUserId('me').subscribe((val) => {
+      this.ownedSpaces = val;
+    });
+  }
+
+  initCollaboratedSpaces() {
+    this.spaceService.getCollaboratedSpacesByUserId('me').subscribe((val) => {
+      this.collaboratedSpaces = val;
+    });
+  }
+
+  fetchMoreOwnedSpaces() {
+    this.subscriptions.push(this.spaceService.getMoreOwnedSpaces().subscribe((val) => {
+      this.ownedSpaces = this.ownedSpaces.concat(val);
+    }, (err) => {
+      console.log('Can not fetch more spaces');
+    }));
+  }
+
+  fetchMoreCollaboratedpaces() {
+    this.subscriptions.push(this.spaceService.getMoreCollaboratedSpaces().subscribe((val) => {
+      this.collaboratedSpaces = this.collaboratedSpaces.concat(val);
+    }, (err) => {
+      console.log('Can not fetch more spaces');
+    }));
   }
 
   editSpace(space: Space) {

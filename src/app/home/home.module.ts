@@ -3,14 +3,16 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Http } from '@angular/http';
 
+import { HomeRoutingModule } from './home-routing.module';
+
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'angular2-moment';
 
-import { HomeRoutingModule } from './home-routing.module';
 import { ClarksnutModule } from '../ngx/ngx-clarksnut';
 import { SpaceWizardModule } from '../space/wizard/space-wizard.module';
 import { SpaceDeleteModule } from '../space/delete/space-delete.module';
+import { SpaceLeaveModule } from './../space/leave/space-leave.module';
 import { ImportDocumentModule } from '../document/import-document/import-document.module';
 import { SearchDocumentModule } from './../document/search-document/search-document.module';
 import { UtilModule } from '../util/util.module';
@@ -34,6 +36,7 @@ import { InboxDocumentModule } from './../document/inbox-document/inbox-document
     ImportDocumentModule,
     SearchDocumentModule,
     SpaceDeleteModule,
+    SpaceLeaveModule,
     ClarksnutModule,
     UtilModule,
 

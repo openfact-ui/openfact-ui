@@ -10,16 +10,16 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    children: [
-      { path: '', component: InboxDocumentComponent },
-      {
-        path: ':document',
-        resolve: {
-          context: ContextResolver
-        },
-        loadChildren: '../document/edit-document/edit-document.module#EditDocumentModule'
-      }
-    ]
+    // children: [
+    //   { path: '', component: InboxDocumentComponent },
+    //   {
+    //     path: ':document',
+    //     resolve: {
+    //       context: ContextResolver
+    //     },
+    //     loadChildren: '../document/edit-document/edit-document.module#EditDocumentModule'
+    //   }
+    // ]
   }
 ];
 

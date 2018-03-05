@@ -22,17 +22,17 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private spaceService: SpaceService
   ) {
-    this.subscriptions.push(
-      Observable.merge(
-        this.userService.loggedInUser.do((user) => this.user = user),
-        this.broadcaster.on('spaceCreated'),
-        this.broadcaster.on('spaceDeleted')
-      ).subscribe((val) => {
-        this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
-          this.spaces = val;
-        });
-      })
-    );
+    // this.subscriptions.push(
+    //   Observable.merge(
+    //     this.userService.loggedInUser.do((user) => this.user = user),
+    //     this.broadcaster.on('spaceCreated'),
+    //     this.broadcaster.on('spaceDeleted')
+    //   ).subscribe((val) => {
+    //     this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
+    //       this.spaces = val;
+    //     });
+    //   })
+    // );
   }
 
   ngOnInit() {

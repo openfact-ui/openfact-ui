@@ -52,11 +52,11 @@ export class ReportsComponent implements OnInit {
     this.queryBuilder.offset(this.offset || 0);
     this.queryBuilder.limit(this.limit || 10);
 
-    this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
-      this.items = searchResult.data;
-      this.totalItems = searchResult.totalResults;
-      this.facets = searchResult.facets;
-    });
+    // this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
+    //   this.items = searchResult.data;
+    //   this.totalItems = searchResult.totalResults;
+    //   this.facets = searchResult.facets;
+    // });
   }
 
 }

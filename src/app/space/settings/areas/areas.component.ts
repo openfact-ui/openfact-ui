@@ -57,19 +57,19 @@ export class AreasComponent implements OnInit, OnDestroy {
   }
 
   updateSpace() {
-    const patch = {
-      attributes: this.form.value,
-      type: 'spaces',
-      id: this.space.id
-    } as Space;
+    // const patch = {
+    //   attributes: this.form.value,
+    //   type: 'spaces',
+    //   id: this.space.id
+    // } as Space;
 
-    this.spaceService.update(patch).subscribe(val => {
-      this.notifications.message({
-        message: `Space updated`,
-        type: NotificationType.SUCCESS
-      } as Notification);
-      console.log(`Space name updated.`);
-    });
+    // this.spaceService.update(patch).subscribe(val => {
+    //   this.notifications.message({
+    //     message: `Space updated`,
+    //     type: NotificationType.SUCCESS
+    //   } as Notification);
+    //   console.log(`Space name updated.`);
+    // });
   }
 
   routeToSpaceHome() {

@@ -74,11 +74,11 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     this.queryBuilder.offset(this.searchEvent.offset || 0);
     this.queryBuilder.limit(this.searchEvent.limit || 10);
 
-    this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
-      this.documents = searchResult.data;
-      this.currentNumberOfItems = searchResult.data.length;
-      this.totalNumberOfItems = searchResult.totalResults;
-    });
+    // this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
+    //   this.documents = searchResult.data;
+    //   this.currentNumberOfItems = searchResult.data.length;
+    //   this.totalNumberOfItems = searchResult.totalResults;
+    // });
   }
 
   downloadXml(document: UBLDocument) {

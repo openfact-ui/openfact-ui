@@ -24,14 +24,14 @@ export class OverviewComponent implements OnDestroy, OnInit {
     private userService: UserService,
     private router: Router) {
     this.subscriptions.push(contexts.current.subscribe((val) => this.context = val));
-    this.subscriptions.push(userService.loggedInUser.subscribe((user) => {
-      this.loggedInUser = user;
-      if (user.attributes) {
-        this.subscriptions.push(spaceService.getSpacesByUserId(user.id).subscribe((spaces) => {
-          this.spaces = spaces;
-        }));
-      }
-    }));
+    // this.subscriptions.push(userService.loggedInUser.subscribe((user) => {
+    //   this.loggedInUser = user;
+    //   if (user.attributes) {
+    //     this.subscriptions.push(spaceService.getSpacesByUserId(user.id).subscribe((spaces) => {
+    //       this.spaces = spaces;
+    //     }));
+    //   }
+    // }));
   }
 
   public ngOnInit() {

@@ -1,0 +1,13 @@
+<ng-template #modalTemplate>
+
+  <div class="modal-project-delete">
+    <div class="modal-body">
+      <h1>Estas seguro de abandonar el Espacio '<strong>{{space?.attributes?.name}}</strong>'?</h1>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-lg btn-danger" type="button" (click)="abandon();">Abandonar</button>
+      <button class="btn btn-lg btn-default" type="button" (click)="cancel();">{{'BUTTONS.CANCEL' | translate}}</button>
+    </div>
+  </div>
+
+</ng-template>

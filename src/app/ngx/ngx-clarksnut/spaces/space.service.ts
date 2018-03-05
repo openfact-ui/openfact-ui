@@ -13,9 +13,10 @@ export class SpaceService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private spacesUrl: string;
-  private namedSpacesUrl: string;
-  private searchSpacesUrl: string;
-  private nextLink: string = null;
+  private usersUrl: string;
+
+  private nextLinkOwnedNamedSpaces: string = null;
+  private nextLinkOwnedCollaboratedSpaces: string = null;
 
   constructor(
     private http: Http,
@@ -24,23 +25,29 @@ export class SpaceService {
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
-    this.namedSpacesUrl = apiUrl.endsWith('/') ? apiUrl + 'namedspaces' : apiUrl + '/namedspaces';
-    this.searchSpacesUrl = apiUrl.endsWith('/') ? apiUrl + 'search/space' : apiUrl + '/search/space';
+    this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
   }
 
-  getSpaces(pageSize: number = 20): Observable<Space[]> {
-    const url = this.spacesUrl + '?page[limit]=' + pageSize;
-    return this.getSpacesDelegate(url, true);
+  /**
+   * Get public version of space
+   * @param spaceId spaceId
+   */
+  getSpaceById(spaceId: string): Observable<Space> {
+    const url = `${this.spacesUrl}/${spaceId}`;
+    return this.http.get(url, { headers: this.headers })
+      .map((response) => {
+        return response.json().data as Space;
+      })
+      .switchMap(val => this.resolveOwner(val))
+      .catch((error) => {
+        return this.handleError(error);
+      });
   }
 
-  getMoreSpaces(): Observable<Space[]> {
-    if (this.nextLink) {
-      return this.getSpacesDelegate(this.nextLink, false);
-    } else {
-      return Observable.throw('No more spaces found');
-    }
-  }
-
+  /**
+   * Search public version of space
+   * @param spaceAssignedId space assignedId
+   */
   getSpaceByAssignedId(spaceAssignedId: string): Observable<Space> {
     const url = this.spacesUrl;
     const params: URLSearchParams = new URLSearchParams();
@@ -72,7 +79,110 @@ export class SpaceService {
       });
   }
 
-  getSpacesDelegate(url: string, isAll: boolean): Observable<Space[]> {
+  /**
+   * Create new space
+   * @param space space
+   */
+  create(space: Space): Observable<Space> {
+    const url = this.spacesUrl;
+    const payload = JSON.stringify({ data: space });
+    return this.http
+      .post(url, payload, { headers: this.headers })
+      .map(response => {
+        return response.json().data as Space;
+      })
+      .switchMap(val => {
+        return this.resolveOwner(val);
+      })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  /**
+   * Update space as 'me' user
+   * @param space space
+   */
+  update(userId: string, space: Space): Observable<Space> {
+    const url = `${this.usersUrl}/${userId}/spaces/${space.id}`;
+    const payload = JSON.stringify({ data: space });
+    return this.http
+      .put(url, payload, { headers: this.headers })
+      .map(response => {
+        return response.json().data as Space;
+      })
+      .switchMap(val => {
+        return this.resolveOwner(val);
+      })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  /**
+   * Delete space as 'me' user
+   * @param space space
+   */
+  deleteSpace(userId: string, space: Space): Observable<Space> {
+    const url = `${this.usersUrl}/${userId}/spaces/${space.id}`;
+    return this.http
+      .delete(url, { headers: this.headers })
+      .map(() => { })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  /**
+   * Search space
+   * @param filterText Filter text
+   * @param limit limit of results
+   */
+  search(filterText: string, limit: number = 10): Observable<Space[]> {
+    const url = this.spacesUrl;
+    const params: URLSearchParams = new URLSearchParams();
+    if (filterText === '') {
+      filterText = '*';
+    }
+    params.set('filterText', filterText);
+    params.set('limit', limit.toString());
+
+    return this.http
+      .get(url, { search: params, headers: this.headers })
+      .map(response => {
+        // Extract data from JSON API response, and assert to an array of spaces.
+        return response.json().data as Space[];
+      })
+      .switchMap(spaces => {
+        return this.resolveOwners(spaces);
+      })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  /***
+   * NamedSpaces
+   */
+
+   /**
+    *
+    */
+  getOwnedSpacesByUserId(userId: string, limit: number = 10): Observable<Space[]> {
+    const url = `${this.usersUrl}/${userId}/spaces` + '?role=owner&limit=' + limit;
+    const isAll = false;
+    return this.getOwnedSpacesDelegate(url, isAll);
+  }
+
+  getMoreOwnedSpaces(): Observable<Space[]> {
+    if (this.nextLinkOwnedNamedSpaces) {
+      return this.getOwnedSpacesDelegate(this.nextLinkOwnedNamedSpaces, false);
+    } else {
+      return Observable.throw('No more spaces found');
+    }
+  }
+
+  private getOwnedSpacesDelegate(url: string, isAll: boolean): Observable<Space[]> {
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
@@ -81,9 +191,9 @@ export class SpaceService {
         // in paginated collection through a 'next' link.
         const links = response.json().links;
         if (links.hasOwnProperty('next')) {
-          this.nextLink = links.next;
+          this.nextLinkOwnedNamedSpaces = links.next;
         } else {
-          this.nextLink = null;
+          this.nextLinkOwnedNamedSpaces = null;
         }
         // Extract data from JSON API response, and assert to an array of spaces.
         const newSpaces: Space[] = response.json().data as Space[];
@@ -101,96 +211,52 @@ export class SpaceService {
       });
   }
 
-  create(space: Space): Observable<Space> {
-    const url = this.spacesUrl;
-    const payload = JSON.stringify({ data: space });
-    return this.http
-      .post(url, payload, { headers: this.headers })
-      .map(response => {
-        return response.json().data as Space;
-      })
-      .switchMap(val => {
-        return this.resolveOwner(val);
-      })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
-  update(space: Space): Observable<Space> {
-    const url = `${this.spacesUrl}/${space.id}`;
-    const payload = JSON.stringify({ data: space });
-    return this.http
-      .patch(url, payload, { headers: this.headers })
-      .map(response => {
-        return response.json().data as Space;
-      })
-      .switchMap(val => {
-        return this.resolveOwner(val);
-      })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
-  deleteSpace(space: Space): Observable<Space> {
-    const url = `${this.spacesUrl}/${space.id}`;
-    return this.http
-      .delete(url, { headers: this.headers })
-      .map(() => { })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
-  search(searchText: string): Observable<Space[]> {
-    const url = this.searchSpacesUrl;
-    const params: URLSearchParams = new URLSearchParams();
-    if (searchText === '') {
-      searchText = '*';
-    }
-    params.set('q', searchText);
-
-    return this.http
-      .get(url, { search: params, headers: this.headers })
-      .map(response => {
-        // Extract data from JSON API response, and assert to an array of spaces.
-        return response.json().data as Space[];
-      })
-      .switchMap(spaces => {
-        return this.resolveOwners(spaces);
-      })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
-  // Currently serves to fetch the list of all spaces owned by a user.
-  getSpacesByUserId(userId: string, role: string = 'owner', pageSize: number = 20): Observable<Space[]> {
-    const url = `${this.spacesUrl}/${userId}` + '?limit=' + pageSize;
+  getCollaboratedSpacesByUserId(userId: string, limit: number = 20): Observable<Space[]> {
+    const url = `${this.usersUrl}/${userId}/spaces` + '?role=collaborator&limit=' + limit;
     const isAll = false;
-    return this.getSpacesDelegate(url, isAll);
+    return this.getCollaboratedSpacesDelegate(url, isAll);
   }
 
-  getMoreSpacesByUser(): Observable<Space[]> {
-    if (this.nextLink) {
-      return this.getSpacesDelegate(this.nextLink, false);
+  getMoreCollaboratedSpaces(): Observable<Space[]> {
+    if (this.nextLinkOwnedCollaboratedSpaces) {
+      return this.getCollaboratedSpacesDelegate(this.nextLinkOwnedCollaboratedSpaces, false);
     } else {
       return Observable.throw('No more spaces found');
     }
   }
 
-  getSpaceById(spaceId: string): Observable<Space> {
-    const url = `${this.spacesUrl}/${spaceId}`;
-    return this.http.get(url, { headers: this.headers })
-      .map((response) => {
-        return response.json().data as Space;
+  private getCollaboratedSpacesDelegate(url: string, isAll: boolean): Observable<Space[]> {
+    return this.http
+      .get(url, { headers: this.headers })
+      .map(response => {
+        // Extract links from JSON API response.
+        // and set the nextLink, if server indicates more resources
+        // in paginated collection through a 'next' link.
+        const links = response.json().links;
+        if (links.hasOwnProperty('next')) {
+          this.nextLinkOwnedCollaboratedSpaces = links.next;
+        } else {
+          this.nextLinkOwnedCollaboratedSpaces = null;
+        }
+        // Extract data from JSON API response, and assert to an array of spaces.
+        const newSpaces: Space[] = response.json().data as Space[];
+        return newSpaces;
       })
-      .switchMap(val => this.resolveOwner(val))
+      .switchMap(spaces => {
+        if (spaces.length) {
+          return this.resolveOwners(spaces);
+        } else {
+          return Observable.of(spaces);
+        }
+      })
       .catch((error) => {
         return this.handleError(error);
       });
   }
+
+  /**
+   * Private
+   */
 
   private handleError(error: any) {
     this.logger.error(error);

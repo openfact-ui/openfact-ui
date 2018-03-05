@@ -22,7 +22,7 @@ export class SearchEventService {
     return this._eventListener;
   }
 
-  emitEvent(obj: any) {
+  emitEvent(obj: SearchEvent) {
     this._eventListener.next(obj);
   }
 

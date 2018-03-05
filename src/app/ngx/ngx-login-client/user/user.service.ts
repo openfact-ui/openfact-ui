@@ -73,10 +73,10 @@ export class UserService {
   /**
    * Get users by a search string
    */
-  getUsersBySearchString(search: string): Observable<User[]> {
-    if (search && search !== '') {
+  getUsersBySearchString(filterText: string, limit: number = 10): Observable<User[]> {
+    if (filterText && filterText !== '') {
       return this.http
-        .get(this.usersUrl + '/users?filterText=' + search, { headers: this.headers })
+        .get(`${this.usersUrl}/?filterText=${filterText}&limit=${limit}`, { headers: this.headers })
         .map(response => {
           return response.json().data as User[];
         });

@@ -20,9 +20,9 @@ export class PartyService {
     this.partiesUrl = apiUrl.endsWith('/') ? apiUrl + 'parties' : apiUrl + '/parties';
   }
 
-  getParties(searchText: string, spaces: Space[], limit: number = 5): Observable<Party[]> {
+  search(filterText: string, spaces: Space[], limit: number = 5): Observable<Party[]> {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('q', searchText);
+    params.set('filterText', filterText);
     params.set('limit', limit.toString());
     spaces.forEach((s) => {
       params.set('spaceIds', s.id);

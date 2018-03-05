@@ -30,19 +30,19 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userService.loggedInUser
-      .map((user) => {
-        this.loggedInUser = user;
-      })
-      .do(() => {
-        this.refreshPendingRequests();
-        this.subscriptions.push(
-          Observable.interval(1000 * 60).subscribe((al) => {
-            this.refreshPendingRequests();
-          })
-        )
-      })
-      .publish().connect();
+    // this.userService.loggedInUser
+    //   .map((user) => {
+    //     this.loggedInUser = user;
+    //   })
+    //   .do(() => {
+    //     this.refreshPendingRequests();
+    //     this.subscriptions.push(
+    //       Observable.interval(1000 * 60).subscribe((al) => {
+    //         this.refreshPendingRequests();
+    //       })
+    //     )
+    //   })
+    //   .publish().connect();
   }
 
   ngOnDestroy() {

@@ -5,12 +5,14 @@
         <label for="search-input" class="sr-only">{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}</label>
         <span class="fa fa-search catalog-search-icon" aria-hidden="true"></span>
 
-        <input formControlName="filterText" (keypress)="searchInputKeyPress($event)" type="search" autocomplete="off" class="form-control catalog-search-input" placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
-          autocorrect="off" autocapitalize="off" spellcheck="false" aria-autocomplete="list" aria-expanded="false">
+        <input formControlName="filterText" (keypress)="searchInputKeyPress($event)" type="search" autocomplete="off" class="form-control catalog-search-input"
+          placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="false"
+          aria-autocomplete="list" aria-expanded="false">
 
         <ul class="dropdown-menu" style="top: 30px;left: 0px;" [style.display]="parties.length>0 ? 'block' : ''">
-          <li *ngFor="let party of parties" role="option">
-            <a (click)="selectParty(party)" href="javascript:void(0)" class="catalog-search-match ">
+          <!-- Parties -->
+          <li *ngFor="let party of parties">
+            <a (click)="selectParty(party)" class="catalog-search-match" href="javascript:void(0)">
               <span class="catalog-search-match-icon">
                 <span class="pficon pficon-user"></span>
               </span>
@@ -26,6 +28,26 @@
               </div>
             </a>
           </li>
+          <!-- End parties -->
+          <!-- Document -->
+          <li *ngFor="let document of documents">
+            <a (click)="selectDocument(document)" class="catalog-search-match" href="javascript:void(0)">
+              <span class="catalog-search-match-icon">
+                <span class="fa fa-envelope"></span>
+              </span>
+              <div class="catalog-search-match-info">
+                <div class="catalog-search-match-label">
+                  {{document.attributes.assignedId}}
+                </div>
+                <div class="catalog-search-match-description">
+                  <span class="tag small text-muted ">
+                    {{document.attributes.supplierName}}
+                  </span>
+                </div>
+              </div>
+            </a>
+          </li>
+          <!-- End documents -->
         </ul>
 
       </div>
