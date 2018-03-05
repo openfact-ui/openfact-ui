@@ -40,10 +40,10 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         .debounceTime(100)
         .distinctUntilChanged()
         .subscribe((value) => {
-          this.partyService.search(value, [], 2).subscribe((parties) => {
+          this.partyService.getParties('me', value, [], 2).subscribe((parties) => {
             this.parties = parties;
           });
-          this.documentService.search(value, [], 4).subscribe((documents) => {
+          this.documentService.getDocuments('me', value, [], 4).subscribe((documents) => {
             this.documents = documents;
           });
         })
@@ -66,6 +66,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
   searchInputKeyPress($event: KeyboardEvent): void {

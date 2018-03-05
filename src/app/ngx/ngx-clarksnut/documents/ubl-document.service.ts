@@ -1,3 +1,4 @@
+import { DocumentQuery } from './../../../models/document-quey';
 import { SearchResult } from '../models/search-result';
 import { Space } from '../models/space';
 import { SpaceService } from '../spaces/space.service';
@@ -16,6 +17,7 @@ export class UBLDocumentService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private documentsUrl: string;
+  private usersUrl: string;
   private nextLink: string = null;
 
   constructor(
@@ -24,10 +26,11 @@ export class UBLDocumentService {
     private spaceService: SpaceService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.documentsUrl = apiUrl.endsWith('/') ? apiUrl + 'documents' : apiUrl + '/documents';
+    this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
   }
 
-  getDocumentById(documentId: string): Observable<UBLDocument> {
-    const url = `${this.documentsUrl}/${documentId}`;
+  getDocumentById(userId:string, documentId: string): Observable<UBLDocument> {
+    const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
         return response.json().data as UBLDocument;
@@ -50,8 +53,8 @@ export class UBLDocumentService {
       });
   }
 
-  update(document: UBLDocument): Observable<UBLDocument> {
-    const url = `${this.documentsUrl}/${document.id}`;
+  update(userId: string, document: UBLDocument): Observable<UBLDocument> {
+    const url = `${this.usersUrl}/${userId}/documents/${document.id}`;
     const payload = JSON.stringify({ data: document });
     return this.http
       .put(url, payload, { headers: this.headers })
@@ -63,8 +66,8 @@ export class UBLDocumentService {
       });
   }
 
-  deleteDocument(document: UBLDocument): Observable<UBLDocument> {
-    const url = `${this.documentsUrl}/${document.id}`;
+  deleteDocument(userId: string, document: UBLDocument): Observable<UBLDocument> {
+    const url = `${this.usersUrl}/${userId}/documents/${document.id}`;
     return this.http
       .delete(url, { headers: this.headers })
       .map(() => { })
@@ -76,8 +79,8 @@ export class UBLDocumentService {
   /**
    * Filter documents. If empty then searchText becomes '*'
    */
-  search(filterText: string, spaces: Space[], limit: number = 10): Observable<UBLDocument[]> {
-    const url = this.documentsUrl;
+  getDocuments(userId: string, filterText: string, spaces: Space[], limit: number = 10): Observable<UBLDocument[]> {
+    const url = `${this.usersUrl}/${userId}/documents`;
     const params: URLSearchParams = new URLSearchParams();
     if (filterText === '') {
       filterText = '*';
@@ -98,8 +101,21 @@ export class UBLDocumentService {
       });
   }
 
-  downloadDocumentById(documentId: string): Observable<FileWrapper> {
-    const url = `${this.documentsUrl}/${documentId}/download`;
+  searchDocuments(userId: string, query: DocumentQuery): Observable<SearchResult<UBLDocument>> {
+    const url = `${this.usersUrl}/${userId}/documents/search`;
+
+    return this.http
+      .post(url, query)
+      .map(response => {
+        return response.json().data as UBLDocument[];
+      })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
+  downloadDocumentById(userId:string, documentId: string): Observable<FileWrapper> {
+    const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob
@@ -128,12 +144,12 @@ export class UBLDocumentService {
       });
   }
 
-  printDocumentById(documentId: string, theme?: string, format?: string): Observable<FileWrapper> {
+  printDocumentById(userId: string, documentId: string, theme?: string, format?: string): Observable<FileWrapper> {
     const params = new URLSearchParams();
     if (theme) { params.append('theme', theme); }
     if (format) { params.append('format', format); }
 
-    const url = `${this.documentsUrl}/${documentId}/print`;
+    const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: ResponseContentType.Blob,

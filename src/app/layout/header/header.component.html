@@ -14,5 +14,10 @@
   <cn-navbar-utility></cn-navbar-utility>
 </nav>
 
-<cn-sidebar *ngIf="!context?.space" [shown]="isMobileMenuShow"></cn-sidebar>
-<cn-space-sidebar *ngIf="context?.space" [shown]="isMobileMenuShow"></cn-space-sidebar>
+<div *ngIf="context?.space"></div>
+<ng-template>
+  <cn-space-sidebar [shown]="isMobileMenuShow"></cn-space-sidebar>
+</ng-template>
+<ng-template>
+  <cn-sidebar [shown]="isMobileMenuShow"></cn-sidebar>
+</ng-template>

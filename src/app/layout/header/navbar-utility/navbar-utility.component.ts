@@ -4,7 +4,7 @@ import {
   OnDestroy,
   Inject,
   Renderer2,
-  AfterViewChecked
+  AfterViewInit
 } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
@@ -28,7 +28,7 @@ export interface Language {
   templateUrl: './navbar-utility.component.html',
   styleUrls: ['./navbar-utility.component.scss']
 })
-export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loggedInUser: User;
   private subcriptions: Subscription[] = [];
@@ -92,7 +92,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
   ngOnInit() {
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     let jiraButton = document.getElementById('jiraBugsButton');
     if (jiraButton) {
       this.bootstrapJira(jiraButton);
@@ -104,7 +104,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewCheck
         } else {
           console.log('Could not bootstrap JIRA');
         }
-      }, 1000);
+      }, 2000);
     }
   }
 

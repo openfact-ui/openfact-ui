@@ -395,7 +395,7 @@ export class ContextService implements Contexts {
 
   private loadDocument(documentId: string): Observable<UBLDocument> {
     return this.documentService
-      .getDocumentById(documentId)
+      .getDocumentById('me', documentId)
       .map(val => {
         if (val && val.id) {
           return val;
@@ -439,7 +439,7 @@ export class ContextService implements Contexts {
               return this.spaceService.getSpaceById(raw.space)
                 .map(val => this.buildContext({ space: val } as RawContext));
             } else if (raw.document) {
-              return this.documentService.getDocumentById(raw.document)
+              return this.documentService.getDocumentById('me', raw.document)
                 .catch(err => {
                   console.log('Unable to restore recent document', err);
                   return Observable.empty<Context>();

@@ -22,8 +22,8 @@ export class SearchEventService {
     return this._eventListener;
   }
 
-  emitEvent(obj: SearchEvent) {
-    this._eventListener.next(obj);
+  emitEvent(event: SearchEvent) {
+    this._eventListener.next(event);
   }
 
 }

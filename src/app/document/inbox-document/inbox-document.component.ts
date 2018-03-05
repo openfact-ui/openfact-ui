@@ -50,12 +50,8 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.emptyStateConfig = {
-      info: 'The active filters are hiding all documents items.',
-      /*helpLink: {
-        hypertext: 'Clear Filters',
-        url: '#/emptystate'
-      },*/
-      title: 'No results match.'
+      info: 'Los filtros activos posiblemente esten escondiendo algunos resultados.',
+      title: 'No hay resultados que mostrar.'
     } as EmptyStateConfig;
   }
 
@@ -74,21 +70,21 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     this.queryBuilder.offset(this.searchEvent.offset || 0);
     this.queryBuilder.limit(this.searchEvent.limit || 10);
 
-    // this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
-    //   this.documents = searchResult.data;
-    //   this.currentNumberOfItems = searchResult.data.length;
-    //   this.totalNumberOfItems = searchResult.totalResults;
-    // });
+    this.documentService.searchDocuments('me', this.queryBuilder.build()).subscribe((searchResult) => {
+      this.documents = searchResult.data;
+      this.currentNumberOfItems = searchResult.data.length;
+      this.totalNumberOfItems = searchResult.totalResults;
+    });
   }
 
   downloadXml(document: UBLDocument) {
-    this.documentService.downloadDocumentById(document.id).subscribe(val => {
+    this.documentService.downloadDocumentById('me', document.id).subscribe(val => {
       FileSaver.saveAs(val.file, val.filename || `${document.attributes.assignedId}.xml`);
     });
   }
 
   downloadPdf(document: UBLDocument) {
-    this.documentService.printDocumentById(document.id).subscribe(val => {
+    this.documentService.printDocumentById('me', document.id).subscribe(val => {
       FileSaver.saveAs(val.file, val.filename || `${document.attributes.assignedId}.pdf`);
     });
   }
@@ -116,7 +112,7 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   }
 
   private updateDocument(document: UBLDocument, index: number) {
-    this.documentService.update(document).subscribe((val) => {
+    this.documentService.update('me', document).subscribe((val) => {
       this.documents[index] = val;
     });
   }

@@ -13,7 +13,6 @@ import { ExtUser, GettingStartedService } from './services/getting-started.servi
 })
 export class GettingStartedComponent implements OnDestroy, OnInit {
 
-  username: string;
   loggedInUser: User;
   registrationCompleted = true;
 
@@ -33,7 +32,6 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
     this.userService.loggedInUser
       .map((user) => {
         this.loggedInUser = user;
-        this.username = this.loggedInUser.attributes.username;
         this.registrationCompleted = (user as ExtUser).attributes.registrationCompleted;
       })
       .do(() => {
@@ -66,7 +64,7 @@ export class GettingStartedComponent implements OnDestroy, OnInit {
 
   saveUser() {
     const profile = this.gettingStartedService.createTransientProfile();
-    profile.username = this.username;
+    profile.username = this.loggedInUser.attributes.username;
     profile.registrationCompleted = true;
 
     this.subscriptions.push(this.gettingStartedService.update(profile).subscribe(

@@ -44,13 +44,13 @@ export class ToolbarComponent implements OnInit {
   }
 
   downloadXml() {
-    this.documentService.downloadDocumentById(this.document.id).subscribe(val => {
+    this.documentService.downloadDocumentById('me', this.document.id).subscribe(val => {
       FileSaver.saveAs(val.file, val.filename || `${this.document.attributes.assignedId}.xml`);
     });
   }
 
   downloadPdf() {
-    this.documentService.printDocumentById(this.document.id).subscribe(val => {
+    this.documentService.printDocumentById('me', this.document.id).subscribe(val => {
       FileSaver.saveAs(val.file, val.filename || `${this.document.attributes.assignedId}.pdf`);
     });
   }

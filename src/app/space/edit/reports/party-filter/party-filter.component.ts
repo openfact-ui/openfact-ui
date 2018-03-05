@@ -32,7 +32,7 @@ export class PartyFilterComponent implements OnInit {
         .debounceTime(50)
         .distinctUntilChanged()
         .subscribe((value) => {
-          this.partyService.search(value, [this.space], this.limit).subscribe((parties) => {
+          this.partyService.getParties('me', value, [this.space], this.limit).subscribe((parties) => {
             this.parties = parties;
           });
         })

@@ -50,7 +50,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     const documentToUpdate: UBLDocument = this.document;
     documentToUpdate.attributes.viewed = true;
 
-    this.documentService.update(documentToUpdate).subscribe((val) => {
+    this.documentService.update('me', documentToUpdate).subscribe((val) => {
       this.context.document = val;
     });
   }
