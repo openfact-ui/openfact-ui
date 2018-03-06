@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import './rxjs-extensions';
 
@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 
 // Keycloak
 import { KeycloakService } from './keycloak-service/keycloak.service';
-import { KeycloakInterceptor } from './keycloak-service/keycloak.interceptor';
+import { KEYCLOAK_HTTP_INTERCEPTOR } from './keycloak-service/keycloak.interceptor';
 
 // Translage
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -138,11 +138,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     // Keycloak
     KeycloakService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: KeycloakInterceptor,
-      multi: true
-    },
+    KEYCLOAK_HTTP_INTERCEPTOR,
 
     // Config
     clarksnutUIConfigProvider,

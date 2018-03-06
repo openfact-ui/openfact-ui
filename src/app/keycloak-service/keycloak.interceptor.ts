@@ -5,7 +5,8 @@ import {
   HttpEvent,
   HttpResponse,
   HttpErrorResponse,
-  HttpInterceptor
+  HttpInterceptor,
+  HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { KeycloakService } from './keycloak.service';
@@ -50,3 +51,9 @@ export class KeycloakInterceptor implements HttpInterceptor {
 
   }
 }
+
+export const KEYCLOAK_HTTP_INTERCEPTOR = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: KeycloakInterceptor,
+  multi: true
+};
