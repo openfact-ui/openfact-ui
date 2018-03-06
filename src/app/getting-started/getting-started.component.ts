@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { Logger, Notification, NotificationType, Notifications } from '../ngx/ngx-base';
 import { User, UserService } from '../ngx/ngx-login-client';

@@ -1,5 +1,5 @@
 import { UBLDocument } from './../models/ubl-document';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 export class UBLDocuments {
 

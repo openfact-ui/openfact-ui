@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { RemainingCharsCountModule } from 'patternfly-ng/remaining-chars-count';
 
@@ -15,14 +15,11 @@ import { FormExtensionsModule } from '../../form-extensions/form-extensions.modu
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     RemainingCharsCountModule,
     UpdateRoutingModule,
     FormExtensionsModule
   ],
   declarations: [UpdateComponent],
 })
-export class UpdateModule {
-  constructor(http: Http) {
-  }
-}
+export class UpdateModule { }

@@ -14,7 +14,7 @@ import { ISpaceForm } from '../../models/spaceForm';
 
 export class SpaceFormComponent implements OnInit, OnDestroy {
 
-  @Output() onChange = new EventEmitter<ISpaceForm>(null);
+  @Output() change = new EventEmitter<ISpaceForm>(null);
 
   form: FormGroup;
 
@@ -32,9 +32,9 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.form.statusChanges.subscribe(() => {
         if (this.form.valid) {
-          this.onChange.emit(<ISpaceForm>this.form.value);
+          this.change.emit(<ISpaceForm>this.form.value);
         } else {
-          this.onChange.emit(null);
+          this.change.emit(null);
         }
       })
     );

@@ -47,7 +47,7 @@ import { Broadcaster, Notification, NotificationAction, Notifications, Notificat
 })
 export class SpaceWizardComponent implements OnInit {
 
-  @Output('onCreated') onCreated = new EventEmitter();
+  @Output() created = new EventEmitter();
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
   space: Space; // Space to be created
@@ -396,7 +396,7 @@ export class SpaceWizardComponent implements OnInit {
     this.working = false;
     this.success = success;
     if (createdSpace) {
-      this.onCreated.emit(createdSpace);
+      this.created.emit(createdSpace);
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Renderer2, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { Context, Space, SpaceService } from './../../ngx/ngx-clarksnut';
 import { UserService, User } from './../../ngx/ngx-login-client';

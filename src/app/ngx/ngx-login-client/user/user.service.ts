@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, ConnectableObservable, ReplaySubject, Subject, BehaviorSubject } from 'rxjs';
+import { Observable} from 'rxjs/Observable';
 
 import { cloneDeep } from 'lodash';
 import { Broadcaster, Logger } from '../../ngx-base';
@@ -25,12 +25,12 @@ export class UserService {
    */
   public loggedInUser: Observable<User>;
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private profileUrl: string;
   private usersUrl: string;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
     broadcaster: Broadcaster,
     @Inject(AUTH_API_URL) apiUrl: string) {
@@ -38,7 +38,7 @@ export class UserService {
     this.usersUrl = apiUrl + '/users';
     this.loggedInUser = this.http
       .get(this.profileUrl, { headers: this.headers })
-      .map(response => cloneDeep(response.json().data as User))
+      .map(response => cloneDeep(response['data'] as User))
       .publishLast()
       .refCount();
   }
@@ -51,7 +51,7 @@ export class UserService {
     return this.http
       .get(`${this.usersUrl}/${userId}`, { headers: this.headers })
       .map(response => {
-        return response.json().data as User;
+        return response['data'] as User;
       });
   }
 
@@ -78,7 +78,7 @@ export class UserService {
       return this.http
         .get(`${this.usersUrl}/?filterText=${filterText}&limit=${limit}`, { headers: this.headers })
         .map(response => {
-          return response.json().data as User[];
+          return response['data'] as User[];
         });
     }
     return Observable.of([] as User[]);
@@ -94,7 +94,7 @@ export class UserService {
     return this.http
       .get(`${this.usersUrl}?username=${username}`, { headers: this.headers })
       .map(response => {
-        return response.json().data as User[];
+        return response['data'] as User[];
       });
   }
 

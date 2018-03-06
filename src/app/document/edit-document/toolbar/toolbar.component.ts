@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import { UBLDocumentService, UBLDocument, Context } from '../../../ngx/ngx-clarksnut';
@@ -11,7 +11,7 @@ import * as FileSaver from 'file-saver';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnDestroy {
 
   private context: Context;
   private subscriptions: Subscription[] = [];

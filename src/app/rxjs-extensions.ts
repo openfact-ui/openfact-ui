@@ -25,3 +25,4 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/scan';

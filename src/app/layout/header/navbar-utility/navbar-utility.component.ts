@@ -7,7 +7,8 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { NavigationItemConfig } from 'patternfly-ng/navigation';
@@ -55,7 +56,7 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewInit 
     // Language
     this.subcriptions.push(
       translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-        this.currentLanguage = this.languages.filter((lang) => event.lang == lang.id)[0];
+        this.currentLanguage = this.languages.filter((lang) => event.lang === lang.id)[0];
       })
     );
 

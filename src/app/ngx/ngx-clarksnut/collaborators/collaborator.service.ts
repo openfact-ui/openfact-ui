@@ -1,21 +1,21 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http, URLSearchParams, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { cloneDeep } from 'lodash';
 import { Logger } from '../../ngx-base';
-import { AuthenticationService, User } from '../../ngx-login-client';
-import { Observable } from 'rxjs';
+import { User } from '../../ngx-login-client';
+import { Observable } from 'rxjs/Observable';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 
 @Injectable()
 export class CollaboratorService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private spacesUrl: string;
   private nextLink: string;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
@@ -27,14 +27,14 @@ export class CollaboratorService {
       .get(url, { headers: this.headers })
       .map(response => {
 
-        const links = response.json().links;
+        const links = response['links'];
         if (links.hasOwnProperty('next')) {
           this.nextLink = links.next;
         } else {
           this.nextLink = null;
         }
 
-        const collaborators: User[] = response.json().data as User[];
+        const collaborators: User[] = response['data'] as User[];
         return collaborators;
       })
       .catch((error) => {
@@ -47,14 +47,14 @@ export class CollaboratorService {
       return this.http
         .get(this.nextLink, { headers: this.headers })
         .map(response => {
-          const links = response.json().links;
+          const links = response['links'];
           if (links.hasOwnProperty('next')) {
             this.nextLink = links.next;
           } else {
             this.nextLink = null;
           }
 
-          const collaborators: User[] = response.json().data as User[];
+          const collaborators: User[] = response['data'] as User[];
           return collaborators;
         })
         .catch((error) => {

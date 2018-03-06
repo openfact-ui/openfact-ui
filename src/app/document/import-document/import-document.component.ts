@@ -32,7 +32,7 @@ import { Notifications } from '../../ngx/ngx-base';
 })
 export class ImportDocumentComponent implements OnInit {
 
-  @Output('onFinish') onCreated = new EventEmitter();
+  @Output() finish = new EventEmitter();
   @ViewChild('wizardTemplate') wizardTemplate: TemplateRef<any>;
 
   // Wizard Step 1

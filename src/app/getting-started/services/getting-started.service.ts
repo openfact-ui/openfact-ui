@@ -1,9 +1,10 @@
 import { Injectable, Inject, OnDestroy } from '@angular/core';
-import { Headers, Http } from '@angular/http';
-import { Observable, Subscription } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Logger } from '../../ngx/ngx-base';
-import { AuthenticationService, Profile, User, UserService } from '../../ngx/ngx-login-client';
+import { Profile, User, UserService } from '../../ngx/ngx-login-client';
 import { CLARKSNUT_API_URL } from '../../ngx/ngx-clarksnut';
 
 import { cloneDeep } from 'lodash';
@@ -22,14 +23,13 @@ export class ExtProfile extends Profile {
 
 @Injectable()
 export class GettingStartedService implements OnDestroy {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private loggedInUser: User;
   subscriptions: Subscription[] = [];
   private profileUrl: string;
 
   constructor(
-    private auth: AuthenticationService,
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
@@ -63,9 +63,11 @@ export class GettingStartedService implements OnDestroy {
   getExtProfile(id: string): Observable<ExtUser> {
     const url = `${this.profileUrl}/${id}`;
     return this.http
-      .get(url, { headers: this.headers })
+      .get(url, {
+        headers: this.headers
+      })
       .map(response => {
-        return response.json().data as ExtUser;
+        return response['data'] as ExtUser;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -88,7 +90,7 @@ export class GettingStartedService implements OnDestroy {
     return this.http
       .put(this.profileUrl, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as ExtUser;
+        return response['data'] as ExtUser;
       })
       .catch((error) => {
         return this.handleError(error);

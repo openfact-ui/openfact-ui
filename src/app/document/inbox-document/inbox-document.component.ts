@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
 import { UBLDocument, UBLDocumentService } from './../../ngx/ngx-clarksnut';
-import { DocumentQuery, DocumentQueryBuilder } from './../../models/document-quey';
+import { DocumentQuery } from './../../models/document-quey';
 import { SearchEventService } from '../../shared/search-event.service';
 import { SearchEvent } from './../../models/search-event';
 
@@ -28,7 +28,6 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
 
   // Search
   private searchEvent: SearchEvent;
-  private queryBuilder: DocumentQueryBuilder;
 
   private subscriptions: Subscription[] = [];
 
@@ -60,21 +59,21 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    if (!this.queryBuilder) {
-      this.queryBuilder = DocumentQuery.builder();
-    }
+    // if (!this.queryBuilder) {
+    //   this.queryBuilder = DocumentQuery.builder();
+    // }
 
-    this.queryBuilder.filterText(this.searchEvent.keyword);
-    this.queryBuilder.spaces(this.searchEvent.spaces ? this.searchEvent.spaces.map((s) => s.id) : []);
+    // this.queryBuilder.filterText(this.searchEvent.keyword);
+    // this.queryBuilder.spaces(this.searchEvent.spaces ? this.searchEvent.spaces.map((s) => s.id) : []);
 
-    this.queryBuilder.offset(this.searchEvent.offset || 0);
-    this.queryBuilder.limit(this.searchEvent.limit || 10);
+    // this.queryBuilder.offset(this.searchEvent.offset || 0);
+    // this.queryBuilder.limit(this.searchEvent.limit || 10);
 
-    this.documentService.searchDocuments('me', this.queryBuilder.build()).subscribe((searchResult) => {
-      this.documents = searchResult.data;
-      this.currentNumberOfItems = searchResult.data.length;
-      this.totalNumberOfItems = searchResult.totalResults;
-    });
+    // this.documentService.searchDocuments('me', this.queryBuilder.build()).subscribe((searchResult) => {
+    //   this.documents = searchResult.data;
+    //   this.currentNumberOfItems = searchResult.data.length;
+    //   this.totalNumberOfItems = searchResult.totalResults;
+    // });
   }
 
   downloadXml(document: UBLDocument) {

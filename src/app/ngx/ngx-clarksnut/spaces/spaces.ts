@@ -1,5 +1,5 @@
 import { Space } from './../models/space';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 export class Spaces {
 
   /**

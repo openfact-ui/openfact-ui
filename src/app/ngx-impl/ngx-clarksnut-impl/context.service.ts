@@ -16,7 +16,7 @@ import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Navigation } from '../../models/navigation';
 
@@ -174,8 +174,8 @@ export class ContextService implements Contexts {
   }
 
   updateRecentSpaceList(contextList: Context[], ctx: Context): Context[] {
-    if (ctx.space && ctx.space.id && ctx.name == 'TO_DELETE') { // a space deletion
-      const indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id == ctx.space.id);
+    if (ctx.space && ctx.space.id && ctx.name === 'TO_DELETE') { // a space deletion
+      const indexForSpaceToDelete = contextList.findIndex(x => x.space && x.space.id === ctx.space.id);
       if (indexForSpaceToDelete > -1) { // the space deleted is in the recently visited array
         const copyContext = cloneDeep(contextList);
         const deleted = copyContext.splice(indexForSpaceToDelete, 1);
@@ -224,7 +224,7 @@ export class ContextService implements Contexts {
             .loadSpace(val.space)
             .map(space => {
               return {
-                //user: space.relationalData.creator,
+                // user: space.relationalData.creator,
                 space: space
               } as RawContext;
             })

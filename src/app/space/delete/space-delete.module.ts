@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Http } from '@angular/http';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,6 +19,4 @@ import { SpaceDeleteComponent } from './space-delete.component';
     SpaceDeleteComponent
   ]
 })
-export class SpaceDeleteModule {
-  constructor() { }
-}
+export class SpaceDeleteModule { }

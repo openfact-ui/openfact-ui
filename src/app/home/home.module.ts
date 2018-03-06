@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Http } from '@angular/http';
 
 import { HomeRoutingModule } from './home-routing.module';
 
@@ -49,7 +48,4 @@ import { InboxDocumentModule } from './../document/inbox-document/inbox-document
   providers: [
   ]
 })
-export class HomeModule {
-  constructor(http: Http) {
-  }
-}
+export class HomeModule { }

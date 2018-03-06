@@ -10,19 +10,19 @@
 
                 <div class="form-group">
                     <label class="control-label">Name</label>
-                    <div formControlError="fullName">
+                    <div cnFormControlError="fullName">
                         <input type="text" class="form-control" formControlName="fullName" placeholder="Enter your full name" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label required-pf">Email</label>
-                    <div formControlError="email">
+                    <div cnFormControlError="email">
                         <input #_email type="email" class="form-control" formControlName="email" placeholder="name@gmail.com">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="company" class="control-label">Company</label>
-                    <div formControlError="company">
+                    <div cnFormControlError="company">
                         <input type="text" class="form-control" formControlName="company" placeholder="name@gmail.com">
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="col-xs-12 preview-cont padding-left-none">
                         <img src="{{form.get('imageURL')}}" class="col-xs-2 preview-img padding-left-none" *ngIf="form.get('imageURL').value !== undefined && form.get('imageURL').value.length > 0">
                         <img src="../../../assets/img/profile-user.png" class="col-xs-2 preview-img-none" *ngIf="form.get('imageURL').value === undefined || form.get('imageURL').value.length === 0">
-                        <span class="col-xs-8 col-sm-7 preview-field" formControlError="imageURL">
+                        <span class="col-xs-8 col-sm-7 preview-field" cnFormControlError="imageURL">
                             <input #_imageUrl type="text" class="form-control" formControlName="imageURL" placeholder="http://www.myphoto.com">
                         </span>
                         <button class="col-xs-2 col-sm-3 btn btn-default preview-btn" [disabled]="form.get('imageURL').hasError('valid')" (click)="linkImageUrl()">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">URL</label>
-                    <div formControlError="url">
+                    <div cnFormControlError="url">
                         <input #_url type="text" class="form-control" formControlName="url" placeholder="http://www.myprofile.com">
                     </div>
                 </div>

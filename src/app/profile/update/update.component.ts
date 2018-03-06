@@ -5,27 +5,28 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  OnDestroy
 } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Notification, NotificationType, Notifications } from '../../ngx/ngx-base';
 import { Context, Contexts } from '../../ngx/ngx-clarksnut';
-import { AuthenticationService, UserService, User } from '../../ngx/ngx-login-client';
+import { UserService, User } from '../../ngx/ngx-login-client';
 
 import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
 
 import { OfValidators } from '../validators/ofs-validators';
 
 @Component({
-  selector: 'ofs-update',
+  selector: 'cn-update',
   templateUrl: 'update.component.html',
   styleUrls: ['./update.component.scss'],
   providers: [GettingStartedService]
 })
-export class UpdateComponent implements AfterViewInit, OnInit {
+export class UpdateComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild('_email') public emailElement: ElementRef;
   @ViewChild('_bio') public bioElement: HTMLElement;

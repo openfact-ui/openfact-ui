@@ -1,5 +1,5 @@
 import { Context } from './context';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 export class Contexts {
   /**

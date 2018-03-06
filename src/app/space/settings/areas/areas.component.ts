@@ -4,10 +4,10 @@ import { ContextService } from '../../../ngx-impl/ngx-clarksnut-impl/context.ser
 import { Context, SpaceService, Space } from '../../../ngx/ngx-clarksnut';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'ofs-areas',
+  selector: 'cn-areas',
   templateUrl: 'areas.component.html',
   styleUrls: ['./areas.component.scss']
 })

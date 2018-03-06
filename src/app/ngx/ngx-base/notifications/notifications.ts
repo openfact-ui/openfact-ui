@@ -1,6 +1,6 @@
 import { NotificationAction } from './notification-action';
 import { Notification } from './notification';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 export class Notifications {
 
   recent: Observable<Notification[]>;

@@ -1,10 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http, URLSearchParams, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
 import { cloneDeep } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Logger } from '../../ngx-base';
-import { AuthenticationService, User, UserService } from '../../ngx-login-client';
+import { User, UserService } from '../../ngx-login-client';
 import { Space } from './../models/space';
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 
@@ -14,11 +15,11 @@ import { RequestAccessToSpace } from '../models/request-access-to-space';
 @Injectable()
 export class RequestAccessService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private requestsUrl: string;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
     private spaceService: SpaceService,
     private userService: UserService,
@@ -31,7 +32,7 @@ export class RequestAccessService {
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
-        return response.json().data as RequestAccessToSpace[];
+        return response['data'] as RequestAccessToSpace[];
       })
       .switchMap((requests) => {
         return this.resolveSpaces(requests);
@@ -49,7 +50,7 @@ export class RequestAccessService {
     return this.http
       .post(this.requestsUrl, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as RequestAccessToSpace;
+        return response['data'] as RequestAccessToSpace;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -67,7 +68,7 @@ export class RequestAccessService {
     return this.http
       .put(url, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as RequestAccessToSpace;
+        return response['data'] as RequestAccessToSpace;
       })
       .catch((error) => {
         return this.handleError(error);

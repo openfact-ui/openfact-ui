@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import './rxjs-extensions';
 
@@ -11,7 +9,7 @@ import { AppComponent } from './app.component';
 
 // Keycloak
 import { KeycloakService } from './keycloak-service/keycloak.service';
-import { KEYCLOAK_HTTP_PROVIDER } from './keycloak-service/keycloak.http';
+import { KeycloakInterceptor } from './keycloak-service/keycloak.interceptor';
 
 // Translage
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -35,7 +33,7 @@ import { Broadcaster, Logger, Notifications } from './ngx/ngx-base';
 import { NotificationsService } from './ngx-impl/ngx-base-impl/notifications.service';
 
 // Ngx-login-client
-import { AuthenticationService, UserService } from './ngx/ngx-login-client';
+import { UserService } from './ngx/ngx-login-client';
 
 // Ngx-login-client-impl
 import { authServiceProvider } from './ngx-impl/ngx-login-client-impl/auth-service-keycloak.service';
@@ -116,7 +114,6 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
 
     HttpClientModule,
-    HttpModule,
 
     // Translate
     TranslateModule.forRoot({
@@ -141,7 +138,11 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     // Keycloak
     KeycloakService,
-    KEYCLOAK_HTTP_PROVIDER,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakInterceptor,
+      multi: true
+    },
 
     // Config
     clarksnutUIConfigProvider,
@@ -157,7 +158,6 @@ export function createTranslateLoader(http: HttpClient) {
     },
 
     // Ngx-login-client
-    AuthenticationService,
     UserService,
 
     authServiceProvider,

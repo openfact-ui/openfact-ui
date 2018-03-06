@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { Notification, Notifications, NotificationType, NotificationAction } from '../../../ngx/ngx-base';
 import { RequestAccessService, RequestAccessToSpace } from './../../../ngx/ngx-clarksnut';
@@ -71,7 +72,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   acceptRequest(request: RequestAccessToSpace, index: number) {
     request.attributes.status = 'ACCEPTED';
     this.requestAccessService.updateRequest(request).subscribe(
-      (request) => {
+      (val) => {
         this.pendingRequests.splice(index, 1);
       },
       (error) => {
@@ -83,7 +84,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   rejectRequest(request: RequestAccessToSpace, index: number) {
     request.attributes.status = 'REJECTED';
     this.requestAccessService.updateRequest(request).subscribe(
-      (request) => {
+      (val) => {
         this.pendingRequests.splice(index, 1);
       },
       (error) => {

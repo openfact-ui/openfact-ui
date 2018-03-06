@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Context, Contexts } from '../../../ngx/ngx-clarksnut';
 import { Logger } from '../../../ngx/ngx-base';
@@ -8,7 +8,7 @@ import { UserService, User } from '../../../ngx/ngx-login-client';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'ofs-spaces',
+  selector: 'cn-spaces',
   templateUrl: './spaces.component.html',
   styleUrls: ['./spaces.component.scss'],
   providers: [SpaceService]

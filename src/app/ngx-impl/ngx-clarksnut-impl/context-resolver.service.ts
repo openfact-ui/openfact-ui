@@ -1,6 +1,9 @@
 import { Navigation } from '../../models/navigation';
 import { ContextService } from './context.service';
-import { Observable, ConnectableObservable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Context, Contexts } from '../../ngx/ngx-clarksnut';
 import { Injectable } from '@angular/core';
 import {

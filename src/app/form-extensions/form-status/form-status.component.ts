@@ -21,12 +21,12 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[formControlError]'
+  selector: '[cnFormControlError]'
 })
 export class FormControlErrorDirective implements OnInit, OnDestroy {
 
-  @Input('formControlError')
-  public name: string;
+  @Input()
+  public cnFormControlError: string;
 
   @HostBinding('class.has-error')
   public hasError: boolean;
@@ -36,7 +36,7 @@ export class FormControlErrorDirective implements OnInit, OnDestroy {
   constructor(private parent: ControlContainer) { }
 
   public ngOnInit() {
-    const control = this.parent.control.get(this.name);
+    const control = this.parent.control.get(this.cnFormControlError);
     this.subscriptions.push(control.valueChanges.subscribe((value) => {
       this.hasError = !(control.valid || control.disabled);
     }));

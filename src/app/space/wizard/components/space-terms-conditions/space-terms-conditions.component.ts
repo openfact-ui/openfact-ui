@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class SpaceTermsConditionsComponent implements OnInit, OnDestroy {
 
-  @Output() onChange = new EventEmitter<boolean>(false);
+  @Output() change = new EventEmitter<boolean>(false);
 
   form: FormGroup;
 
@@ -26,7 +26,7 @@ export class SpaceTermsConditionsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.form.statusChanges.subscribe(() => {
-        this.onChange.emit(this.form.valid);
+        this.change.emit(this.form.valid);
       })
     );
   }

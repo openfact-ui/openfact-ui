@@ -1,4 +1,5 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { SimpleChanges, OnChanges, Directive, Input, forwardRef } from '@angular/core';
 import {
   AbstractControl,
@@ -9,7 +10,7 @@ import {
 } from '@angular/forms';
 
 @Directive({
-  selector: '[validSpaceName][ngModel]',
+  selector: '[cnValidSpaceName][ngModel]',
   providers: [{
     provide: NG_ASYNC_VALIDATORS,
     useExisting: forwardRef(() => ValidSpaceNameValidatorDirective), multi: true

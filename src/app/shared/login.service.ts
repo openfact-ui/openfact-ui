@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
 import { Injectable, Inject } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Broadcaster, Notifications, Notification, NotificationType } from '../ngx/ngx-base';
-import { AuthenticationService, UserService } from '../ngx/ngx-login-client';
+import { UserService } from '../ngx/ngx-login-client';
 import { CLARKSNUT_API_URL } from '../ngx/ngx-clarksnut';
 
 import { ContextService } from '../ngx-impl/ngx-clarksnut-impl/context.service';
@@ -29,23 +29,12 @@ export class LoginService {
     @Inject(CLARKSNUT_API_URL) private apiUrl: string,
     private broadcaster: Broadcaster,
     private errorService: ErrorService,
-    private authService: AuthenticationService,
     private contextService: ContextService,
     private notifications: Notifications,
     private userService: UserService
   ) {
     // Removed ?link=true in favor of getting started page
     this.authUrl = apiUrl + 'login/authorize';
-    this.broadcaster.on('authenticationError').subscribe(() => {
-      this.authService.logout();
-    });
-    this.broadcaster.on('noFederatedToken').subscribe(() => {
-      // Don't log out first time users from getting started as tokens may not exist
-      if (this.router.url !== '/' && this.router.url.indexOf('_gettingstarted') === -1
-        && this.router.url.indexOf('_update') === -1) {
-        this.authService.logout();
-      }
-    });
   }
 
   redirectToAuth() {
@@ -72,7 +61,6 @@ export class LoginService {
   }
 
   public logout() {
-    this.authService.logout();
     window.location.href = this.apiUrl + 'logout?redirect=' + encodeURIComponent(window.location.origin);
   }
 

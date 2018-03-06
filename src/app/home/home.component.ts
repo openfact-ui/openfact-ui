@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Renderer2, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'home',
+  selector: 'cn-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

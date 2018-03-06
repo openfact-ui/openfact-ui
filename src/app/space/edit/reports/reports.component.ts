@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Space, Context, UBLDocument, UBLDocumentService } from './../../../ngx/ngx-clarksnut';
 import { ContextService } from './../../../ngx-impl/ngx-clarksnut-impl/context.service';
-import { DocumentQueryBuilder, DocumentQuery } from './../../../models/document-quey';
+import { DocumentQuery } from './../../../models/document-quey';
 
 @Component({
   selector: 'cn-reports',
@@ -20,7 +20,6 @@ export class ReportsComponent implements OnInit {
   offset = 0;
   limit = 10;
 
-  private queryBuilder: DocumentQueryBuilder;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -43,14 +42,14 @@ export class ReportsComponent implements OnInit {
   }
 
   search() {
-    if (!this.queryBuilder) {
-      this.queryBuilder = DocumentQuery.builder();
-    }
+    // if (!this.queryBuilder) {
+    //   this.queryBuilder = DocumentQuery.builder();
+    // }
 
-    this.queryBuilder.spaces([this.space.id]);
+    // this.queryBuilder.spaces([this.space.id]);
 
-    this.queryBuilder.offset(this.offset || 0);
-    this.queryBuilder.limit(this.limit || 10);
+    // this.queryBuilder.offset(this.offset || 0);
+    // this.queryBuilder.limit(this.limit || 10);
 
     // this.documentService.search(this.queryBuilder.build().query()).subscribe((searchResult) => {
     //   this.items = searchResult.data;

@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { cloneDeep } from 'lodash';
-import { AuthenticationService, User, UserService } from '../../ngx-login-client';
+import { User, UserService } from '../../ngx-login-client';
 import { Logger } from '../../ngx-base';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 import { Space } from '../models/space';
@@ -11,7 +11,7 @@ import { Space } from '../models/space';
 @Injectable()
 export class SpaceService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private spacesUrl: string;
   private usersUrl: string;
 
@@ -19,9 +19,8 @@ export class SpaceService {
   private nextLinkOwnedCollaboratedSpaces: string = null;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
-    private auth: AuthenticationService,
     private userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
@@ -36,7 +35,7 @@ export class SpaceService {
     const url = `${this.spacesUrl}/${spaceId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
-        return response.json().data as Space;
+        return response['data'] as Space;
       })
       .switchMap(val => this.resolveOwner(val))
       .catch((error) => {
@@ -50,14 +49,14 @@ export class SpaceService {
    */
   getSpaceByAssignedId(spaceAssignedId: string): Observable<Space> {
     const url = this.spacesUrl;
-    const params: URLSearchParams = new URLSearchParams();
+    const params: HttpParams = new HttpParams();
     params.set('assignedId', spaceAssignedId);
 
     return this.http
-      .get(url, { search: params, headers: this.headers })
+      .get(url, { params: params, headers: this.headers })
       .map(response => {
         // Extract data from JSON API response, and assert to an array of spaces.
-        return response.json().data as Space[];
+        return response['data'] as Space[];
       })
       .map(space => {
         for (const s of space) {
@@ -89,7 +88,7 @@ export class SpaceService {
     return this.http
       .post(url, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as Space;
+        return response['data'] as Space;
       })
       .switchMap(val => {
         return this.resolveOwner(val);
@@ -109,7 +108,7 @@ export class SpaceService {
     return this.http
       .put(url, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as Space;
+        return response['data'] as Space;
       })
       .switchMap(val => {
         return this.resolveOwner(val);
@@ -140,7 +139,7 @@ export class SpaceService {
    */
   search(filterText: string, limit: number = 10): Observable<Space[]> {
     const url = this.spacesUrl;
-    const params: URLSearchParams = new URLSearchParams();
+    const params: HttpParams = new HttpParams();
     if (filterText === '') {
       filterText = '*';
     }
@@ -148,10 +147,10 @@ export class SpaceService {
     params.set('limit', limit.toString());
 
     return this.http
-      .get(url, { search: params, headers: this.headers })
+      .get(url, { params: params, headers: this.headers })
       .map(response => {
         // Extract data from JSON API response, and assert to an array of spaces.
-        return response.json().data as Space[];
+        return response['data'] as Space[];
       })
       .switchMap(spaces => {
         return this.resolveOwners(spaces);
@@ -189,14 +188,14 @@ export class SpaceService {
         // Extract links from JSON API response.
         // and set the nextLink, if server indicates more resources
         // in paginated collection through a 'next' link.
-        const links = response.json().links;
+        const links = response['links'];
         if (links.hasOwnProperty('next')) {
           this.nextLinkOwnedNamedSpaces = links.next;
         } else {
           this.nextLinkOwnedNamedSpaces = null;
         }
         // Extract data from JSON API response, and assert to an array of spaces.
-        const newSpaces: Space[] = response.json().data as Space[];
+        const newSpaces: Space[] = response['data'] as Space[];
         return newSpaces;
       })
       .switchMap(spaces => {
@@ -232,14 +231,14 @@ export class SpaceService {
         // Extract links from JSON API response.
         // and set the nextLink, if server indicates more resources
         // in paginated collection through a 'next' link.
-        const links = response.json().links;
+        const links = response['links'];
         if (links.hasOwnProperty('next')) {
           this.nextLinkOwnedCollaboratedSpaces = links.next;
         } else {
           this.nextLinkOwnedCollaboratedSpaces = null;
         }
         // Extract data from JSON API response, and assert to an array of spaces.
-        const newSpaces: Space[] = response.json().data as Space[];
+        const newSpaces: Space[] = response['data'] as Space[];
         return newSpaces;
       })
       .switchMap(spaces => {

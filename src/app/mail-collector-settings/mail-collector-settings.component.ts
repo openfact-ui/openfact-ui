@@ -136,7 +136,7 @@ export class MailCollectorSettingsComponent implements OnInit, OnDestroy {
    */
   private getRequestParam(name: string): string {
     const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
-    if (param != undefined) {
+    if (param !== undefined) {
       return decodeURIComponent(param[1]);
     }
     return null;

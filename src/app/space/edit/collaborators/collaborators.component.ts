@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
@@ -12,7 +12,7 @@ import { ContextService } from './../../../ngx-impl/ngx-clarksnut-impl/context.s
   templateUrl: './collaborators.component.html',
   styleUrls: ['./collaborators.component.scss']
 })
-export class CollaboratorsComponent implements OnInit {
+export class CollaboratorsComponent implements OnInit, OnDestroy {
 
   context: Context;
   collaborators: User[] = [];

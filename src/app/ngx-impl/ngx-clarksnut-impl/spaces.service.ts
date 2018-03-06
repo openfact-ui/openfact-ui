@@ -4,7 +4,9 @@ import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Injectable } from '@angular/core';
 
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Spaces, Contexts, Space, SpaceService } from '../../ngx/ngx-clarksnut';
 
 @Injectable()
@@ -47,7 +49,7 @@ export class SpacesService implements Spaces {
         return recent;
         // The final value to scan is the initial value, used when the app starts
       },
-      [])
+        [])
       // Finally save the list of recent contexts
       .do(val => {
         // Truncate the number of recent contexts to the correct length

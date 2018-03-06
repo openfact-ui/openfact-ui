@@ -1,5 +1,6 @@
 import { SpaceService } from './space.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../ngx-login-client';
 import { SimpleChanges, OnChanges, Directive, Input, forwardRef } from '@angular/core';
 import {
@@ -11,7 +12,7 @@ import {
 } from '@angular/forms';
 
 @Directive({
-  selector: '[uniqueSpaceAssignedId][ngModel]',
+  selector: '[cnUniqueSpaceAssignedId][ngModel]',
   providers: [{
     provide: NG_ASYNC_VALIDATORS,
     useExisting: forwardRef(() => UniqueSpaceAssignedIdValidatorDirective), multi: true

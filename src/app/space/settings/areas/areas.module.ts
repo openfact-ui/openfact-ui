@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Http } from '@angular/http';
 
 import { AreasComponent } from './areas.component';
 import { AreasRoutingModule } from './areas-routing.module';
@@ -26,6 +25,4 @@ import { FormExtensionsModule } from '../../../form-extensions/form-extensions.m
 
   ]
 })
-export class AreasModule {
-  constructor(http: Http) { }
-}
+export class AreasModule { }

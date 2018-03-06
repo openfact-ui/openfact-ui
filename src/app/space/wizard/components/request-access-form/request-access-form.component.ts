@@ -16,7 +16,7 @@ import { Space } from '../../../../ngx/ngx-clarksnut';
 export class RequestAccessFormComponent implements OnInit, OnDestroy {
 
   @Input() space: Space;
-  @Output() onChange = new EventEmitter<IRequestAccessForm>(null);
+  @Output() change = new EventEmitter<IRequestAccessForm>(null);
 
   form: FormGroup;
 
@@ -36,11 +36,11 @@ export class RequestAccessFormComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.form.statusChanges.subscribe(() => {
         if (this.form.valid) {
-          this.onChange.emit({
+          this.change.emit({
             message: this.form.value.requestMessage
           } as IRequestAccessForm);
         } else {
-          this.onChange.emit(null);
+          this.change.emit(null);
         }
       })
     );

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Context, Contexts } from '../../../ngx/ngx-clarksnut';
 import { UserService, User } from '../../../ngx/ngx-login-client';
@@ -11,7 +11,7 @@ export class Activity {
 }
 
 @Component({
-  selector: 'ofs-activity',
+  selector: 'cn-activity',
   templateUrl: './activity.component.html'
 })
 export class ActivityComponent implements OnDestroy, OnInit {

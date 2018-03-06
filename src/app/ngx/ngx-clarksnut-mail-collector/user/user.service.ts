@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { cloneDeep } from 'lodash';
 
@@ -24,18 +24,18 @@ export class UserService {
    */
   public loggedInUser: Observable<User>;
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private userUrl: string;  // URL to web api
   private usersUrl: string;  // URL to web api
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     @Inject(CLARKSNUT_MAIL_COLLECTOR_API_URL) apiUrl: string) {
     this.userUrl = apiUrl + '/user';
     this.usersUrl = apiUrl + '/users';
     this.loggedInUser = this.http
       .get(this.userUrl, { headers: this.headers })
-      .map(response => cloneDeep(response.json().data as User))
+      .map(response => cloneDeep(response['data'] as User))
       .publishLast()
       .refCount();
   }

@@ -1,9 +1,11 @@
 import { NotificationService, NotificationType } from 'patternfly-ng/notification';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable, ConnectableObservable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
+
 import { cloneDeep } from 'lodash';
 
 import { Broadcaster } from '../ngx/ngx-base';
@@ -28,7 +30,7 @@ export class ExtProfile extends Profile {
 @Injectable()
 export class ProfileService {
 
-  private static readonly HEADERS: Headers = new Headers({ 'Content-Type': 'application/json' });
+  private static readonly HEADERS = new HttpHeaders({ 'Content-Type': 'application/json' });
   private profileUrl: string;
   private _profile: ConnectableObservable<ExtProfile>;
 
@@ -38,7 +40,7 @@ export class ProfileService {
     private notifications: NotificationService,
     userService: UserService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string,
-    private http: Http) {
+    private http: HttpClient) {
     this.profileUrl = apiUrl.endsWith('/') ? apiUrl + 'profile' : apiUrl + '/profile';
     this._profile = userService.loggedInUser
       .skipWhile((user) => {
@@ -95,7 +97,7 @@ export class ProfileService {
         withCredentials: true
       })
       .map((response) => {
-        return response.json().data as User;
+        return response['data'] as User;
       });
   }
 
@@ -106,7 +108,7 @@ export class ProfileService {
         current.email &&
         current.username
         // TODO Add imageURL
-        //this.current.imageURL
+        // this.current.imageURL
       ) {
         return true;
       } else {

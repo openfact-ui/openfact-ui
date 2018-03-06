@@ -3,10 +3,12 @@ import { SearchResult } from '../models/search-result';
 import { Space } from '../models/space';
 import { SpaceService } from '../spaces/space.service';
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http, URLSearchParams, RequestOptions, ResponseContentType } from '@angular/http';
+
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+
 import { cloneDeep } from 'lodash';
 import { Logger } from '../../ngx-base';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 import { UBLDocument } from '../models/ubl-document';
@@ -15,13 +17,13 @@ import { FileWrapper } from '../models/file-wrapper';
 @Injectable()
 export class UBLDocumentService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private documentsUrl: string;
   private usersUrl: string;
   private nextLink: string = null;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private logger: Logger,
     private spaceService: SpaceService,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
@@ -33,7 +35,7 @@ export class UBLDocumentService {
     const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, { headers: this.headers })
       .map((response) => {
-        return response.json().data as UBLDocument;
+        return response['data'] as UBLDocument;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -46,7 +48,7 @@ export class UBLDocumentService {
     return this.http
       .post(url, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as UBLDocument;
+        return response['data'] as UBLDocument;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -59,7 +61,7 @@ export class UBLDocumentService {
     return this.http
       .put(url, payload, { headers: this.headers })
       .map(response => {
-        return response.json().data as UBLDocument;
+        return response['data'] as UBLDocument;
       })
       .catch((error) => {
         return this.handleError(error);
@@ -81,7 +83,7 @@ export class UBLDocumentService {
    */
   getDocuments(userId: string, filterText: string, spaces: Space[], limit: number = 10): Observable<UBLDocument[]> {
     const url = `${this.usersUrl}/${userId}/documents`;
-    const params: URLSearchParams = new URLSearchParams();
+    const params: HttpParams = new HttpParams();
     if (filterText === '') {
       filterText = '*';
     }
@@ -92,9 +94,9 @@ export class UBLDocumentService {
     });
 
     return this.http
-      .get(url, { search: params, headers: this.headers })
+      .get(url, { params: params, headers: this.headers })
       .map(response => {
-        return response.json().data as UBLDocument[];
+        return response['data'] as UBLDocument[];
       })
       .catch((error) => {
         return this.handleError(error);
@@ -107,7 +109,7 @@ export class UBLDocumentService {
     return this.http
       .post(url, query)
       .map(response => {
-        return response.json().data as UBLDocument[];
+        return response['data'] as UBLDocument[];
       })
       .catch((error) => {
         return this.handleError(error);
@@ -118,7 +120,8 @@ export class UBLDocumentService {
     const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, {
       headers: this.headers,
-      responseType: ResponseContentType.Blob
+      responseType: 'blob',
+      observe: 'response'
     })
       .map((response) => {
         let filename;
@@ -132,7 +135,7 @@ export class UBLDocumentService {
           }
         }
 
-        const file = response.blob();
+        const file = response.body;
         const blob = new Blob([file]);
         return {
           filename: filename,
@@ -145,15 +148,16 @@ export class UBLDocumentService {
   }
 
   printDocumentById(userId: string, documentId: string, theme?: string, format?: string): Observable<FileWrapper> {
-    const params = new URLSearchParams();
+    const params = new HttpParams();
     if (theme) { params.append('theme', theme); }
     if (format) { params.append('format', format); }
 
     const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
     return this.http.get(url, {
       headers: this.headers,
-      responseType: ResponseContentType.Blob,
-      params: params
+      responseType: 'blob',
+      params: params,
+      observe: 'response'
     })
       .map((response) => {
         let filename;
@@ -167,7 +171,7 @@ export class UBLDocumentService {
           }
         }
 
-        const file = response.blob();
+        const file = response.body;
         const blob = new Blob([file]);
 
         return {
@@ -206,14 +210,14 @@ export class UBLDocumentService {
   //       // Extract links from JSON API response.
   //       // and set the nextLink, if server indicates more resources
   //       // in paginated collection through a 'next' link.
-  //       const links = response.json().links;
+  //       const links = response['links'];
   //       if (links.hasOwnProperty('next')) {
   //         this.nextLink = links.next;
   //       } else {
   //         this.nextLink = null;
   //       }
   //       // Extract data from JSON API response, and assert to an array of documents.
-  //       const newDocuments: UBLDocument[] = response.json().data as UBLDocument[];
+  //       const newDocuments: UBLDocument[] = response['data'] as UBLDocument[];
   //       return newDocuments;
   //     })
   //     .catch((error) => {
@@ -255,13 +259,13 @@ export class UBLDocumentService {
   // }
 
   // downloadDocumentsMassive(documents: string[]): Observable<FileWrapper> {
-  //   const params = new URLSearchParams();
+  //   const params = new HttpParams();
   //   documents.forEach(d => params.append('documents', d));
 
   //   const url = `${this.documentsUrl}/massive/download`;
   //   return this.http.get(url, {
   //     headers: this.headers,
-  //     responseType: ResponseContentType.Blob,
+  //     responseType: 'blob',
   //     params: params
   //   })
   //     .map((response) => {
@@ -289,7 +293,7 @@ export class UBLDocumentService {
   // }
 
   // printDocumentsMassive(documents: string[], theme?: string, format?: string): Observable<FileWrapper> {
-  //   const params = new URLSearchParams();
+  //   const params = new HttpParams();
   //   documents.forEach(d => params.append('documents', d));
   //   if (theme) { params.append('theme', theme); }
   //   if (format) { params.append('format', format); }
@@ -297,7 +301,7 @@ export class UBLDocumentService {
   //   const url = `${this.documentsUrl}/massive/print`;
   //   return this.http.get(url, {
   //     headers: this.headers,
-  //     responseType: ResponseContentType.Blob,
+  //     responseType: 'blob',
   //     params: params
   //   })
   //     .map((response) => {

@@ -11,7 +11,7 @@ import {
   ElementRef,
   ContentChild
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { IMultiSelectOption, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
@@ -23,7 +23,7 @@ import { ContextService } from '../../../../ngx-impl/ngx-clarksnut-impl/context.
 import { Notifications, Notification, NotificationType } from '../../../../ngx/ngx-base';
 
 @Component({
-  selector: 'add-collaborators-dialog',
+  selector: 'cn-add-collaborators-dialog',
   templateUrl: './add-collaborators-dialog.component.html',
   styleUrls: ['./add-collaborators-dialog.component.scss']
 })
@@ -34,7 +34,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
 
   @Input() space: Space;
   @Input() collaborators: User[];
-  @Output() onAdded = new EventEmitter<User[]>();
+  @Output() added = new EventEmitter<User[]>();
 
   dropdownOptions: IMultiSelectOption[] = [];
   dropdownModel: User[];
@@ -86,7 +86,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
   addCollaborators() {
     this.collaboratorService.addCollaborators(this.space.id, this.dropdownModel).subscribe(
       () => {
-        this.onAdded.emit(this.dropdownModel as User[]);
+        this.added.emit(this.dropdownModel as User[]);
         this.close();
       },
       (error) => {

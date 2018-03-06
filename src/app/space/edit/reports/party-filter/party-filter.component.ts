@@ -2,7 +2,7 @@ import { Party, PartyService } from './../../../../ngx/ngx-clarksnut';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Space } from './../../../../ngx/ngx-clarksnut';
 import { Component, OnInit, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'cn-party-filter',

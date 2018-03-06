@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 
 import { ErrorService } from './error.service';
 
-import { UserService, AuthenticationService } from '../../ngx/ngx-login-client';
+import { UserService } from '../../ngx/ngx-login-client';
 
 @Component({
   selector: 'cn-error',
@@ -28,8 +28,7 @@ export class ErrorComponent implements OnDestroy {
   constructor(
     private errorService: ErrorService,
     router: Router,
-    userService: UserService,
-    authService: AuthenticationService) {
+    userService: UserService) {
     this.subscription = this.errorService.update$.subscribe(
       (message) => {
         this.message = message;

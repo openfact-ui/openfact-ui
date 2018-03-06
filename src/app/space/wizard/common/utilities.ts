@@ -55,7 +55,7 @@ export function getPropertyValue<T>(obj1: T, dataToRetrieve: string) {
 export function mergeArraysDistinctByKey<T>(destination: T[], origin: T[], key: string) {
   for (const itemToAddOrReplace of origin) {
     const requestFieldIndex = destination.findIndex((f) => getPropertyValue(f, key) === getPropertyValue(itemToAddOrReplace, key));
-    if (requestFieldIndex != -1) {
+    if (requestFieldIndex !== -1) {
       // if already there replace it
       destination[requestFieldIndex] = itemToAddOrReplace;
     } else {

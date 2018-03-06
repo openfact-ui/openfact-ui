@@ -7,12 +7,10 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Logger } from '../ngx/ngx-base';
-import { AuthenticationService } from '../ngx/ngx-login-client';
 import { LoginService } from './login.service';
-//import {OpenfactRuntimeConsoleService} from './runtime-console/openfact-runtime-console.service';
 
 // Basic guard that checks the user is logged in
 
@@ -20,11 +18,9 @@ import { LoginService } from './login.service';
 export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(
-    protected auth: AuthenticationService,
     protected router: Router,
     protected logger: Logger,
-    protected login: LoginService,
-  /*private openfactRuntimeConsoleService: OpenfactRuntimeConsoleService*/) {
+    protected login: LoginService) {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
