@@ -17,6 +17,7 @@ import { SearchEventService } from './../../shared/search-event.service';
 export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   typeaheadModel: any;
+  private subscriptions: Subscription[] = [];
 
   formatter = (x: Party | UBLDocument) => {
     const type: string = x['type'];
@@ -26,7 +27,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       return (<UBLDocument>x).attributes.assignedId;
     }
     return x;
-  };
+  }
 
   search = (text$: Observable<string>) =>
     text$
@@ -39,9 +40,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       })
       .map((result: any[]) => {
         return result[0].concat(result[1]);
-      });
-
-  private subscriptions: Subscription[] = [];
+      })
 
   constructor(
     private router: Router,
@@ -76,9 +75,9 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   selectItem(val: any) {
     const type: string = val.item['type'];
     if (type === 'parties') {
-      this.selectParty(<Party> val.item);
+      this.selectParty(<Party>val.item);
     } else if (type === 'ubl-document') {
-      this.selectDocument(<UBLDocument> val.item);
+      this.selectDocument(<UBLDocument>val.item);
     }
   }
 
