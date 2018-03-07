@@ -4,8 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { IRequestAccessForm } from '../../models/request-access';
-import { Space } from '../../../../ngx/ngx-clarksnut';
+import { User, UserService } from '../../../../ngx/ngx-login-client';
+import { Space, RequestAccessToSpace, RequestAccessToSpaceAttributes, RequestAccessRelationalData } from '../../../../ngx/ngx-clarksnut';
 
 @Component({
   selector: 'cn-request-access-form',
@@ -16,31 +16,39 @@ import { Space } from '../../../../ngx/ngx-clarksnut';
 export class RequestAccessFormComponent implements OnInit, OnDestroy {
 
   @Input() space: Space;
-  @Output() change = new EventEmitter<IRequestAccessForm>(null);
+  @Output() requestChange = new EventEmitter<RequestAccessToSpace>();
 
+  loggedInUser: User;
   form: FormGroup;
-
   private subscriptions: Subscription[] = [];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService) {
+    this.subscriptions.push(
+      this.userService.loggedInUser.subscribe((val) => {
+        this.loggedInUser = val;
+      })
+    );
+  }
 
   ngOnInit() {
-    const owner: any = (<any>this.space).relationalData.owner;
+    const owner = this.space.relationalData.owner;
     const spaceOwner = owner.attributes.username;
 
     this.form = this.formBuilder.group({
-      currentOwner: [spaceOwner, Validators.compose([Validators.required, Validators.maxLength(120)])],
+      currentOwner: [spaceOwner, Validators.compose([Validators.maxLength(220)])],
       requestMessage: [null, Validators.compose([Validators.required, Validators.maxLength(250)])]
     });
 
     this.subscriptions.push(
-      this.form.statusChanges.subscribe(() => {
+      this.form.valueChanges.subscribe(() => {
         if (this.form.valid) {
-          this.change.emit({
-            message: this.form.value.requestMessage
-          } as IRequestAccessForm);
+          let request = this.createTransientRequest();
+          request.attributes.message = this.form.value.requestMessage;
+          this.requestChange.emit(request);
         } else {
-          this.change.emit(null);
+          this.requestChange.emit(null);
         }
       })
     );
@@ -48,6 +56,17 @@ export class RequestAccessFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
+  }
+
+  private createTransientRequest(): RequestAccessToSpace {
+    const request = {} as RequestAccessToSpace;
+    request.type = 'request-access';
+    request.attributes = new RequestAccessToSpaceAttributes();
+
+    request.attributes.scope = 'collaborator';
+    request.attributes.space = this.space.id;
+    request.attributes.user = this.loggedInUser.id;
+    return request;
   }
 
 }

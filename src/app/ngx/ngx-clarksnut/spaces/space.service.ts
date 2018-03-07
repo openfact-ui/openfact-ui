@@ -49,8 +49,8 @@ export class SpaceService {
    */
   getSpaceByAssignedId(spaceAssignedId: string): Observable<Space> {
     const url = this.spacesUrl;
-    const params: HttpParams = new HttpParams();
-    params.set('assignedId', spaceAssignedId);
+    let params: HttpParams = new HttpParams();
+    params = params.set('assignedId', spaceAssignedId);
 
     return this.http
       .get(url, { params: params, headers: this.headers })
@@ -139,12 +139,12 @@ export class SpaceService {
    */
   search(filterText: string, limit: number = 10): Observable<Space[]> {
     const url = this.spacesUrl;
-    const params: HttpParams = new HttpParams();
+    let params: HttpParams = new HttpParams();
     if (filterText === '') {
       filterText = '*';
     }
-    params.set('filterText', filterText);
-    params.set('limit', limit.toString());
+    params = params.set('filterText', filterText);
+    params = params.set('limit', limit.toString());
 
     return this.http
       .get(url, { params: params, headers: this.headers })
@@ -164,9 +164,9 @@ export class SpaceService {
    * NamedSpaces
    */
 
-   /**
-    *
-    */
+  /**
+   *
+   */
   getOwnedSpacesByUserId(userId: string, limit: number = 10): Observable<Space[]> {
     const url = `${this.usersUrl}/${userId}/spaces` + '?role=owner&limit=' + limit;
     const isAll = false;

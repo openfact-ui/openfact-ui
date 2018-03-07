@@ -145,7 +145,7 @@ export class RequestAccessService {
 
   private handleError(error: any) {
     this.logger.error(error);
-    return Observable.throw(error.message || error);
+    return Observable.throw(error);
   }
 
 }

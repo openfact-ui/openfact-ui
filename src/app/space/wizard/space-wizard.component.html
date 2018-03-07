@@ -1,23 +1,24 @@
 <ng-template #wizardTemplate>
 
   <pfng-wizard #wizard [config]="wizardConfig" (onCancel)="cancel($event)" (onNext)="nextClicked($event)" (onStepChange)="stepChanged($event, wizard)">
-
+    <!-- Step 1A: Details -->
     <pfng-wizard-step [config]="step1Config">
-      <pfng-wizard-substep [config]="step1aConfig" [reviewTemplate]="stepSpaceInfoReviewTemplate">
-        <cn-space-form (change)="onSpaceFormChange($event)"></cn-space-form>
+      <pfng-wizard-substep [config]="step1aConfig" [reviewTemplate]="step1aReviewTemplate">
+        <cn-space-form (spaceChange)="onSpaceFormChange($event)"></cn-space-form>
       </pfng-wizard-substep>
       <pfng-wizard-substep [config]="step1bConfig">
         <div *ngIf="!previousSpace;then termsAndConditions else requestAccess">
         </div>
         <ng-template #termsAndConditions>
-          <cn-space-terms-conditions (change)="onTermsConditionsChange($event)"></cn-space-terms-conditions>
+          <cn-space-terms-conditions (agreementChange)="onTermsConditionsChange($event)"></cn-space-terms-conditions>
         </ng-template>
         <ng-template #requestAccess>
-          <cn-request-access-form (change)="onRequestAccessChange($event)" [space]="previousSpace"></cn-request-access-form>
+          <cn-request-access-form (requestChange)="onRequestAccessChange($event)" [space]="previousSpace"></cn-request-access-form>
         </ng-template>
       </pfng-wizard-substep>
     </pfng-wizard-step>
 
+    <!-- Step 2A: Settings -->
     <pfng-wizard-step [config]="step2Config">
       <pfng-wizard-substep [config]="step2aConfig">
         <pfng-wizard-review></pfng-wizard-review>
@@ -39,9 +40,9 @@
             </div>
             <div *ngIf="!success">
               <div class="wizard-pf-success-icon">
-                <span class="pficon pficon-error-circle-o"></span>
+                <span class="pficon pficon-warning-triangle-o"></span>
               </div>
-              <h3 class="blank-slate-pf-main-action">Ups! Something happened. Please try again.</h3>
+              <h3 class="blank-slate-pf-main-action">Ups! Algo inesperado occurio. Por favor, vuelva a intentarlo más tarde.</h3>
             </div>
           </div>
         </div>
@@ -50,8 +51,8 @@
 
   </pfng-wizard>
 
-  <!-- Step 1B: Settings -->
-  <ng-template #stepSpaceInfoReviewTemplate>
+  <!-- Step B: Review -->
+  <ng-template #step1aReviewTemplate>
     <form class="form">
       <div class="wizard-pf-review-item">
         <span class="wizard-pf-review-item-label">ID:</span>

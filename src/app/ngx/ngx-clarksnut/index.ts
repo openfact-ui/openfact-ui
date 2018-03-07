@@ -52,6 +52,8 @@ export { SearchResult } from './models/search-result';
 // Request Access
 export { RequestAccessService} from './request-access/request-access.service';
 export { RequestAccessToSpace } from './models/request-access-to-space';
+export { RequestAccessToSpaceAttributes } from './models/request-access-to-space';
+export { RequestAccessRelationalData } from './models/request-access-to-space';
 
 // Parties
 export { Party } from './models/party';

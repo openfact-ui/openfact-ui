@@ -5,7 +5,7 @@ export interface RequestAccessToSpace {
   id: string;
   type: string;
   attributes: RequestAccessToSpaceAttributes;
-  relationalData?: RelationalData;
+  relationalData?: RequestAccessRelationalData;
 }
 
 export class RequestAccessToSpaceAttributes {
@@ -16,7 +16,7 @@ export class RequestAccessToSpaceAttributes {
   message: string;
 }
 
-export class RelationalData {
+export class RequestAccessRelationalData {
   spaceRequested?: Space;
   createdBy?: User;
 }

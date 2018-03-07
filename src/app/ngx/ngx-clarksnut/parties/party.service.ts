@@ -21,11 +21,11 @@ export class PartyService {
   }
 
   getParties(userId: string, filterText: string, spaces: Space[], limit: number = 5): Observable<Party[]> {
-    const params: HttpParams = new HttpParams();
-    params.set('filterText', filterText);
-    params.set('limit', limit.toString());
+    let params: HttpParams = new HttpParams();
+    params = params.set('filterText', filterText);
+    params = params.set('limit', limit.toString());
     spaces.forEach((s) => {
-      params.set('spaceIds', s.id);
+      params = params.set('spaceIds', s.id);
     });
 
     const url = `${this.usersUrl}/${userId}/parties`;

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Broadcaster } from '../../ngx/ngx-base';
 import { User, UserService } from '../../ngx/ngx-login-client';
-import { Space, SpaceService } from '../../ngx/ngx-clarksnut';
+import { Space, SpaceService, Contexts, Context } from '../../ngx/ngx-clarksnut';
 import { SpacesService } from '../../ngx-impl/ngx-clarksnut-impl/spaces.service';
 
 @Component({
@@ -21,9 +21,12 @@ export class LandsideComponent implements OnInit, OnDestroy {
   ownedSpaces: Space[] = [];
   collaboratedSpaces: Space[] = [];
 
+  recentlyViewedItems: Context[];
+
   private subscriptions: Subscription[] = [];
 
   constructor(
+    private contexts: Contexts,
     private router: Router,
     private broadcaster: Broadcaster,
     private userService: UserService,
@@ -40,6 +43,8 @@ export class LandsideComponent implements OnInit, OnDestroy {
         .publish().connect()
     );
 
+    this.spacesService.addRecent
+
     this.subscriptions.push(
       Observable.merge(
         this.broadcaster.on('spaceCreated'),
@@ -48,6 +53,10 @@ export class LandsideComponent implements OnInit, OnDestroy {
         this.initOwnedSpaces();
         this.initCollaboratedSpaces();
       })
+    );
+
+    this.subscriptions.push(
+      contexts.recent.subscribe((val) => this.recentlyViewedItems = val)
     );
   }
 
@@ -89,6 +98,10 @@ export class LandsideComponent implements OnInit, OnDestroy {
 
   editSpace(space: Space) {
     this.router.navigate(['/_spaces', space.id]);
+  }
+
+  takeTour() {
+    window.open("https://www.youtube.com/channel/UC8NMtL-E4VR-GdG72cn0Wuw?view_as=subscriber");
   }
 
 }

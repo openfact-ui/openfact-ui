@@ -83,7 +83,7 @@
   <div *ngIf="ownedSpaces.length < 3">
     <div class="getting-started-panel">
       <h2 class="secondary">{{'HOME.LANDSIDE.GETTING_STARTED' | translate}}</h2>
-      <button class="getting-started-button btn btn-default hidden-xs with-projects">
+      <button (click)="takeTour()" class="getting-started-button btn btn-default hidden-xs with-projects">
         <span class="fa fa-info-circle fa-2"></span>
         <span class="getting-started-button-text">{{'HOME.LANDSIDE.TOUR_BUTTON' | translate}}</span>
       </button>
@@ -104,17 +104,31 @@
   </div>
 
 
-  <!-- <div *ngIf="recentlyViewedItems && recentlyViewedItems.length">
+  <div>
     <h2 class="secondary">Recently Viewed</h2>
     <div class="services-view">
       <a class="services-item" *ngFor="let item of recentlyViewedItems" (click)="orderService(item)">
-        <div ng-if="item.imageUrl" class="services-item-icon services-item-img">
-          <img ng-src="images/logos/php.svg" src="images/logos/php.svg">
+        <div *ngIf="item.user">
+          <div class="services-item-icon services-item-img">
+            <img src="assets/images/logos/user.svg">
+          </div>
+          <div class="services-item-name" title="User" aria-hidden="true">{{item.user.attributes.fullName || item.user.attributes.username}}</div>
         </div>
-        <div class="services-item-name" title="CakePHP + MySQL (Persistent)" aria-hidden="true">CakePHP + MySQL (Persistent)</div>
+        <div *ngIf="item.space">
+          <div class="services-item-icon services-item-img">
+            <img src="assets/images/logos/office.svg">
+          </div>
+          <div class="services-item-name" title="User" aria-hidden="true">{{item.space.attributes.name}}</div>
+        </div>
+        <div *ngIf="item.document">
+          <div class="services-item-icon services-item-img">
+            <img src="assets/images/logos/xml.svg">
+          </div>
+          <div class="services-item-name" title="User" aria-hidden="true">{{item.document.attributes.assignedId}}</div>
+        </div>
       </a>
     </div>
-  </div> -->
+  </div>
 
 </div>
 

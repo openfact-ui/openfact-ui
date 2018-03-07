@@ -13,7 +13,6 @@ export class SpaceDeleteComponent implements OnInit {
   @ViewChild('modalTemplate') wizardTemplate: TemplateRef<any>;
 
   private modalRef: BsModalRef;
-
   private space: Space;
 
   constructor(
@@ -43,14 +42,15 @@ export class SpaceDeleteComponent implements OnInit {
   // Actions
 
   delete() {
-    // this.spaceService.deleteSpace(this.space)
-    //   .subscribe((spaces) => {
-    //     this.broadcaster.broadcast('spaceDeleted', this.space);
-    //     this.close();
-    //   },
-    //   (err) => {
-    //     console.log('Error removing space');
-    //   });
+    this.spaceService.deleteSpace('me', this.space).subscribe(
+      (spaces) => {
+        this.broadcaster.broadcast('spaceDeleted', this.space);
+        this.close();
+      },
+      (err) => {
+        console.log('Error al eliminar Espacio, inténtelo más tarde');
+      }
+    );
   }
 
 }

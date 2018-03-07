@@ -21,8 +21,10 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/take';
 
 import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/from';
 
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/distinct';

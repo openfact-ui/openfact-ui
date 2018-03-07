@@ -83,14 +83,14 @@ export class UBLDocumentService {
    */
   getDocuments(userId: string, filterText: string, spaces: Space[], limit: number = 10): Observable<UBLDocument[]> {
     const url = `${this.usersUrl}/${userId}/documents`;
-    const params: HttpParams = new HttpParams();
+    let params: HttpParams = new HttpParams();
     if (filterText === '') {
       filterText = '*';
     }
-    params.set('filterText', filterText);
-    params.set('limit', limit.toString());
+    params = params.set('filterText', filterText);
+    params = params.set('limit', limit.toString());
     spaces.forEach((s) => {
-      params.set('spaceIds', s.id);
+      params = params.set('spaceIds', s.id);
     });
 
     return this.http

@@ -3,8 +3,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Subscription } from 'rxjs/Subscription';
-
-import { ISpaceForm } from '../../models/spaceForm';
+import { Space, SpaceAttributes, SpaceRelatedLink } from './../../../../ngx/ngx-clarksnut';
 
 @Component({
   selector: 'cn-space-form',
@@ -14,10 +13,8 @@ import { ISpaceForm } from '../../models/spaceForm';
 
 export class SpaceFormComponent implements OnInit, OnDestroy {
 
-  @Output() change = new EventEmitter<ISpaceForm>(null);
-
+  @Output() spaceChange = new EventEmitter<Space>();
   form: FormGroup;
-
   private subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
@@ -29,19 +26,39 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
       description: [null, Validators.compose([Validators.maxLength(250)])],
     });
 
-    this.subscriptions.push(
-      this.form.statusChanges.subscribe(() => {
-        if (this.form.valid) {
-          this.change.emit(<ISpaceForm>this.form.value);
-        } else {
-          this.change.emit(null);
-        }
-      })
-    );
+    this.form.statusChanges.subscribe(() => {
+      if (this.form.valid) {
+        let space = this.createTransientSpace();
+        space.attributes.name = this.form.value.name;
+        space.attributes.assignedId = this.form.value.assignedId;
+        space.attributes.description = this.form.value.description;
+
+
+        this.spaceChange.emit(space);
+      } else {
+        this.spaceChange.emit(null);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
+  }
+
+  private createTransientSpace(): Space {
+    const space = {} as Space;
+    space.type = 'spaces';
+    space.attributes = new SpaceAttributes();
+    space.relationships = {
+      collaborators: {} as SpaceRelatedLink,
+      ownedBy: {
+        data: {
+          id: '',
+          type: 'identities'
+        }
+      }
+    };
+    return space;
   }
 
 }

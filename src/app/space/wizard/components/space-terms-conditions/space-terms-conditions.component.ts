@@ -11,10 +11,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class SpaceTermsConditionsComponent implements OnInit, OnDestroy {
 
-  @Output() change = new EventEmitter<boolean>(false);
-
+  @Output() agreementChange = new EventEmitter<boolean>(false);
   form: FormGroup;
-
   private subscriptions: Subscription[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
@@ -25,8 +23,8 @@ export class SpaceTermsConditionsComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptions.push(
-      this.form.statusChanges.subscribe(() => {
-        this.change.emit(this.form.valid);
+      this.form.valueChanges.subscribe(() => {
+        this.agreementChange.emit(this.form.valid);
       })
     );
   }

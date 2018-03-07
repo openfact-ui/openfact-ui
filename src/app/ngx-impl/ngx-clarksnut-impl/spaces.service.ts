@@ -97,8 +97,7 @@ export class SpacesService implements Spaces {
         recentSpaces: recent.map(val => val.id)
       }
     } as ExtProfile;
-    return this.profileService.silentSave(patch)
-      .subscribe(profile => { }, err => console.log('Error saving recent spaces:', err));
+    return this.profileService.silentSave(patch).subscribe(profile => { }, err => console.log('Error saving recent spaces:', err));
   }
 
 }
