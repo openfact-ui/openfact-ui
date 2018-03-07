@@ -1,3 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "main";
+
+
+ngb-typeahead-window .dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+
+
+ngb-typeahead-window .dropdown-item.active, .dropdown-item:active {
+  //color: #fff;
+  text-decoration: none;
+  background-color: #def3ff !important;
+  border-color: #bee1f4 !important;
+  border-style: solid;
+  border-width: 1px 0;
+}

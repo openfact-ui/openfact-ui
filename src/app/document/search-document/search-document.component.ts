@@ -1,5 +1,5 @@
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OnInit, Component, Input, Inject, OnDestroy, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,47 +16,43 @@ import { SearchEventService } from './../../shared/search-event.service';
 })
 export class SearchDocumentComponent implements OnInit, OnDestroy {
 
-  form: FormGroup;
+  typeaheadModel: any;
 
-  parties: Party[] = [];
-  documents: UBLDocument[] = [];
+  formatter = (x: Party | UBLDocument) => {
+    const type: string = x['type'];
+    if (type === 'parties') {
+      return (<Party>x).attributes.name;
+    } else if (type === 'ubl-document') {
+      return (<UBLDocument>x).attributes.assignedId;
+    }
+    return x;
+  };
+
+  search = (text$: Observable<string>) =>
+    text$
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .switchMap((term) => {
+        const partiesObs = this.partyService.getParties('me', term, [], 2).catch(() => Observable.of([]));
+        const documentsObs = this.documentService.getDocuments('me', term, [], 4).catch(() => Observable.of([]));
+        return Observable.forkJoin(partiesObs, documentsObs);
+      })
+      .map((result: any[]) => {
+        return result[0].concat(result[1]);
+      });
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
     private partyService: PartyService,
     private documentService: UBLDocumentService,
     private searchEventService: SearchEventService) {
-
-    // Form
-    this.form = this.formBuilder.group({
-      filterText: [null, Validators.compose([Validators.maxLength(255)])]
-    });
-
-    // Filter Text
-    this.subscriptions.push(
-      this.form.get('filterText').valueChanges
-        .debounceTime(100)
-        .distinctUntilChanged()
-        .subscribe((value) => {
-          this.partyService.getParties('me', value, [], 2).subscribe((parties) => {
-            this.parties = parties;
-          });
-          this.documentService.getDocuments('me', value, [], 4).subscribe((documents) => {
-            this.documents = documents;
-          });
-        })
-    );
-
     // Search events listener
     this.subscriptions.push(
       this.searchEventService.eventListener.subscribe((searchEvent) => {
         if (searchEvent) {
-          this.form.patchValue({
-            filterText: searchEvent.keyword
-          });
+          this.typeaheadModel = searchEvent.keyword;
         }
       })
     );
@@ -69,11 +65,20 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
-  searchInputKeyPress($event: KeyboardEvent): void {
-    if ($event.which === 13 && this.form.valid) {
+  searchInputKeyPress($event: KeyboardEvent, textValue: string): void {
+    if ($event.which === 13) {
       this.searchEventService.emitEvent({
-        keyword: this.form.value.filterText
+        keyword: textValue
       } as SearchEvent);
+    }
+  }
+
+  selectItem(val: any) {
+    const type: string = val.item['type'];
+    if (type === 'parties') {
+      this.selectParty(<Party> val.item);
+    } else if (type === 'ubl-document') {
+      this.selectDocument(<UBLDocument> val.item);
     }
   }
 
