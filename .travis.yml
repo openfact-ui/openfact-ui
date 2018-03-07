@@ -1,44 +1,38 @@
 sudo: false
 dist: trusty
 language: node_js
-
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 addons:
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
-
+    - google-chrome-stable
 node_js:
-  - "6"
-  - "7"
-  - "8"
-
+- '6'
+- '7'
+- '8'
 matrix:
   fast_finish: true
-
 before_install:
-  - npm install npm@5 -g
-  - npm cache verify
-  - npm prune
-  - npm update
-
+- npm install npm@5 -g
+- npm cache verify
+- npm prune
+- npm update
 install:
-  - npm install
-
+- npm install
 after_install:
-  - npm rebuild node-sass
-
+- npm rebuild node-sass
 before_script:
-  - node ./node_modules/protractor/bin/webdriver-manager update
-  - npm rebuild node-sass
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-
+- node ./node_modules/protractor/bin/webdriver-manager update
+- npm rebuild node-sass
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
 script:
-  - npm run ci:travis
+- npm run ci:travis
+notifications:
+  slack:
+    secure: JtnYpWoBuDBaRqwC1jOt/2epxtvxV6/X8ApEnos3Ew9B8aqXEHyfNWf1vHIikDJNacBXvNxXfLhAJEAfOXO8M4vdVhs3Ld1mcc+rdNuZD03WNswYwbr5QvjggCBGGCQc/0Z1Ny+oBk53UmoNAJ+NbuN6cbvtWFNKe0lwF1aIAsJpfjekUcCFz17JJjBOcHqjlvL3wp+H4BRVs9ZdUvso215Aj53JUkz4oOyZFa6D4hyLwJsTrWKU2dwYZ2Irx3nkI73nv7rKF75unJDMkmlzOOp/MWp5P0kWPpK1Ug5Mn4OZ6DN7RnMSZfj9lUypd2lVC6GgCHUDRpaydMXu14ro4J+3Xhu2gHbiBKzfGuaeZ9sCpLfRGeN5syuzWC+oTToXEpk5J8mYLhuJPgj/lvP1PX7qtWizK1Mkio9Aq9780VWBzap5ETfZJGJHVhxpGFCw+coyX0xUneEnYPK9EbV3dsgz6wadT6ujjZzhjzLe8pn5sRCuDtvzHe3qyNgmAKFVXVilZe/Nf//FRYoqjtnfkZ9f9SmS49wLgdBszHVRxjpJQSb95qky2hgim3DkWu86RF9GqHkqGdYui+MMdx0p3IPCa6CPMvWxZqVUiu1U81Jd6P3US90Fde+7LuPmlrnG7HBaCx7E0tEYRseXGzdu+nQjOkD0m6s2t2BhG3YaDOU=
