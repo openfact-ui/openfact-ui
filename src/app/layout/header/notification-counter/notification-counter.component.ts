@@ -44,7 +44,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
           Observable.interval(1000 * 60 * 5).subscribe(() => {
             this.refreshPendingRequests();
           })
-        )
+        );
       })
       .publish().connect();
   }

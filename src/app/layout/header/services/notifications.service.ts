@@ -68,7 +68,7 @@ export class UserNotificationsService implements OnDestroy {
   }
 
   private resolveSpaces(notifications: UserNotifications): Observable<UserNotifications> {
-    let requests: RequestAccessToSpace[] = notifications.attributes.requestAccesses;
+    const requests: RequestAccessToSpace[] = notifications.attributes.requestAccesses;
     if (requests.length === 0) {
       return Observable.of(notifications);
     }
@@ -95,7 +95,7 @@ export class UserNotificationsService implements OnDestroy {
   }
 
   private resolveUsers(notifications: UserNotifications): Observable<UserNotifications> {
-    let requests: RequestAccessToSpace[] = notifications.attributes.requestAccesses;
+    const requests: RequestAccessToSpace[] = notifications.attributes.requestAccesses;
     if (requests.length === 0) {
       return Observable.of(notifications);
     }
