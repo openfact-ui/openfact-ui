@@ -7,6 +7,8 @@ import { Notification, Notifications, NotificationType, NotificationAction } fro
 import { RequestAccessService, RequestAccessToSpace } from './../../../ngx/ngx-clarksnut';
 import { UserService, User } from './../../../ngx/ngx-login-client';
 
+import { UserNotificationsService } from './../services/notifications.service';
+
 @Component({
   selector: 'cn-notification-counter',
   templateUrl: './notification-counter.component.html',
@@ -27,23 +29,24 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private requestAccessService: RequestAccessService,
+    private userNotifications: UserNotificationsService,
     private notifications: Notifications) {
   }
 
   ngOnInit() {
-    // this.userService.loggedInUser
-    //   .map((user) => {
-    //     this.loggedInUser = user;
-    //   })
-    //   .do(() => {
-    //     this.refreshPendingRequests();
-    //     this.subscriptions.push(
-    //       Observable.interval(1000 * 60).subscribe((al) => {
-    //         this.refreshPendingRequests();
-    //       })
-    //     )
-    //   })
-    //   .publish().connect();
+    this.userService.loggedInUser
+      .map((user) => {
+        this.loggedInUser = user;
+      })
+      .do(() => {
+        this.refreshPendingRequests();
+        this.subscriptions.push(
+          Observable.interval(1000 * 60 * 5).subscribe(() => {
+            this.refreshPendingRequests();
+          })
+        )
+      })
+      .publish().connect();
   }
 
   ngOnDestroy() {
@@ -63,14 +66,15 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
 
   refreshPendingRequests() {
     this.loadingPendingRequests = true;
-    this.requestAccessService.getByCurrentUser().subscribe((requests) => {
-      this.pendingRequests = requests;
+
+    this.userNotifications.getUserNotifications('me', 'pending').subscribe((val) => {
+      this.pendingRequests = val.attributes.requestAccesses;
       this.loadingPendingRequests = false;
     });
   }
 
   acceptRequest(request: RequestAccessToSpace, index: number) {
-    request.attributes.status = 'ACCEPTED';
+    request.attributes.status = 'accepted';
     this.requestAccessService.updateRequest(request).subscribe(
       (val) => {
         this.pendingRequests.splice(index, 1);
@@ -82,7 +86,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
   }
 
   rejectRequest(request: RequestAccessToSpace, index: number) {
-    request.attributes.status = 'REJECTED';
+    request.attributes.status = 'rejected';
     this.requestAccessService.updateRequest(request).subscribe(
       (val) => {
         this.pendingRequests.splice(index, 1);
@@ -97,7 +101,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
     Observable.forkJoin(
       this.pendingRequests
         .map((request) => {
-          request.attributes.status = 'ACCEPTED';
+          request.attributes.status = 'accepted';
           return request;
         })
         .map((request) => this.requestAccessService.updateRequest(request))
@@ -115,7 +119,7 @@ export class NotificationCounterComponent implements OnInit, OnDestroy {
     Observable.forkJoin(
       this.pendingRequests
         .map((request) => {
-          request.attributes.status = 'REJECTED';
+          request.attributes.status = 'rejected';
           return request;
         })
         .map((request) => this.requestAccessService.updateRequest(request))

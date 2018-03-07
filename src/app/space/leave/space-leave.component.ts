@@ -43,14 +43,15 @@ export class SpaceLeaveComponent implements OnInit {
   // Actions
 
   abandon() {
-    // this.spaceService.deleteSpace(this.space)
-    //   .subscribe((spaces) => {
-    //     this.broadcaster.broadcast('spaceDeleted', this.space);
-    //     this.close();
-    //   },
-    //   (err) => {
-    //     console.log('Error removing space');
-    //   });
+    this.spaceService.leaveSpace(this.space.id, 'me').subscribe(
+      (spaces) => {
+        this.broadcaster.broadcast('spaceDeleted', this.space);
+        this.close();
+      },
+      (err) => {
+        console.log('Error removing space');
+      }
+    );
   }
 
 }

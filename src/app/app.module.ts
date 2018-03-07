@@ -71,6 +71,7 @@ import { AboutModalModule } from './layout/about-modal/about-modal.module';
 
 // Getting Services
 import { GettingStartedService } from './getting-started/services/getting-started.service';
+import { UserNotificationsService } from './layout/header/services/notifications.service';
 
 // Shared Services
 import { AboutService } from './shared/about.service';
@@ -187,6 +188,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Getting Services
     GettingStartedService,
+    UserNotificationsService,
 
     // Shared Services
     AboutService,

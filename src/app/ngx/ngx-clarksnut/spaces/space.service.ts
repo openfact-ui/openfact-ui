@@ -160,6 +160,16 @@ export class SpaceService {
       });
   }
 
+  leaveSpace(spaceId: string, userId: string): Observable<any> {
+    const url = `${this.spacesUrl}/${spaceId}/collaborators/${userId}/leave`;
+
+    return this.http
+      .post(url, {}, { headers: this.headers })
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
   /***
    * NamedSpaces
    */

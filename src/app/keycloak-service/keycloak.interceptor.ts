@@ -42,7 +42,7 @@ export class KeycloakInterceptor implements HttpInterceptor {
           },
           (err: any) => {
             if (err instanceof HttpErrorResponse) {
-              if (err.status === 401) {
+              if (err.status === 400 || err.status === 401) {
                 this.keycloakService.login();
               }
             }
