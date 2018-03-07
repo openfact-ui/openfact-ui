@@ -1,3 +1,5 @@
+https://travis-ci.org/clarksnut/clarksnut-ui.svg?branch=master
+
 # ClarksnutUi
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
