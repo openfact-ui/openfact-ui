@@ -44,7 +44,7 @@ export class RequestAccessFormComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.form.valueChanges.subscribe(() => {
         if (this.form.valid) {
-          let request = this.createTransientRequest();
+          const request = this.createTransientRequest();
           request.attributes.message = this.form.value.requestMessage;
           this.requestChange.emit(request);
         } else {
