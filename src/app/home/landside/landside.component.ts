@@ -43,8 +43,6 @@ export class LandsideComponent implements OnInit, OnDestroy {
         .publish().connect()
     );
 
-    this.spacesService.addRecent
-
     this.subscriptions.push(
       Observable.merge(
         this.broadcaster.on('spaceCreated'),
@@ -101,7 +99,7 @@ export class LandsideComponent implements OnInit, OnDestroy {
   }
 
   takeTour() {
-    window.open("https://www.youtube.com/channel/UC8NMtL-E4VR-GdG72cn0Wuw?view_as=subscriber");
+    window.open('https://www.youtube.com/channel/UC8NMtL-E4VR-GdG72cn0Wuw?view_as=subscriber');
   }
 
 }

@@ -28,7 +28,7 @@ export class SpaceFormComponent implements OnInit, OnDestroy {
 
     this.form.statusChanges.subscribe(() => {
       if (this.form.valid) {
-        let space = this.createTransientSpace();
+        const space = this.createTransientSpace();
         space.attributes.name = this.form.value.name;
         space.attributes.assignedId = this.form.value.assignedId;
         space.attributes.description = this.form.value.description;
