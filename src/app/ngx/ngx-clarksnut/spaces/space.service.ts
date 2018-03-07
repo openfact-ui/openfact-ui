@@ -43,6 +43,18 @@ export class SpaceService {
       });
   }
 
+  getUserSpaceById(userId: string, spaceId: string): Observable<Space> {
+    const url = `${this.usersUrl}/${userId}/spaces/${spaceId}`;
+    return this.http.get(url, { headers: this.headers })
+      .map((response) => {
+        return response['data'] as Space;
+      })
+      .switchMap(val => this.resolveOwner(val))
+      .catch((error) => {
+        return this.handleError(error);
+      });
+  }
+
   /**
    * Search public version of space
    * @param spaceAssignedId space assignedId
