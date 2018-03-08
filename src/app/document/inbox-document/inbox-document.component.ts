@@ -3,8 +3,7 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
-import { UBLDocument, UBLDocumentService } from './../../ngx/ngx-clarksnut';
-import { DocumentQuery } from './../../models/document-quey';
+import { UBLDocument, UBLDocumentService, DocumentQuery, DocumentQueryAttributes } from './../../ngx/ngx-clarksnut';
 import { SearchEventService } from '../../shared/search-event.service';
 import { SearchEvent } from './../../models/search-event';
 
@@ -26,9 +25,6 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
 
   emptyStateConfig: EmptyStateConfig;
 
-  // Search
-  private searchEvent: SearchEvent;
-
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -37,12 +33,8 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     private searchEventService: SearchEventService,
     private documentService: UBLDocumentService) {
     this.subscriptions.push(
-      this.searchEventService.eventListener.subscribe((event) => {
-        this.searchEvent = event;
-        if (!event) {
-          this.searchEvent = {} as SearchEvent;
-        }
-        this.search();
+      this.searchEventService.value.subscribe((event) => {
+        this.search(event);
       })
     );
   }
@@ -58,22 +50,18 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
-  search() {
-    // if (!this.queryBuilder) {
-    //   this.queryBuilder = DocumentQuery.builder();
-    // }
+  search(event: SearchEvent) {
+    const query = this.createTransientQuery();
+    query.attributes.filterText = event.keyword;
+    query.attributes.spaces = event.spaces ? event.spaces.map((s) => s.id) : [];
+    query.attributes.offset = event.offset | 0;
+    query.attributes.limit = event.limit || 10;
 
-    // this.queryBuilder.filterText(this.searchEvent.keyword);
-    // this.queryBuilder.spaces(this.searchEvent.spaces ? this.searchEvent.spaces.map((s) => s.id) : []);
-
-    // this.queryBuilder.offset(this.searchEvent.offset || 0);
-    // this.queryBuilder.limit(this.searchEvent.limit || 10);
-
-    // this.documentService.searchDocuments('me', this.queryBuilder.build()).subscribe((searchResult) => {
-    //   this.documents = searchResult.data;
-    //   this.currentNumberOfItems = searchResult.data.length;
-    //   this.totalNumberOfItems = searchResult.totalResults;
-    // });
+    this.documentService.searchDocuments('me', query).subscribe((searchResult) => {
+      this.documents = searchResult.data;
+      this.currentNumberOfItems = searchResult.data.length;
+      this.totalNumberOfItems = searchResult.totalResults;
+    });
   }
 
   downloadXml(document: UBLDocument) {
@@ -116,4 +104,10 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     });
   }
 
+  private createTransientQuery() {
+    return {
+      type: 'documentQuery',
+      attributes: new DocumentQueryAttributes()
+    } as DocumentQuery;
+  }
 }

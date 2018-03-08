@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Space, Party, PartyService, UBLDocumentService, UBLDocument } from './../../ngx/ngx-clarksnut';
 import { SearchEvent } from './../../models/search-event';
-import { DocumentQuery } from './../../models/document-quey';
 import { SearchEventService } from './../../shared/search-event.service';
 
 @Component({
@@ -49,10 +48,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     private searchEventService: SearchEventService) {
     // Search events listener
     this.subscriptions.push(
-      this.searchEventService.eventListener.subscribe((searchEvent) => {
-        if (searchEvent) {
-          this.typeaheadModel = searchEvent.keyword;
-        }
+      this.searchEventService.value.subscribe((searchEvent) => {
+        this.typeaheadModel = searchEvent.keyword;
       })
     );
   }
@@ -66,9 +63,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   searchInputKeyPress($event: KeyboardEvent, textValue: string): void {
     if ($event.which === 13) {
-      this.searchEventService.emitEvent({
-        keyword: textValue
-      } as SearchEvent);
+      this.searchEventService.keyword(textValue);
     }
   }
 
@@ -82,9 +77,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   selectParty(party: Party) {
-    this.searchEventService.emitEvent({
-      keyword: party.attributes.name
-    } as SearchEvent);
+    this.searchEventService.keyword(party.attributes.name);
   }
 
   selectDocument(document: UBLDocument) {

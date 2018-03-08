@@ -1,4 +1,3 @@
-import { DocumentQuery } from './../../../models/document-quey';
 import { SearchResult } from '../models/search-result';
 import { Space } from '../models/space';
 import { SpaceService } from '../spaces/space.service';
@@ -13,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { CLARKSNUT_API_URL } from '../api/clarksnut-api';
 import { UBLDocument } from '../models/ubl-document';
 import { FileWrapper } from '../models/file-wrapper';
+import { DocumentQuery } from '../models/document-query';
 
 @Injectable()
 export class UBLDocumentService {
@@ -105,11 +105,16 @@ export class UBLDocumentService {
 
   searchDocuments(userId: string, query: DocumentQuery): Observable<SearchResult<UBLDocument>> {
     const url = `${this.usersUrl}/${userId}/documents/search`;
+    const payload = JSON.stringify({ data: query });
 
     return this.http
-      .post(url, query)
+      .post(url, payload, { headers: this.headers })
       .map(response => {
-        return response['data'] as UBLDocument[];
+        return {
+          data: response['data'],
+          totalResults: response['meta']['totalCount'],
+          facets: response['meta']['facets']
+        } as SearchResult<UBLDocument>;
       })
       .catch((error) => {
         return this.handleError(error);

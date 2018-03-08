@@ -8,22 +8,25 @@ import { SearchEvent } from './../models/search-event';
 @Injectable()
 export class SearchEventService {
 
-  private _eventListener: BehaviorSubject<SearchEvent> = new BehaviorSubject(null);
+  private _eventListener: BehaviorSubject<SearchEvent> = new BehaviorSubject(new SearchEvent());
 
   constructor() {
 
   }
 
-  get current(): SearchEvent {
-    return this._eventListener.getValue();
-  }
-
-  get eventListener(): Observable<SearchEvent> {
+  get value(): Observable<SearchEvent> {
     return this._eventListener;
   }
 
-  emitEvent(event: SearchEvent) {
-    this._eventListener.next(event);
+  patch(patchValue: SearchEvent) {
+    const event = this._eventListener.getValue();
+    this._eventListener.next(Object.assign(event, patchValue));
+  }
+
+  keyword(keyword: string) {
+    const event = this._eventListener.getValue();
+    event.keyword = keyword;
+    this.patch(event);
   }
 
 }

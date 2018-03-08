@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Space, Context, UBLDocument, UBLDocumentService } from './../../../ngx/ngx-clarksnut';
 import { ContextService } from './../../../ngx-impl/ngx-clarksnut-impl/context.service';
-import { DocumentQuery } from './../../../models/document-quey';
 
 @Component({
   selector: 'cn-reports',

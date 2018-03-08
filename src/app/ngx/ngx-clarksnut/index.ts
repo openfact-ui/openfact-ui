@@ -48,6 +48,7 @@ export { UBLDocumentService } from './documents/ubl-document.service';
 export { UBLDocuments } from './documents/ubl-documents';
 export { FileWrapper } from './models/file-wrapper';
 export { SearchResult } from './models/search-result';
+export { DocumentQuery, DocumentQueryAttributes } from './models/document-query';
 
 // Request Access
 export { RequestAccessService} from './request-access/request-access.service';

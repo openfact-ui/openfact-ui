@@ -22,7 +22,7 @@ export class EditDocumentComponent implements OnInit, OnDestroy {
     private documentService: UBLDocumentService
   ) {
     this.subscriptions.push(
-      this.searchEventService.eventListener.skip(1).subscribe((event) => {
+      this.searchEventService.value.skip(1).subscribe((event) => {
         this.router.navigate(['_home']);
       })
     );

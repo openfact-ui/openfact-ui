@@ -51,7 +51,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     // );
 
     this.subscriptions.push(
-      this.searchEventService.eventListener.subscribe((event) => {
+      this.searchEventService.value.subscribe((event) => {
         this.appliedFilters.delete('keyword');
         if (event && event.keyword) {
           this.appliedFilters.set('keyword', {
@@ -81,8 +81,8 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   clearAllFilters() {
     this.appliedFilters.clear();
 
-    const current = this.searchEventService.current || {};
-    this.searchEventService.emitEvent(Object.assign(current, {
+    const current = this.searchEventService.value || {};
+    this.searchEventService.patch(Object.assign(current, {
       keyword: null,
       offset: 0,
       limit: this.limit
@@ -104,12 +104,12 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    const current = this.searchEventService.current || {};
-    this.searchEventService.emitEvent(Object.assign(current, {
-      offset: this.offset,
-      limit: this.limit,
-      spaces: this.selectedSpaces
-    }));
+    // const current = this.searchEventService.value || {};
+    // this.searchEventService.patch(Object.assign(current, {
+    //   offset: this.offset,
+    //   limit: this.limit,
+    //   spaces: this.selectedSpaces
+    // }));
   }
 
   get selectedSpaces() { // right now: ['1','3']
