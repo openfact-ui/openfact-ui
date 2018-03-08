@@ -57,6 +57,10 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     query.attributes.offset = event.offset || 0;
     query.attributes.limit = event.limit || 10;
 
+    query.attributes.starred = event.star;
+    query.attributes.viewed = event.view;
+    query.attributes.checked = event.check;
+
     this.documentService.searchDocuments('me', query).subscribe((searchResult) => {
       this.documents = searchResult.data;
       this.currentNumberOfItems = searchResult.data.length;

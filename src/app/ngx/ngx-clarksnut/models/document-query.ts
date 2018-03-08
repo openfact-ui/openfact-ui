@@ -19,5 +19,7 @@ export class DocumentQueryAttributes {
   offset: number;
   limit: number;
 
-  starred: string;
+  starred: boolean;
+  viewed: boolean;
+  checked: boolean;
 }

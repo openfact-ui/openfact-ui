@@ -40,8 +40,20 @@
                     </div>
 
                     <ul class="nav nav-tabs nav-tabs-pf services-categories">
-                      <li class="active">
-                        <a class="services-category-heading">{{'HOME.ALL' | translate}}</a>
+                      <li [ngClass]="{'active': selectedTabId === 'all'}">
+                        <a (click)="selectTab('all')" href="javascript:void(0)" class="services-category-heading">{{'HOME.ALL' | translate}}</a>
+                        <a class="services-back-link" href="">{{'HOME.BACK' | translate}}</a>
+                      </li>
+                      <li [ngClass]="{'active': selectedTabId === 'star'}">
+                        <a (click)="selectTab('star')" href="javascript:void(0)" class="services-category-heading">Preferidos</a>
+                        <a class="services-back-link" href="">{{'HOME.BACK' | translate}}</a>
+                      </li>
+                      <li [ngClass]="{'active': selectedTabId === 'not-read'}">
+                        <a (click)="selectTab('not-read')" href="javascript:void(0)" class="services-category-heading">No leidos</a>
+                        <a class="services-back-link" href="">{{'HOME.BACK' | translate}}</a>
+                      </li>
+                      <li [ngClass]="{'active': selectedTabId === 'not-checked'}">
+                        <a (click)="selectTab('not-checked')" href="javascript:void(0)" class="services-category-heading">No verificados</a>
                         <a class="services-back-link" href="">{{'HOME.BACK' | translate}}</a>
                       </li>
                     </ul>

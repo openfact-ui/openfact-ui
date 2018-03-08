@@ -5,4 +5,8 @@ export class SearchEvent {
   offset?: number;
   limit?: number;
   spaces?: Space[];
+
+  star?: boolean;
+  view?: boolean;
+  check?: boolean;
 }
