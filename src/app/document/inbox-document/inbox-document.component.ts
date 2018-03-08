@@ -54,7 +54,7 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     const query = this.createTransientQuery();
     query.attributes.filterText = event.keyword;
     query.attributes.spaces = event.spaces ? event.spaces.map((s) => s.id) : [];
-    query.attributes.offset = event.offset | 0;
+    query.attributes.offset = event.offset || 0;
     query.attributes.limit = event.limit || 10;
 
     this.documentService.searchDocuments('me', query).subscribe((searchResult) => {
