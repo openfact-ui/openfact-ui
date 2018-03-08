@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { PipeModule } from 'patternfly-ng';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SearchDocumentComponent } from './search-document.component';
 
@@ -11,6 +12,7 @@ import { SearchDocumentComponent } from './search-document.component';
     CommonModule,
     FormsModule,
     NgbTypeaheadModule.forRoot(),
+    PipeModule,
     TranslateModule
   ],
   declarations: [SearchDocumentComponent],

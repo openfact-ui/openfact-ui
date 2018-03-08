@@ -9,10 +9,10 @@
           placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}" autocorrect="off" autocapitalize="off" spellcheck="false"
           aria-autocomplete="list" aria-expanded="false"> -->
 
-        <input #typeahead (keypress)="searchInputKeyPress($event, typeahead.value)" (selectItem)="selectItem($event)" type="search" [(ngModel)]="typeaheadModel" [ngbTypeahead]="search"
-          [resultTemplate]="typeaheadTemplate" [inputFormatter]="formatter" [focusFirst]="false" class="form-control catalog-search-input"
-          placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}" autocomplete="off" autocorrect="off" autocapitalize="off"
-          spellcheck="false">
+        <input #typeahead (keypress)="searchInputKeyPress($event, typeahead.value)" (selectItem)="selectItem($event)" type="search"
+          [(ngModel)]="typeaheadModel" [ngbTypeahead]="search" [resultTemplate]="typeaheadTemplate" [inputFormatter]="formatter"
+          [focusFirst]="false" class="form-control catalog-search-input" placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
         <ng-template #typeaheadTemplate let-item="result">
           <div *ngIf="item.type === 'parties'" class="catalog-search-match" style="display: flex;">
@@ -39,13 +39,12 @@
               </span>
             </span>
             <div class="catalog-search-match-info">
-              <div class="catalog-search-match-label">
-                {{item.attributes.assignedId}}
+              <div class="catalog-search-match-label">{{item.attributes.assignedId}}
+                <span class="tag small text-muted" style="text-transform: none;">{{item.attributes.type | lowercase}}</span>
               </div>
               <div class="catalog-search-match-description">
-                <span class="tag small text-muted ">
-                  {{item.attributes.supplierName}}
-                </span>
+                <span class="tag small text-muted ">{{item.attributes.supplierName | truncate:15}}</span>&rarr;
+                <span class="tag small text-muted ">{{item.attributes.customerName | truncate:15}}</span>
               </div>
             </div>
           </div>
