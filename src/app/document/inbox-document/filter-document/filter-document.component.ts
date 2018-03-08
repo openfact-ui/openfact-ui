@@ -3,8 +3,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Broadcaster } from '../../../ngx/ngx-base';
 import { User, UserService } from '../../../ngx/ngx-login-client';
-import { Space, SpaceService } from './../../../ngx/ngx-clarksnut';
+import { Space, SpaceService, SearchResult, UBLDocument } from './../../../ngx/ngx-clarksnut';
 import { SearchEventService } from '../../../shared/search-event.service';
+import { SearchEvent } from './../../../models/search-event';
 
 export class Filter {
   name: string;
@@ -18,15 +19,15 @@ export class Filter {
 })
 export class FilterDocumentComponent implements OnInit, OnDestroy {
 
-  @Input() currentNumberOfItems: number;
-  @Input() totalNumberOfItems: number;
+  @Input() searchResult: SearchResult<UBLDocument>;
+
+  loggedInUser: User;
+  ownedSpaces: Space[] = [];
+  collaboratedSpaces: Space[] = [];
 
   keyword: string;
   offset = 0;
   limit = 10;
-
-  user: User;
-  spaces: Space[];
 
   appliedFilters: Map<string, Filter> = new Map<string, Filter>();
 
@@ -38,17 +39,24 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     private spaceService: SpaceService,
     private searchEventService: SearchEventService,
   ) {
-    // this.subscriptions.push(
-    //   Observable.merge(
-    //     this.userService.loggedInUser.do((user) => this.user = user),
-    //     this.broadcaster.on('spaceCreated'),
-    //     this.broadcaster.on('spaceDeleted')
-    //   ).subscribe((val) => {
-    //     this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
-    //       this.spaces = val;
-    //     });
-    //   })
-    // );
+
+    this.subscriptions.push(
+      userService.loggedInUser
+        .do((user) => {
+          this.loggedInUser = user;
+          this.refreshSpaces();
+        })
+        .publish().connect()
+    );
+
+    this.subscriptions.push(
+      Observable.merge(
+        this.broadcaster.on('spaceCreated'),
+        this.broadcaster.on('spaceDeleted')
+      ).subscribe((val) => {
+        this.refreshSpaces();
+      })
+    );
 
     this.subscriptions.push(
       this.searchEventService.value.subscribe((event) => {
@@ -64,6 +72,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
   }
 
   ngOnDestroy() {
@@ -103,22 +112,32 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.search();
   }
 
-  search() {
-    // const current = this.searchEventService.value || {};
-    // this.searchEventService.patch(Object.assign(current, {
-    //   offset: this.offset,
-    //   limit: this.limit,
-    //   spaces: this.selectedSpaces
-    // }));
+  refreshSpaces() {
+    this.spaceService.getOwnedSpacesByUserId('me').subscribe((val) => {
+      this.ownedSpaces = val;
+    });
+    this.spaceService.getCollaboratedSpacesByUserId('me').subscribe((val) => {
+      this.collaboratedSpaces = val;
+    });
   }
 
-  get selectedSpaces() { // right now: ['1','3']
-    return this.spaces
-      .filter(space => (<any>space).checked)
-      .map(opt => opt.id);
+  search() {
+    const event = new SearchEvent();
+    event.spaces = this.selectedSpaces;
+    event.offset = this.offset;
+    event.limit = this.limit;
+    this.searchEventService.patch(event);
+  }
+
+  get selectedSpaces(): Space[] {
+    const owned = this.ownedSpaces.filter(space => (<any>space).checked);
+    const collaborated = this.collaboratedSpaces.filter(space => (<any>space).checked);
+    return owned.concat(collaborated);
   }
 
   checkedSpacesChanged() {
+    this.offset = 0;
+    this.limit = 10;
     this.search();
   }
 }

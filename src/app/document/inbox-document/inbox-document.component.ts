@@ -3,7 +3,7 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 
-import { UBLDocument, UBLDocumentService, DocumentQuery, DocumentQueryAttributes } from './../../ngx/ngx-clarksnut';
+import { UBLDocument, UBLDocumentService, DocumentQuery, DocumentQueryAttributes, SearchResult } from './../../ngx/ngx-clarksnut';
 import { SearchEventService } from '../../shared/search-event.service';
 import { SearchEvent } from './../../models/search-event';
 
@@ -20,8 +20,7 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   @HostBinding('class') classList = 'services-items-filter';
 
   documents: UBLDocument[] = [];
-  currentNumberOfItems: number;
-  totalNumberOfItems: number;
+  searchResult: SearchResult<UBLDocument>;
 
   emptyStateConfig: EmptyStateConfig;
 
@@ -62,9 +61,8 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     query.attributes.checked = event.check;
 
     this.documentService.searchDocuments('me', query).subscribe((searchResult) => {
+      this.searchResult = searchResult;
       this.documents = searchResult.data;
-      this.currentNumberOfItems = searchResult.data.length;
-      this.totalNumberOfItems = searchResult.totalResults;
     });
   }
 

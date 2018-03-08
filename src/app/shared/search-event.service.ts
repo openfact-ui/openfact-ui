@@ -29,10 +29,4 @@ export class SearchEventService {
     this.patch(event);
   }
 
-  star(start: boolean) {
-    const event = this._eventListener.getValue();
-    event.star = start;
-    this.patch(event);
-  }
-
 }

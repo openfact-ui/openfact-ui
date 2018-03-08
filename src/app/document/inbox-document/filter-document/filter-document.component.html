@@ -2,18 +2,31 @@
   <div class="filter-pf">
 
     <span dropdown class="dropdown primary-action">
-      <button dropdownToggle class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Filter
+      <button dropdownToggle class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false">Espacios
         <span class="caret"></span>
       </button>
       <div *dropdownMenu class="dropdown-menu">
         <div class="filter-panel-container ">
-          <input type="text" class="keyword-filter form-control" placeholder="Filter by Keyword" autocorrect="off" autocapitalize="none"
-            spellcheck="false">
+          <!-- <input type="text" class="keyword-filter form-control" placeholder="Filter by Keyword" autocorrect="off" autocapitalize="none"
+            spellcheck="false"> -->
           <div class="category">
-            Space
+            Privados
             <span class="pficon pficon-info vendor-info-icon" aria-hidden="true" tooltip="This filter will only apply to items which contain publisher information. Items that do not have a publisher will not be shown in the filter results."></span>
             <ul>
-              <li *ngFor="let space of spaces">
+              <li *ngFor="let space of ownedSpaces">
+                <div class="checkbox">
+                  <label class="category-option-label" cnStopPropagation>
+                    <input type="checkbox" name="spaces" value="{{space.id}}" [(ngModel)]="space.checked" (change)="checkedSpacesChanged()"> {{space.attributes.name | spaceName}}
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="category">
+            Collaborativos
+            <span class="pficon pficon-info vendor-info-icon" aria-hidden="true" tooltip="This filter will only apply to items which contain publisher information. Items that do not have a publisher will not be shown in the filter results."></span>
+            <ul>
+              <li *ngFor="let space of collaboratedSpaces">
                 <div class="checkbox">
                   <label class="category-option-label" cnStopPropagation>
                     <input type="checkbox" name="spaces" value="{{space.id}}" [(ngModel)]="space.checked" (change)="checkedSpacesChanged()"> {{space.attributes.name | spaceName}}
@@ -25,10 +38,68 @@
         </div>
       </div>
     </span>
+
+    <span dropdown class="dropdown primary-action">
+      <button dropdownToggle class="btn btn-default dropdown-toggle">
+        <span class="fa fa-filter"></span>
+        <span class="username truncate">Filtros</span>
+        <span class="caret"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu">
+        <li *ngIf="searchResult.facets.type && searchResult.facets.type.length > 0" class="dropdown-submenu">
+          <a href="javascript:void(0);">Tipo</a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of searchResult.facets.type">
+              <a style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value}}</span>
+                <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="searchResult.facets.currency && searchResult.facets.currency.length > 0" class="dropdown-submenu">
+          <a href="javascript:void(0);">Moneda</a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of searchResult.facets.currency">
+              <a style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value}}</span>
+                <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="divider"></li>
+        <li *ngIf="searchResult.facets.amount && searchResult.facets.amount.length > 0" class="dropdown-submenu">
+          <a href="javascript:void(0);">Monto</a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of searchResult.facets.amount">
+              <a style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value.from ? (item.value.from | number) : '&infin;'}} - {{item.value.to ? (item.value.to | number)
+                  : '&infin;' }}</span>
+                <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="searchResult.facets.issueDate && searchResult.facets.issueDate.length > 0" class="dropdown-submenu">
+          <a href="javascript:void(0);">Fecha Emision</a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let item of searchResult.facets.issueDate">
+              <a style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value.from ? (item.value.from | date) : '&infin;'}} - {{item.value.to ? (item.value.to | date) : '&infin;'
+                  }}</span>
+                <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </span>
+
     <span class="filter-pf">
       <span class="toolbar-pf-results">
-        <h5 *ngIf="currentNumberOfItems && totalNumberOfItems">{{currentNumberOfItems}}
-          <span>of {{totalNumberOfItems}}</span> Items
+        <h5>{{offset + 1}}-{{offset + limit + 1}}
+          <span>of {{searchResult?.totalResults}}</span> Items
         </h5>
         <p *ngIf="appliedFilters.size > 0">Active filters:</p>
         <ul class="list-inline">

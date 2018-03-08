@@ -10,8 +10,8 @@
           aria-autocomplete="list" aria-expanded="false"> -->
 
         <input #typeahead (keypress)="searchInputKeyPress($event, typeahead.value)" (selectItem)="selectItem($event)" type="search"
-          [(ngModel)]="typeaheadModel" [ngbTypeahead]="search" [resultTemplate]="typeaheadTemplate" [inputFormatter]="formatter"
-          [focusFirst]="false" class="form-control catalog-search-input" placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
+          [(ngModel)]="typeaheadModel" [ngbTypeahead]="search" [resultTemplate]="typeaheadTemplate" [inputFormatter]="formatter" [editable]="false"
+          [focusFirst]="false" [showHint]="true" class="form-control catalog-search-input" placeholder="{{'SEARCH_DOCUMENT.SEARCH_DOCUMENT' | translate}}"
           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 
         <ng-template #typeaheadTemplate let-item="result">
