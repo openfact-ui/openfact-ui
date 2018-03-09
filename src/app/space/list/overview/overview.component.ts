@@ -14,7 +14,8 @@ import { Space, SpaceService } from '../../../ngx/ngx-clarksnut';
 export class OverviewComponent implements OnInit, OnDestroy {
 
   user: User;
-  spaces: Space[] = [];
+  ownedSpaces: Space[] = [];
+  collaboratedSpaces: Space[] = [];
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -22,17 +23,17 @@ export class OverviewComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private spaceService: SpaceService
   ) {
-    // this.subscriptions.push(
-    //   Observable.merge(
-    //     this.userService.loggedInUser.do((user) => this.user = user),
-    //     this.broadcaster.on('spaceCreated'),
-    //     this.broadcaster.on('spaceDeleted')
-    //   ).subscribe((val) => {
-    //     this.spaceService.getSpacesByUserId(this.user.id, 'owner', 5).subscribe((val) => {
-    //       this.spaces = val;
-    //     });
-    //   })
-    // );
+    this.subscriptions.push(
+      this.userService.loggedInUser.subscribe((val) => {
+        this.user = val;
+        this.spaceService.getOwnedSpacesByUserId('me').subscribe((val) => {
+          this.ownedSpaces = val;
+        });
+        this.spaceService.getCollaboratedSpacesByUserId('me').subscribe((val) => {
+          this.collaboratedSpaces = val;
+        });
+      })
+    );
   }
 
   ngOnInit() {

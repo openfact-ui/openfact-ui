@@ -31,16 +31,15 @@ export class EditComponent implements OnInit, OnDestroy {
     this.userService.loggedInUser
       .map((user) => {
         this.loggedInUser = user;
-
-        const ownedSpaces = (<any>user.attributes).ownedSpaces || [];
-        const collaboratedSpaces = (<any>user.attributes).collaboratedSpaces || [];
-        return ownedSpaces.concat(collaboratedSpaces);
       })
-      .switchMap((spaceIds: string[]) => {
-        return Observable.forkJoin(spaceIds.map(id => this.spaceService.getSpaceById(id)));
+      .switchMap(() => {
+        return Observable.forkJoin(
+          this.spaceService.getOwnedSpacesByUserId('me'),
+          this.spaceService.getCollaboratedSpacesByUserId('me')
+        );
       })
-      .do((spaces) => {
-        this.permittedSpaces = spaces;
+      .do((spaces: Space[][]) => {
+        this.permittedSpaces = spaces[0].concat(spaces[1]);
       })
       .publish().connect();
 
