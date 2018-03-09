@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ContextResolver } from './ngx-impl/ngx-clarksnut-impl/context-resolver.service';
+import { ProfileResolver } from './shared/profile-resolver.service';
 
 const routes: Routes = [
   {
@@ -65,6 +66,29 @@ const routes: Routes = [
     }
   },
 
+  // Profile
+  {
+    path: '_profile',
+    resolve: {
+      context: ProfileResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
+  {
+    path: ':entity',
+    resolve: {
+      context: ContextResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
   // Error Pages
   {
     path: '_error',
@@ -74,10 +98,10 @@ const routes: Routes = [
     }
   },
 
-  /*{
+  {
     path: '**',
     redirectTo: '/_error'
-  }*/
+  }
 ];
 
 @NgModule({

@@ -26,13 +26,13 @@
               <div class="list-view-pf-description">
                 <div class="list-group-item-text">
                   <div class="col-xs-10">
-                    <a [routerLink]="['/', space.relationalData.creator.attributes.username, space.attributes.name]">
+                    <a>
                       {{space.attributes.name | spaceName}}
                     </a>
                   </div>
-                  <button class="col-xs-2 btn btn-danger ofs-button__delete" (click)="confirmDeleteSpace(space, deleteSpace)">
+                  <!-- <button class="col-xs-2 btn btn-danger ofs-button__delete" (click)="confirmDeleteSpace(space, deleteSpace)">
                     Delete
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>

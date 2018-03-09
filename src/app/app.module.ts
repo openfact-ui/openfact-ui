@@ -91,6 +91,7 @@ import { SpaceSidebarComponent } from './layout/header/space-sidebar/space-sideb
 
 // Search
 import { SearchEventService } from './shared/search-event.service';
+import { ProfileResolver } from './shared/profile-resolver.service';
 
 // Error
 import { ErrorService } from './layout/error/error.service';
@@ -202,6 +203,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     // Search
     SearchEventService,
+    ProfileResolver,
 
     // Error
     ErrorService,

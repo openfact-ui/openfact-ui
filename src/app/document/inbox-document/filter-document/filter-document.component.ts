@@ -146,19 +146,29 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
       this.filters.push({ name: 'keyword', type: FilterType.STRING, value: event.keyword } as Filter);
     }
     if (event.spaces) {
-      this.filters.push({ name: 'spaces', type: FilterType.STRING_ARRAY, value: (event.spaces || []).map(s => s.attributes.name) } as Filter);
+      this.filters.push({
+        name: 'spaces', type: FilterType.STRING_ARRAY, value: (event.spaces || []).map(s => s.attributes.name)
+      } as Filter);
     }
     if (event.type) {
-      this.filters.push({ name: 'type', type: FilterType.STRING_ARRAY, value: event.type } as Filter);
+      this.filters.push({
+        name: 'type', type: FilterType.STRING_ARRAY, value: event.type
+      } as Filter);
     }
     if (event.currency) {
-      this.filters.push({ name: 'currency', type: FilterType.STRING_ARRAY, value: event.currency } as Filter);
+      this.filters.push({
+        name: 'currency', type: FilterType.STRING_ARRAY, value: event.currency
+      } as Filter);
     }
     if (event.fromAmount || event.toAmount) {
-      this.filters.push({ name: 'amount', type: FilterType.NUMERIC_RANGE, value: { from: event.fromAmount, to: event.toAmount } } as Filter);
+      this.filters.push({
+        name: 'amount', type: FilterType.NUMERIC_RANGE, value: { from: event.fromAmount, to: event.toAmount }
+      } as Filter);
     }
     if (event.fromIssueDate || event.toIssueDate) {
-      this.filters.push({ name: 'issueDate', type: FilterType.DASTE_RANGE, value: { from: event.fromIssueDate, to: event.toIssueDate } } as Filter);
+      this.filters.push({
+        name: 'issueDate', type: FilterType.DASTE_RANGE, value: { from: event.fromIssueDate, to: event.toIssueDate }
+      } as Filter);
     }
   }
 

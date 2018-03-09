@@ -45,30 +45,30 @@ export class SpacesComponent implements OnDestroy, OnInit {
   // Actions
 
   public initSpaces(event: any): void {
-    // this.pageSize = event.pageSize;
-    // if (this.context && this.context.user) {
-    //   this.subscriptions.push(this.spaceService
-    //     .getSpacesByUserId(this.context.user.id, 'owner', this.pageSize)
-    //     .subscribe((spaces) => {
-    //       this.spaces = spaces;
-    //     }));
-    // } else {
-    //   this.logger.error('Failed to retrieve list of spaces owned by user');
-    // }
+    this.pageSize = event.pageSize;
+    if (this.context && this.context.user) {
+      this.subscriptions.push(this.spaceService
+        .getOwnedSpacesByUserId('me', this.pageSize)
+        .subscribe((spaces) => {
+          this.spaces = spaces;
+        }));
+    } else {
+      this.logger.error('Failed to retrieve list of spaces owned by user');
+    }
   }
 
   public fetchMoreSpaces($event): void {
-    // if (this.context && this.context.user) {
-    //   this.subscriptions.push(this.spaceService.getMoreSpacesByUserId()
-    //     .subscribe((spaces) => {
-    //       this.spaces = this.spaces.concat(spaces);
-    //     },
-    //       (err) => {
-    //         this.logger.error(err);
-    //       }));
-    // } else {
-    //   this.logger.error('Failed to retrieve list of spaces owned by user');
-    // }
+    if (this.context && this.context.user) {
+      this.subscriptions.push(this.spaceService.getMoreOwnedSpaces()
+        .subscribe((spaces) => {
+          this.spaces = this.spaces.concat(spaces);
+        },
+          (err) => {
+            this.logger.error(err);
+          }));
+    } else {
+      this.logger.error('Failed to retrieve list of spaces owned by user');
+    }
   }
 
   public removeSpace(): void {
