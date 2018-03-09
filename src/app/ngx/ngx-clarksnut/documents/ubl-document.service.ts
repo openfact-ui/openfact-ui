@@ -122,7 +122,7 @@ export class UBLDocumentService {
   }
 
   downloadDocumentById(userId: string, documentId: string): Observable<FileWrapper> {
-    const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
+    const url = `${this.usersUrl}/${userId}/documents/${documentId}/download`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: 'blob',
@@ -157,7 +157,7 @@ export class UBLDocumentService {
     if (theme) { params.append('theme', theme); }
     if (format) { params.append('format', format); }
 
-    const url = `${this.usersUrl}/${userId}/documents/${documentId}`;
+    const url = `${this.usersUrl}/${userId}/documents/${documentId}/print`;
     return this.http.get(url, {
       headers: this.headers,
       responseType: 'blob',

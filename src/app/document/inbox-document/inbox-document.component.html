@@ -4,15 +4,15 @@
   <div *ngFor="let document of documents; let i=index;" class="list-group-item list-view-pf-stacked" style="border-top:0px;">
     <div class="list-view-pf-actions">
       <button *ngIf="document.attributes.checked" (click)="uncheckDocument(document, i)" class="btn btn-default">
-        <span class="pficon pficon-ok"></span> Uncheck
+        <span class="pficon pficon-ok"></span> Verificado
       </button>
       <button *ngIf="!document.attributes.checked" (click)="checkDocument(document, i)" class="btn btn-default">
-        <span class="fa fa-check"></span> Check
+        <span class="fa fa-check"></span> Verificar
       </button>
       <button (click)="downloadPdf(document)" class="btn btn-default">
-        <span class="pficon pficon-print"></span> Print
+        <span class="pficon pficon-print"></span> Imprimir
       </button>
-      <button (click)="edit(document)" type="button" class="btn btn-default">Edit</button>
+      <button (click)="edit(document)" type="button" class="btn btn-default">Editar</button>
       <div dropdown class="dropdown pull-right dropdown-kebab-pf">
         <button dropdownToggle class="btn btn-link dropdown-toggle" type="button" id="dropdownKebabRight15" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="true">
@@ -21,7 +21,7 @@
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownKebabRight15">
           <li>
             <a href="javascript:void(0)" (click)="downloadXml(document)">
-              <span class="fa fa-file-code-o"></span> Xml
+              <span class="fa fa-file-code-o"></span> Descargar XML
             </a>
           </li>
         </ul>
