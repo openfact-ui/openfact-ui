@@ -26,11 +26,11 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.userService.loggedInUser.subscribe((val) => {
         this.user = val;
-        this.spaceService.getOwnedSpacesByUserId('me').subscribe((val) => {
-          this.ownedSpaces = val;
+        this.spaceService.getOwnedSpacesByUserId('me').subscribe((spaces) => {
+          this.ownedSpaces = spaces;
         });
-        this.spaceService.getCollaboratedSpacesByUserId('me').subscribe((val) => {
-          this.collaboratedSpaces = val;
+        this.spaceService.getCollaboratedSpacesByUserId('me').subscribe((spaces) => {
+          this.collaboratedSpaces = spaces;
         });
       })
     );
