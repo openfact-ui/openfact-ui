@@ -102,4 +102,7 @@ export class LandsideComponent implements OnInit, OnDestroy {
     window.open('https://www.youtube.com/channel/UC8NMtL-E4VR-GdG72cn0Wuw?view_as=subscriber');
   }
 
+  goToRecentItem(item: Context) {
+    this.router.navigate([item.path]);
+  }
 }

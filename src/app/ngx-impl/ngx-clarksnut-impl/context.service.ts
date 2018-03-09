@@ -317,7 +317,7 @@ export class ContextService implements Contexts {
         'path': null
       } as Context;
       c.type = ContextTypes.BUILTIN.get('space');
-      c.path = '/' + c.space.id;
+      c.path = '/_spaces/' + c.space.id;
       c.name = this.spaceNamePipe.transform(c.space.attributes.name);
     } else if (val.document) {
       c = {
@@ -330,7 +330,7 @@ export class ContextService implements Contexts {
       } as Context;
       c.type = ContextTypes.BUILTIN.get('document');
       // TODO replace path with username once parameterized routes are working
-      c.path = '/_inbox/' + c.document.id;
+      c.path = '/_home/' + c.document.id;
       c.name = c.document.attributes.assignedId;
     } else if (val.user) {
       c = {

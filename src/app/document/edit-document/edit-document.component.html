@@ -6,10 +6,10 @@
       <fieldset>
         <legend>
           <h3>
-            <button type="button" class="btn btn-link">
+            <!-- <button type="button" class="btn btn-link"> -->
               <!-- <i class="fa" [ngClass]="starred ? 'fa-star': 'fa-star-o'" style="font-size: 20px;"></i> -->
-              <i class="fa fa-star-o" style="font-size: 20px;"></i>
-            </button>
+              <!-- <i class="fa fa-star-o" style="font-size: 20px;"></i> -->
+            <!-- </button> -->
             {{document?.attributes?.type}} {{document?.attributes?.assignedId}}
             <small>Created
               <span>{{document?.attributes?.issueDate | amTimeAgo}}</span>
@@ -25,7 +25,7 @@
         <div class="col-lg-6">
           <fieldset>
             <legend>
-              <h3>General information</h3>
+              <h3>Información General</h3>
             </legend>
           </fieldset>
           <dl class="dl-horizontal left">
@@ -38,7 +38,7 @@
               <em>Not registered</em>
             </dd>
             <dt>
-              Currency:
+              Moneda:
               <span tooltip="Currency Code." placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.currency">{{document?.attributes?.currency | uppercase}}</dd>
@@ -46,7 +46,7 @@
               <em>Not registered</em>
             </dd>
             <dt>
-              Type:
+              Tipo:
               <span tooltip="Document type." placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.type">{{document?.attributes?.type}}</dd>
@@ -54,7 +54,7 @@
               <em>Not registered</em>
             </dd>
             <dt>
-              Issue date:
+              Fecha Emisión:
               <span tooltip="Issue Date." placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.issueDate">{{document?.attributes?.issueDate | date: 'short'}}</dd>
@@ -66,37 +66,37 @@
         <div class="col-lg-6">
           <fieldset>
             <legend>
-              <h3>Legal monetary total</h3>
+              <h3>Total Monetario</h3>
             </legend>
           </fieldset>
           <dl class="dl-horizontal left">
             <dt>
-              Payable amount:
+              Monto Total:
               <span tooltip="Legal Monetary Total / Payable Amount." placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
-            <dd *ngIf="document?.attributes?.amount">{{document?.attributes?.amount | number:'1.2-3'}}</dd>
+            <dd *ngIf="document?.attributes?.amount !== null">{{document?.attributes?.amount | number:'1.2-3'}}</dd>
             <dd *ngIf="!document?.attributes?.amount">
               <em>Not registered</em>
             </dd>
             <dt>
-                Tax:
-                <span tooltip="Tax Total." placement="right" class="pficon pficon-help text-muted small"></span>
-              </dt>
-              <dd *ngIf="document?.attributes?.tax">{{document?.attributes?.tax | number:'1.2-3'}}</dd>
-              <dd *ngIf="!document?.attributes?.tax">
-                <em>Not registered</em>
-              </dd>
+              Impuestos:
+              <span tooltip="Tax Total." placement="right" class="pficon pficon-help text-muted small"></span>
+            </dt>
+            <dd *ngIf="document?.attributes?.tax">{{document?.attributes?.tax | number:'1.2-3'}}</dd>
+            <dd *ngIf="!document?.attributes?.tax">
+              <em>Not registered</em>
+            </dd>
           </dl>
         </div>
         <div class="col-lg-6">
           <fieldset>
             <legend>
-              <h3>Supplier</h3>
+              <h3>Proveedor</h3>
             </legend>
           </fieldset>
           <dl class="dl-horizontal left">
             <dt>
-              Assigned id:
+              Codigo:
               <span tooltip="Supplier assigned id" placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.supplierAssignedId">{{document?.attributes?.supplierAssignedId}}</dd>
@@ -104,7 +104,7 @@
               <em>Not registered</em>
             </dd>
             <dt>
-              Assigned name:
+              Nombre:
               <span tooltip="Supplier name" placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.supplierName">{{document?.attributes?.supplierName}}</dd>
@@ -116,12 +116,12 @@
         <div class="col-lg-6">
           <fieldset>
             <legend>
-              <h3>Customer</h3>
+              <h3>Cliente</h3>
             </legend>
           </fieldset>
           <dl class="dl-horizontal left">
             <dt>
-              Assigned id:
+              Codigo:
               <span tooltip="Customer assigned id" placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.customerAssignedId">{{document?.attributes?.customerAssignedId}}</dd>
@@ -129,7 +129,7 @@
               <em>Not registered</em>
             </dd>
             <dt>
-              Assigned name:
+              Nombre:
               <span tooltip="Customer name" placement="right" class="pficon pficon-help text-muted small"></span>
             </dt>
             <dd *ngIf="document?.attributes?.customerName">{{document?.attributes?.customerName}}</dd>

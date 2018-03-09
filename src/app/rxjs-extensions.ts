@@ -18,6 +18,7 @@ import 'rxjs/add/operator/publishLast';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/skipWhile';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/distinctUntilKeyChanged';
 import 'rxjs/add/operator/take';
 
 import 'rxjs/add/observable/merge';
@@ -30,3 +31,4 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/distinct';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/first';

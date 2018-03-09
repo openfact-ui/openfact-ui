@@ -107,7 +107,7 @@
   <div>
     <h2 class="secondary">Recently Viewed</h2>
     <div class="services-view">
-      <a class="services-item" *ngFor="let item of recentlyViewedItems" (click)="orderService(item)">
+      <a class="services-item" *ngFor="let item of recentlyViewedItems" (click)="goToRecentItem(item)" style="cursor: pointer;">
         <div *ngIf="item.user">
           <div class="services-item-icon services-item-img">
             <img src="assets/images/logos/user.svg">
