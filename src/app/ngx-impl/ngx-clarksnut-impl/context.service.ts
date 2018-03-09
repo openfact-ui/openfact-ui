@@ -147,7 +147,7 @@ export class ContextService implements Contexts {
         }
       })
       .do(val => {
-        this.saveRecent(val);
+        // this.saveRecent(val);
       })
       .multicast(() => new ReplaySubject(1));
     // Finally, start broadcasting

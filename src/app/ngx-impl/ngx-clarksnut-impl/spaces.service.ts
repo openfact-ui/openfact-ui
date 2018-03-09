@@ -61,7 +61,7 @@ export class SpacesService implements Spaces {
         }
       })
       .do(val => {
-        this.saveRecent(val);
+        // this.saveRecent(val);
       })
       .multicast(() => new ReplaySubject(1));
     this._recent.connect();

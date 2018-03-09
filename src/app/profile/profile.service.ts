@@ -81,6 +81,7 @@ export class ProfileService {
   }
 
   public silentSave(profile: Profile) {
+    console.log("silent save");
     const clone = cloneDeep(profile) as any;
     delete clone.username;
     // Handle the odd naming of the field on the API
