@@ -7,10 +7,7 @@ export interface DocumentQuery {
 export class DocumentQueryAttributes {
   filterText: string;
   role: string;
-  before: string;
-  after: string;
-  greaterThan: string;
-  lessThan: string;
+
   types: string[];
   currencies: string[];
   tags: string[];
@@ -18,6 +15,12 @@ export class DocumentQueryAttributes {
 
   offset: number;
   limit: number;
+
+  greaterThan: number;
+  lessThan: number;
+
+  before: Date;
+  after: Date;
 
   starred: boolean;
   viewed: boolean;

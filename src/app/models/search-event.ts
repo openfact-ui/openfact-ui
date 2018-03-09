@@ -6,6 +6,15 @@ export class SearchEvent {
   limit?: number;
   spaces?: Space[];
 
+  type?: string[];
+  currency?: string[];
+
+  fromAmount?: number;
+  toAmount?: number;
+
+  fromIssueDate?: Date;
+  toIssueDate?: Date;
+
   star?: boolean;
   view?: boolean;
   check?: boolean;

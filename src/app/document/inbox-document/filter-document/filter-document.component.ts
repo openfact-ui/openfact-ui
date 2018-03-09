@@ -7,9 +7,22 @@ import { Space, SpaceService, SearchResult, UBLDocument } from './../../../ngx/n
 import { SearchEventService } from '../../../shared/search-event.service';
 import { SearchEvent } from './../../../models/search-event';
 
-export class Filter {
+export interface Filter {
   name: string;
-  value: any;
+  type: FilterType;
+  value: string | string[] | RangeValue | [RangeValue];
+}
+
+export interface RangeValue {
+  from: number | Date;
+  to: number | Date;
+}
+
+export enum FilterType {
+  STRING,
+  STRING_ARRAY,
+  NUMERIC_RANGE,
+  DASTE_RANGE
 }
 
 @Component({
@@ -25,11 +38,9 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
   ownedSpaces: Space[] = [];
   collaboratedSpaces: Space[] = [];
 
-  keyword: string;
+  filters: Filter[] = [];
   offset = 0;
   limit = 10;
-
-  appliedFilters: Map<string, Filter> = new Map<string, Filter>();
 
   private subscriptions: Subscription[] = [];
 
@@ -60,13 +71,7 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.searchEventService.value.subscribe((event) => {
-        this.appliedFilters.delete('keyword');
-        if (event && event.keyword) {
-          this.appliedFilters.set('keyword', {
-            name: event.keyword,
-            value: event.keyword
-          });
-        }
+        this.initFilters(event);
       })
     );
   }
@@ -79,24 +84,10 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
-  toArray(value: any) {
-    return Array.from(value);
-  }
 
-  clearFilter(filter: string) {
-    this.appliedFilters.delete(filter);
-  }
-
-  clearAllFilters() {
-    this.appliedFilters.clear();
-
-    const current = this.searchEventService.value || {};
-    this.searchEventService.patch(Object.assign(current, {
-      keyword: null,
-      offset: 0,
-      limit: this.limit
-    }));
-  }
+  /**
+   * Pagination
+  */
 
   previousPage() {
     this.offset = this.offset - this.limit;
@@ -111,6 +102,10 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.offset = this.offset + this.limit - factor;
     this.search();
   }
+
+  /**
+   * Services
+  */
 
   refreshSpaces() {
     this.spaceService.getOwnedSpacesByUserId('me').subscribe((val) => {
@@ -140,4 +135,91 @@ export class FilterDocumentComponent implements OnInit, OnDestroy {
     this.limit = 10;
     this.search();
   }
+
+  /**
+   * Filters
+   */
+
+  initFilters(event: SearchEvent) {
+    this.filters = [];
+    if (event.keyword) {
+      this.filters.push({ name: 'keyword', type: FilterType.STRING, value: event.keyword } as Filter);
+    }
+    if (event.spaces) {
+      this.filters.push({ name: 'spaces', type: FilterType.STRING_ARRAY, value: (event.spaces || []).map(s => s.attributes.name) } as Filter);
+    }
+    if (event.type) {
+      this.filters.push({ name: 'type', type: FilterType.STRING_ARRAY, value: event.type } as Filter);
+    }
+    if (event.currency) {
+      this.filters.push({ name: 'currency', type: FilterType.STRING_ARRAY, value: event.currency } as Filter);
+    }
+    if (event.fromAmount || event.toAmount) {
+      this.filters.push({ name: 'amount', type: FilterType.NUMERIC_RANGE, value: { from: event.fromAmount, to: event.toAmount } } as Filter);
+    }
+    if (event.fromIssueDate || event.toIssueDate) {
+      this.filters.push({ name: 'issueDate', type: FilterType.DASTE_RANGE, value: { from: event.fromIssueDate, to: event.toIssueDate } } as Filter);
+    }
+  }
+
+  clearFilter(filter: any) {
+    console.log(filter);
+    // this.appliedFilters.delete(filter);
+  }
+
+  clearAllFilters() {
+    this.filters = [];
+
+    const searchEvent = new SearchEvent();
+    searchEvent.keyword = null;
+    searchEvent.type = null;
+    searchEvent.currency = null;
+
+    searchEvent.spaces = null;
+
+    searchEvent.fromAmount = null;
+    searchEvent.toAmount = null;
+
+    searchEvent.fromIssueDate = null;
+    searchEvent.toIssueDate = null;
+
+    this.searchEventService.patch(searchEvent);
+  }
+
+  applyTypeFilter(type: string) {
+    const searchEvent: SearchEvent = this.searchEventService.getCurrentValue();
+
+    const newSearhEvent = new SearchEvent();
+    newSearhEvent.type = searchEvent.type || [];
+    newSearhEvent.type.push(type);
+
+    this.searchEventService.patch(newSearhEvent);
+  }
+
+  applyCurrencyFilter(currency: string) {
+    const searchEvent: SearchEvent = this.searchEventService.getCurrentValue();
+
+    const newSearhEvent = new SearchEvent();
+    newSearhEvent.currency = searchEvent.currency || [];
+    newSearhEvent.currency.push(currency);
+
+    this.searchEventService.patch(newSearhEvent);
+  }
+
+  applyAmountFilter(from: number, to: number) {
+    const newSearhEvent = new SearchEvent();
+    newSearhEvent.fromAmount = from;
+    newSearhEvent.toAmount = to;
+
+    this.searchEventService.patch(newSearhEvent);
+  }
+
+  applyIssueDateFilter(from: number, to: number) {
+    const newSearhEvent = new SearchEvent();
+    newSearhEvent.fromIssueDate = from ? new Date(from) : null;
+    newSearhEvent.toIssueDate = to ? new Date(to) : null;
+
+    this.searchEventService.patch(newSearhEvent);
+  }
+
 }

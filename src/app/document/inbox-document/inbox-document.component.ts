@@ -60,6 +60,15 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
     query.attributes.viewed = event.view;
     query.attributes.checked = event.check;
 
+    query.attributes.types = event.type;
+    query.attributes.currencies = event.currency;
+
+    query.attributes.greaterThan = event.fromAmount;
+    query.attributes.lessThan = event.toAmount;
+
+    query.attributes.after = event.fromIssueDate;
+    query.attributes.before = event.toIssueDate;
+
     this.documentService.searchDocuments('me', query).subscribe((searchResult) => {
       this.searchResult = searchResult;
       this.documents = searchResult.data;

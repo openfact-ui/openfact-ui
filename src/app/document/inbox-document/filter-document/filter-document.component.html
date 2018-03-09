@@ -50,7 +50,7 @@
           <a href="javascript:void(0);">Tipo</a>
           <ul class="dropdown-menu">
             <li *ngFor="let item of searchResult.facets.type">
-              <a style="cursor: pointer;">
+              <a (click)="applyTypeFilter(item.value)" style="cursor: pointer;">
                 <span style="width: 67%; display: inline-block;">{{item.value}}</span>
                 <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
               </a>
@@ -61,7 +61,7 @@
           <a href="javascript:void(0);">Moneda</a>
           <ul class="dropdown-menu">
             <li *ngFor="let item of searchResult.facets.currency">
-              <a style="cursor: pointer;">
+              <a (click)="applyCurrencyFilter(item.value)" style="cursor: pointer;">
                 <span style="width: 67%; display: inline-block;">{{item.value}}</span>
                 <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
               </a>
@@ -73,9 +73,8 @@
           <a href="javascript:void(0);">Monto</a>
           <ul class="dropdown-menu">
             <li *ngFor="let item of searchResult.facets.amount">
-              <a style="cursor: pointer;">
-                <span style="width: 67%; display: inline-block;">{{item.value.from ? (item.value.from | number) : '&infin;'}} - {{item.value.to ? (item.value.to | number)
-                  : '&infin;' }}</span>
+              <a (click)="applyAmountFilter(item.value.from, item.value.to)" style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value.from?(item.value.from|number):'&infin;'}} - {{item.value.to?(item.value.to|number):'&infin;'}}</span>
                 <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
               </a>
             </li>
@@ -85,9 +84,8 @@
           <a href="javascript:void(0);">Fecha Emision</a>
           <ul class="dropdown-menu">
             <li *ngFor="let item of searchResult.facets.issueDate">
-              <a style="cursor: pointer;">
-                <span style="width: 67%; display: inline-block;">{{item.value.from ? (item.value.from | date) : '&infin;'}} - {{item.value.to ? (item.value.to | date) : '&infin;'
-                  }}</span>
+              <a (click)="applyIssueDateFilter(item.value.from, item.value.to)" style="cursor: pointer;">
+                <span style="width: 67%; display: inline-block;">{{item.value.from?(item.value.from|date):'&infin;'}} - {{item.value.to?(item.value.to|date):'&infin;'}}</span>
                 <span style="float: right;position: relative;top: 2px;">{{item.count | number}}</span>
               </a>
             </li>
@@ -101,19 +99,31 @@
         <h5>{{offset + 1}}-{{offset + limit + 1}}
           <span>of {{searchResult?.totalResults}}</span> Items
         </h5>
-        <p *ngIf="appliedFilters.size > 0">Active filters:</p>
+        <p *ngIf="filters.size > 0">Active filters:</p>
         <ul class="list-inline">
-          <li *ngFor="let key of toArray(appliedFilters.keys())">
-            <span class="active-filter label label-info single-label">
-              <span class="pf-filter-label-category"></span> {{key}}: {{appliedFilters.get(key).name}}
+          <li *ngFor="let filter of filters">
+            <span *ngIf="filter.type === 0 || filter.type === 1" class="active-filter label label-info single-label">
+              <span class="pf-filter-label-category"></span> {{filter.name}}: {{filter.value}}
               <a>
-                <span (click)="clearFilter(key)" class="pficon pficon-close"></span>
+                <span (click)="clearFilter(filter)" class="pficon pficon-close"></span>
+              </a>
+            </span>
+            <span *ngIf="filter.type === 2" class="active-filter label label-info single-label">
+              <span class="pf-filter-label-category"></span> {{filter.name}}: {{filter.value.from | number}}-{{filter.value.to | number}}
+              <a>
+                <span (click)="clearFilter(filter)" class="pficon pficon-close"></span>
+              </a>
+            </span>
+            <span *ngIf="filter.type === 3" class="active-filter label label-info single-label">
+              <span class="pf-filter-label-category"></span> {{filter.name}}: {{filter.value.from | date}}-{{filter.value.to | date}}
+              <a>
+                <span (click)="clearFilter(filter)" class="pficon pficon-close"></span>
               </a>
             </span>
           </li>
         </ul>
         <p>
-          <a class="clear-filters" *ngIf="appliedFilters.size > 0" (click)="clearAllFilters()">Clear All Filters</a>
+          <a class="clear-filters" *ngIf="filters.length > 0" (click)="clearAllFilters()">Clear All Filters</a>
         </p>
       </span>
     </span>

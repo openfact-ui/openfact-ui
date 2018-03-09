@@ -14,6 +14,10 @@ export class SearchEventService {
 
   }
 
+  getCurrentValue(): SearchEvent {
+    return this._eventListener.getValue();
+  }
+
   get value(): Observable<SearchEvent> {
     return this._eventListener;
   }
