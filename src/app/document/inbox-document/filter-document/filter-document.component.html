@@ -99,7 +99,7 @@
         <h5>{{offset + 1}}-{{offset + limit + 1}}
           <span>of {{searchResult?.totalResults}}</span> Items
         </h5>
-        <p *ngIf="filters.size > 0">Active filters:</p>
+        <p *ngIf="filters.length > 0">Active filters:</p>
         <ul class="list-inline">
           <li *ngFor="let filter of filters">
             <span *ngIf="filter.type === 0 || filter.type === 1" class="active-filter label label-info single-label">
