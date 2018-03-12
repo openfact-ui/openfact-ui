@@ -1,44 +1,37 @@
-<div class="container-pf-nav-pf-vertical" ng-class="{ 'collapsed-nav': nav.collapsed }">
-  <div ng-view="" class="view">
-    <div class="middle">
-      <div class="middle-header header-toolbar">
-        <div class="container-fluid">
-          <div class="page-header page-header-bleed-right page-header-bleed-left">
-            <h1>
-              Settings
-              <span class="page-header-link">
-                <a>
-                  Edit Space
-                  <i class="fa fa-external-link" aria-hidden="true"></i>
-                </a>
-              </span>
-            </h1>
-          </div>
-        </div>
+<div class="middle">
+  <div class="middle-header header-toolbar">
+    <div class="container-fluid">
+      <div class="page-header page-header-bleed-right page-header-bleed-left">
+        <h1>
+          Configuraciones
+          <span class="page-header-link">
+            <a>
+              Aprender más
+              <i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>
+          </span>
+        </h1>
       </div>
-      <div class="middle-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
+    </div>
+  </div>
+  <div class="middle-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6" *ngIf="space">
 
-
-              <div>
-                <div ng-if="pvcsLoaded" class="empty-state-message text-center">
-                  <div ng-if="!filterWithZeroResults" class="">
-                    <h2>No Information.</h2>
-                    <p>
-                      There is no information to show you at this time. Please wait next version.
-                    </p>
-                    <p>
-                      <a routerLink="/_home" class="btn btn-primary" href="Home">Go Home</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-
+          <h2>Espacio</h2>
+          <form #spaceForm="ngForm" (ngSubmit)="save(spaceForm)" novalidate>
+            <div class="form-group">
+              <label>Nombre</label>
+              <input name="name" [(ngModel)]="space.attributes.name" type="text" class="form-control">
             </div>
-          </div>
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea name="description" [(ngModel)]="space.attributes.description" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+
         </div>
       </div>
     </div>
