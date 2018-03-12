@@ -27,8 +27,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         const registrationCompleted: boolean = (user as ExtUser).attributes.registrationCompleted;
         if (!registrationCompleted) {
           this.router.navigateByUrl('/_gettingstarted');
-        } else {
-          this.router.navigateByUrl('/_home');
         }
       })
     );
