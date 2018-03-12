@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ) {
     this.subcriptions.push(
       contexts.current.subscribe((context) => {
-        this._context = context
+        this._context = context;
         this.spaceService.getUserSpaceById('me', context.space.id).subscribe((space) => {
           this.space = space;
         });
