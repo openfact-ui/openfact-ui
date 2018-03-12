@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
@@ -17,8 +18,11 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   private subcriptions: Subscription[] = [];
 
   constructor(
+    renderer: Renderer2,
+    @Inject(DOCUMENT) document: Document,
     private router: Router,
     private userService: UserService) {
+    renderer.removeClass(document.body, 'has-project-bar');
   }
 
   ngOnInit() {

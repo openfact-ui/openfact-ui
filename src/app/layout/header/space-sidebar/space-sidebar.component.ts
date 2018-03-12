@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { User, UserService } from '../../../ngx/ngx-login-client';
 import { KeycloakService } from '../../../keycloak-service/keycloak.service';
@@ -8,7 +8,7 @@ import { KeycloakService } from '../../../keycloak-service/keycloak.service';
   templateUrl: './space-sidebar.component.html',
   styleUrls: ['./space-sidebar.component.scss']
 })
-export class SpaceSidebarComponent implements OnInit {
+export class SpaceSidebarComponent implements OnInit, OnDestroy {
 
   @Input() shown = false;
 

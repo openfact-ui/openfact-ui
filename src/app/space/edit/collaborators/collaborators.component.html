@@ -4,11 +4,11 @@
       <div class="page-header page-header-bleed-right page-header-bleed-left">
         <h1>
           <a (click)="addCollaboratorDialog.open()" href="javascript:void(0)" class="pull-right btn btn-default">
-            <span>Add Collaborator</span>
+            <span>Nuevo Colaborador</span>
           </a>
-          Membership
+          Miembros
           <span class="page-header-link">
-            <a target="_blank" href="javascript:void(0)">
+            <a href="https://clarksnut.gitbooks.io/getting-started-guide" target="_blank">
               Learn More
               <i class="fa fa-external-link" aria-hidden="true"></i>
             </a>
@@ -27,7 +27,7 @@
       <div>
         <ul class="nav nav-tabs">
           <li class="active">
-            <a>Users&nbsp;({{collaborators.length}})</a>
+            <a>Usuarios&nbsp;({{collaborators.length}})</a>
           </li>
         </ul>
         <div class="tab-content">
@@ -35,10 +35,10 @@
             <div class="content-pane content-user">
               <div class="col-heading item-row">
                 <div class="col-name half-width">
-                  <h3>Name</h3>
+                  <h3>Nombre</h3>
                 </div>
                 <div class="col-roles">
-                  <h3>Actions</h3>
+                  <h3>Acciones</h3>
                 </div>
               </div>
               <div *ngFor="let collaborator of collaborators" class="item-row highlight-hover" style="flex-direction: row; display: flex;">
@@ -50,7 +50,7 @@
                 <div class="action-set">
                   <div class="col-roles">
                     <div>
-                      <button (click)="deleteCollaboratorDialog.open(context.space, collaborator)" type="button" class="btn btn-danger">Remove</button>
+                      <button (click)="deleteCollaboratorDialog.open(context.space, collaborator)" type="button" class="btn btn-danger">Eliminar</button>
                     </div>
                   </div>
                 </div>
