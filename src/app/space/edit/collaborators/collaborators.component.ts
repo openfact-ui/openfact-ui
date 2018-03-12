@@ -25,20 +25,23 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     private contexts: ContextService,
     private collaboratorService: CollaboratorService) {
     this.subscriptions.push(
-      this.contexts.current.subscribe(val => {
+      this.contexts.current.subscribe((val) => {
         this.context = val;
       })
     );
   }
 
   ngOnInit() {
-    this.collaboratorService.getInitialBySpaceId(this.context.space.id, 20).subscribe(collaborators => {
-      this.collaborators = collaborators;
-    });
+    this.refreshCollaborators();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe());
   }
 
+  refreshCollaborators() {
+    this.collaboratorService.getInitialBySpaceId('me', this.context.space.id, 20).subscribe(collaborators => {
+      this.collaborators = collaborators;
+    });
+  }
 }

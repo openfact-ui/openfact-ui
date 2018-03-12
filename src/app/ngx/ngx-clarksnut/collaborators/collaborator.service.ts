@@ -12,6 +12,7 @@ export class CollaboratorService {
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private spacesUrl: string;
+  private usersUrl: string;
   private nextLink: string;
 
   constructor(
@@ -19,10 +20,11 @@ export class CollaboratorService {
     private logger: Logger,
     @Inject(CLARKSNUT_API_URL) apiUrl: string) {
     this.spacesUrl = apiUrl.endsWith('/') ? apiUrl + 'spaces' : apiUrl + '/spaces';
+    this.usersUrl = apiUrl.endsWith('/') ? apiUrl + 'users' : apiUrl + '/users';
   }
 
-  getInitialBySpaceId(spaceId: string, pageSize: number = 20): Observable<User[]> {
-    const url = this.spacesUrl + '/' + spaceId + '/collaborators' + '?page[limit]=' + pageSize;
+  getInitialBySpaceId(userId: string, spaceId: string, pageSize: number = 20): Observable<User[]> {
+    const url = this.usersUrl + '/' + userId + '/spaces/' + spaceId + '/collaborators' + '?limit=' + pageSize;
     return this.http
       .get(url, { headers: this.headers })
       .map(response => {
@@ -65,8 +67,8 @@ export class CollaboratorService {
     }
   }
 
-  addCollaborators(spaceId: string, users: User[]): Observable<Response> {
-    const url = this.spacesUrl + '/' + spaceId + '/collaborators';
+  addCollaborators(userId: string, spaceId: string, users: User[]): Observable<Response> {
+    const url = this.usersUrl + '/' + userId + '/spaces/' + spaceId + '/collaborators';
     const payload = JSON.stringify({ data: users });
     return this.http
       .post(url, payload, { headers: this.headers })
@@ -75,8 +77,8 @@ export class CollaboratorService {
       });
   }
 
-  removeCollaborator(spaceId: string, collaboratorId: string): Observable<void> {
-    const url = this.spacesUrl + '/' + spaceId + '/collaborators/' + collaboratorId;
+  removeCollaborator(userId: string, spaceId: string, collaboratorId: string): Observable<void> {
+    const url = this.usersUrl + '/' + userId + '/spaces/' + spaceId + '/collaborators/' + collaboratorId;
     return this.http
       .delete(url, { headers: this.headers })
       .catch((error) => {

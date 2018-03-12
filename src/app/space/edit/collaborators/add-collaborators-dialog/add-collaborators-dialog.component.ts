@@ -84,7 +84,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
   }
 
   addCollaborators() {
-    this.collaboratorService.addCollaborators(this.space.id, this.dropdownModel).subscribe(
+    this.collaboratorService.addCollaborators('me', this.space.id, this.dropdownModel).subscribe(
       () => {
         this.added.emit(this.dropdownModel as User[]);
         this.close();
@@ -104,7 +104,7 @@ export class AddCollaboratorsDialogComponent implements OnInit, OnDestroy {
       users.forEach(user => {
         this.dropdownOptions.push({
           id: user,
-          name: user.attributes.fullName
+          name: user.attributes.fullName + ' (' + user.attributes.username + ')'
         });
       });
     });
