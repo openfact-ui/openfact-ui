@@ -94,19 +94,19 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   ngAfterViewInit() {
-    let jiraButton = document.getElementById('jiraBugsButton');
-    if (jiraButton) {
-      this.bootstrapJira(jiraButton);
-    } else {
-      setTimeout(() => {
-        jiraButton = document.getElementById('jiraBugsButton');
-        if (jiraButton) {
-          this.bootstrapJira(jiraButton);
-        } else {
-          console.log('Could not bootstrap JIRA');
-        }
-      }, 2000);
-    }
+    // let jiraButton = document.getElementById('jiraBugsButton');
+    // if (jiraButton) {
+    //   this.bootstrapJira(jiraButton);
+    // } else {
+    //   setTimeout(() => {
+    //     jiraButton = document.getElementById('jiraBugsButton');
+    //     if (jiraButton) {
+    //       this.bootstrapJira(jiraButton);
+    //     } else {
+    //       console.log('Could not bootstrap JIRA');
+    //     }
+    //   }, 2000);
+    // }
   }
 
   ngOnDestroy() {
