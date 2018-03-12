@@ -1,4 +1,4 @@
-<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus">
+<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus" [ngClass]="{'collapsed': collapsed}">
   <nav class="nav-vertical-primary">
     <ul class="list-group">
       <li routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="list-group-item">
@@ -20,12 +20,12 @@
         </a>
       </li>
 
-      <!-- <li routerLink="./_settings" routerLinkActive="active" class="list-group-item">
+      <li routerLink="./_settings" routerLinkActive="active" class="list-group-item">
         <a>
           <span title="Settings" class="pficon pficon-settings" aria-hidden="true"></span>
           <span class="list-group-item-value">Settings</span>
         </a>
-      </li> -->
+      </li>
     </ul>
   </nav>
 

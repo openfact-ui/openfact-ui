@@ -1,3 +1,28 @@
-<p>
-  space-sidebar works!
-</p>
+<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus" [ngClass]="{'show-mobile-nav': shown, 'hide-mobile-nav': !shown}">
+  <nav class="nav-vertical-utility visible-xs-block">
+    <ul extension-point="" extension-name="nav-dropdown-mobile" extension-types="dom" extension-args="[user]" class="list-group ng-isolate-scope">
+      <li class="list-group-item ng-scope">
+        <a href="https://clarksnut.gitbooks.io/getting-started-guide/content/">
+          <span class="fa fa-book fa-fw" aria-hidden="true"></span>
+          <span class="list-group-item-value">Documentation</span>
+        </a>
+      </li>
+      <li class="list-group-item ng-scope">
+        <a href="javascript:void(0)" (click)="aboutModal.open()">
+          <span class="pficon pficon-info fa-fw" aria-hidden="true"></span>
+          <span class="list-group-item-value">About</span>
+        </a>
+      </li>
+      <li class="list-group-item ng-scope">
+        <a href="javascript:void(0)" (click)="logout()">
+          <span class="pficon pficon-user fa-fw" aria-hidden="true"></span>
+          <span class="list-group-item-value">Log out
+            <span class="username">{{user?.attributes?.fullName || user?.attributes?.username}}</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<cn-about-modal #aboutModal></cn-about-modal>

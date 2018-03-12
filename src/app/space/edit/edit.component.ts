@@ -18,6 +18,8 @@ export class EditComponent implements OnInit, OnDestroy {
   context: Context;
   permittedSpaces: Space[];
 
+  isSidebarCollapsed: boolean;
+
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -61,4 +63,7 @@ export class EditComponent implements OnInit, OnDestroy {
     return this.context.space;
   }
 
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }
