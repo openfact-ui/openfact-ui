@@ -145,7 +145,7 @@ export class UpdateComponent implements AfterViewInit, OnInit, OnDestroy {
   private getRequestParam(name: string): string {
     // tslint:disable-next-line:max-line-length
     const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
-    if (param != null) {
+    if (param !== undefined  && param != null) {
       return decodeURIComponent(param[1]);
     }
     return null;
