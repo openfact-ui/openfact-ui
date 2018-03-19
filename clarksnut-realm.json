@@ -2,7 +2,8 @@
   "realm": "clarksnut",
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
+  "rememberMe": true,
   "requiredCredentials": [
     "password"
   ],
