@@ -7,6 +7,23 @@
   "requiredCredentials": [
     "password"
   ],
+  "users": [
+    {
+      "username": "carlos",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "offline_access",
+        "uma_authorization"
+      ]
+    }
+  ],
   "roles": {
     "realm": [
       {
@@ -36,7 +53,7 @@
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": true,
       "redirectUris": [
-        "http://localhost:8080/*",
+        "http://localhost:8180/*",
         "http://localhost:4200/*"
       ],
       "consentRequired": false
