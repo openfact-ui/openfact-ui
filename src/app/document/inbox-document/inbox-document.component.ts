@@ -110,6 +110,8 @@ export class InboxDocumentComponent implements OnInit, OnDestroy {
   }
 
   private updateDocument(document: UBLDocument, index: number) {
+    this.documents[index] = document; // For prevent flush on openshift lazy loading
+
     this.documentService.update('me', document).subscribe((val) => {
       this.documents[index] = val;
     });

@@ -35,7 +35,7 @@
     "angular2-moment": "^1.8.0",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.1",
-    "file-saver": "^1.3.3",
+    "file-saver": "01.3.3",
     "font-awesome-sass": "^4.7.0",
     "install": "^0.10.4",
     "ng2-file-upload": "^1.3.0",

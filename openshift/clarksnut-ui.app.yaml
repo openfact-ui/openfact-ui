@@ -30,7 +30,7 @@ objects:
           service: clarksnut-ui
       spec:
         containers:
-        - image: clarksnut/clarksnut-ui:latest
+        - image: clarksnut/clarksnut-ui-openshift:latest
           imagePullPolicy: Always
           name: clarksnut-ui
           ports:
