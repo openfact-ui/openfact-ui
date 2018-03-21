@@ -46,6 +46,8 @@ before_script:
 
 script:
 - npm run ci:travis
+- npm run build:docker
+
 
 deploy:
   provider: script

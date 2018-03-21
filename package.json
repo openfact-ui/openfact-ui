@@ -9,7 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ci:travis": "npm run lint && npm run build --prod --aot --build-optimizer"
+    "ci:travis": "npm run lint && npm run build --aot",
+    "build:aot:prod": "ng build --prod --aot --build-optimizer",
+    "build:docker": "npm run build:aot:prod && docker build -t clarksnut/clarksnut-ui:latest . && docker build -t clarksnut/clarksnut-ui-openshift -f Dockerfile.deploy .",
+    "docker": "docker"
   },
   "private": true,
   "dependencies": {
