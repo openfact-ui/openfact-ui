@@ -3,12 +3,6 @@ sudo: required
 dist: trusty
 language: node_js
 
-addons:
-  sonarcloud:
-    organization: clarksnut
-    token:
-      secure: $SONAR_TOKEN
-
 services:
   - docker
 
@@ -52,10 +46,6 @@ before_script:
 
 script:
 - npm run ci:travis
-
-notifications:
-  slack:
-    secure: udpGpD72UQcKEdAb9YsvvxPAXvqERJW8dYSEctVk9XuOPrTIGnmqTsGmYS5nHMEe51TAwTqr1cjpzpf1PiHWVF4uB5XVJnRCCRlvR9ycoG4dGctlFoux+3Rzo5y5p08zGF1qgA02mKfeZIPDQzAivQjnXj5qwxW+4pEZcLSRJ6cstaZfZqA4QKesFAMzoFau22Av/IG7lz5KvFy0DuBCVLJHvqc5K8Md9WR77YJRjlaRkBI2y/5cPnWUP5UqGHCvaxztnUCRnLAvDZ8Hpeo45/gO96ZefpJWizWf+Dao1kwwTQAjF9s4SGK8c3xt1LhMnTQsjbMTTiiY8YEQizdZ66xDboI9ZndfSBoeiRSLA0/oUbTfQTdswLUEWFs38E9vOhLeQo61xLm/lfGyW2Uh2IPKf3UhkFCbBd0Zkb92Pc8HOkzqIweRexSxFIuM+ye8Q8R/TS8Ef48fy87sb6zfUNpX6KGTcgU/1KrEEtevwZbMrv/eiJXhspfBT8DahO689X+54q5/rTqoFSWuk0lQeJJeD3+eUcFZ8IZOwvxBe9zKFWTnLQ8fSeYtGm9KZ8vkzpvDLwY4qkxiQoi5zPyaXnYKurmxfuE+m10dT7D+MfCqWfgdxAMTj1GSFklDLkjTamqp4LMrBHxF4TefcEmXaGzJwjHOJYeMQ6U3ZF6Poic=
 
 deploy:
   provider: script
