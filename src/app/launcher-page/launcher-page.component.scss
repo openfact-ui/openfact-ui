@@ -1,0 +1,17 @@
+.text-white {
+  color: white;
+}
+
+.jumbotron {
+  position: relative;
+  background-color: #343a40;
+  background: url('../../assets/images/bg-masthead.jpg') no-repeat center center;
+  /*@include background-cover;*/
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+
+  h1, p {
+    font-weight: 700;
+  }
+
+}

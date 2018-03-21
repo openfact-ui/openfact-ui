@@ -85,7 +85,15 @@ export class NavbarUtilityComponent implements OnInit, OnDestroy, AfterViewInit 
       iconStyleClass: 'pficon-settings',
       badges: [{
         count: 1,
-        tooltip: 'Configure Mail Collector'
+        tooltip: 'Configurar el Colector de Correos'
+      }]
+    }, {
+      title: 'Ayuda',
+      url: '/_launcher',
+      iconStyleClass: 'pficon-service-catalog',
+      badges: [{
+        count: 1,
+        tooltip: 'Ir a Ayuda'
       }]
     }];
   }

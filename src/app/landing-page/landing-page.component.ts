@@ -15,7 +15,6 @@ import { ExtUser } from './../getting-started/services/getting-started.service';
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
 
-  showLandingPage: boolean;
   private subcriptions: Subscription[] = [];
 
   constructor(
@@ -32,14 +31,11 @@ export class LandingPageComponent implements OnInit, OnDestroy {
         const registrationCompleted: boolean = (user as ExtUser).attributes.registrationCompleted;
         if (!registrationCompleted) {
           this.router.navigateByUrl('/_gettingstarted');
+        } else {
+          this.router.navigateByUrl('/_home');
         }
       })
     );
-
-    // Page is hidden by default to prevent flashing, but must show if tokens cannot be obtained.
-    setTimeout(() => {
-      this.showLandingPage = true;
-    }, 1000);
   }
 
   ngOnDestroy() {
