@@ -21,7 +21,7 @@
         <ul class="dropdown-menu inner" role="listbox" aria-expanded="false" style="max-height: 530px; overflow-y: auto; min-height: 74px;">
           <li *ngFor="let space of permittedSpaces" routerLinkActive="selected" data-original-index="0">
             <a routerLink="/_spaces/{{space.id}}" tabindex="0" class="" data-tokens="null" role="option" aria-disabled="false" aria-selected="true">
-              <span class="text">{{space.attributes.name || space.attributes.assignedId}}</span>
+              <span class="text">{{space.attributes.name | spaceName}}</span>
               <span class="fa fa-check check-mark"></span>
             </a>
           </li>
@@ -36,7 +36,7 @@
       </div>
       <select class="selectpicker form-control" data-selected-text-format="count>3" id="boostrapSelect" title="" tabindex="-98">
         <option *ngFor="let space of permittedSpaces" value="{{space.attributes.name || space.attributes.assignedId}}">
-          {{space.attributes.name || current.attributes.assignedId}}
+          {{space.attributes.name | spaceName}}
         </option>
         <option data-divider="true"></option>
         <option value="">Ver todos los Espacios</option>

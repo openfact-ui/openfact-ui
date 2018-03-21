@@ -7,12 +7,16 @@ import { EditRoutingModule } from './edit-routing.module';
 import { EditComponent } from './edit.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown/bs-dropdown.module';
 
+import { ClarksnutModule } from './../../ngx/ngx-clarksnut/clarksnut.module';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     EditRoutingModule,
-    BsDropdownModule
+    BsDropdownModule,
+
+    ClarksnutModule
   ],
   declarations: [
     EditComponent,
